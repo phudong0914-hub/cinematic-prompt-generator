@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cine Prompt Pro</title>
+  <meta name="description" content="Generate professional cinematic prompts from 150 filmmaking techniques." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles/main.css?v=14" />
+</head>
+<body>
+
+  <!-- ─── SPLIT-SCREEN LAYOUT ─────────────────────────────────────────── -->
+  <div class="cinematique-wrapper">
+    
+    <!-- ======= CỘT TRÁI (60%): Vùng Khám phá ======= -->
+    <div class="panel-left">
+      <div class="top-filters">
+        <div class="header-brand" style="margin-right: auto;">
+          <div class="brand-icon" style="background: transparent; border: 2px solid #ffd700; width: 46px; height: 46px; overflow: hidden; border-radius: 50%; box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 5px rgba(255, 215, 0, 0.5);">
+            <img src="/logo.jpg" alt="Cine Prompt Pro Logo" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/44x44/38d9e2/ffffff?text=C'" />
+          </div>
+          <div>
+            <h1 class="brand-title" translate="no">
+              <span class="brand-cine">CINE</span>
+              <span class="brand-prompt">PROMPT</span>
+              <span class="brand-pro">PRO</span>
+            </h1>
+            <p class="brand-subtitle">Cinematic Prompt Generator</p>
+          </div>
+          <button id="help-btn" style="background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: #c9a227; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-left: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(201,162,39,0.2)'" onmouseout="this.style.background='rgba(201,162,39,0.1)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Guide
+          </button>
+        </div>
+
+        <div class="control-group control-group--search">
+          <label for="search-input" class="control-label">Search Prompts</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input
+              type="text"
+              id="search-input"
+              class="text-input new-input-field"
+              placeholder="Search styles, keywords..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="category-filter" class="control-label">Category</label>
+          <div class="select-wrapper">
+            <select id="category-filter" class="select-input new-input-field">
+              <option value="all">All Categories</option>
+              <option value="favorites">⭐️ My Favorites</option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="difficulty-filter" class="control-label">Difficulty</label>
+          <div class="select-wrapper">
+            <select id="difficulty-filter" class="select-input new-input-field">
+              <option value="all">All Levels</option>
+              <option value="Basic">Basic</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="aspect-ratio" class="control-label">Aspect Ratio</label>
+          <div class="select-wrapper">
+            <select id="aspect-ratio" class="select-input new-input-field">
+              <option value="--ar 21:9">Cinematic 2.35:1</option>
+              <option value="--ar 16:9" selected>Widescreen 16:9</option>
+              <option value="--ar 9:16">Vertical 9:16</option>
+              <option value="--ar 1:1">Square 1:1</option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-scroll-area">
+        <div class="content-bar">
+          <span id="result-count" class="result-count">Loading prompts…</span>
+          <span class="hint-text">Click any card or hit Director's Cut to generate prompts</span>
+        </div>
+
+        <div id="prompt-grid" class="prompt-grid">
+          <div class="skeleton-grid" aria-hidden="true">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- ─── FAQ & LEAD MAGNET SECTION ───────────────────────── -->
+        <div class="bottom-sections">
+          <div class="faq-section">
+            <h2>❓ Frequently Asked Questions (FAQ)</h2>
+            <div class="faq-item">
+              <button class="faq-question">What is Cine Prompt Pro? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p>Cine Prompt Pro is a professional tool created by Mr. Trungvt (Phone: 08.36.384.168) that helps you generate highly cinematic prompts for AI tools like Midjourney, ChatGPT image 2, Nano banana Pro, and Runway. It synthesizes real-world Hollywood camera angles, lighting techniques, and VFX.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">What is the difference between Zoom and Dolly? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p><strong>Zoom:</strong> The lens changes focal length to zoom in/out while the camera remains stationary. The perspective does not change.<br><strong>Dolly:</strong> The entire camera physically moves forward/backward. The perspective changes, creating a multidimensional sense of space.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-question">How does the AI Enhance feature work? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p>AI Enhance uses large language models (like ChatGPT, Gemini) to expand your basic ideas into detailed, atmospheric scene descriptions with depth in color and setting before applying cinematic techniques.</p></div>
+            </div>
+          </div>
+          
+          <div class="lead-magnet-section">
+            <h2>✨ Get the Free VIP Prompt Kit</h2>
+            <p style="margin-bottom: 12px;">"Intention is the only scarce resource in the age of infinite generation."</p>
+            <p style="font-style: italic; color: rgba(255, 255, 255, 0.75); font-size: 0.95em;">Subscribe to our weekly newsletter for useful insights on world-building. You can unsubscribe at any time.</p>
+            <!-- MailerLite Integrated Form -->
+            <div id="mlb2-44304466" class="ml-subscribe-form ml-subscribe-form-44304466">
+              <div class="row-form">
+                <form id="lead-form" class="lead-form ml-block-form" action="https://assets.mailerlite.com/jsonp/2545046/forms/194414873527977548/subscribe" data-code="" method="post" target="_blank">
+                  <input type="email" name="fields[email]" placeholder="Enter your email..." required class="text-input" style="flex: 1; padding: 12px;" autocomplete="email" />
+                  <input type="hidden" name="ml-submit" value="1" />
+                  <input type="hidden" name="anticsrf" value="true" />
+                  <button type="submit" class="translate-btn primary" style="padding: 12px 24px;">Subscribe Now</button>
+                  <button disabled="disabled" style="display: none;" type="button" class="loading">Loading...</button>
+                </form>
+              </div>
+              <div class="row-success" id="lead-success" style="display: none; padding: 16px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; color: #4ade80; text-align: center; margin-top: 10px;">
+                🎉 Thank you! Please check your inbox for your gift.
+              </div>
+            </div>
+            <!-- MailerLite Scripts -->
+            <script>
+              function ml_webform_success_44304466() {
+                var $ = window.ml_jQuery || window.jQuery;
+                if ($) {
+                  $('.ml-subscribe-form-44304466 .row-success').show();
+                  $('.ml-subscribe-form-44304466 .row-form').hide();
+                } else {
+                  document.querySelector('.ml-subscribe-form-44304466 .row-success').style.display = 'block';
+                  document.querySelector('.ml-subscribe-form-44304466 .row-form').style.display = 'none';
+                }
+              }
+            </script>
+            <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+            <script>
+              fetch("https://assets.mailerlite.com/jsonp/2545046/forms/194414873527977548/takel").catch(e => console.log(e));
+            </script>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======= CỘT PHẢI (40%): Trạm Điều khiển ======= -->
+    <div class="panel-right">
+      <div class="input-group">
+        <!-- Subject -->
+        <div class="control-group control-group--subject">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label for="subject-input" class="control-label">Subject Idea</label>
+            <button id="ai-settings-btn" style="background:none; border:none; color:var(--fg-muted); cursor:pointer;" aria-label="AI Settings">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+          </div>
+          <div class="input-wrapper" style="display:flex; gap:6px;">
+            <input
+              type="text"
+              id="subject-input"
+              class="text-input new-input-field"
+              style="flex:1; padding-left:12px;"
+              placeholder="e.g., một cô gái dưới mưa"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+
+        <!-- Negative Prompt -->
+        <div class="control-group control-group--negative">
+          <label for="negative-input" class="control-label">Negative Prompt</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              id="negative-input"
+              class="text-input new-input-field"
+              value=""
+              placeholder="e.g. ugly, deformed, noisy..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <style>
+            .neg-pill {
+              background: rgba(255,255,255,0.05);
+              border: 1px solid rgba(255,255,255,0.1);
+              color: var(--fg-muted);
+              padding: 4px 8px;
+              border-radius: 4px;
+              font-size: 11px;
+              cursor: pointer;
+              transition: all 0.2s;
+            }
+            .neg-pill:hover {
+              background: rgba(255,255,255,0.15);
+              color: #fff;
+              border-color: rgba(255,255,255,0.3);
+            }
+          </style>
+          <div class="negative-quick-add" style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+            <div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Lỗi Cơ Bản & Hình Thể</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button class="neg-pill" onclick="addNegativeKeyword('ugly')">+ ugly</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('deformed')">+ deformed</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('bad anatomy')">+ bad anatomy</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('extra limbs')">+ extra limbs</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('mutated hands')">+ mutated hands</button>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Lỗi Chất Lượng & Ánh Sáng</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button class="neg-pill" onclick="addNegativeKeyword('noisy')">+ noisy</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('blurry')">+ blurry</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('low res')">+ low res</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('jpeg artifacts')">+ jpeg artifacts</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('oversaturated')">+ oversaturated</button>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Khử Phong Cách Ảo (Ép Tả Thực)</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button class="neg-pill" onclick="addNegativeKeyword('text')">+ text</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('watermark')">+ watermark</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('cartoon')">+ cartoon</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('CGI')">+ CGI</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('illustration')">+ illustration</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('3d render')">+ 3d render</button>
+                <button class="neg-pill" onclick="addNegativeKeyword('plastic')">+ plastic</button>
+              </div>
+            </div>
+          </div>
+          <script>
+            function addNegativeKeyword(keyword) {
+              const input = document.getElementById('negative-input');
+              let currentVal = input.value.trim();
+              
+              if (currentVal.includes(keyword)) return;
+              
+              if (currentVal.length > 0 && !currentVal.endsWith(',')) {
+                input.value = currentVal + ', ' + keyword;
+              } else if (currentVal.endsWith(',')) {
+                input.value = currentVal + ' ' + keyword;
+              } else {
+                input.value = keyword;
+              }
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+          </script>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <button id="randomize-btn" class="randomize-btn new-btn-primary" aria-label="Director's Cut: random camera, lighting, composition & VFX combo">
+          <span class="btn-dice" aria-hidden="true">🎬</span>
+          <span class="btn-label">Director's Cut</span>
+        </button>
+        <div class="action-sub">
+          <button id="ai-enhance-btn" class="randomize-btn new-btn-outline" aria-label="AI Enhance">
+            ✨ AI Enhance
+          </button>
+          <button id="builder-btn" class="randomize-btn new-btn-outline" aria-label="Open Prompt Builder">
+            <span aria-hidden="true">🛠</span>
+            <span class="btn-label">Builder</span>
+          </button>
+          <button id="export-btn" class="randomize-btn new-btn-outline" style="flex:0.2;" aria-label="Export Favorites">
+            <span aria-hidden="true">💾</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="result-group">
+        <!-- ─── RESULT PANEL ─────────────────────── -->
+        <aside id="result-box" class="result-box" role="region" aria-label="Generated prompt output" style="position: static; margin-bottom: 20px;">
+          <div class="result-box-inner" style="box-shadow: none;">
+
+            <!-- Title bar -->
+            <div class="result-box-header">
+              <div class="result-title-area">
+                <span class="result-label">
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
+                    <circle cx="4" cy="4" r="4"/>
+                  </svg>
+                  Generated Prompt
+                </span>
+                <span id="prompt-title" class="prompt-name"></span>
+              </div>
+            </div>
+
+            <!-- Two-column panels -->
+            <div class="result-panels" style="flex-direction: column;">
+
+              <!-- Left: Image -->
+              <div class="result-panel result-panel--image">
+                <div class="result-panel-header">
+                  <span class="panel-label">
+                    <span aria-hidden="true">📸</span>
+                    IMAGE PROMPT
+                    <span class="panel-sublabel">(Midjourney / SD)</span>
+                  </span>
+                  <div class="panel-actions" style="display: flex; gap: 8px;">
+                    <button id="translate-btn-image" class="copy-btn" aria-label="Translate image prompt">
+                      <span class="copy-label">🇻🇳 Dịch</span>
+                    </button>
+                    <button id="copy-btn-image" class="copy-btn" aria-label="Copy image prompt to clipboard">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4 11H3a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 3 1h7a1.5 1.5 0 0 1 1.5 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                      <span class="copy-label">Sao chép</span>
+                    </button>
+                  </div>
+                </div>
+                <p id="result-text-image" class="result-text result-placeholder">
+                  Select a card or click Director's Cut to generate.
+                </p>
+                <p id="result-translation-image" class="result-text" style="display:none; color: #D4AF37; margin-top: 5px; font-style: italic;"></p>
+              </div>
+
+              <!-- Right: Video -->
+              <div class="result-panel result-panel--video">
+                <div class="result-panel-header">
+                  <span class="panel-label">
+                    <span aria-hidden="true">🎥</span>
+                    VIDEO PROMPT
+                    <span class="panel-sublabel">(Runway / Sora / Kling)</span>
+                  </span>
+                  <div class="panel-actions" style="display: flex; gap: 8px;">
+                    <button id="translate-btn-video" class="copy-btn" aria-label="Translate video prompt">
+                      <span class="copy-label">🇻🇳 Dịch</span>
+                    </button>
+                    <button id="copy-btn-video" class="copy-btn" aria-label="Copy video prompt to clipboard">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4 11H3a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 3 1h7a1.5 1.5 0 0 1 1.5 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                      <span class="copy-label">Sao chép</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Camera Motion Pills — toggled by uiController.js -->
+                <div class="motion-tags" role="group" aria-label="Camera motion modifiers">
+                  <span class="motion-tags-label">Motion:</span>
+                  <button class="motion-tag" data-motion="Pan Left"       aria-pressed="false">Pan Left</button>
+                  <button class="motion-tag" data-motion="Pan Right"      aria-pressed="false">Pan Right</button>
+                  <button class="motion-tag" data-motion="Slow Zoom In"   aria-pressed="false">Slow Zoom In</button>
+                  <button class="motion-tag" data-motion="Fast Dolly Back" aria-pressed="false">Fast Dolly Back</button>
+                  <button class="motion-tag" data-motion="Hyper-lapse"    aria-pressed="false">Hyper-lapse</button>
+                </div>
+
+                <p id="result-text-video" class="result-text result-placeholder">
+                  Select a card or click Director's Cut to generate.
+                </p>
+                <p id="result-translation-video" class="result-text" style="display:none; color: #D4AF37; margin-top: 5px; font-style: italic;"></p>
+              </div>
+
+            </div><!-- /result-panels -->
+
+          </div>
+        </aside>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ─── DETAILS MODAL ───────────────────────────────────── -->
+  <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+    <div class="modal-content" role="document">
+
+      <!-- Close button -->
+      <button id="modal-close" class="modal-close" aria-label="Close modal">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Card name -->
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 id="modal-title" class="modal-title"></h2>
+        <button id="modal-fav-btn" class="fav-btn" aria-label="Toggle favorite">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- English definition -->
+      <p id="modal-definition" class="modal-definition"></p>
+
+      <!-- Translate trigger -->
+      <button id="translate-btn" class="translate-btn">
+        🇻🇳 Dịch sang Tiếng Việt
+      </button>
+
+      <!-- Vietnamese translation output (hidden until populated) -->
+      <p id="modal-translation" class="modal-translation"></p>
+
+    </div>
+  </div>
+
+  <!-- ─── BUILDER MODAL ───────────────────────────────────── -->
+  <div id="builder-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="builder-modal-title">
+    <div class="modal-content" role="document">
+      <button id="builder-modal-close" class="modal-close" aria-label="Close builder">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h2 id="builder-modal-title" class="modal-title">Prompt Builder</h2>
+      <p class="modal-definition">Combine different elements to create your custom master prompt.</p>
+      
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+        <div class="control-group">
+          <label class="control-label">Camera</label>
+          <div class="select-wrapper">
+            <select id="builder-camera" class="select-input"><option value="">Select Camera...</option></select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Lighting</label>
+          <div class="select-wrapper">
+            <select id="builder-lighting" class="select-input"><option value="">Select Lighting...</option></select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Composition</label>
+          <div class="select-wrapper">
+            <select id="builder-composition" class="select-input"><option value="">Select Composition...</option></select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">VFX</label>
+          <div class="select-wrapper">
+            <select id="builder-vfx" class="select-input"><option value="">Select VFX...</option></select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+      <button id="builder-generate-btn" class="translate-btn" style="margin-top:20px;">Generate Combo</button>
+    </div>
+  </div>
+
+  <!-- ─── AI SETTINGS MODAL ───────────────────────────────────── -->
+  <div id="ai-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+    <div class="modal-content" role="document">
+      <button id="ai-modal-close" class="modal-close" aria-label="Close AI Settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h2 id="ai-modal-title" class="modal-title">AI Prompt Enhancement Settings</h2>
+      <p class="modal-definition">Configure your LLM provider and Target Tool to optimize the Master Prompt.</p>
+      
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+        <div class="control-group">
+          <label class="control-label">Target Output Tool</label>
+          <div class="select-wrapper">
+            <select id="ai-target-tool" class="select-input">
+              <option value="midjourney">Midjourney v6/v8 (Keywords & Params)</option>
+              <option value="dalle">ChatGPT Image / DALL-E 3 (Storytelling)</option>
+              <option value="video">Video AI - Sora/Kling (Motion & Physics)</option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        
+        <div class="control-group" style="display:flex; align-items:center; gap:8px; margin-top:8px; margin-bottom:8px;">
+          <input type="checkbox" id="ai-rotate-enabled" style="width:16px; height:16px; accent-color:var(--brand-primary);">
+          <label for="ai-rotate-enabled" class="control-label" style="margin-bottom:0;">Smart Fallback (Ưu tiên API Miễn phí & Xoay vòng)</label>
+        </div>
+        <div class="control-group">
+          <label class="control-label">LLM Provider</label>
+          <div class="select-wrapper">
+            <select id="ai-provider" class="select-input">
+              <option value="gemini">Google Gemini (Free API Tier)</option>
+              <option value="deepseek">DeepSeek (Cheap/Fast)</option>
+              <option value="openai">OpenAI (GPT-4o)</option>
+              <option value="openrouter">OpenRouter (Hub)</option>
+              <option value="agentrouter">Agent Router (Hub)</option>
+              <option value="ollama">Ollama (Local - localhost:11434)</option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="modal-definition" style="margin-top:4px; font-size:12px; color:var(--fg-muted);">Keys & models are saved separately per provider.</p>
+        </div>
+        <div class="control-group">
+          <label class="control-label">API Key</label>
+          <input type="password" id="ai-api-key" class="text-input" placeholder="sk-...">
+        </div>
+        <div class="control-group">
+          <label class="control-label">Model Name (Tùy chọn cho Local/OpenRouter)</label>
+          <input type="text" id="ai-model-name" class="text-input" placeholder="e.g., openai/gpt-4o-mini" list="recommended-models">
+          <datalist id="recommended-models">
+            <option value="openai/gpt-4o-mini" label="Rẻ, Rất thông minh">
+            <option value="anthropic/claude-3.5-sonnet" label="Cao cấp, Viết prompt cực hay">
+            <option value="meta-llama/llama-3.1-8b-instruct" label="Mã nguồn mở, Tốc độ cao">
+            <option value="google/gemini-1.5-flash" label="Tốt, Miễn phí trên OpenRouter">
+          </datalist>
+          <p class="modal-definition" style="margin-top:4px; font-size:12px; color:var(--fg-muted);">Nếu không biết chọn gì, hãy thử <b>openai/gpt-4o-mini</b> hoặc <b>anthropic/claude-3.5-sonnet</b></p>
+        </div>
+      </div>
+      <button id="ai-save-btn" class="translate-btn" style="margin-top:20px;">Save Settings</button>
+    </div>
+  </div>
+
+  <!-- ─── ONBOARDING MODAL ───────────────────────────────────── -->
+  <div id="onboarding-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-modal-title">
+    <div class="modal-content" role="document">
+      <button id="onboarding-modal-close" class="modal-close" aria-label="Close Onboarding">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="onboarding-modal-title" class="modal-title" style="font-size: 22px; line-height: 1.4;">Bí kíp tạo Prompt Điện Ảnh đỉnh cao! 🎬</h2>
+      <p class="modal-definition" style="color: #c9a227; font-weight: 500; font-size: 14px; line-height: 1.5; margin-top: 8px;">Công cụ độc quyền giúp bạn kiểm soát 100% ánh sáng, góc máy và VFX như một Đạo diễn Hollywood thực thụ.</p>
+      
+      <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px; max-height: 55vh; overflow-y: auto; padding-right: 6px;">
+        
+        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 22px; background: rgba(56, 217, 226, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🧠</div>
+          <div>
+            <h3 style="color: #4ae5eb; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 1: Khởi nguồn ý tưởng (AI)</h3>
+            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Đừng vắt óc nghĩ từ khóa phức tạp! Hãy nhập một ý tưởng rất ngắn (vd: <i>"Cô gái đứng dưới mưa"</i>). Nhấn nút <b style="color: #c9a227;">✨ AI Enhance</b> để hệ thống tự động dệt nên một bối cảnh hoàn chỉnh, rực rỡ và có chiều sâu kể chuyện.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 22px; background: rgba(201, 162, 39, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🎥</div>
+          <div>
+            <h3 style="color: #ebd66a; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 2: Phủ lớp Ma thuật Điện ảnh</h3>
+            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Duyệt qua 175+ thẻ kỹ thuật chuyên sâu. <b>Công thức vàng là:</b> Chọn 1 Máy ảnh + 1 Góc quay + 2 Phong cách ánh sáng. Bấm trực tiếp vào thẻ để thêm vào Prompt. Luôn nhớ bấm "Đọc chuyên sâu" ở thẻ để nạp bí quyết từ Hollywood!</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 22px; background: rgba(168, 85, 247, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🎛️</div>
+          <div>
+            <h3 style="color: #c084fc; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 3: Trạm Điều Khiển (Control Panel)</h3>
+            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Khung viền quyết định cảm xúc! Ở cột phải, hãy chọn Tỷ lệ khung hình (vd: <b>21:9 Cinematic</b>). Đồng thời sử dụng bộ <b>Nút Từ Khóa Negative Prompt</b> có sẵn để chặn các lỗi (như mờ, biến dạng, 3D render...) giúp AI cho ra hình ảnh tả thực vô khuyết.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+          <div style="font-size: 22px; background: rgba(34, 197, 94, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🚀</div>
+          <div>
+            <h3 style="color: #4ade80; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 4: Copy & Sinh Ảnh Siêu Việt</h3>
+            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Sau khi hoàn thiện mã lệnh ma thuật, bấm nút <b>Copy</b>. Dán nó vào Midjourney, DALL-E 3, Stable Diffusion hay bất kỳ AI nào. Chờ đợi trong vài giây và tận hưởng tác phẩm để đời của bạn!</p>
+          </div>
+        </div>
+
+      </div>
+      <button id="onboarding-start-btn" class="translate-btn" style="margin-top:24px; width: 100%; justify-content: center; padding: 14px;">Bắt đầu khám phá!</button>
+    </div>
+  </div>
+
+  <!-- ─── DEEP DIVE MODAL ───────────────────────────────────── -->
+  <div id="deep-dive-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="deep-dive-modal-title">
+    <div class="modal-content deep-dive-modal-content" role="document">
+      <button id="deep-dive-modal-close" class="modal-close" aria-label="Close Deep Dive">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      
+      <!-- Badges -->
+      <div id="dd-badges" class="dd-badges">
+        <span id="dd-badge-cat" class="dd-badge dd-category">Camera</span>
+        <span id="dd-badge-diff" class="dd-badge dd-difficulty">Basic</span>
+        <span id="dd-badge-mood" class="dd-badge dd-mood">Cinematic</span>
+      </div>
+
+      <!-- Title -->
+      <h2 id="deep-dive-modal-title" class="dd-title">Tên thẻ</h2>
+
+      <!-- Body -->
+      <div class="dd-body">
+        <p id="dd-definition">Định nghĩa chi tiết...</p>
+        
+        <h3 class="dd-subheader">Khi nào nên sử dụng</h3>
+        <p id="dd-when-to-use">Hãy sử dụng kỹ thuật này khi bạn muốn kiểm soát cách người xem tương tác về mặt vật lý với cảnh quay. Nó đặc biệt hiệu quả trong việc tạo không khí và phù hợp với nhiều thể loại phim khác nhau.</p>
+
+        <h3 class="dd-subheader">Hướng dẫn AI / Thực tiễn tốt nhất</h3>
+        <p id="dd-best-practices">Đây là điểm khởi đầu tuyệt vời — hãy nắm vững điều này trước khi thêm vào những chi tiết phức tạp hơn.</p>
+        
+        <h3 class="dd-subheader" id="dd-mistakes-header">Các lỗi thường gặp</h3>
+        <ul id="dd-common-mistakes" class="dd-list">
+          <li>Lỗi 1...</li>
+          <li>Lỗi 2...</li>
+        </ul>
+      </div>
+
+      <!-- Prompt Template Box -->
+      <div class="dd-prompt-box">
+        <div class="dd-prompt-header">
+          <span class="dd-prompt-label">Mẫu gợi ý</span>
+          <div class="dd-prompt-actions">
+            <button id="dd-translate-prompt-btn" class="dd-translate-btn">Dịch</button>
+            <button id="dd-copy-btn" class="dd-copy-btn">Sao chép</button>
+          </div>
+        </div>
+        <p id="dd-prompt-text">[Chủ thể] ...</p>
+      </div>
+
+      <!-- Footer Note -->
+      <div class="dd-footer-note">
+        Thay thế [Chủ thể] bằng nhân vật hoặc cảnh của riêng bạn. Hoạt động với bất kỳ trình tạo hình ảnh hoặc video AI nào.
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/app.js?v=14"></script>
+</body>
+</html>
