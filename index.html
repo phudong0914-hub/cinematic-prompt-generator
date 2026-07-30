@@ -482,64 +482,92 @@
 
   <!-- ─── AI SETTINGS MODAL ───────────────────────────────────── -->
   <div id="ai-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
-    <div class="modal-content" role="document">
+    <div class="modal-content" role="document" style="padding: 24px; max-width: 520px;">
       <button id="ai-modal-close" class="modal-close" aria-label="Close AI Settings">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
       </button>
-      <h2 id="ai-modal-title" class="modal-title">AI Prompt Enhancement Settings</h2>
-      <p class="modal-definition">Configure your LLM provider and Target Tool to optimize the Master Prompt.</p>
       
-      <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-        <div class="control-group">
-          <label class="control-label">Target Output Tool</label>
-          <div class="select-wrapper">
-            <select id="ai-target-tool" class="select-input">
-              <option value="midjourney">Midjourney v6/v8 (Keywords & Params)</option>
-              <option value="dalle">ChatGPT Image / DALL-E 3 (Storytelling)</option>
-              <option value="video">Video AI - Sora/Kling (Motion & Physics)</option>
-            </select>
-            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Header -->
+      <h2 id="ai-modal-title" class="modal-title" style="font-family: 'Times New Roman', serif; font-size: 24px; font-weight: normal; font-style: italic; color: #ebd66a; margin-bottom: 8px;">AI Prompt Settings</h2>
+      <p class="modal-definition" style="font-size: 13.5px; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.5;">Cấu hình AI Server và Công cụ Đích để hệ thống có thể dịch ý tưởng của bạn thành chuỗi Prompt hoàn hảo nhất.</p>
+      
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        
+        <!-- Target Output Section -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 12px;">
+          <h3 style="font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ae5eb" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Nền Tảng Sinh Ảnh Đích
+          </h3>
+          <div class="control-group" style="margin-bottom: 0;">
+            <label class="control-label" style="display: none;">Target Output Tool</label>
+            <div class="select-wrapper">
+              <select id="ai-target-tool" class="select-input" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+                <option value="midjourney">Midjourney v6/v8 (Tối ưu cho Discord)</option>
+                <option value="dalle">ChatGPT / DALL-E 3 (Ngôn ngữ tự nhiên)</option>
+                <option value="video">Video AI - Sora/Kling (Chuyển động Vật lý)</option>
+              </select>
+              <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
           </div>
         </div>
         
-        <div class="control-group" style="display:flex; align-items:center; gap:8px; margin-top:8px; margin-bottom:8px;">
-          <input type="checkbox" id="ai-rotate-enabled" style="width:16px; height:16px; accent-color:var(--brand-primary);">
-          <label for="ai-rotate-enabled" class="control-label" style="margin-bottom:0;">Smart Fallback (Ưu tiên API Miễn phí & Xoay vòng)</label>
-        </div>
-        <div class="control-group">
-          <label class="control-label">LLM Provider</label>
-          <div class="select-wrapper">
-            <select id="ai-provider" class="select-input">
-              <option value="gemini">Google Gemini (Free API Tier)</option>
-              <option value="deepseek">DeepSeek (Cheap/Fast)</option>
-              <option value="openai">OpenAI (GPT-4o)</option>
-              <option value="openrouter">OpenRouter (Hub)</option>
-              <option value="agentrouter">Agent Router (Hub)</option>
-              <option value="ollama">Ollama (Local - localhost:11434)</option>
-            </select>
-            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <!-- LLM Provider Section -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ebd66a" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Cấu Hình Máy Chủ AI
+            </h3>
+            
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;" title="Ưu tiên tự động chuyển sang API miễn phí nếu gặp lỗi">
+              <input type="checkbox" id="ai-rotate-enabled" style="width: 14px; height: 14px; accent-color: #ebd66a; cursor: pointer;">
+              <span style="font-size: 11px; color: #a1a1aa; text-transform: uppercase;">Smart Fallback</span>
+            </label>
           </div>
-          <p class="modal-definition" style="margin-top:4px; font-size:12px; color:var(--fg-muted);">Keys & models are saved separately per provider.</p>
-        </div>
-        <div class="control-group">
-          <label class="control-label">API Key</label>
-          <input type="password" id="ai-api-key" class="text-input" placeholder="sk-...">
-        </div>
-        <div class="control-group">
-          <label class="control-label">Model Name (Tùy chọn cho Local/OpenRouter)</label>
-          <input type="text" id="ai-model-name" class="text-input" placeholder="e.g., openai/gpt-4o-mini" list="recommended-models">
-          <datalist id="recommended-models">
-            <option value="openai/gpt-4o-mini" label="Rẻ, Rất thông minh">
-            <option value="anthropic/claude-3.5-sonnet" label="Cao cấp, Viết prompt cực hay">
-            <option value="meta-llama/llama-3.1-8b-instruct" label="Mã nguồn mở, Tốc độ cao">
-            <option value="google/gemini-1.5-flash" label="Tốt, Miễn phí trên OpenRouter">
-          </datalist>
-          <p class="modal-definition" style="margin-top:4px; font-size:12px; color:var(--fg-muted);">Nếu không biết chọn gì, hãy thử <b>openai/gpt-4o-mini</b> hoặc <b>anthropic/claude-3.5-sonnet</b></p>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="control-group" style="margin-bottom: 0;">
+              <label class="control-label" style="font-size: 10px;">NHÀ CUNG CẤP (LLM PROVIDER)</label>
+              <div class="select-wrapper">
+                <select id="ai-provider" class="select-input" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+                  <option value="gemini">Google Gemini (Miễn phí API)</option>
+                  <option value="deepseek">DeepSeek (Rẻ / Nhanh)</option>
+                  <option value="openai">OpenAI (Trí tuệ đỉnh cao)</option>
+                  <option value="openrouter">OpenRouter (Đa mô hình)</option>
+                  <option value="agentrouter">Agent Router (Hub)</option>
+                  <option value="ollama">Ollama (Chạy Offline)</option>
+                </select>
+                <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="control-group" style="margin-bottom: 0; flex: 1;">
+                <label class="control-label" style="font-size: 10px;">API KEY</label>
+                <input type="password" id="ai-api-key" class="text-input" placeholder="sk-..." style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+              </div>
+              <div class="control-group" style="margin-bottom: 0; flex: 1;">
+                <label class="control-label" style="font-size: 10px;">MÃ MODEL (Tùy chọn)</label>
+                <input type="text" id="ai-model-name" class="text-input" placeholder="openai/gpt-4o-mini" list="recommended-models" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+                <datalist id="recommended-models">
+                  <option value="openai/gpt-4o-mini" label="Rẻ, Rất thông minh">
+                  <option value="anthropic/claude-3.5-sonnet" label="Cao cấp, Viết prompt cực hay">
+                  <option value="meta-llama/llama-3.1-8b-instruct" label="Mã nguồn mở, Tốc độ cao">
+                  <option value="google/gemini-1.5-flash" label="Tốt, Miễn phí trên OpenRouter">
+                </datalist>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 14px; font-size: 11.5px; color: #71717a; text-align: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+            Mẹo: Nếu chưa rõ, hãy dùng <b style="color:#a1a1aa;">openai/gpt-4o-mini</b> hoặc <b style="color:#a1a1aa;">anthropic/claude-3.5-sonnet</b>
+          </div>
         </div>
       </div>
-      <button id="ai-save-btn" class="translate-btn" style="margin-top:20px;">Save Settings</button>
+      
+      <button id="ai-save-btn" class="translate-btn" style="margin-top:24px; width: 100%; justify-content: center; font-weight: 600; padding: 14px; border-radius: 8px;">💾 Lưu Cấu Hình</button>
     </div>
   </div>
 
