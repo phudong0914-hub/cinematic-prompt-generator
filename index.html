@@ -610,44 +610,52 @@
 
   <!-- ─── ONBOARDING MODAL ───────────────────────────────────── -->
   <div id="onboarding-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-modal-title">
-    <div class="modal-content" role="document">
+    <div class="modal-content" role="document" style="max-width: 580px;">
       <button id="onboarding-modal-close" class="modal-close" aria-label="Close Onboarding">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
-      <h2 id="onboarding-modal-title" class="modal-title onboarding-heading">Bí kíp tạo Prompt Điện Ảnh đỉnh cao! 🎬</h2>
-      <p class="modal-definition onboarding-sub">Công cụ độc quyền giúp bạn kiểm soát 100% ánh sáng, góc máy và VFX như một Đạo diễn Hollywood thực thụ.</p>
+      <h2 id="onboarding-modal-title" class="modal-title onboarding-heading">📖 Hướng Dẫn Sử Dụng Cine Prompt Pro & NotebookLM! 🎬</h2>
+      <p class="modal-definition onboarding-sub">Hệ thống độc quyền tích hợp Lõi Đạo Diễn AI 4 Tầng + 20 Style Video NotebookLM + Xoay Vòng Multi-Key 24/7.</p>
       
-      <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px; max-height: 55vh; overflow-y: auto; padding-right: 6px;">
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px; max-height: 58vh; overflow-y: auto; padding-right: 6px;">
         
         <div class="onboarding-step-card step-card-1">
           <div class="step-icon icon-cyan">🧠</div>
           <div>
-            <h3 class="step-title title-cyan">Bước 1: Khởi nguồn & Đạo Diễn AI 4 Tầng</h3>
-            <p class="step-desc">Đừng vắt óc nghĩ từ khóa! Nhập ý tưởng ngắn (vd: <i>"Cô gái đứng dưới mưa"</i>) rồi nhấn <b class="highlight-gold">✨ AI Nâng Cấp</b>. Lõi <b>AI Master Director 4 Tầng</b> sẽ tự động viết kịch bản phân cảnh (Scene Hook, Medium, Close-up) kèm Giọng đọc Tiếng Việt & Âm nhạc giao hưởng.</p>
+            <h3 class="step-title title-cyan">Bước 1: Nhập Ý Tưởng & Đạo Diễn AI 4 Tầng</h3>
+            <p class="step-desc">Nhập bất kỳ ý tưởng chủ đề nào ở ô <b>Ý TƯỜNG CHỦ ĐỀ</b> (vd: <i>"Lịch sử Việt Nam"</i> hoặc <i>"Trí tuệ nhân tạo"</i>). Bấm <b class="highlight-gold">✨ AI Nâng Cấp</b> để Lõi AI 4 Tầng tự động dệt nên kịch bản phân cảnh (Scene Hook, Medium, Close-up) kèm Giọng đọc Tiếng Việt & Âm nhạc.</p>
           </div>
         </div>
 
         <div class="onboarding-step-card step-card-2">
           <div class="step-icon icon-gold">🎥</div>
           <div>
-            <h3 class="step-title title-gold">Bước 2: Phủ 20 Style Video AI & 175+ Thẻ Hollywood</h3>
-            <p class="step-desc">Khám phá danh mục <b class="highlight-gold">🎬 AI Video Styles</b> với 20 phong cách đẳng cấp (Film Noir, Cyberpunk, Cinematic, Macro Slow Motion, Time-lapse...). Phối hợp cùng 175+ kỹ thuật góc máy & ánh sáng chuyên nghiệp.</p>
+            <h3 class="step-title title-gold">Bước 2: Kết Hợp 20 NotebookLM Video Styles & 175+ Thẻ Hollywood</h3>
+            <p class="step-desc">Khám phá danh mục <b class="highlight-gold">🎬 AI Video Styles</b> với 20 phong cách đẳng cấp (Documentary, Film Noir, Cyberpunk, Time-lapse, Drone FPV, Slow Motion...). Nhấp vào thẻ bất kỳ, hệ thống sẽ tự thay thế <code>[Subject]</code> bằng chủ đề của bạn để tạo ra Prompt hoàn hảo.</p>
           </div>
         </div>
 
         <div class="onboarding-step-card step-card-3">
-          <div class="step-icon icon-purple">🔑</div>
+          <div class="step-icon icon-purple">🎛️</div>
           <div>
-            <h3 class="step-title title-purple">Bước 3: Xoay Vòng Multi-Key & Smart Fallback</h3>
-            <p class="step-desc">Nạp hàng loạt API Key (Gemini, OpenAI, DeepSeek, OpenRouter...). Bật <b class="highlight-gold">🔄 Smart Fallback</b> để hệ thống tự xoay vòng Key và tự chuyển Provider dự phòng khi bận, đảm bảo máy chủ chạy 24/7 không gián đoạn.</p>
+            <h3 class="step-title title-purple">Bước 3: Trạm Điều Khiển Dual-Prompt (Image & Video NotebookLM)</h3>
+            <p class="step-desc">Cột bên phải hiển thị song song <b>PROMPT HÌNH ẢNH</b> (cho Midjourney/DALL-E 3 tạo ảnh bìa Thumbnail) và <b>PROMPT VIDEO</b> (bấm Copy dán thẳng vào NotebookLM Video Overviews / Veo 3 / Sora / Kling AI).</p>
           </div>
         </div>
 
         <div class="onboarding-step-card step-card-4">
-          <div class="step-icon icon-green">📜</div>
+          <div class="step-icon icon-green">🔑</div>
           <div>
-            <h3 class="step-title title-green">Bước 4: Tự Động Lưu Lịch Sử (30 Prompt Gần Nhất)</h3>
-            <p class="step-desc">Mọi Prompt bạn tạo đều được ghi nhớ tự động. Chọn danh mục <b class="highlight-gold">📜 Lịch sử (30 Gần Nhất)</b> để xem lại, sao chép hoặc nhấn <b>🚀 Nạp lại Prompt</b> để khôi phục toàn bộ câu lệnh bất cứ lúc nào!</p>
+            <h3 class="step-title title-green">Bước 4: Nạp Hàng Loạt API Key & Xoay Vòng Smart Fallback</h3>
+            <p class="step-desc">Vào <b>AI Settings</b>, dán danh sách nhiều Key (cách nhau bởi phẩy hoặc xuống dòng). Bật <b class="highlight-gold">🔄 Smart Fallback</b> để hệ thống tự xoay vòng Key và tự đổi Provider dự phòng khi bận, đảm bảo máy chủ chạy 24/7 không gián đoạn.</p>
+          </div>
+        </div>
+
+        <div class="onboarding-step-card step-card-4">
+          <div class="step-icon icon-cyan">📜</div>
+          <div>
+            <h3 class="step-title title-cyan">Bước 5: Tự Động Lưu Lịch Sử (30 Prompt Gần Nhất)</h3>
+            <p class="step-desc">Mọi Prompt bạn tạo đều được ghi nhớ tự động. Mở danh mục <b class="highlight-gold">📜 Lịch sử (30 Gần Nhất)</b> để xem lại, sao chép hoặc bấm <b>🚀 Nạp lại Prompt</b> để khôi phục toàn bộ câu lệnh bất cứ lúc nào!</p>
           </div>
         </div>
 
