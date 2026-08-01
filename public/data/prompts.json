@@ -3005,5 +3005,325 @@
         "commonMistakes": [
             "Áp dụng lên các vật liệu không bị rỉ sét (như nhựa, vàng, hoặc nhôm hiện đại) khiến AI bị bối rối."
         ]
+    },
+    {
+        "id": "v-cinematic",
+        "name": "Video 01. Cinematic Masterpiece",
+        "definition": "Create a cinematic-quality video with immersive storytelling and premium visual production. Dynamic camera movements, dramatic framing, shallow depth of field, HDR visuals, volumetric light, film-style color grading, smooth transitions, Netflix documentary quality.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Cinematic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Cinematic-quality video of [Subject], dynamic camera movements, dramatic framing, shallow depth of field, volumetric light, film color grading, smooth B-roll transitions, natural Vietnamese voiceover narration, 4K HDR",
+        "whenToUse": "Dùng khi muốn sản xuất video chuẩn điện ảnh bom tấn Netflix, giới thiệu sản phẩm cao cấp hoặc phim tài liệu hoành tráng.",
+        "bestPractices": "Kết hợp quay góc rộng cinematic với ánh sáng thể tích và nhạc nền giao hưởng.",
+        "commonMistakes": [
+            "Sử dụng chuyển cảnh quá nhanh làm mất chất cinema."
+        ]
+    },
+    {
+        "id": "v-documentary",
+        "name": "Video 02. Authentic Documentary",
+        "definition": "Realistic documentary-style video focused on clarity, authenticity, and educational storytelling. Prioritize real-world footage, aerial views, maps, timelines, infographics, National Geographic production style.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Documentary",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Authentic documentary video of [Subject], real-world footage, aerial drone shots, maps, timelines, animated infographics, true-to-life colors, calm native Vietnamese narration, National Geographic style",
+        "whenToUse": "Phù hợp làm video giáo dục, lịch sử, địa lý, thuyết minh khoa học.",
+        "bestPractices": "Bổ sung bản đồ, mốc thời gian và góc quay máy bay không người lái.",
+        "commonMistakes": [
+            "Quá nhiều hiệu ứng giả tưởng không đúng thực tế."
+        ]
+    },
+    {
+        "id": "v-film-noir",
+        "name": "Video 03. Classic Film Noir",
+        "definition": "Classic Film Noir video with dramatic storytelling, low-key high-contrast black-and-white, shadows, silhouettes, rainy streets, mystery atmosphere.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Dramatic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Classic Film Noir video of [Subject], high-contrast black-and-white, low-key lighting, deep shadows, silhouettes, rain reflections, vintage film grain, slow camera movement, suspenseful rhythm",
+        "whenToUse": "Dùng cho video trinh thám, tâm lý tội phạm, không khí u uất và bí ẩn.",
+        "bestPractices": "Đổ bóng mạnh qua khe cửa chớp và đường phố ẩm ướt đêm.",
+        "commonMistakes": [
+            "Dùng quá nhiều màu sắc sặc sỡ phá vỡ tone đen trắng."
+        ]
+    },
+    {
+        "id": "v-vintage-film",
+        "name": "Video 04. Vintage Retro Film",
+        "definition": "Nostalgic vintage film with warm storytelling, soft lighting, faded retro colors, film grain, dust particles, subtle flicker, analog aesthetic.",
+        "category": "videostyles",
+        "difficulty": "Basic",
+        "mood": "Nostalgic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Nostalgic vintage film of [Subject], warm faded colors, authentic 16mm film grain, dust particles, subtle flicker, slow camera panning, archival B-roll, gentle retro aesthetic",
+        "whenToUse": "Dùng làm video kỷ niệm, hồi tưởng quá khứ, câu chuyện gia đình thập niên 70-80.",
+        "bestPractices": "Thêm hiệu ứng hạt phim và màu ấm ngả vàng vintage.",
+        "commonMistakes": [
+            "Để độ phân giải quá nét và tương phản quá gắt."
+        ]
+    },
+    {
+        "id": "v-neon-noir",
+        "name": "Video 05. Cyberpunk Neon Noir",
+        "definition": "Futuristic Neon Noir video with urban cyberpunk atmosphere, neon lights, rain reflections, magenta cyan color grade, synthwave music.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Cinematic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Cyberpunk Neon Noir video of [Subject], neon-lit rain streets, magenta cyan color grading, reflective puddles, fog, fast dynamic camera tracking, futuristic sci-fi aesthetic",
+        "whenToUse": "Dùng cho video công nghệ, game sci-fi, thành phố tương lai về đêm.",
+        "bestPractices": "Tối ưu độ tương phản giữa sắc hồng Neon và xanh Cyan.",
+        "commonMistakes": [
+            "Góc quay bị tối hoàn toàn không thấy chi tiết nhân vật."
+        ]
+    },
+    {
+        "id": "v-minimalist",
+        "name": "Video 06. Clean Minimalist",
+        "definition": "Minimalist video with clean visual storytelling, generous white space, soft natural lighting, neutral colors, Apple keynote documentary aesthetic.",
+        "category": "videostyles",
+        "difficulty": "Basic",
+        "mood": "Artistic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Minimalist video of [Subject], clean uncluttered composition, generous white space, soft natural lighting, neutral color palette, slow intentional camera movement, Apple commercial style",
+        "whenToUse": "Dùng giới thiệu sản phẩm công nghệ, thiết kế tối giản, triết lý sống.",
+        "bestPractices": "Giữ khung hình gọn gàng, ít chi tiết rác.",
+        "commonMistakes": [
+            "Cho quá nhiều vật dụng vào cảnh quay."
+        ]
+    },
+    {
+        "id": "v-sci-fi",
+        "name": "Video 07. Sci-Fi Blockbuster",
+        "definition": "Futuristic sci-fi video with holographic interfaces, expansive space visual, cool blue teal grade, Dune Interstellar aesthetic.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Cinematic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Sci-Fi video of [Subject], futuristic architecture, holographic interfaces, volumetric teal blue lighting, sweeping camera motion, Dune and Interstellar visual style",
+        "whenToUse": "Dùng làm video vũ trụ, công nghệ tương lai, AI, siêu máy tính.",
+        "bestPractices": "Tăng ánh sáng xanh Teal và các giao diện Hologram.",
+        "commonMistakes": [
+            "Làm kỹ xảo quá giả không có chiều sâu không gian."
+        ]
+    },
+    {
+        "id": "v-fantasy",
+        "name": "Video 08. Epic Fantasy",
+        "definition": "Magical fantasy video with enchanted forests, castles, golden-hour light, glowing effects, Lord of the Rings and Studio Ghibli style.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Artistic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Epic fantasy video of [Subject], enchanted forest, magical glowing particles, golden-hour lighting, sweeping aerial shots, Lord of the Rings aesthetic",
+        "whenToUse": "Dùng cho truyện cổ tích, thế giới phép thuật, thần thoại.",
+        "bestPractices": "Đưa vào ánh sáng vàng hoàng hôn và hiệu ứng phát sáng mờ ảo.",
+        "commonMistakes": [
+            "Ánh sáng quá gắt làm mất tính thần tiên."
+        ]
+    },
+    {
+        "id": "v-anime",
+        "name": "Video 09. Anime Makoto Shinkai",
+        "definition": "Anime-inspired video with vibrant compositions, expressive character moments, colorful skies, Studio Ghibli & Makoto Shinkai aesthetics.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Romantic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Anime video of [Subject], Makoto Shinkai style, vibrant colorful sky, glowing clouds, expressive dramatic close-ups, soft gradients, emotional anime aesthetic",
+        "whenToUse": "Dùng làm video hoạt hình Nhật Bản, câu chuyện thanh xuân, lãng mạn.",
+        "bestPractices": "Vẽ bầu trời mây dải rực rỡ và ánh sáng mềm mại.",
+        "commonMistakes": [
+            "Nét vẽ bị méo dạng không giống phong cách Anime."
+        ]
+    },
+    {
+        "id": "v-comic-book",
+        "name": "Video 10. Comic Book Spider-Verse",
+        "definition": "Comic book graphic novel video with bold outlines, halftone textures, animated panels, Spider-Verse energy.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Action",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Comic book video of [Subject], Spider-Verse style, bold graphic novel outlines, halftone textures, vibrant pop colors, dynamic action framing",
+        "whenToUse": "Dùng cho video siêu anh hùng, hành động tốc độ, truyện tranh.",
+        "bestPractices": "Kết hợp các khung hình nét vẽ đậm và chấm Halftone.",
+        "commonMistakes": [
+            "Thiếu độ tương phản giữa viền đen và màu nền."
+        ]
+    },
+    {
+        "id": "v-horror",
+        "name": "Video 11. Psychological Horror",
+        "definition": "Psychological horror building fear through atmosphere, low-key light, cold color grading, eerie fog, A24 Conjuring style.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Horror",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Psychological horror video of [Subject], eerie abandoned location, deep shadows, cold blue color grade, creeping slow camera push, A24 film aesthetic",
+        "whenToUse": "Dùng làm video kinh dị tâm lý, bí ẩn, câu chuyện rùng rợn.",
+        "bestPractices": "Đẩy máy ảnh thật chậm vào khoảng tối để tăng sự hồi hộp.",
+        "commonMistakes": [
+            "Dùng máu me quá đà thay vì tập trung vào bầu không khí u ám."
+        ]
+    },
+    {
+        "id": "v-thriller",
+        "name": "Video 12. Intense Thriller",
+        "definition": "Suspenseful thriller with high contrast lighting, tracking shots, fast editing, Netflix series momentum.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Dramatic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Suspenseful thriller video of [Subject], tracking camera shot, dramatic close-ups, high contrast cold grading, fast-paced intense editing",
+        "whenToUse": "Dùng cho video giật gân, rượt đuổi, điều tra án mạng.",
+        "bestPractices": "Sử dụng cú bấm máy đi theo nhân vật (tracking shot) liên tục.",
+        "commonMistakes": [
+            "Nhịp dựng quá chậm làm mất đi độ gay cấn."
+        ]
+    },
+    {
+        "id": "v-romantic",
+        "name": "Video 13. Dreamy Romantic",
+        "definition": "Heartfelt romantic video, intimate close-ups, golden-hour light, pastel tones, dreamy cinematic bokeh.",
+        "category": "videostyles",
+        "difficulty": "Basic",
+        "mood": "Romantic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Heartfelt romantic video of [Subject], soft golden-hour backlight, pastel color grading, dreamy bokeh, intimate slow-motion close-ups",
+        "whenToUse": "Dùng cho video đám cưới, tình yêu, câu chuyện lãng mạn.",
+        "bestPractices": "Tận dụng ánh nắng ngược trưa muộn (golden hour) để tạo viền sáng tóc.",
+        "commonMistakes": [
+            "Tông màu quá lạnh không đúng cảm giác ấm áp."
+        ]
+    },
+    {
+        "id": "v-black-white",
+        "name": "Video 14. Monochrome Black & White",
+        "definition": "Timeless monochrome black and white cinematic video, high contrast, elegant framing, film grain, Oscar winner style.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Artistic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Classic black and white video of [Subject], monochrome contrast, artistic shadow framing, subtle 35mm film grain, elegant cinematic composition",
+        "whenToUse": "Dùng cho video phỏng vấn sâu, suy ngẫm, tác phẩm nghệ thuật.",
+        "bestPractices": "Tập trung vào đường nét hình học và ánh sáng chiếu từ góc ngang.",
+        "commonMistakes": [
+            "Độ xám bị xỉn, không có độ tương phản đen-trắng rõ ràng."
+        ]
+    },
+    {
+        "id": "v-retro-80s",
+        "name": "Video 15. Synthwave Retro 80s",
+        "definition": "1980s retro aesthetics, neon lights, VHS textures, scanlines, synthwave Stranger Things style.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Nostalgic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Retro 80s video of [Subject], synthwave neon lights, VHS scanlines and color bleeding, magenta cyan aesthetic, Stranger Things vibe",
+        "whenToUse": "Dùng làm video âm nhạc Synthwave, phong cách thập niên 80 năng động.",
+        "bestPractices": "Thêm hiệu ứng dải nhiễu bằng băng VHS cổ điển.",
+        "commonMistakes": [
+            "Làm màu quá mờ không thấy rõ nét tân cổ điển."
+        ]
+    },
+    {
+        "id": "v-timelapse",
+        "name": "Video 16. Hyper Timelapse",
+        "definition": "Cinematic time-lapse of accelerated clouds, cities, stars, sunrise sunset, BBC Earth documentary quality.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Cinematic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Cinematic time-lapse video of [Subject], accelerated cloud motion, day to night lighting transition, smooth movement, BBC Earth quality",
+        "whenToUse": "Dùng diễn tả sự di chuyển thời gian, sự phát triển đô thị hoặc thiên nhiên.",
+        "bestPractices": "Đảm bảo máy ảnh trượt thật mượt trong khi bầu trời chuyển động nhanh.",
+        "commonMistakes": [
+            "Chuyển động bị giật hình không có độ nhoè chuyển động (motion blur)."
+        ]
+    },
+    {
+        "id": "v-slow-motion",
+        "name": "Video 17. High Frame-rate Slow Motion",
+        "definition": "Slow-motion video highlighting emotion, water droplets, sports action, high frame rate 120fps aesthetic.",
+        "category": "videostyles",
+        "difficulty": "Basic",
+        "mood": "Dramatic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Ultra slow-motion video of [Subject], 120fps high frame rate, shallow depth of field, detailed water particles, graceful motion",
+        "whenToUse": "Dùng bắt trọn khoảnh khắc thể thao, giọt nước rơi, nụ cười biểu cảm.",
+        "bestPractices": "Bắt các chi tiết nhỏ như giọt mồ hôi, hạt nước bắn hoặc vải bay.",
+        "commonMistakes": [
+            "Ánh sáng bị tối do tốc độ màn hình trập quá nhanh."
+        ]
+    },
+    {
+        "id": "v-drone-footage",
+        "name": "Video 18. Epic Drone Aerial",
+        "definition": "Sweeping drone aerial video, top-down perspective, IMAX nature documentary quality.",
+        "category": "videostyles",
+        "difficulty": "Intermediate",
+        "mood": "Cinematic",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Epic aerial drone video of [Subject], 4K FPV flyover, sweeping top-down view, grand scale landscape, IMAX documentary style",
+        "whenToUse": "Dùng giới thiệu bối cảnh núi rừng, biển cả, công trình kiến trúc đồ sộ.",
+        "bestPractices": "Bay máy bay không người lái mượt mà lướt qua đỉnh núi hoặc tán cây.",
+        "commonMistakes": [
+            "Rung lắc góc quay làm người xem bị chóng mặt."
+        ]
+    },
+    {
+        "id": "v-pov",
+        "name": "Video 19. First-Person POV",
+        "definition": "First-person POV video fully immersing viewers, handheld motion, authentic personal perspective.",
+        "category": "videostyles",
+        "difficulty": "Basic",
+        "mood": "Documentary",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "First-person POV video of [Subject], immersive perspective, stabilized handheld motion, natural interactive movement",
+        "whenToUse": "Dùng tạo cảm giác cho người xem nhập vai vào góc nhìn của nhân vật chính.",
+        "bestPractices": "Hiển thị thêm bàn tay hoặc bước đi của người quay ở góc dưới.",
+        "commonMistakes": [
+            "Cắt cảnh ngắt quãng làm mất trải nghiệm liên tục."
+        ]
+    },
+    {
+        "id": "v-montage",
+        "name": "Video 20. Cinematic Fast Montage",
+        "definition": "Cinematic montage combining diverse B-roll, dynamic rhythmic editing, powerful storytelling sequence.",
+        "category": "videostyles",
+        "difficulty": "Advanced",
+        "mood": "Action",
+        "image": "",
+        "videoRef": "",
+        "promptTemplate": "Dynamic cinematic montage of [Subject], fast rhythmic editing, diverse high-quality B-roll cuts, seamless transitions, inspiring pace",
+        "whenToUse": "Dùng làm đoạn mở đầu (Intro) cuốn hút hoặc tổng kết hành trình.",
+        "bestPractices": "Cắt dựng khớp chính xác với từng nhịp phách của âm nhạc.",
+        "commonMistakes": [
+            "Các cảnh cắt rời rạc không có mạch nội dung liên kết."
+        ]
     }
 ]

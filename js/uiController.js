@@ -39,10 +39,12 @@ const CATEGORY_ACCENT = {
   genres:      '#ec4899',
   storytelling:'#22c55e',
   vfx:         '#3b82f6',
+  videostyles: '#ef4444',
 };
 
 const CATEGORY_LABELS = {
-  gear: 'Equipment / Lenses'
+  gear: 'Equipment / Lenses',
+  videostyles: '🎬 AI Video Styles (NotebookLM / Sora)'
 };
 
 /* ── Suitability badge ────────────────────────────────────── */
