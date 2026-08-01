@@ -102,9 +102,25 @@ function buildCardHTML(prompt, index) {
   const moodColor  = MOOD_COLORS[prompt.mood]             ?? '#888';
   const catAccent  = CATEGORY_ACCENT[prompt.category]     ?? '#c9a227';
 
-  const catLabel  = CATEGORY_LABELS[prompt.category] || (prompt.category.charAt(0).toUpperCase() + prompt.category.slice(1));
-  const suit      = getSuitability(prompt);
-  const definition = prompt.definition ?? '';
+  let catLabel  = CATEGORY_LABELS[prompt.category] || (prompt.category.charAt(0).toUpperCase() + prompt.category.slice(1));
+  let suit      = getSuitability(prompt);
+  let definition = prompt.definition ?? '';
+  let diffLabel = prompt.difficulty;
+  
+  const lang = localStorage.getItem("cine_lang") || "vi";
+  if (lang === 'vi') {
+    const VI_CATS = {
+      camera: 'Góc Máy', lighting: 'Ánh Sáng', composition: 'Bố Cục', editing: 'Hậu Kỳ', genres: 'Thể Loại', storytelling: 'Kể Chuyện', vfx: 'Kỹ Xảo', gear: 'Thiết Bị'
+    };
+    const VI_DIFFS = {
+      Basic: 'Cơ Bản', Intermediate: 'Trung Bình', Advanced: 'Nâng Cao'
+    };
+    catLabel = VI_CATS[prompt.category] || catLabel;
+    diffLabel = VI_DIFFS[prompt.difficulty] || diffLabel;
+    definition = prompt.whenToUse || definition;
+    if (suit.cls === 'suitability-badge--video') suit.text = '🎥 Chuyên Video';
+    else suit.text = '🌟 Đa Năng';
+  }
   const favClass = isFavorite(prompt.id) ? 'is-favorite' : '';
   const thumbIcon = getCategoryIcon(prompt.category);
 
@@ -136,7 +152,7 @@ function buildCardHTML(prompt, index) {
           class="badge difficulty-badge"
           style="--badge-color: ${diffColor}"
           title="Difficulty"
-        >${escapeHTML(prompt.difficulty)}</span>
+        >${escapeHTML(diffLabel)}</span>
         <span
           class="badge mood-badge"
           style="--badge-color: ${moodColor}"
@@ -593,4 +609,116 @@ export function openDeepDiveModal(prompt) {
       if (e.target === overlay) close();
     });
   }
+}
+
+/**
+ * Returns a human-readable relative time string.
+ */
+function getTimeAgo(dateString) {
+  if (!dateString) return 'Vừa xong';
+  const now = new Date();
+  const past = new Date(dateString);
+  const diffSec = Math.floor((now - past) / 1000);
+  
+  if (diffSec < 60) return 'Vừa xong';
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)} phút trước`;
+  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)} giờ trước`;
+  return `${Math.floor(diffSec / 86400)} ngày trước`;
+}
+
+/**
+ * Render prompt history grid items when 'history' category is selected.
+ */
+export function renderHistoryGrid(historyItems, onLoadItem, onClearHistory) {
+  const grid  = document.getElementById('prompt-grid');
+  const count = document.getElementById('result-count');
+
+  if (!grid) return;
+
+  if (count) {
+    count.textContent = `${historyItems.length} prompt trong lịch sử`;
+  }
+
+  if (historyItems.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px; background: var(--bg-card); border-radius: 16px; border: 1px dashed var(--border-mid);">
+        <div style="font-size: 40px; margin-bottom: 12px;">📜</div>
+        <h2 style="font-size: 18px; color: var(--text-primary); margin-bottom: 8px;">Chưa có lịch sử Prompt</h2>
+        <p style="color: var(--text-muted); font-size: 13px; max-width: 420px; margin: 0 auto; line-height: 1.5;">Mỗi khi bạn tạo hoặc chỉnh sửa Prompt, 30 câu lệnh gần nhất sẽ tự động lưu ở đây để bạn dễ dàng tìm lại bất kỳ lúc nào.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const clearBarHTML = `
+    <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 8px;">
+      <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+        📜 Lịch Sử 30 Prompt Gần Nhất
+      </span>
+      <button id="clear-history-btn" class="header-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #ef4444; height: 28px; font-size: 11px; padding: 0 10px;">
+        🗑️ Xóa Lịch Sử
+      </button>
+    </div>
+  `;
+
+  const cardsHTML = historyItems.map((item, idx) => {
+    const timeAgo = getTimeAgo(item.timestamp);
+    const shortImageText = escapeHTML(item.imagePrompt || item.videoPrompt || 'No content');
+    const titleText = escapeHTML(item.title || 'Master Prompt');
+
+    return `
+      <div class="card history-card" data-hist-id="${item.id}" data-index="${idx}" tabindex="0" style="position: relative;">
+        <div class="card-header" style="justify-content: space-between;">
+          <span class="badge" style="--badge-color: #38bdf8; font-size: 10px; font-weight: 700;">📜 ${timeAgo}</span>
+          <button class="history-copy-btn" title="Sao chép Image Prompt" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M4 11H3a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 3 1h7a1.5 1.5 0 0 1 1.5 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <h3 class="card-name" style="margin-top: 6px; font-size: 15px;">${titleText}</h3>
+        <p class="card-definition" style="font-family: var(--font-mono); font-size: 11px; line-height: 1.4; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 6px;">
+          ${shortImageText}
+        </p>
+        <div class="card-quick-actions" style="margin-top: 12px;">
+          <button class="history-load-btn new-btn-outline" style="width: 100%; justify-content: center; font-size: 11px; padding: 6px 10px;">
+            🚀 Nạp lại Prompt này
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  grid.innerHTML = clearBarHTML + cardsHTML;
+
+  // Wire clear history button
+  const clearBtn = document.getElementById('clear-history-btn');
+  if (clearBtn && onClearHistory) {
+    clearBtn.addEventListener('click', onClearHistory);
+  }
+
+  // Wire cards
+  grid.querySelectorAll('.history-card').forEach(cardEl => {
+    const idx = parseInt(cardEl.dataset.index, 10);
+    const item = historyItems[idx];
+    if (!item) return;
+
+    const loadItem = (e) => {
+      if (e && e.target.closest('.history-copy-btn')) return;
+      onLoadItem(item);
+    };
+
+    cardEl.addEventListener('click', loadItem);
+
+    const copyBtn = cardEl.querySelector('.history-copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        try {
+          await navigator.clipboard.writeText(item.imagePrompt || item.videoPrompt);
+          alert('Đã sao chép Prompt từ lịch sử!');
+        } catch (err) {
+          console.warn("Copy failed:", err);
+        }
+      });
+    }
+  });
 }

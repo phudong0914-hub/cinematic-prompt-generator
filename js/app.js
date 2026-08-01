@@ -15,6 +15,9 @@ import {
   getAIConfig,
   saveAIConfig,
   getRandomCombo,
+  getPromptHistory,
+  addPromptToHistory,
+  clearPromptHistory,
 } from './dataManager.js';
 
 import { enhanceSubjectWithAI } from './aiService.js';
@@ -31,6 +34,7 @@ import {
   getActiveMotionTags,
   openModal,
   closeModal,
+  renderHistoryGrid,
 } from './uiController.js';
 
 /* ── State ────────────────────────────────────────────────── */
@@ -100,6 +104,19 @@ function refreshResult() {
     negativePrompt:  getNegativePromptValue(),
     motionTags:      getActiveMotionTags(),
   });
+
+  const imageText = document.getElementById('result-text-image')?.textContent || '';
+  const videoText = document.getElementById('result-text-video')?.textContent || '';
+
+  if (imageText && !imageText.includes('Chọn một thẻ')) {
+    addPromptToHistory({
+      title: currentTitle,
+      imagePrompt: imageText,
+      videoPrompt: videoText,
+      subject: getSubjectValue(),
+      negative: getNegativePromptValue()
+    });
+  }
 }
 
 /* ── Clipboard helper ─────────────────────────────────────── */
@@ -172,6 +189,45 @@ async function translatePanel(type) {
 
 /* ── Core event handlers ──────────────────────────────────── */
 
+function handleHistoryItemLoad(item) {
+  const resultBox       = document.getElementById('result-box');
+  const promptTitle     = document.getElementById('prompt-title');
+  const resultTextImage = document.getElementById('result-text-image');
+  const resultTextVideo = document.getElementById('result-text-video');
+
+  if (item.subject) {
+    const subjectInput = document.getElementById('subject-input');
+    if (subjectInput) subjectInput.value = item.subject;
+  }
+  if (item.negative) {
+    const negInput = document.getElementById('negative-input');
+    if (negInput) negInput.value = item.negative;
+  }
+
+  if (promptTitle) promptTitle.textContent = item.title || 'Lịch Sử Prompt';
+  if (resultTextImage) {
+    resultTextImage.textContent = item.imagePrompt;
+    resultTextImage.classList.remove('result-placeholder');
+  }
+  if (resultTextVideo) {
+    resultTextVideo.textContent = item.videoPrompt || item.imagePrompt;
+    resultTextVideo.classList.remove('result-placeholder');
+  }
+
+  currentTemplate = item.imagePrompt;
+  currentTitle = item.title || 'Lịch Sử Prompt';
+  if (resultBox) resultBox.classList.add('active');
+
+  resultBox?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function handleClearHistory() {
+  if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử Prompt đã lưu?')) {
+    clearPromptHistory();
+    handleFilterChange();
+  }
+}
+
 /**
  * Called when the user clicks (or keyboard-activates) a card.
  * Generates the dual prompts AND opens the details modal.
@@ -194,6 +250,13 @@ function handleFilterChange() {
   const query = document.getElementById('search-input')?.value || '';
   const category = document.getElementById('category-filter')?.value || 'all';
   const difficulty = document.getElementById('difficulty-filter')?.value || 'all';
+
+  if (category === 'history') {
+    const historyItems = getPromptHistory();
+    renderHistoryGrid(historyItems, handleHistoryItemLoad, handleClearHistory);
+    setActiveCard(null);
+    return;
+  }
 
   const filtered = filterPrompts(query, category, difficulty);
   renderGrid(filtered, handleCardClick, handleFavClick);
@@ -298,13 +361,102 @@ function generateBuilderCombo() {
  */
 let tempAIConfig = null;
 
-function updateProviderInputs() {
+function parseKeysCount(raw) {
+  if (!raw) return 0;
+  return raw.split(/[\n,;]+/).map(k => k.trim()).filter(k => k.length > 0).length;
+}
+
+function saveCurrentProviderState() {
   if (!tempAIConfig) return;
-  const p = document.getElementById('ai-provider').value;
+  const p = document.getElementById('ai-provider')?.value || 'gemini';
   if (!tempAIConfig.apiKeys) tempAIConfig.apiKeys = {};
   if (!tempAIConfig.modelNames) tempAIConfig.modelNames = {};
   
-  document.getElementById('ai-api-key').value = tempAIConfig.apiKeys[p] || '';
+  const keyVal = document.getElementById('ai-api-key')?.value.trim() || '';
+  const modelVal = document.getElementById('ai-model-name')?.value.trim() || '';
+  
+  tempAIConfig.apiKeys[p] = keyVal;
+  tempAIConfig.modelNames[p] = modelVal;
+}
+
+function updateKeyCountBadge() {
+  const keyVal = document.getElementById('ai-api-key')?.value || '';
+  const badge = document.getElementById('key-count-badge');
+  if (badge) {
+    const count = parseKeysCount(keyVal);
+    badge.textContent = count > 1 ? `🟢 ${count} Keys (Xoay vòng)` : count === 1 ? `🟢 1 Key` : `⚪ Chưa có Key`;
+    badge.className = `key-count-badge ${count > 0 ? 'is-active' : ''}`;
+  }
+}
+
+function renderProviderBadges() {
+  const container = document.getElementById('provider-badges-bar');
+  if (!container || !tempAIConfig) return;
+
+  const providers = [
+    { id: 'gemini', name: 'Gemini' },
+    { id: 'openai', name: 'OpenAI' },
+    { id: 'deepseek', name: 'DeepSeek' },
+    { id: 'openrouter', name: 'OpenRouter' },
+    { id: 'agentrouter', name: 'AgentRouter' },
+    { id: 'ollama', name: 'Ollama (Local)' }
+  ];
+
+  const activeP = document.getElementById('ai-provider')?.value || 'gemini';
+
+  container.innerHTML = providers.map(p => {
+    let count = 0;
+    if (p.id === 'ollama') {
+      count = 1; // Local server
+    } else {
+      const keys = (tempAIConfig.apiKeys || {})[p.id] || '';
+      count = parseKeysCount(keys);
+    }
+
+    const isCurrent = p.id === activeP;
+    const hasKeys = count > 0;
+    const badgeClass = `provider-badge ${hasKeys ? 'badge-has-key' : 'badge-empty'} ${isCurrent ? 'badge-current' : ''}`;
+    
+    return `<button type="button" class="${badgeClass}" onclick="switchAIProvider('${p.id}')" title="Click để chuyển sang ${p.name}">
+      <span class="badge-dot">${hasKeys ? '🟢' : '⚪'}</span>
+      <span class="badge-name">${p.name}</span>
+      ${count > 0 && p.id !== 'ollama' ? `<span class="badge-count">${count}</span>` : ''}
+    </button>`;
+  }).join('');
+}
+
+window.switchAIProvider = function(pId) {
+  saveCurrentProviderState();
+  const select = document.getElementById('ai-provider');
+  if (select) {
+    select.value = pId;
+    updateProviderInputs();
+  }
+};
+
+let currentProviderRef = 'gemini';
+
+function updateProviderInputs() {
+  if (!tempAIConfig) return;
+  
+  // Save previous
+  if (currentProviderRef && tempAIConfig.apiKeys) {
+    const keyVal = document.getElementById('ai-api-key')?.value.trim() || '';
+    const modelVal = document.getElementById('ai-model-name')?.value.trim() || '';
+    tempAIConfig.apiKeys[currentProviderRef] = keyVal;
+    tempAIConfig.modelNames[currentProviderRef] = modelVal;
+  }
+
+  const p = document.getElementById('ai-provider')?.value || 'gemini';
+  currentProviderRef = p;
+
+  if (!tempAIConfig.apiKeys) tempAIConfig.apiKeys = {};
+  if (!tempAIConfig.modelNames) tempAIConfig.modelNames = {};
+  
+  const keyInput = document.getElementById('ai-api-key');
+  if (keyInput) {
+    keyInput.value = tempAIConfig.apiKeys[p] || '';
+  }
   
   const defaultModels = {
      gemini: 'gemini-1.5-flash',
@@ -312,17 +464,44 @@ function updateProviderInputs() {
      agentrouter: 'gpt-4o-mini',
      ollama: 'llama3'
   };
-  document.getElementById('ai-model-name').value = tempAIConfig.modelNames[p] || defaultModels[p] || '';
+  const modelInput = document.getElementById('ai-model-name');
+  if (modelInput) {
+    modelInput.value = tempAIConfig.modelNames[p] || defaultModels[p] || '';
+  }
+
+  updateKeyCountBadge();
+  renderProviderBadges();
 }
 
 function openAISettings() {
   tempAIConfig = JSON.parse(JSON.stringify(getAIConfig()));
-  document.getElementById('ai-provider').value = tempAIConfig.provider || 'gemini';
+  currentProviderRef = tempAIConfig.provider || 'gemini';
+  
+  document.getElementById('ai-provider').value = currentProviderRef;
   document.getElementById('ai-target-tool').value = tempAIConfig.targetTool || 'midjourney';
   const rotateCheckbox = document.getElementById('ai-rotate-enabled');
   if (rotateCheckbox) rotateCheckbox.checked = !!tempAIConfig.rotateEnabled;
   
   updateProviderInputs();
+
+  // Attach live input listeners for real-time key count & badge updates
+  const keyInput = document.getElementById('ai-api-key');
+  if (keyInput && !keyInput.dataset.listenerAttached) {
+    keyInput.dataset.listenerAttached = "true";
+    keyInput.addEventListener('input', () => {
+      saveCurrentProviderState();
+      updateKeyCountBadge();
+      renderProviderBadges();
+    });
+  }
+
+  const providerSelect = document.getElementById('ai-provider');
+  if (providerSelect && !providerSelect.dataset.listenerAttached) {
+    providerSelect.dataset.listenerAttached = "true";
+    providerSelect.addEventListener('change', () => {
+      updateProviderInputs();
+    });
+  }
   
   document.getElementById('ai-modal-overlay')?.classList.add('is-open');
   document.body.style.overflow = 'hidden';
@@ -335,6 +514,7 @@ function closeAISettings() {
 }
 
 function saveAISettings() {
+  saveCurrentProviderState();
   if (tempAIConfig) {
     tempAIConfig.provider = document.getElementById('ai-provider')?.value || 'gemini';
     tempAIConfig.targetTool = document.getElementById('ai-target-tool')?.value || 'midjourney';
@@ -496,7 +676,14 @@ async function init() {
     initMotionTags(refreshResult);
 
     // 5. Wire all control event listeners
-    document.getElementById('search-input')?.addEventListener('input', handleFilterChange);
+    // Optimize search with debounce to prevent UI hangs on rapid typing
+    let debounceTimer;
+    document.getElementById('search-input')?.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(handleFilterChange, 250);
+    });
+    
+    window.addEventListener('languageChanged', handleFilterChange);
     document.getElementById('category-filter')?.addEventListener('change', handleFilterChange);
     document.getElementById('difficulty-filter')?.addEventListener('change', handleFilterChange);
     document.getElementById('export-btn')?.addEventListener('click', handleExport);
@@ -563,6 +750,29 @@ async function init() {
     document
       .getElementById('translate-btn-video')
       ?.addEventListener('click', () => translatePanel('video'));
+
+    
+    // Telegram / Google Apps Script Lead Form Hook
+    const leadForm = document.getElementById('lead-form');
+    if (leadForm) {
+      leadForm.addEventListener('submit', function(e) {
+        // Lấy URL Web App (Sẽ do bạn điền vào đây sau khi tạo Apps Script)
+        const appsScriptUrl = "https://script.google.com/macros/s/AKfycbzc5OW_uAuKbz8oOgPbWu1O3AN93M_nT1J658uaCYobzu9vaCxp55VkowO3hV7ilA/exec";
+        const emailInput = this.querySelector('input[name="fields[email]"]');
+        
+        if (emailInput && emailInput.value && appsScriptUrl.includes("script.google.com")) {
+          // Bắn ngầm dữ liệu sang Google Apps Script
+          fetch(appsScriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailInput.value })
+          }).catch(err => console.error("Lỗi khi gửi báo cáo Telegram:", err));
+        }
+        
+        // Không e.preventDefault() để form vẫn tiếp tục submit sang MailerLite bình thường
+      });
+    }
 
     // Modal: close button
     document

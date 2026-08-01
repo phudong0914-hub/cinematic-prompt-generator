@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles/main.css?v=14" />
+  <link rel="stylesheet" href="./styles/main.css?v=80" />
 </head>
 <body>
 
@@ -30,21 +30,29 @@
             </h1>
             <p class="brand-subtitle">Cinematic Prompt Generator</p>
           </div>
-          <button id="help-btn" style="background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: #c9a227; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-left: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(201,162,39,0.2)'" onmouseout="this.style.background='rgba(201,162,39,0.1)'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-            Guide
+          <button id="help-btn" data-i18n="guide" style="background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: #c9a227; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-left: 16px; transition: all 0.2s;" onmouseover="this.style.background='rgba(201,162,39,0.2)'" onmouseout="this.style.background='rgba(201,162,39,0.1)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Hướng dẫn </button>
+
+          <button id="lang-toggle-btn" class="header-btn lang-toggle" title="Switch Language">
+            <span class="lang-text">EN</span>
           </button>
+          
+          <button id="theme-toggle-btn" class="header-btn theme-toggle" title="Toggle Light/Dark Theme">
+            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </button>
+
         </div>
 
         <div class="control-group control-group--search">
-          <label for="search-input" class="control-label">Search Prompts</label>
+          <label for="search-input" class="control-label" data-i18n="search-label">Tìm kiếm Prompts</label>
           <div class="input-wrapper">
             <svg class="input-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <input
               type="text"
               id="search-input"
               class="text-input new-input-field"
-              placeholder="Search styles, keywords..."
+              placeholder="Tìm phong cách, từ khóa..." data-i18n="search-placeholder"
               autocomplete="off"
               spellcheck="false"
             />
@@ -52,11 +60,12 @@
         </div>
 
         <div class="control-group">
-          <label for="category-filter" class="control-label">Category</label>
+          <label for="category-filter" class="control-label" data-i18n="category-label">Danh mục</label>
           <div class="select-wrapper">
             <select id="category-filter" class="select-input new-input-field">
-              <option value="all">All Categories</option>
-              <option value="favorites">⭐️ My Favorites</option>
+              <option value="all" data-i18n="cat-all">Tất cả Danh mục</option>
+              <option value="favorites" data-i18n="cat-fav">⭐️ Yêu thích</option>
+              <option value="history" data-i18n="cat-history">📜 Lịch sử (30 Gần Nhất)</option>
             </select>
             <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -65,13 +74,13 @@
         </div>
 
         <div class="control-group">
-          <label for="difficulty-filter" class="control-label">Difficulty</label>
+          <label for="difficulty-filter" class="control-label" data-i18n="diff-label">Độ khó</label>
           <div class="select-wrapper">
             <select id="difficulty-filter" class="select-input new-input-field">
-              <option value="all">All Levels</option>
-              <option value="Basic">Basic</option>
-              <option value="Intermediate">Intermediate</option>
-              <option value="Advanced">Advanced</option>
+              <option value="all" data-i18n="diff-all">Mọi cấp độ</option>
+              <option value="Basic" data-i18n="diff-basic">Cơ bản</option>
+              <option value="Intermediate" data-i18n="diff-inter">Trung bình</option>
+              <option value="Advanced" data-i18n="diff-adv">Nâng cao</option>
             </select>
             <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -80,13 +89,13 @@
         </div>
 
         <div class="control-group">
-          <label for="aspect-ratio" class="control-label">Aspect Ratio</label>
+          <label for="aspect-ratio" class="control-label" data-i18n="ar-label">Tỷ lệ khung hình</label>
           <div class="select-wrapper">
             <select id="aspect-ratio" class="select-input new-input-field">
-              <option value="--ar 21:9">Cinematic 2.35:1</option>
-              <option value="--ar 16:9" selected>Widescreen 16:9</option>
-              <option value="--ar 9:16">Vertical 9:16</option>
-              <option value="--ar 1:1">Square 1:1</option>
+              <option value="--ar 21:9" data-i18n="ar-cine">Điện ảnh 2.35:1</option>
+              <option value="--ar 16:9" selected data-i18n="ar-wide">Toàn cảnh 16:9</option>
+              <option value="--ar 9:16" data-i18n="ar-vert">Dọc 9:16</option>
+              <option value="--ar 1:1" data-i18n="ar-sq">Vuông 1:1</option>
             </select>
             <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -97,8 +106,8 @@
       
       <div class="card-scroll-area">
         <div class="content-bar">
-          <span id="result-count" class="result-count">Loading prompts…</span>
-          <span class="hint-text">Click any card or hit Director's Cut to generate prompts</span>
+          <span id="result-count" class="result-count" data-i18n="loading">Đang tải prompts…</span>
+          <span class="hint-text" data-i18n="hint">Nhấn vào thẻ hoặc Director\'s Cut để tạo prompt</span>
         </div>
 
         <div id="prompt-grid" class="prompt-grid">
@@ -115,37 +124,37 @@
         <!-- ─── FAQ & LEAD MAGNET SECTION ───────────────────────── -->
         <div class="bottom-sections">
           <div class="faq-section">
-            <h2>❓ Frequently Asked Questions (FAQ)</h2>
+            <h2 data-i18n="faq-title">❓ Frequently Asked Questions (FAQ)</h2>
             <div class="faq-item">
-              <button class="faq-question">What is Cine Prompt Pro? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-              <div class="faq-answer"><p>Cine Prompt Pro is a professional tool created by Mr. Trungvt (Phone: 08.36.384.168) that helps you generate highly cinematic prompts for AI tools like Midjourney, ChatGPT image 2, Nano banana Pro, and Runway. It synthesizes real-world Hollywood camera angles, lighting techniques, and VFX.</p></div>
+              <button class="faq-question"><span data-i18n="faq-q1">What is Cine Prompt Pro?</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p data-i18n-html="faq-a1">Cine Prompt Pro is a professional tool created by Mr. Trungvt (Phone: 08.36.384.168) that helps you generate highly cinematic prompts for AI tools like Midjourney, ChatGPT image 2, Nano banana Pro, and Runway. It synthesizes real-world Hollywood camera angles, lighting techniques, and VFX.</p></div>
             </div>
             <div class="faq-item">
-              <button class="faq-question">What is the difference between Zoom and Dolly? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-              <div class="faq-answer"><p><strong>Zoom:</strong> The lens changes focal length to zoom in/out while the camera remains stationary. The perspective does not change.<br><strong>Dolly:</strong> The entire camera physically moves forward/backward. The perspective changes, creating a multidimensional sense of space.</p></div>
+              <button class="faq-question"><span data-i18n="faq-q2">What is the difference between Zoom and Dolly?</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p data-i18n-html="faq-a2"><strong>Zoom:</strong> The lens changes focal length to zoom in/out while the camera remains stationary. The perspective does not change.<br><strong>Dolly:</strong> The entire camera physically moves forward/backward. The perspective changes, creating a multidimensional sense of space.</p></div>
             </div>
             <div class="faq-item">
-              <button class="faq-question">How does the AI Enhance feature work? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-              <div class="faq-answer"><p>AI Enhance uses large language models (like ChatGPT, Gemini) to expand your basic ideas into detailed, atmospheric scene descriptions with depth in color and setting before applying cinematic techniques.</p></div>
+              <button class="faq-question"><span data-i18n="faq-q3">How does the AI Enhance feature work?</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+              <div class="faq-answer"><p data-i18n-html="faq-a3">AI Enhance uses large language models (like ChatGPT, Gemini) to expand your basic ideas into detailed, atmospheric scene descriptions with depth in color and setting before applying cinematic techniques.</p></div>
             </div>
           </div>
           
           <div class="lead-magnet-section">
-            <h2>✨ Get the Free VIP Prompt Kit</h2>
-            <p style="margin-bottom: 12px;">"Intention is the only scarce resource in the age of infinite generation."</p>
-            <p style="font-style: italic; color: rgba(255, 255, 255, 0.75); font-size: 0.95em;">Subscribe to our weekly newsletter for useful insights on world-building. You can unsubscribe at any time.</p>
+            <h2 data-i18n="vip-title">✨ Get the Free VIP Prompt Kit</h2>
+            <p style="margin-bottom: 12px;" data-i18n="vip-quote">"Intention is the only scarce resource in the age of infinite generation."</p>
+            <p style="font-style: italic; color: var(--text-muted); font-size: 0.95em;" data-i18n="vip-sub">Subscribe to our weekly newsletter for useful insights on world-building. You can unsubscribe at any time.</p>
             <!-- MailerLite Integrated Form -->
             <div id="mlb2-44304466" class="ml-subscribe-form ml-subscribe-form-44304466">
               <div class="row-form">
                 <form id="lead-form" class="lead-form ml-block-form" action="https://assets.mailerlite.com/jsonp/2545046/forms/194414873527977548/subscribe" data-code="" method="post" target="_blank">
-                  <input type="email" name="fields[email]" placeholder="Enter your email..." required class="text-input" style="flex: 1; padding: 12px;" autocomplete="email" />
+                  <input type="email" name="fields[email]" placeholder="Enter your email..." data-i18n="vip-placeholder" required class="text-input" style="flex: 1; padding: 12px;" autocomplete="email" />
                   <input type="hidden" name="ml-submit" value="1" />
                   <input type="hidden" name="anticsrf" value="true" />
-                  <button type="submit" class="translate-btn primary" style="padding: 12px 24px;">Subscribe Now</button>
+                  <button type="submit" class="translate-btn primary" style="padding: 12px 24px;" data-i18n="vip-btn">Subscribe Now</button>
                   <button disabled="disabled" style="display: none;" type="button" class="loading">Loading...</button>
                 </form>
               </div>
-              <div class="row-success" id="lead-success" style="display: none; padding: 16px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; color: #4ade80; text-align: center; margin-top: 10px;">
+              <div class="row-success" id="lead-success" style="display: none; padding: 16px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34,197,94,0.4); border-radius: 8px; color: #4ade80; text-align: center; margin-top: 10px;" data-i18n="vip-success">
                 🎉 Thank you! Please check your inbox for your gift.
               </div>
             </div>
@@ -178,7 +187,7 @@
         <!-- Subject -->
         <div class="control-group control-group--subject">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <label for="subject-input" class="control-label">Subject Idea</label>
+            <label for="subject-input" class="control-label" data-i18n="subject-label">Ý tưởng Chủ đề</label>
             <button id="ai-settings-btn" style="background:none; border:none; color:var(--fg-muted); cursor:pointer;" aria-label="AI Settings">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             </button>
@@ -189,7 +198,7 @@
               id="subject-input"
               class="text-input new-input-field"
               style="flex:1; padding-left:12px;"
-              placeholder="e.g., một cô gái dưới mưa"
+              placeholder="VD: một cô gái dưới mưa" data-i18n="subject-placeholder"
               autocomplete="off"
               spellcheck="false"
             />
@@ -198,7 +207,7 @@
 
         <!-- Negative Prompt -->
         <div class="control-group control-group--negative">
-          <label for="negative-input" class="control-label">Negative Prompt</label>
+          <label for="negative-input" class="control-label" data-i18n="neg-label">Negative Prompt</label>
           <div class="input-wrapper">
             <svg class="input-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
@@ -209,7 +218,7 @@
               id="negative-input"
               class="text-input new-input-field"
               value=""
-              placeholder="e.g. ugly, deformed, noisy..."
+              placeholder="VD: ugly, deformed, noisy..." data-i18n="neg-placeholder"
               autocomplete="off"
               spellcheck="false"
             />
@@ -233,7 +242,7 @@
           </style>
           <div class="negative-quick-add" style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
             <div>
-              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Lỗi Cơ Bản & Hình Thể</div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;" data-i18n="neg-basic">Lỗi Cơ Bản & Hình Thể</div>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                 <button class="neg-pill" onclick="addNegativeKeyword('ugly')">+ ugly</button>
                 <button class="neg-pill" onclick="addNegativeKeyword('deformed')">+ deformed</button>
@@ -243,7 +252,7 @@
               </div>
             </div>
             <div>
-              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Lỗi Chất Lượng & Ánh Sáng</div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;" data-i18n="neg-quality">Lỗi Chất Lượng & Ánh Sáng</div>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                 <button class="neg-pill" onclick="addNegativeKeyword('noisy')">+ noisy</button>
                 <button class="neg-pill" onclick="addNegativeKeyword('blurry')">+ blurry</button>
@@ -253,7 +262,7 @@
               </div>
             </div>
             <div>
-              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Khử Phong Cách Ảo (Ép Tả Thực)</div>
+              <div style="font-size: 10px; color: #71717a; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;" data-i18n="neg-style">Khử Phong Cách Ảo (Ép Tả Thực)</div>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                 <button class="neg-pill" onclick="addNegativeKeyword('text')">+ text</button>
                 <button class="neg-pill" onclick="addNegativeKeyword('watermark')">+ watermark</button>
@@ -288,18 +297,38 @@
       <div class="action-group">
         <button id="randomize-btn" class="randomize-btn new-btn-primary" aria-label="Director's Cut: random camera, lighting, composition & VFX combo">
           <span class="btn-dice" aria-hidden="true">🎬</span>
-          <span class="btn-label">Director's Cut</span>
+          <span class="btn-label" data-i18n="btn-director">Director\'s Cut</span>
         </button>
         <div class="action-sub">
-          <button id="ai-enhance-btn" class="randomize-btn new-btn-outline" aria-label="AI Enhance">
-            ✨ AI Enhance
+          <button id="ai-enhance-btn" class="pro-sub-btn btn-ai-enhance" aria-label="AI Enhance">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 7.92c0 .13 0 .261 0 .391a7.5 7.5 0 0 0-7.92 7.92c-.13 0-.261 0-.391 0a7.5 7.5 0 0 0-7.92-7.92c0-.13 0-.26 0-.39a7.5 7.5 0 0 0 7.92-7.92z"/>
+              <path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>
+            </svg>
+            <span data-i18n="btn-enhance">AI Nâng Cấp</span>
           </button>
-          <button id="builder-btn" class="randomize-btn new-btn-outline" aria-label="Open Prompt Builder">
-            <span aria-hidden="true">🛠</span>
-            <span class="btn-label">Builder</span>
+
+          <button id="builder-btn" class="pro-sub-btn btn-builder" aria-label="Open Prompt Builder">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"/>
+              <line x1="4" y1="10" x2="4" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12" y2="3"/>
+              <line x1="20" y1="21" x2="20" y2="16"/>
+              <line x1="20" y1="12" x2="20" y2="3"/>
+              <line x1="1" y1="14" x2="7" y2="14"/>
+              <line x1="9" y1="8" x2="15" y2="8"/>
+              <line x1="17" y1="16" x2="23" y2="16"/>
+            </svg>
+            <span class="btn-label" data-i18n="btn-builder">Công Cụ Tạo</span>
           </button>
-          <button id="export-btn" class="randomize-btn new-btn-outline" style="flex:0.2;" aria-label="Export Favorites">
-            <span aria-hidden="true">💾</span>
+
+          <button id="export-btn" class="pro-sub-btn btn-export" aria-label="Export Favorites" title="Lưu / Xuất Yêu Thích">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -312,12 +341,11 @@
             <!-- Title bar -->
             <div class="result-box-header">
               <div class="result-title-area">
-                <span class="result-label">
+                <span class="result-label" data-i18n="gen-prompt-title">
                   <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
                     <circle cx="4" cy="4" r="4"/>
                   </svg>
-                  Generated Prompt
-                </span>
+                  Prompt Đã Tạo </span>
                 <span id="prompt-title" class="prompt-name"></span>
               </div>
             </div>
@@ -328,26 +356,26 @@
               <!-- Left: Image -->
               <div class="result-panel result-panel--image">
                 <div class="result-panel-header">
-                  <span class="panel-label">
+                  <span class="panel-label" data-i18n="img-prompt">
                     <span aria-hidden="true">📸</span>
-                    IMAGE PROMPT
+                    PROMPT HÌNH ẢNH
                     <span class="panel-sublabel">(Midjourney / SD)</span>
                   </span>
                   <div class="panel-actions" style="display: flex; gap: 8px;">
                     <button id="translate-btn-image" class="copy-btn" aria-label="Translate image prompt">
-                      <span class="copy-label">🇻🇳 Dịch</span>
+                      <span class="copy-label" data-i18n="btn-translate">🇻🇳 Dịch</span>
                     </button>
                     <button id="copy-btn-image" class="copy-btn" aria-label="Copy image prompt to clipboard">
                       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
                         <path d="M4 11H3a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 3 1h7a1.5 1.5 0 0 1 1.5 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                       </svg>
-                      <span class="copy-label">Sao chép</span>
+                      <span class="copy-label" data-i18n="btn-copy">Sao chép</span>
                     </button>
                   </div>
                 </div>
-                <p id="result-text-image" class="result-text result-placeholder">
-                  Select a card or click Director's Cut to generate.
+                <p id="result-text-image" class="result-text result-placeholder" data-i18n="placeholder-res">
+                  Chọn một thẻ hoặc nhấn Director\'s Cut để tạo.
                 </p>
                 <p id="result-translation-image" class="result-text" style="display:none; color: #D4AF37; margin-top: 5px; font-style: italic;"></p>
               </div>
@@ -355,28 +383,28 @@
               <!-- Right: Video -->
               <div class="result-panel result-panel--video">
                 <div class="result-panel-header">
-                  <span class="panel-label">
+                  <span class="panel-label" data-i18n="vid-prompt">
                     <span aria-hidden="true">🎥</span>
-                    VIDEO PROMPT
+                    PROMPT VIDEO
                     <span class="panel-sublabel">(Runway / Sora / Kling)</span>
                   </span>
                   <div class="panel-actions" style="display: flex; gap: 8px;">
                     <button id="translate-btn-video" class="copy-btn" aria-label="Translate video prompt">
-                      <span class="copy-label">🇻🇳 Dịch</span>
+                      <span class="copy-label" data-i18n="btn-translate">🇻🇳 Dịch</span>
                     </button>
                     <button id="copy-btn-video" class="copy-btn" aria-label="Copy video prompt to clipboard">
                       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
                         <path d="M4 11H3a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 3 1h7a1.5 1.5 0 0 1 1.5 1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                       </svg>
-                      <span class="copy-label">Sao chép</span>
+                      <span class="copy-label" data-i18n="btn-copy">Sao chép</span>
                     </button>
                   </div>
                 </div>
 
                 <!-- Camera Motion Pills — toggled by uiController.js -->
                 <div class="motion-tags" role="group" aria-label="Camera motion modifiers">
-                  <span class="motion-tags-label">Motion:</span>
+                  <span class="motion-tags-label" data-i18n="motion-label">Chuyển động:</span>
                   <button class="motion-tag" data-motion="Pan Left"       aria-pressed="false">Pan Left</button>
                   <button class="motion-tag" data-motion="Pan Right"      aria-pressed="false">Pan Right</button>
                   <button class="motion-tag" data-motion="Slow Zoom In"   aria-pressed="false">Slow Zoom In</button>
@@ -384,8 +412,8 @@
                   <button class="motion-tag" data-motion="Hyper-lapse"    aria-pressed="false">Hyper-lapse</button>
                 </div>
 
-                <p id="result-text-video" class="result-text result-placeholder">
-                  Select a card or click Director's Cut to generate.
+                <p id="result-text-video" class="result-text result-placeholder" data-i18n="placeholder-res">
+                  Chọn một thẻ hoặc nhấn Director\'s Cut để tạo.
                 </p>
                 <p id="result-translation-video" class="result-text" style="display:none; color: #D4AF37; margin-top: 5px; font-style: italic;"></p>
               </div>
@@ -425,8 +453,8 @@
       <p id="modal-definition" class="modal-definition"></p>
 
       <!-- Translate trigger -->
-      <button id="translate-btn" class="translate-btn">
-        🇻🇳 Dịch sang Tiếng Việt
+      <button id="translate-btn" class="translate-btn" data-i18n="btn-translate">
+        🇻🇳 Dịch
       </button>
 
       <!-- Vietnamese translation output (hidden until populated) -->
@@ -490,21 +518,21 @@
       </button>
       
       <!-- Header -->
-      <h2 id="ai-modal-title" class="modal-title" style="font-family: 'Times New Roman', serif; font-size: 24px; font-weight: normal; font-style: italic; color: #ebd66a; margin-bottom: 8px;">AI Prompt Settings</h2>
-      <p class="modal-definition" style="font-size: 13.5px; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.5;">Cấu hình AI Server và Công cụ Đích để hệ thống có thể dịch ý tưởng của bạn thành chuỗi Prompt hoàn hảo nhất.</p>
+      <h2 id="ai-modal-title" class="modal-title ai-modal-heading">AI Prompt Settings</h2>
+      <p class="modal-definition ai-modal-sub">Cấu hình AI Server và Công cụ Đích để hệ thống có thể dịch ý tưởng của bạn thành chuỗi Prompt hoàn hảo nhất.</p>
       
-      <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-direction:column; gap:16px;">
         
         <!-- Target Output Section -->
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 12px;">
-          <h3 style="font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ae5eb" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <div class="modal-section-card">
+          <h3 class="modal-section-title title-cyan">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             Nền Tảng Sinh Ảnh Đích
           </h3>
           <div class="control-group" style="margin-bottom: 0;">
             <label class="control-label" style="display: none;">Target Output Tool</label>
             <div class="select-wrapper">
-              <select id="ai-target-tool" class="select-input" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+              <select id="ai-target-tool" class="select-input">
                 <option value="midjourney">Midjourney v6/v8 (Tối ưu cho Discord)</option>
                 <option value="dalle">ChatGPT / DALL-E 3 (Ngôn ngữ tự nhiên)</option>
                 <option value="video">Video AI - Sora/Kling (Chuyển động Vật lý)</option>
@@ -515,43 +543,52 @@
         </div>
         
         <!-- LLM Provider Section -->
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 16px; border-radius: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h3 style="font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ebd66a" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              Cấu Hình Máy Chủ AI
+        <div class="modal-section-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h3 class="modal-section-title title-gold" style="margin-bottom: 0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Cấu Hình Máy Chủ AI & API Keys
             </h3>
             
-            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;" title="Ưu tiên tự động chuyển sang API miễn phí nếu gặp lỗi">
-              <input type="checkbox" id="ai-rotate-enabled" style="width: 14px; height: 14px; accent-color: #ebd66a; cursor: pointer;">
-              <span style="font-size: 11px; color: #a1a1aa; text-transform: uppercase;">Smart Fallback</span>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;" title="Tự động xoay vòng qua các Key & Provider nếu bị giới hạn lượt gọi (Rate Limit 429)">
+              <input type="checkbox" id="ai-rotate-enabled" style="width: 14px; height: 14px; accent-color: var(--border-accent); cursor: pointer;">
+              <span class="fallback-label" style="font-weight: 700;">🔄 Smart Fallback & Key Rotation</span>
             </label>
           </div>
+
+          <!-- Provider Badges Status Bar -->
+          <div id="provider-badges-bar" class="provider-badges-container">
+            <!-- Populated dynamically by app.js -->
+          </div>
           
-          <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
             <div class="control-group" style="margin-bottom: 0;">
-              <label class="control-label" style="font-size: 10px;">NHÀ CUNG CẤP (LLM PROVIDER)</label>
+              <label class="control-label" style="font-size: 10px;">NHÀ CUNG CẤP ĐANG CHỌN (LLM PROVIDER)</label>
               <div class="select-wrapper">
-                <select id="ai-provider" class="select-input" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
-                  <option value="gemini">Google Gemini (Miễn phí API)</option>
+                <select id="ai-provider" class="select-input">
+                  <option value="gemini">Google Gemini (Miễn phí API Key)</option>
                   <option value="deepseek">DeepSeek (Rẻ / Nhanh)</option>
-                  <option value="openai">OpenAI (Trí tuệ đỉnh cao)</option>
-                  <option value="openrouter">OpenRouter (Đa mô hình)</option>
-                  <option value="agentrouter">Agent Router (Hub)</option>
-                  <option value="ollama">Ollama (Chạy Offline)</option>
+                  <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+                  <option value="openrouter">OpenRouter (Hỗ trợ 100+ Models)</option>
+                  <option value="agentrouter">Agent Router (API Hub)</option>
+                  <option value="ollama">Ollama (Chạy Offline Localhost)</option>
                 </select>
                 <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
             </div>
             
-            <div style="display: flex; gap: 12px; align-items: flex-start;">
-              <div class="control-group" style="margin-bottom: 0; flex: 1;">
-                <label class="control-label" style="font-size: 10px;">API KEY</label>
-                <input type="password" id="ai-api-key" class="text-input" placeholder="sk-..." style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+            <div style="display: flex; gap: 12px; align-items: flex-start; flex-direction: column;">
+              <div class="control-group" style="margin-bottom: 0; width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label class="control-label" style="font-size: 10px;">DANH SÁCH API KEY (Hỗ trợ nạp nhiều Key phân cách bởi phẩy hoặc xuống dòng)</label>
+                  <span id="key-count-badge" class="key-count-badge">0 Key</span>
+                </div>
+                <textarea id="ai-api-key" class="text-input multikey-textarea" placeholder="Dán 1 hoặc nhiều API Key tại đây (vd: sk-key1, sk-key2)..." rows="2"></textarea>
               </div>
-              <div class="control-group" style="margin-bottom: 0; flex: 1;">
+
+              <div class="control-group" style="margin-bottom: 0; width: 100%;">
                 <label class="control-label" style="font-size: 10px;">MÃ MODEL (Tùy chọn)</label>
-                <input type="text" id="ai-model-name" class="text-input" placeholder="openai/gpt-4o-mini" list="recommended-models" style="background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1);">
+                <input type="text" id="ai-model-name" class="text-input" placeholder="openai/gpt-4o-mini" list="recommended-models">
                 <datalist id="recommended-models">
                   <option value="openai/gpt-4o-mini" label="Rẻ, Rất thông minh">
                   <option value="anthropic/claude-3.5-sonnet" label="Cao cấp, Viết prompt cực hay">
@@ -561,13 +598,13 @@
               </div>
             </div>
           </div>
-          <div style="margin-top: 14px; font-size: 11.5px; color: #71717a; text-align: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
-            Mẹo: Nếu chưa rõ, hãy dùng <b style="color:#a1a1aa;">openai/gpt-4o-mini</b> hoặc <b style="color:#a1a1aa;">anthropic/claude-3.5-sonnet</b>
+          <div class="modal-tip-box">
+            💡 <b>Mẹo Xoay Vòng Thông Minh:</b> Bạn có thể nhập nhiều Key cho từng nhà cung cấp (cách nhau bởi phẩy hoặc xuống dòng). Khi bật <b>Smart Fallback</b>, hệ thống sẽ tự xoay vòng Key & tự chuyển sang Provider khác nếu bị hết nghẽn lượt!
           </div>
         </div>
       </div>
       
-      <button id="ai-save-btn" class="translate-btn" style="margin-top:24px; width: 100%; justify-content: center; font-weight: 600; padding: 14px; border-radius: 8px;">💾 Lưu Cấu Hình</button>
+      <button id="ai-save-btn" class="modal-primary-btn">💾 Lưu Cấu Hình</button>
     </div>
   </div>
 
@@ -577,45 +614,45 @@
       <button id="onboarding-modal-close" class="modal-close" aria-label="Close Onboarding">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
-      <h2 id="onboarding-modal-title" class="modal-title" style="font-size: 22px; line-height: 1.4;">Bí kíp tạo Prompt Điện Ảnh đỉnh cao! 🎬</h2>
-      <p class="modal-definition" style="color: #c9a227; font-weight: 500; font-size: 14px; line-height: 1.5; margin-top: 8px;">Công cụ độc quyền giúp bạn kiểm soát 100% ánh sáng, góc máy và VFX như một Đạo diễn Hollywood thực thụ.</p>
+      <h2 id="onboarding-modal-title" class="modal-title onboarding-heading">Bí kíp tạo Prompt Điện Ảnh đỉnh cao! 🎬</h2>
+      <p class="modal-definition onboarding-sub">Công cụ độc quyền giúp bạn kiểm soát 100% ánh sáng, góc máy và VFX như một Đạo diễn Hollywood thực thụ.</p>
       
-      <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px; max-height: 55vh; overflow-y: auto; padding-right: 6px;">
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:16px; max-height: 55vh; overflow-y: auto; padding-right: 6px;">
         
-        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-          <div style="font-size: 22px; background: rgba(56, 217, 226, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🧠</div>
+        <div class="onboarding-step-card step-card-1">
+          <div class="step-icon icon-cyan">🧠</div>
           <div>
-            <h3 style="color: #4ae5eb; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 1: Khởi nguồn ý tưởng (AI)</h3>
-            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Đừng vắt óc nghĩ từ khóa phức tạp! Hãy nhập một ý tưởng rất ngắn (vd: <i>"Cô gái đứng dưới mưa"</i>). Nhấn nút <b style="color: #c9a227;">✨ AI Enhance</b> để hệ thống tự động dệt nên một bối cảnh hoàn chỉnh, rực rỡ và có chiều sâu kể chuyện.</p>
+            <h3 class="step-title title-cyan">Bước 1: Khởi nguồn ý tưởng (AI)</h3>
+            <p class="step-desc">Đừng vắt óc nghĩ từ khóa phức tạp! Hãy nhập một ý tưởng rất ngắn (vd: <i>"Cô gái đứng dưới mưa"</i>). Nhấn nút <b class="highlight-gold">✨ AI Nâng Cấp</b> để hệ thống tự động dệt nên một bối cảnh hoàn chỉnh, rực rỡ và có chiều sâu kể chuyện.</p>
           </div>
         </div>
 
-        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-          <div style="font-size: 22px; background: rgba(201, 162, 39, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🎥</div>
+        <div class="onboarding-step-card step-card-2">
+          <div class="step-icon icon-gold">🎥</div>
           <div>
-            <h3 style="color: #ebd66a; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 2: Phủ lớp Ma thuật Điện ảnh</h3>
-            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Duyệt qua 175+ thẻ kỹ thuật chuyên sâu. <b>Công thức vàng là:</b> Chọn 1 Máy ảnh + 1 Góc quay + 2 Phong cách ánh sáng. Bấm trực tiếp vào thẻ để thêm vào Prompt. Luôn nhớ bấm "Đọc chuyên sâu" ở thẻ để nạp bí quyết từ Hollywood!</p>
+            <h3 class="step-title title-gold">Bước 2: Phủ lớp Ma thuật Điện ảnh</h3>
+            <p class="step-desc">Duyệt qua 175+ thẻ kỹ thuật chuyên sâu. <b>Công thức vàng là:</b> Chọn 1 Máy ảnh + 1 Góc quay + 2 Phong cách ánh sáng. Bấm trực tiếp vào thẻ để thêm vào Prompt. Luôn nhớ bấm "Đọc chuyên sâu" ở thẻ để nạp bí quyết từ Hollywood!</p>
           </div>
         </div>
 
-        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-          <div style="font-size: 22px; background: rgba(168, 85, 247, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🎛️</div>
+        <div class="onboarding-step-card step-card-3">
+          <div class="step-icon icon-purple">🎛️</div>
           <div>
-            <h3 style="color: #c084fc; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 3: Trạm Điều Khiển (Control Panel)</h3>
-            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Khung viền quyết định cảm xúc! Ở cột phải, hãy chọn Tỷ lệ khung hình (vd: <b>21:9 Cinematic</b>). Đồng thời sử dụng bộ <b>Nút Từ Khóa Negative Prompt</b> có sẵn để chặn các lỗi (như mờ, biến dạng, 3D render...) giúp AI cho ra hình ảnh tả thực vô khuyết.</p>
+            <h3 class="step-title title-purple">Bước 3: Trạm Điều Khiển (Control Panel)</h3>
+            <p class="step-desc">Khung viền quyết định cảm xúc! Ở cột phải, hãy chọn Tỷ lệ khung hình (vd: <b>21:9 Cinematic</b>). Đồng thời sử dụng bộ <b>Nút Từ Khóa Negative Prompt</b> có sẵn để chặn các lỗi (như mờ, biến dạng, 3D render...) giúp AI cho ra hình ảnh tả thực vô khuyết.</p>
           </div>
         </div>
 
-        <div style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-          <div style="font-size: 22px; background: rgba(34, 197, 94, 0.1); width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">🚀</div>
+        <div class="onboarding-step-card step-card-4">
+          <div class="step-icon icon-green">🚀</div>
           <div>
-            <h3 style="color: #4ade80; margin-bottom: 6px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Bước 4: Copy & Sinh Ảnh Siêu Việt</h3>
-            <p style="color: rgba(255,255,255,0.85); font-size: 13.5px; line-height: 1.6;">Sau khi hoàn thiện mã lệnh ma thuật, bấm nút <b>Copy</b>. Dán nó vào Midjourney, DALL-E 3, Stable Diffusion hay bất kỳ AI nào. Chờ đợi trong vài giây và tận hưởng tác phẩm để đời của bạn!</p>
+            <h3 class="step-title title-green">Bước 4: Copy & Sinh Ảnh Siêu Việt</h3>
+            <p class="step-desc">Sau khi hoàn thiện mã lệnh ma thuật, bấm nút <b>Copy</b>. Dán nó vào Midjourney, DALL-E 3, Stable Diffusion hay bất kỳ AI nào. Chờ đợi trong vài giây và tận hưởng tác phẩm để đời của bạn!</p>
           </div>
         </div>
 
       </div>
-      <button id="onboarding-start-btn" class="translate-btn" style="margin-top:24px; width: 100%; justify-content: center; padding: 14px;">Bắt đầu khám phá!</button>
+      <button id="onboarding-start-btn" class="modal-primary-btn" style="margin-top:20px;">Bắt đầu khám phá!</button>
     </div>
   </div>
 
@@ -672,6 +709,8 @@
     </div>
   </div>
 
-  <script type="module" src="./js/app.js?v=14"></script>
+  <script src="./js/i18n.js"></script>
+  <script type="module" src="./js/app.js?v=20"></script>
+  <script src="./js/security.js"></script>
 </body>
 </html>

@@ -47,6 +47,18 @@ export function getCategories() {
 }
 
 /**
+ * Helper to remove Vietnamese diacritics for smart search
+ */
+function removeVietnameseTones(str) {
+  if (!str) return '';
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
+}
+
+/**
  * Filters prompts by query, category, and difficulty.
  * Pass 'favorites' to category to get favorite prompts.
  *
@@ -56,11 +68,25 @@ export function getCategories() {
  * @returns {import('../types').Prompt[]}
  */
 export function filterPrompts(query = '', category = 'all', difficulty = 'all') {
-  const q = query.toLowerCase().trim();
+  const q = removeVietnameseTones(query.toLowerCase().trim());
   return allPrompts.filter((p) => {
-    const matchQuery = !q || p.name.toLowerCase().includes(q) || (p.definition || '').toLowerCase().includes(q);
+    let matchQuery = true;
+    if (q) {
+      const textToSearch = [
+        p.name,
+        p.definition,
+        p.whenToUse,
+        p.bestPractices,
+        ...(p.commonMistakes || [])
+      ].join(' ').toLowerCase();
+      
+      const normalizedText = removeVietnameseTones(textToSearch);
+      matchQuery = normalizedText.includes(q);
+    }
+    
     const matchCat = category === 'all' ? true : (category === 'favorites' ? isFavorite(p.id) : p.category === category);
     const matchDiff = difficulty === 'all' ? true : p.difficulty === difficulty;
+    
     return matchQuery && matchCat && matchDiff;
   });
 }
@@ -133,6 +159,56 @@ export function getAIConfig() {
 
 export function saveAIConfig(config) {
   localStorage.setItem('cinematique_ai_config', JSON.stringify(config));
+}
+
+/**
+ * LocalStorage handling for Prompt History (Max 30 items)
+ */
+export function getPromptHistory() {
+  try {
+    const raw = localStorage.getItem('cinematique_prompt_history');
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function savePromptHistory(historyArray) {
+  try {
+    localStorage.setItem('cinematique_prompt_history', JSON.stringify(historyArray.slice(0, 30)));
+  } catch (err) {
+    console.warn("Failed to save prompt history:", err);
+  }
+}
+
+export function addPromptToHistory(item) {
+  if (!item || (!item.imagePrompt && !item.videoPrompt)) return;
+  const history = getPromptHistory();
+  
+  // Deduplicate identical top item
+  if (history.length > 0) {
+    const top = history[0];
+    if (top.imagePrompt === item.imagePrompt && top.videoPrompt === item.videoPrompt) {
+      return;
+    }
+  }
+
+  const newItem = {
+    id: 'hist_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+    timestamp: new Date().toISOString(),
+    title: item.title || 'Master Prompt',
+    imagePrompt: item.imagePrompt || '',
+    videoPrompt: item.videoPrompt || '',
+    subject: item.subject || '',
+    negative: item.negative || ''
+  };
+
+  const updated = [newItem, ...history].slice(0, 30);
+  savePromptHistory(updated);
+}
+
+export function clearPromptHistory() {
+  localStorage.removeItem('cinematique_prompt_history');
 }
 
 /**

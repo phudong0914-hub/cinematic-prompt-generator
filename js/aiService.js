@@ -13,25 +13,58 @@ const SYSTEM_PROMPTS = {
   video: "You are an expert prompt engineer for AI video generators like Sora, Runway, or Kling. Take the user's short idea (which may be in Vietnamese) and expand it into a detailed cinematic prompt in English. Focus heavily on camera movement (pan, tilt, tracking), physics, motion, and lighting changes over time. Use comma-separated phrases."
 };
 
+export function parseApiKeys(rawKeyString) {
+  if (!rawKeyString) return [];
+  return rawKeyString
+    .split(/[\n,;]+/)
+    .map(k => k.trim())
+    .filter(k => k.length > 0);
+}
+
+export function getRandomKey(rawKeyString) {
+  const keys = parseApiKeys(rawKeyString);
+  if (keys.length === 0) return '';
+  return keys[Math.floor(Math.random() * keys.length)];
+}
+
 export async function enhanceSubjectWithAI(subject, config) {
   const { provider, apiKey, targetTool, modelName } = config;
   const sysPrompt = SYSTEM_PROMPTS[targetTool] || SYSTEM_PROMPTS.midjourney;
   const userPrompt = `Enhance this idea: ${subject}`;
+  const keys = parseApiKeys(apiKey);
 
   if (provider === AI_PROVIDERS.OLLAMA) {
     return await callOllama(sysPrompt, userPrompt, modelName || 'llama3');
-  } else if (provider === AI_PROVIDERS.GEMINI) {
-    return await callGemini(sysPrompt, userPrompt, apiKey);
-  } else if (provider === AI_PROVIDERS.DEEPSEEK) {
-    return await callOpenAICompatible('https://api.deepseek.com/v1/chat/completions', 'deepseek-chat', sysPrompt, userPrompt, apiKey);
-  } else if (provider === AI_PROVIDERS.OPENAI) {
-    return await callOpenAICompatible('https://api.openai.com/v1/chat/completions', 'gpt-4o-mini', sysPrompt, userPrompt, apiKey);
-  } else if (provider === AI_PROVIDERS.OPENROUTER) {
-    return await callOpenAICompatible('https://openrouter.ai/api/v1/chat/completions', modelName || 'meta-llama/llama-3-8b-instruct:free', sysPrompt, userPrompt, apiKey);
-  } else if (provider === AI_PROVIDERS.AGENTROUTER) {
-    return await callOpenAICompatible('https://agentrouter.org/v1/chat/completions', modelName || 'gpt-4o-mini', sysPrompt, userPrompt, apiKey);
   }
-  throw new Error("Unknown AI Provider");
+
+  if (keys.length === 0) {
+    throw new Error(`Chưa nhập API Key nào cho ${provider.toUpperCase()}.`);
+  }
+
+  // Multi-key retry loop for the same provider
+  let lastError = null;
+  const shuffledKeys = [...keys].sort(() => Math.random() - 0.5);
+
+  for (const activeKey of shuffledKeys) {
+    try {
+      if (provider === AI_PROVIDERS.GEMINI) {
+        return await callGemini(sysPrompt, userPrompt, activeKey);
+      } else if (provider === AI_PROVIDERS.DEEPSEEK) {
+        return await callOpenAICompatible('https://api.deepseek.com/v1/chat/completions', 'deepseek-chat', sysPrompt, userPrompt, activeKey);
+      } else if (provider === AI_PROVIDERS.OPENAI) {
+        return await callOpenAICompatible('https://api.openai.com/v1/chat/completions', 'gpt-4o-mini', sysPrompt, userPrompt, activeKey);
+      } else if (provider === AI_PROVIDERS.OPENROUTER) {
+        return await callOpenAICompatible('https://openrouter.ai/api/v1/chat/completions', modelName || 'meta-llama/llama-3-8b-instruct:free', sysPrompt, userPrompt, activeKey);
+      } else if (provider === AI_PROVIDERS.AGENTROUTER) {
+        return await callOpenAICompatible('https://agentrouter.org/v1/chat/completions', modelName || 'gpt-4o-mini', sysPrompt, userPrompt, activeKey);
+      }
+    } catch (err) {
+      console.warn(`[AI Key Retry] Key for ${provider} failed, trying next key...`, err);
+      lastError = err;
+    }
+  }
+
+  throw lastError || new Error(`Tất cả Key của ${provider} đều thất bại.`);
 }
 
 async function callOllama(sys, user, model) {
