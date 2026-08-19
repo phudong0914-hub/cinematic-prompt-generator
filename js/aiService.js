@@ -13,7 +13,7 @@ export const AI_PROVIDERS = {
  * The buildContextAwarePrompt() function injects user-specific context on top.
  */
 const BASE_SYSTEM_PROMPTS = {
-  midjourney: `Act as an award-winning Hollywood cinematographer and master prompt engineer for Midjourney v6/v8.
+  midjourney: `Act as an award-winning Hollywood cinematographer and master prompt engineer for Midjourney V8 / V7 (2026 Edition).
 
 CINEMATIC KNOWLEDGE BASE (use these terms precisely):
 • Lenses: 24mm (epic wide), 35mm (narrative), 50mm (natural), 85mm (portrait bokeh), 135mm (compressed), Anamorphic 2x (cinematic flare)
@@ -24,7 +24,7 @@ CINEMATIC KNOWLEDGE BASE (use these terms precisely):
 
 Take the user's idea and expand it into a detailed cinematic prompt in English with:
 1. Subject & Action, 2. Environment & Framing, 3. Lighting & Volumetric Effects, 4. Camera Lens & Aperture, 5. Film Stock & Color Science.
-Use comma-separated phrases. Append --style raw at the end.`,
+Use comma-separated phrases. Append --v 8 --style raw at the end.`,
 
   dalle: `Act as an expert visual director for ChatGPT & DALL-E 3.
 
