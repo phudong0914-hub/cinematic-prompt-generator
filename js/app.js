@@ -305,15 +305,19 @@ function updateScorecardUI(score) {
     circleRing.style.stroke = score.grade.color;
   }
 
-  // Update breakdown bars
+  // Update breakdown HUD matrix
   for (const item of score.breakdown) {
-    const bar = widget.querySelector(`[data-score-key="${item.key}"] .score-bar-fill`);
     const val = widget.querySelector(`[data-score-key="${item.key}"] .score-bar-value`);
-    if (bar) {
-      bar.style.width = `${item.percentage}%`;
-      bar.style.background = score.grade.color;
+    if (val) {
+      val.textContent = `${item.score}/${item.maxScore}`;
+      if (item.score === item.maxScore) {
+        val.style.color = '#34d399'; // Green 20/20
+      } else if (item.score >= 14) {
+        val.style.color = '#ffd700'; // Gold
+      } else {
+        val.style.color = '#f87171'; // Red
+      }
     }
-    if (val) val.textContent = `${item.score}/${item.maxScore}`;
   }
 
   // Update suggestions

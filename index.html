@@ -636,52 +636,52 @@
         <span class="guardrail-detail"></span>
       </div>
 
-      <!-- SCORECARD WIDGET -->
-      <div id="scorecard-widget" class="scorecard-widget" style="display:none;">
-        <div class="scorecard-header">
-          <div class="scorecard-circle">
-            <svg viewBox="0 0 100 100" class="score-svg">
-              <circle cx="50" cy="50" r="40" class="score-ring-bg" />
-              <circle cx="50" cy="50" r="40" class="score-ring" />
+      <!-- SCORECARD WIDGET (INTEGRATED CIRCULAR HUD - OPTIMIZED SPACE) -->
+      <div id="scorecard-widget" class="scorecard-widget" style="display:none; background: rgba(18, 20, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+        
+        <!-- Top Row: Circle Gauge Center + 5-Pillar Compact HUD Matrix -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+          
+          <!-- Circular Score Dial -->
+          <div class="scorecard-circle" style="position: relative; width: 78px; height: 78px; flex-shrink: 0;">
+            <svg viewBox="0 0 100 100" class="score-svg" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+              <circle cx="50" cy="50" r="40" class="score-ring-bg" style="fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 7;" />
+              <circle cx="50" cy="50" r="40" class="score-ring" style="fill: none; stroke: #22c55e; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 251.33; stroke-dashoffset: 251.33; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);" />
             </svg>
-            <div class="score-circle-inner">
-              <span class="score-circle-value">0</span>
-              <span class="score-grade">D</span>
+            <div class="score-circle-inner" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1;">
+              <span class="score-circle-value" style="font-size: 1.35rem; font-weight: 900; color: #fff; font-family: monospace;">0</span>
+              <span class="score-grade" style="font-size: 0.72rem; font-weight: 800; color: #22c55e; margin-top: 1px;">D</span>
             </div>
           </div>
-          <div class="scorecard-info">
-            <div class="scorecard-title" data-i18n="scorecard-title">📊 Prompt Quality Score</div>
-            <div class="score-grade-label">Cần Cải Thiện</div>
+
+          <!-- 5 Pillars Micro-Grid (Inside the HUD Panel) -->
+          <div class="scorecard-bars" style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.72rem;">
+            <div class="score-bar-row" data-score-key="subject" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="score-bar-label" data-i18n="score-subject" style="color:#e4e4e7;">🎯 Chủ Thể</span>
+              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            </div>
+            <div class="score-bar-row" data-score-key="lighting" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="score-bar-label" data-i18n="score-lighting" style="color:#e4e4e7;">💡 Ánh Sáng</span>
+              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            </div>
+            <div class="score-bar-row" data-score-key="camera" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="score-bar-label" data-i18n="score-camera" style="color:#e4e4e7;">📹 Camera</span>
+              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            </div>
+            <div class="score-bar-row" data-score-key="composition" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="score-bar-label" data-i18n="score-composition" style="color:#e4e4e7;">📐 Bố Cục</span>
+              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            </div>
+            <div class="score-bar-row" data-score-key="filmstock" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; grid-column: span 2;">
+              <span class="score-bar-label" data-i18n="score-filmstock" style="color:#e4e4e7;">🎞️ Film Stock & Màu</span>
+              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            </div>
           </div>
+
         </div>
-        <div class="scorecard-bars">
-          <div class="score-bar-row" data-score-key="subject">
-            <span class="score-bar-label" data-i18n="score-subject">🎯 Subject</span>
-            <div class="score-bar-track"><div class="score-bar-fill"></div></div>
-            <span class="score-bar-value">0/20</span>
-          </div>
-          <div class="score-bar-row" data-score-key="lighting">
-            <span class="score-bar-label" data-i18n="score-lighting">💡 Lighting</span>
-            <div class="score-bar-track"><div class="score-bar-fill"></div></div>
-            <span class="score-bar-value">0/20</span>
-          </div>
-          <div class="score-bar-row" data-score-key="camera">
-            <span class="score-bar-label" data-i18n="score-camera">📹 Camera</span>
-            <div class="score-bar-track"><div class="score-bar-fill"></div></div>
-            <span class="score-bar-value">0/20</span>
-          </div>
-          <div class="score-bar-row" data-score-key="composition">
-            <span class="score-bar-label" data-i18n="score-composition">📐 Composition</span>
-            <div class="score-bar-track"><div class="score-bar-fill"></div></div>
-            <span class="score-bar-value">0/20</span>
-          </div>
-          <div class="score-bar-row" data-score-key="filmstock">
-            <span class="score-bar-label" data-i18n="score-filmstock">🎞️ Film/Color</span>
-            <div class="score-bar-track"><div class="score-bar-fill"></div></div>
-            <span class="score-bar-value">0/20</span>
-          </div>
-        </div>
-        <div class="score-suggestions" style="display:none;"></div>
+
+        <!-- Conclusion & Actionable Tip (Exclusively Outside the Circle) -->
+        <div class="score-suggestions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; font-size: 0.74rem; color: #a1a1aa; line-height: 1.45;"></div>
       </div>
       <div class="result-panel result-panel--image" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px;">
         <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
