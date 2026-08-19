@@ -81,7 +81,30 @@ class CharacterProductionOS {
   }
 
   getActiveCharacter() {
-    if (!this.activeCharacterId) return null;
+    if (!this.activeCharacterId || !this.characters.has(this.activeCharacterId)) {
+      if (this.characters.size === 0) {
+        // Pre-seed Flagship Masterpiece Character: Mai 2049
+        const mai = {
+          id: 'VN_MAI_2049',
+          name: 'Mai (Cyberpunk Courier 2049)',
+          role: 'Protagonist',
+          refImageBase64: null,
+          refImageName: 'mai-hanoi-2049.webp',
+          faceDNA: 'Elegant oval facial structure, sharp almond-shaped dark brown eyes with subtle holographic eye-makeup',
+          hairDNA: 'Shoulder-length straight jet-black hair with electric-blue neon streak',
+          apparentAge: '24 years old',
+          wardrobeCanon: 'Distressed high-collar black techwear silk áo dài with glowing circuitry embroidery and waterproof cyber-boots',
+          distinctiveFeatures: 'Authentic skin texture, raindrops glistening on cheeks, intense focused gaze',
+          primaryAnchors: ['Oval facial structure', 'Almond eyes', 'Electric-blue hair streak', 'Techwear Áo Dài'],
+          updatedAt: new Date().toISOString()
+        };
+        this.characters.set(mai.id, mai);
+        this.activeCharacterId = mai.id;
+        this.saveToStorage();
+        return mai;
+      }
+      this.activeCharacterId = Array.from(this.characters.keys())[0];
+    }
     return this.characters.get(this.activeCharacterId) || null;
   }
 
@@ -114,7 +137,7 @@ class CharacterProductionOS {
     const char = charId ? this.characters.get(charId) : this.getActiveCharacter();
     if (!char) return '';
 
-    const identityBlock = `CHARACTER IDENTITY LOCK [${char.id}]: Exact same character identity. Maintain facial structure, facial geometry, eye shape, nose shape, jawline, hairline, apparent age (${char.apparentAge}), hair (${char.hairDNA}), skin texture, and distinctive features. Do not alter facial identity, beautify, age, or de-age.`;
+    const identityBlock = `CHARACTER IDENTITY LOCK [${char.id}]: Exact same character identity (${char.name}). Maintain facial structure, facial geometry, eye shape, nose shape, jawline, hairline, apparent age (${char.apparentAge}), hair (${char.hairDNA}), skin texture, and distinctive features (${char.distinctiveFeatures}). Wearing canon wardrobe: ${char.wardrobeCanon}. Do not alter facial identity, beautify, age, or de-age.`;
     
     return identityBlock;
   }
@@ -125,45 +148,46 @@ class CharacterProductionOS {
    */
   generateStoryPack(storyPremise, charId = null) {
     const char = charId ? this.characters.get(charId) : this.getActiveCharacter();
-    const charName = char ? char.name : 'Nhân vật chính';
-    const charAnchor = char ? `[${char.name} - ${char.faceDNA}, apparent age ${char.apparentAge}, wearing ${char.wardrobeCanon}]` : '';
+    const charName = char ? char.name : 'Mai';
+    const charIdTag = char ? char.id : 'VN_MAI_2049';
+    const charAnchor = char ? `[CHARACTER IDENTITY LOCK: ${char.id} - ${char.name}, ${char.faceDNA}, apparent age ${char.apparentAge}, wearing ${char.wardrobeCanon}]` : '';
 
     const scenes = [
       {
         sceneId: 'SCENE_01',
-        title: 'Cảnh 1: Mở Màn · Thiết Lập Thế Giới Quan (Establishing & Atmosphere)',
+        title: 'Cảnh 1: Mở Màn · Phố Cổ Mưa Đêm (Establishing & Push Past)',
         shotType: 'Wide Establishing Shot & Push Past',
-        action: `${charName} xuất hiện giữa không gian đại cảnh, không khí bao trùm mở đầu câu chuyện.`,
-        lighting: 'Golden Hour Atmospheric Haze & Volumetric Light',
-        imagePrompt: `Wide establishing shot, ${charName} ${charAnchor}, in cinematic environment, golden hour atmospheric haze, volumetric god rays, shot on ARRI Alexa 65 35mm anamorphic lens, 8k resolution, photorealistic masterpiece still, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 1: Wide establishing shot of ${charName} ${charAnchor} in environment. Camera Motion: push past. Movement: move forward past visible foreground edge. Speed: smooth forward glide. Framing: let foreground pass close to lens while subject space reveals. End: arrive inside scene layer. Native audio: atmospheric wind, distant environmental reverberations. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        action: `${charName} đứng trên ban công cổ kính ngắm nhìn phố cổ Hà Nội 2049 rực rỡ đèn lồng hologram dưới mưa.`,
+        lighting: 'Wong Kar-wai Neon-Noir (Red & Cyan Glow) with Atmospheric Mist',
+        imagePrompt: `Wide establishing shot, ${charName} ${charAnchor} standing on a rain-slicked ancient Hanoi balcony, glowing neon holographic lanterns casting red and cyan reflections on wet asphalt below, distant futuristic Pagoda skyscrapers piercing atmospheric rain mist, shot on ARRI Alexa 65 with 35mm anamorphic lens f/1.8, Wong Kar-wai neon-noir color palette, volumetric god rays through steam, Kodak Portra 400 film grain, 8k resolution, photorealistic masterpiece still --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 1: Wide establishing shot of ${charName} ${charAnchor} overlooking futuristic wet Hanoi streets. Camera Motion: push past. Movement: move camera forward past hanging wet neon lanterns into the open balcony view. Speed: smooth cinematic glide. Framing: let wet lanterns blur in foreground while ${charName} and futuristic cityscape reveal. End: arrive at balanced wide shot. Native audio: Heavy rain pouring on tin roofs, distant atmospheric synth drone, wet street splashes. Frame Rate: 24fps, Aspect Ratio: 16:9`
       },
       {
         sceneId: 'SCENE_02',
-        title: 'Cảnh 2: Trung Cảnh · Nhận Diện & Biểu Cảm (Performance & Character Focus)',
+        title: 'Cảnh 2: Trung Cảnh · Nhận Diện & Bước Đi Tâm Trạng (Performance & Dolly In)',
         shotType: 'Medium Close-Up & Dolly In',
-        action: `${charName} di chuyển và bộc lộ cảm xúc tâm trạng, tương tác với đạo cụ/ánh nhìn.`,
-        lighting: 'Chiaroscuro Cinematic Key Light with Rim Accent',
-        imagePrompt: `Medium close-up shot, ${charName} ${charAnchor}, expressive eye contact, authentic skin texture, chiaroscuro lighting contrast, shallow depth of field, 8k resolution, Kodak Portra 400 film stock, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 2: Medium close-up of ${charName} ${charAnchor} performing. Camera Motion: slow dolly in. Movement: move camera physically forward in a straight line toward character. Speed: smooth controlled push. Framing: keep facial expression centered while distance closes. End: finish on tight emotional composition. Native audio: subtle breath, footsteps, cloth rustle. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        action: `${charName} bước đi trong khu chợ đêm công nghệ, ánh mắt sắc sảo tương tác trực diện ống kính.`,
+        lighting: 'Moody Chiaroscuro Side Lighting with Warm Neon Rim',
+        imagePrompt: `Medium close-up shot, ${charName} ${charAnchor}, sharp eye gaze looking into camera, authentic skin texture with raindrops glistening on cheeks, shallow depth of field, anamorphic oval bokeh, moody chiaroscuro side lighting with warm neon rim, cinematic masterpiece, 8k resolution --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 2: Medium close-up of ${charName} ${charAnchor} walking through crowded futuristic night market in the rain. Camera Motion: slow dolly in. Movement: move camera physically forward in a straight line toward ${charName} as she walks toward the lens. Speed: smooth controlled push matching character pace. Framing: keep facial expression centered with intense eye contact while neon market bokeh moves past. End: settle into tight emotional portrait. Native audio: Wet footsteps on cobblestone, sizzling street food woks, muffled chatter. Frame Rate: 24fps, Aspect Ratio: 16:9`
       },
       {
         sceneId: 'SCENE_03',
-        title: 'Cảnh 3: Đột Phá Cao Trào · Chuyển Động Gắt (Climax & Dynamic Action Burst)',
-        shotType: 'Dynamic Action Shot & Whip Pan / Crash Zoom',
-        action: `Khoảnh khắc bùng nổ năng lượng, chuyển động dứt khoát và đột phá góc máy của ${charName}.`,
-        lighting: 'High-Contrast Neon/Strobe Dynamic Lighting',
-        imagePrompt: `Dynamic action hero shot, ${charName} ${charAnchor}, explosive movement, high-contrast dynamic lighting, motion blur on limbs, cinematic color grading, 8k resolution, IMAX capture, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 3: Dynamic high-energy action of ${charName} ${charAnchor}. Camera Motion: whip pan right. Movement: rotate rapidly from starting action toward new focal point. Speed: fast snap with brief cinematic motion blur. Framing: land squarely on impactful hero pose. End: settle into sharp final frame. Native audio: powerful impact whoosh, crescendo musical beat. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        title: 'Cảnh 3: Đột Phá Cao Trào · Chuyển Động Gắt (Climax & Whip Pan Action)',
+        shotType: 'Dynamic Action Hero Shot & Whip Pan Right',
+        action: `${charName} xoay người dứt khoát, phóng vút lên chiếc môtô bay phát sáng dưới cơn mưa tầm tã.`,
+        lighting: 'High-Contrast Neon/Strobe Dynamic Headlights',
+        imagePrompt: `Dynamic action hero shot, ${charName} ${charAnchor} leaping onto glowing futuristic hovering motorbike under heavy downpour, high-contrast neon strobe lighting, motion blur on limbs, cinematic color grading, 8k resolution, IMAX capture --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 3: ${charName} ${charAnchor} turns rapidly, leaping onto a glowing futuristic hovering motorbike under heavy downpour. Camera Motion: whip pan right. Movement: rotate rapidly from starting profile toward the accelerating hover-bike. Speed: fast snap with brief cinematic motion blur. Framing: land squarely on ${charName} throttling the bike as neon trails streak behind. End: settle into sharp dynamic tracking frame. Native audio: Electric engine high-pitched whine, sudden impact whoosh, crescendo heavy 808 bass drop. Frame Rate: 24fps, Aspect Ratio: 16:9`
       },
       {
         sceneId: 'SCENE_04',
-        title: 'Cảnh 4: Kết Thúc & Dư Âm Điện Ảnh (Resolution & Outro)',
+        title: 'Cảnh 4: Kết Thúc & Dư Âm Sông Hồng (Resolution & Dolly Out Pull Back)',
         shotType: 'Extreme Close-Up to Dolly-Out Pull Back',
-        action: `Ánh mắt lắng đọng của ${charName} khi camera từ từ lùi xa, để lại dư âm nghệ thuật sâu sắc.`,
-        lighting: 'Twilight Soft Ambient Light & Organic Bokeh',
-        imagePrompt: `Cinematic outro shot, ${charName} ${charAnchor}, poignant thoughtful gaze, fading ambient twilight, soft organic bokeh, 35mm film grain, 8k masterpiece still, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 4: Cinematic resolution of ${charName} ${charAnchor}. Camera Motion: smooth dolly out. Movement: move camera physically backward away from subject. Speed: smooth controlled retreat. Framing: keep character silhouette centered as wide environment envelops frame. End: finish in expansive wide outro composition. Native audio: gentle ambient fade-out, lingering musical resonance. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        action: `${charName} lướt qua cầu Long Biên huyền thoại, ánh đèn hậu phản chiếu trên mặt nước sông Hồng lúc rạng sáng.`,
+        lighting: 'Twilight Soft Ambient Light & Lingering Red Tail-Light Bokeh',
+        imagePrompt: `Cinematic resolution shot, ${charName} ${charAnchor} speeding across Long Bien futuristic steel bridge, looking back toward glowing horizon as red tail-lights reflect on Red River, fading ambient twilight, soft organic bokeh, 35mm film grain, 8k masterpiece still --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 4: Cinematic resolution shot. ${charName} ${charAnchor} speeds across the Long Bien futuristic steel bridge, looking back toward the glowing Hanoi horizon as red tail-lights reflect on the Red River. Camera Motion: smooth dolly out. Movement: move camera physically backward and upward into the night sky away from the bridge. Speed: smooth controlled retreat. Framing: keep character silhouette centered while massive futuristic cityscape envelopes the frame. End: finish on expansive wide outro composition. Native audio: Fading engine hum, gentle rain fade-out, lingering emotional cello and piano resonance. Frame Rate: 24fps, Aspect Ratio: 16:9`
       }
     ];
 
