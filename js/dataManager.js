@@ -234,6 +234,15 @@ function pickRandom(arr) {
 }
 
 /**
+ * Helper to filter prompts by category.
+ * @param {string} cat
+ * @returns {import('../types').Prompt[]}
+ */
+function filterByCategory(cat) {
+  return allPrompts.filter((p) => p.category === cat);
+}
+
+/**
  * Director's Cut: picks one random prompt from each of four pools —
  * camera, lighting, composition, and vfx — and returns them as a
  * combined object.
@@ -253,18 +262,21 @@ export function getRandomCombo() {
   const camera      = pickRandom(filterByCategory('camera'));
   const lighting    = pickRandom(filterByCategory('lighting'));
   const composition = pickRandom(filterByCategory('composition'));
-  const vfx         = pickRandom(filterByCategory('vfx'));
+  let vfx           = pickRandom(filterByCategory('vfx')) || pickRandom(filterByCategory('videostyles'));
 
-  if (!camera || !lighting || !composition || !vfx) return null;
+  if (!camera || !lighting || !composition) return null;
+
+  const vfxTemplate = vfx ? `. ${vfx.promptTemplate}` : '';
+  const vfxName = vfx ? ` + ${vfx.name}` : '';
 
   /** @type {import('../types').Prompt} */
   const combined = {
-    id:             `combo-${camera.id}--${lighting.id}--${composition.id}--${vfx.id}`,
-    name:           `${camera.name} + ${lighting.name} + ${composition.name} + ${vfx.name}`,
+    id:             `combo-${camera.id}--${lighting.id}--${composition.id}${vfx ? '--' + vfx.id : ''}`,
+    name:           `${camera.name} + ${lighting.name} + ${composition.name}${vfxName}`,
     category:       'combo',
     difficulty:     camera.difficulty,
     mood:           camera.mood,
-    promptTemplate: `${camera.promptTemplate}. ${lighting.promptTemplate}. ${composition.promptTemplate}. ${vfx.promptTemplate}.`,
+    promptTemplate: `${camera.promptTemplate}. ${lighting.promptTemplate}. ${composition.promptTemplate}${vfxTemplate}`,
   };
 
   return { camera, lighting, composition, vfx, combined };

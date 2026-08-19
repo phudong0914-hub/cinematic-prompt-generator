@@ -6,6 +6,7 @@
  */
 
 import { isFavorite } from './dataManager.js';
+import { translateCinematicText } from './translator.js';
 
 /* ── Video suffix (base, without dynamic parts) ───────────── */
 
@@ -40,11 +41,21 @@ const CATEGORY_ACCENT = {
   storytelling:'#22c55e',
   vfx:         '#3b82f6',
   videostyles: '#ef4444',
+  audio:       '#10b981',
+  omni:        '#f59e0b',
+  food:        '#fb923c',
+  vietnam:     '#ef4444',
+  travel:      '#0ea5e9',
 };
 
 const CATEGORY_LABELS = {
   gear: 'Equipment / Lenses',
-  videostyles: '🎬 AI Video Styles (NotebookLM / Sora)'
+  videostyles: '🎬 AI Video Styles (NotebookLM / Sora)',
+  audio: '🔊 Audio & SFX Foley (Veo / Omni)',
+  omni: '⚡ Gemini Omni Flash (8-Layer)',
+  food: '🍔 Food, Beverage & ASMR (Gemini Omni)',
+  vietnam: '🇻🇳 Vietnam Cinematic & Culture (100 Prompts)',
+  travel: '✈️ Luxury Travel & Destination (Gemini Omni)',
 };
 
 /* ── Suitability badge ────────────────────────────────────── */
@@ -64,6 +75,9 @@ function getSuitability(prompt) {
   const nameLower = prompt.name.toLowerCase();
   const isVideo   =
     prompt.category === 'editing' ||
+    prompt.category === 'omni' ||
+    prompt.category === 'food' ||
+    prompt.category === 'travel' ||
     VIDEO_KEYWORDS.some((kw) => nameLower.includes(kw));
 
   return isVideo
@@ -88,6 +102,16 @@ function getCategoryIcon(category) {
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>`;
     case 'vfx':
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+    case 'audio':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+    case 'omni':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+    case 'food':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>`;
+    case 'vietnam':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+    case 'travel':
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"></path><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>`;
     default:
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`;
   }
@@ -112,7 +136,20 @@ function buildCardHTML(prompt, index) {
   const lang = localStorage.getItem("cine_lang") || "vi";
   if (lang === 'vi') {
     const VI_CATS = {
-      camera: 'Góc Máy', lighting: 'Ánh Sáng', composition: 'Bố Cục', editing: 'Hậu Kỳ', genres: 'Thể Loại', storytelling: 'Kể Chuyện', vfx: 'Kỹ Xảo', gear: 'Thiết Bị'
+      camera: 'Góc Máy',
+      lighting: 'Ánh Sáng',
+      composition: 'Bố Cục',
+      editing: 'Hậu Kỳ',
+      genres: 'Thể Loại',
+      storytelling: 'Kể Chuyện',
+      vfx: 'Kỹ Xảo',
+      gear: 'Thiết Bị',
+      videostyles: '🎬 AI Video Styles',
+      audio: '🔊 Âm Thanh & Foley',
+      omni: '⚡ Gemini Omni (8 Lớp)',
+      food: '🍔 Ẩm Thực & ASMR',
+      vietnam: '🇻🇳 Văn Hóa & Đời Sống Việt Nam',
+      travel: '✈️ Du Lịch & Resort Thượng Lưu'
     };
     const VI_DIFFS = {
       Basic: 'Cơ Bản', Intermediate: 'Trung Bình', Advanced: 'Nâng Cao'
@@ -122,9 +159,16 @@ function buildCardHTML(prompt, index) {
     definition = prompt.whenToUse || definition;
     if (suit.cls === 'suitability-badge--video') suit.text = '🎥 Chuyên Video';
     else suit.text = '🌟 Đa Năng';
+  } else {
+    const EN_DIFFS = {
+      Basic: 'Basic', Intermediate: 'Intermediate', Advanced: 'Advanced'
+    };
+    diffLabel = EN_DIFFS[prompt.difficulty] || diffLabel;
+    if (suit.cls === 'suitability-badge--video') suit.text = '🎥 Video-Ready';
+    else suit.text = '🌟 Versatile';
   }
   const favClass = isFavorite(prompt.id) ? 'is-favorite' : '';
-  const thumbIcon = getCategoryIcon(prompt.category);
+  const deepDiveText = lang === 'vi' ? 'Chuyên sâu' : 'Deep Dive';
 
   return `
     <div
@@ -164,7 +208,7 @@ function buildCardHTML(prompt, index) {
       <div class="card-quick-actions">
         <button class="deep-dive-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-          Chuyên sâu
+          ${deepDiveText}
         </button>
       </div>
     </div>
@@ -204,16 +248,37 @@ export function renderGrid(prompts, onCardClick, onFavClick) {
 
   if (!grid) return;
 
+  const lang = localStorage.getItem("cine_lang") || "vi";
+
   if (count) {
     const n = prompts.length;
-    count.textContent = `${n} ${n === 1 ? 'prompt' : 'prompts'}`;
+    count.textContent = lang === 'vi' 
+      ? `${n} thẻ kịch bản`
+      : `${n} ${n === 1 ? 'prompt' : 'prompts'}`;
   }
 
   if (prompts.length === 0) {
+    const isEn = lang === 'en';
+    const emptyTitle = isEn ? 'No matching prompts found' : 'Không tìm thấy kịch bản phù hợp';
+    const emptyDesc = isEn 
+      ? 'Try changing your search keywords or select "All Categories" to broaden results.'
+      : 'Hãy thử đổi từ khóa tìm kiếm hoặc chọn danh mục "Tất cả danh mục" để mở rộng kết quả.';
+    const suggestHeader = isEn ? '⚡ TRENDING KEYWORD SUGGESTIONS:' : '⚡ GỢI Ý TỪ KHÓA THỊNH HÀNH:';
+
     grid.innerHTML = `
-      <div class="empty-state">
-        <h2>No prompts found</h2>
-        <p>Try selecting a different category.</p>
+      <div class="empty-state" style="grid-column: 1 / -1; padding: 40px 20px; text-align: center; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 16px; margin: 20px 0;">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔍</div>
+        <h3 style="color: #f4f4f5; font-size: 1.05rem; font-weight: 700; margin: 0 0 6px;">${emptyTitle}</h3>
+        <p style="color: #a1a1aa; font-size: 0.8rem; max-width: 420px; margin: 0 auto 16px; line-height: 1.5;">${emptyDesc}</p>
+        <div style="color: #ffd700; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px;">${suggestHeader}</div>
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="suggest-tag-btn" data-query="Saigon" style="background: rgba(201,162,39,0.15); border: 1px solid rgba(201,162,39,0.4); color: #ffd700; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">${isEn ? '☕ Saigon Coffee' : '☕ Cà Phê Sài Gòn'}</button>
+          <button class="suggest-tag-btn" data-query="Pho" style="background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.4); color: #f87171; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">${isEn ? '🍜 Steaming Pho' : '🍜 Phở Bốc Khói'}</button>
+          <button class="suggest-tag-btn" data-query="Ao Dai" style="background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.4); color: #38bdf8; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">${isEn ? '👘 Ao Dai Dress' : '👘 Áo Dài'}</button>
+          <button class="suggest-tag-btn" data-query="Deakins" style="background: rgba(251,191,36,0.15); border: 1px solid rgba(251,191,36,0.4); color: #fbbf24; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">💡 Roger Deakins</button>
+          <button class="suggest-tag-btn" data-query="Wong Kar" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4); color: #c084fc; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">🌃 Wong Kar-wai</button>
+          <button class="suggest-tag-btn" data-query="Macro" style="background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.4); color: #34d399; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s;">🔍 Macro Close-Up</button>
+        </div>
       </div>
     `;
     return;
@@ -318,6 +383,8 @@ export function getActiveMotionTags() {
  *   aspectRatioFlag?: string,   // e.g. "--ar 16:9"
  *   negativePrompt?:  string,   // free-text negative prompt
  *   motionTags?:      string[], // active camera motion labels
+ *   userSubject?:     string,   // user-provided subject
+ *   characterAnchor?: string,   // user-provided character anchor
  * }} [options]
  */
 export function displayDualResult(basePrompt, title, options = {}) {
@@ -325,6 +392,10 @@ export function displayDualResult(basePrompt, title, options = {}) {
     aspectRatioFlag = '--ar 16:9',
     negativePrompt  = '',
     motionTags      = [],
+    userSubject     = '',
+    characterAnchor = '',
+    fpsValue        = '24fps',
+    studioCamera    = null,
   } = options;
 
   const resultBox       = document.getElementById('result-box');
@@ -338,11 +409,49 @@ export function displayDualResult(basePrompt, title, options = {}) {
 
   promptTitle.textContent = title;
 
-  // ── Image prompt ───────────────────────────────────────
-  let imageText = basePrompt
-    + ', 8k resolution, cinematic masterpiece, highly detailed still'
-    + ' ' + aspectRatioFlag
-    + ' --style raw';
+  const cleanChar = characterAnchor ? characterAnchor.trim() : '';
+
+  // ── Studio Engine Prefixes (StudioBinder & AICameraMovements) ──
+  const studioImgPrefixes = [];
+  const studioVidPrefixes = [];
+
+  if (studioCamera && studioCamera.autoApply) {
+    if (studioCamera.shotSize) {
+      studioImgPrefixes.push(studioCamera.shotSize);
+      studioVidPrefixes.push(studioCamera.shotSize);
+    }
+    if (studioCamera.shotAngle) {
+      studioImgPrefixes.push(studioCamera.shotAngle);
+      studioVidPrefixes.push(studioCamera.shotAngle);
+    }
+    if (studioCamera.cameraMotion) {
+      const speed = studioCamera.motionSpeed || 'slow';
+      const speedWord = speed === 'slow' ? 'Slow' : speed === 'fast' ? 'Fast-paced' : speed === 'hyper' ? 'Hyper-speed dynamic' : 'Smooth';
+      studioVidPrefixes.unshift(`${speedWord} ${studioCamera.cameraMotion}`);
+    }
+  }
+
+  // ── Image prompt (Clean Video/Timeline artifacts for pure Still Photo) ────────
+  let cleanImageBase = basePrompt;
+  // If basePrompt contains multi-shot timeline format (e.g. Gemini Omni video prompt), clean it up for Midjourney Still
+  if (cleanImageBase.includes('Generate a 10-second') || cleanImageBase.includes('Timeline:') || cleanImageBase.includes('0.0-')) {
+    cleanImageBase = cleanImageBase
+      .replace(/Generate a \d+-second[^\.]*\.\s*/gi, '')
+      .replace(/Concept:\s*/gi, '')
+      .replace(/\d+\.\d+-\d+\.\d+s:\s*/g, '')
+      .replace(/Native audio:[^\.]*\./gi, '')
+      .replace(/Timeline:\s*/gi, '')
+      .trim();
+  }
+
+  let imageText = cleanImageBase;
+  if (studioImgPrefixes.length > 0) {
+    imageText = studioImgPrefixes.join(', ') + ', ' + imageText;
+  }
+  if (cleanChar) {
+    imageText += `, character visual anchor: ${cleanChar}`;
+  }
+  imageText += ', 8k resolution, cinematic masterpiece, highly detailed still ' + aspectRatioFlag + ' --style raw';
 
   if (negativePrompt.trim()) {
     imageText += ' --no ' + negativePrompt.trim();
@@ -351,6 +460,14 @@ export function displayDualResult(basePrompt, title, options = {}) {
   resultTextImage.textContent = imageText;
   resultTextImage.classList.remove('result-placeholder');
   
+  // Real-time Word & Character Counter for Image Prompt
+  const imgWords = imageText.trim() ? imageText.trim().split(/\s+/).length : 0;
+  const countImgBadge = document.getElementById('count-badge-image');
+  if (countImgBadge) {
+    countImgBadge.textContent = `${imgWords} từ · ${imageText.length} ký tự`;
+    countImgBadge.style.color = imgWords > 120 ? '#fbbf24' : '#34d399';
+  }
+
   if (transImageEl) {
     transImageEl.textContent = '';
     transImageEl.style.display = 'none';
@@ -358,20 +475,192 @@ export function displayDualResult(basePrompt, title, options = {}) {
 
   // ── Video prompt ───────────────────────────────────────
   const aspectLabel = aspectRatioFlag.replace('--ar ', '');
-  let videoText = basePrompt + VIDEO_SUFFIX;
+  let videoText = basePrompt;
+  if (studioVidPrefixes.length > 0) {
+    videoText = studioVidPrefixes.join(', ') + ', ' + videoText;
+  }
+  if (cleanChar) {
+    videoText += `, Character Anchor: ${cleanChar}`;
+  }
+  videoText += VIDEO_SUFFIX;
 
   if (motionTags.length) {
     videoText += ', Camera Motion: ' + motionTags.join(', ');
   }
 
+  videoText += `, Frame Rate: ${fpsValue}`;
   videoText += ', Aspect Ratio: ' + aspectLabel;
 
   resultTextVideo.textContent = videoText;
   resultTextVideo.classList.remove('result-placeholder');
   
+  // Real-time Word & Character Counter for Video Prompt
+  const vidWords = videoText.trim() ? videoText.trim().split(/\s+/).length : 0;
+  const countVidBadge = document.getElementById('count-badge-video');
+  if (countVidBadge) {
+    countVidBadge.textContent = `${vidWords} từ · ${videoText.length} ký tự`;
+    countVidBadge.style.color = vidWords > 160 ? '#fbbf24' : '#38bdf8';
+  }
+  
   if (transVideoEl) {
     transVideoEl.textContent = '';
     transVideoEl.style.display = 'none';
+  }
+
+  // ── Audio prompt ───────────────────────────────────────
+  const resultTextAudio = document.getElementById('result-text-audio');
+  const transAudioEl = document.getElementById('result-translation-audio');
+
+  if (resultTextAudio) {
+    const subjectLower = (userSubject || basePrompt || '').toLowerCase();
+    const topic = userSubject.trim() || 'subject';
+
+    let category = 'cinematic';
+    if (subjectLower.match(/(coffee|tea|juice|soda|drink|food|sizzle|pan|steak|sauce|món|bánh|ăn|bếp|nước ép|trà sữa|vị|dipping|sauce|bakery|pastry|noodle|phở|bún|mì|ramen|dinner|rice)/)) {
+      category = 'food';
+    } else if (subjectLower.match(/(serum|skin|cream|face|beauty|lip|makeup|spa|perfume|fragrance|mist|hair|brush|jewelry|necklace|ring|ao dai|áo dài|tắm|gội|nha khoa|thẩm mỹ)/)) {
+      category = 'beauty';
+    } else if (subjectLower.match(/(phone|tech|device|button|click|keyboard|mouse|desk|workspace|app|code|computer|screen|appliance|clean|spray|wipe|craft|handmade|notebook|book|pen|shutter|camera)/)) {
+      category = 'tech';
+    } else if (subjectLower.match(/(beach|waves|ocean|travel|street|alley|resort|rain|mountain|valley|forest|hotel|lobby|apartment|room|house|garden|outdoor|nature|birds)/)) {
+      category = 'travel';
+    }
+
+    let audioText = "";
+    if (category === 'food') {
+      audioText = 
+`Audio Direction (6-Layer / 10s Timeline) for "${topic}":
+0-2s (Hook): Close-mic sizzling or ice clinks with a fresh splash of "${topic}", satisfying opening hook.
+2-5s (Body): Liquid pouring, cup/ceramic plate resonance, morning room tone or warm kitchen background.
+5-8s (Emotion): Low warm piano pad or light acoustic guitar enters softly, friends' laughter or cafe murmur.
+8-10s (Ending): Clean final plate/cup set-down, music resolves with a subtle premium chime.
+
+Mix Direction:
+- Ambience: Cozy cafe murmur or soft kitchen room tone.
+- Foley: Ceramic cup clink, paper wrap rustle, or chopsticks contact.
+- Product SFX: Close-mic pouring of "${topic}", ice clinks, or pan sizzle.
+- Voice-over: Friendly Vietnamese voice: "Nóng hổi, đậm đà, đúng vị quen." (or "Mát một ngụm, vui cả buổi.")
+- Music Cue: Subtle non-lyrical acoustic guitar or low piano pad.
+- Mix priority: Keep "${topic}" pouring and plate/glass SFX crisp in the foreground, ambience low, music warm but non-distracting.`;
+    } else if (category === 'beauty') {
+      audioText = 
+`Audio Direction (6-Layer / 10s Timeline) for "${topic}":
+0-2s (Hook): Soft dropper click or elegant spray burst of "${topic}", close-mic texture.
+2-5s (Body): Gentle glide/patting sound on skin, fabric swish, quiet breath, airy room tone.
+5-8s (Emotion): Low cinematic luxury pad enters, slow-tempo atmospheric chords.
+8-10s (Ending): Product bottle set down with a refined clink, shimmering fade out.
+
+Mix Direction:
+- Ambience: Airy bathroom tone or peaceful spa studio hum.
+- Foley: Cloth/fabric movement, soft makeup compact mirror click.
+- Product SFX: Dropper click, spray mist, or glass bottle clink of "${topic}".
+- Voice-over: Calm Vietnamese female voice: "Đẹp nhẹ nhàng, tự tin mỗi ngày." (or "Một chạm nhỏ, khác biệt lớn.")
+- Music Cue: Slow-tempo premium ambient pad (non-lyrical).
+- Mix priority: Keep "${topic}" spray/dropper SFX delicate in the foreground, room ambience airy, music low and premium.`;
+    } else if (category === 'tech') {
+      audioText = 
+`Audio Direction (6-Layer / 10s Timeline) for "${topic}":
+0-2s (Hook): Crisp device snap-on, switch flip, or button click of "${topic}".
+2-5s (Body): Rhythmic keyboard taps, precise mouse clicks, pen writing/ticking on paper, desk room tone.
+5-8s (Emotion): Modern focused electronic synth pulse enters, expressing workflow productivity.
+8-10s (Ending): Clean success chime or app notification blip on final frame.
+
+Mix Direction:
+- Ambience: Quiet office hum or creative studio room tone.
+- Foley: Keyboard taps, mouse clicks, paper page rustle, or box lid lift.
+- Product SFX: Mechanical button click, camera shutter, or appliance hum of "${topic}".
+- Voice-over: Clear Vietnamese business voice: "Việc gọn hơn, ngày nhẹ hơn."
+- Music Cue: Minimal modern electronic pulse (medium-low tempo, no lyrics).
+- Mix priority: Keep work/tech foley sharp, synth low and focused, ending chime clear.`;
+    } else if (category === 'travel') {
+      audioText = 
+`Audio Direction (6-Layer / 10s Timeline) for "${topic}":
+0-2s (Hook): Immersive wave crash, rain tapping, or wind whoosh in "${topic}".
+2-5s (Body): Footsteps on wood floor/stone path, door handle turn, distant birds or wind chimes.
+5-8s (Emotion): Hopeful emotional piano pad or airy acoustic texture enters, expanding the landscape.
+8-10s (Ending): Ambient sound slowly fades into a clean resolved chord.
+
+Mix Direction:
+- Ambience: Ocean waves, morning forest birds, or soft rain on window/tin roof.
+- Foley: Rhythmic footsteps, door open, suitcase wheels rolling, or fabric swish.
+- Product SFX: Water splashes, leaf rustling, or breeze moving curtains in "${topic}".
+- Voice-over: Calm Vietnamese travel narrator: "Đổi gió một hôm, nhớ cả tuần."
+- Music Cue: Soft emotional piano or ambient acoustic pad.
+- Mix priority: Ambience wide and realistic, steps/foley clear in middle distance, music emotional but restrained.`;
+    } else {
+      audioText = 
+`Audio Direction (6-Layer / 10s Timeline) for "${topic}":
+0-2s (Hook): Low cinematic riser or atmospheric whoosh, drawing attention to "${topic}".
+2-5s (Body): Subtle material sound (fabric swish, glass clink, or packaging rustle), quiet room tone.
+5-8s (Emotion): Warm synth pad rises gently, enhancing visual anticipation.
+8-10s (Ending): Refined premium trailer hit or logo resolve with a short reverb tail.
+
+Mix Direction:
+- Ambience: Quiet premium room tone.
+- Foley: Delicate fabric movement or object handling.
+- Product SFX: Synchronized movement or reveal sound of "${topic}".
+- Voice-over: Sincere Vietnamese voice: "Một chạm nhỏ, khác biệt lớn."
+- Music Cue: Cinematic ambient pad building to a clean hit.
+- Mix priority: Keep reveal hit elegant, product SFX recognizable in the foreground, music low.`;
+    }
+
+    resultTextAudio.textContent = audioText;
+    resultTextAudio.classList.remove('result-placeholder');
+
+    if (transAudioEl) {
+      transAudioEl.textContent = '';
+      transAudioEl.style.display = 'none';
+    }
+  }
+
+  // ── NotebookLM Directive prompt ───────────────────────
+  const resultTextNotebookLM = document.getElementById('result-text-notebooklm');
+  const transNotebookLMEl = document.getElementById('result-translation-notebooklm');
+
+  if (resultTextNotebookLM) {
+    const motionStr = motionTags.length ? motionTags.join(', ') : 'Smooth Cinematic Motion';
+    const lang = localStorage.getItem("cine_lang") || "vi";
+
+    const cleanSubject = userSubject ? userSubject.trim() : '';
+    const topicName = cleanSubject ? cleanSubject : (lang === 'vi' ? '[Điền chủ đề của bạn]' : '[Insert your topic]');
+    const charLineVi = cleanChar ? `\n• Khóa nhân vật cố định: ${cleanChar} (Giữ nguyên diện mạo & thần thái qua mọi cảnh quay)` : '';
+    const charLineEn = cleanChar ? `\n• Character Continuity Anchor: ${cleanChar} (Enforce consistent appearance across all shots)` : '';
+
+    let nblmText = "";
+    if (lang === 'vi') {
+      nblmText = 
+`💬 BƯỚC 1: DÀNH CHO KHUNG "TRÒ CHUYỆN" (NOTEBOOKLM CHAT):
+Dựa trên các tài liệu nguồn đã tải lên, hãy phân tích chủ đề "${topicName}" và tạo kịch bản phân cảnh chi tiết (Shotlist) theo phong cách điện ảnh ${title}.
+• Kỹ thuật điện ảnh: ${basePrompt}${charLineVi}
+• Chuyển động máy quay: ${motionStr}
+• Yêu cầu: Tất cả nội dung xuất ra bằng Tiếng Việt tự nhiên, truyền cảm và súc tích. Xuất ra dạng bảng 4 cột: [STT | Góc quay & Ánh sáng | Mô tả Visual | Lời thuyết minh / Audio].
+
+🎬 BƯỚC 2: DÀNH CHO Ô "CHỦ ĐỀ TÙY CHỈNH" (VIDEO OVERVIEW):
+Hãy đóng vai một Đạo diễn Điện ảnh chuyên nghiệp. Dựa vào các tài liệu nguồn đã cung cấp, hãy tổng hợp một Video Overview mang phong cách ${title} về chủ đề "${topicName}".
+• Phong cách & Bối cảnh: ${title}${charLineVi}
+• Kỹ thuật chi tiết: ${basePrompt} (Chuyển động: ${motionStr})
+• Ngôn ngữ đầu ra: Tiếng Việt tự nhiên, truyền cảm và lôi cuốn
+• Yêu cầu: Tóm tắt súc tích, hấp dẫn, chú trọng tính kể chuyện và cấu trúc mạch lạc.`;
+    } else {
+      nblmText = 
+`💬 STEP 1: FOR NOTEBOOKLM CHAT WINDOW:
+Based on the uploaded source files, analyze topic "${topicName}" and generate a detailed scene breakdown shotlist in the style of ${title}.
+• Cinematic Techniques: ${basePrompt}${charLineEn}
+• Camera Motion: ${motionStr}
+• Format: Output as a 4-column table: [Scene # | Camera & Lighting | Visual Description | Voiceover / Audio].
+
+🎬 STEP 2: FOR "CUSTOM OVERVIEW" FIELD (VIDEO OVERVIEW):
+Act as a professional Film Director. Based on the uploaded source documents, generate a Cinematic Video Overview in the style of ${title} for topic "${topicName}".
+• Style & Aesthetic: ${title}
+• Requirements: Engaging narrative pacing, clear structure, and immersive storytelling based on source files.`;
+    }
+
+    resultTextNotebookLM.textContent = nblmText;
+    resultTextNotebookLM.classList.remove('result-placeholder');
+    if (transNotebookLMEl) {
+      transNotebookLMEl.textContent = '';
+      transNotebookLMEl.style.display = 'none';
+    }
   }
 
   // Reveal the result box
@@ -407,7 +696,7 @@ export function showCopyFeedback(btnId) {
  * @param {string} name       - Prompt display name (shown as the modal headline).
  * @param {string} definition - English definition text.
  */
-export function openModal(name, definition) {
+export function openModal(name, definition, prompt) {
   const overlay    = document.getElementById('modal-overlay');
   const title      = document.getElementById('modal-title');
   const defEl      = document.getElementById('modal-definition');
@@ -417,21 +706,116 @@ export function openModal(name, definition) {
 
   if (!overlay || !title || !defEl || !translateBtn || !translation) return;
 
+  const modalParams = overlay.querySelector('.modal-parameters');
+  if (modalParams) modalParams.style.display = 'flex';
+
   // Populate content
   title.textContent  = name;
-  defEl.textContent  = definition || '—';
+  defEl.textContent  = '';
+  defEl.style.display = 'none';
+  
+  // Create beautiful full card technical detail representation for the zoom-in view
+  const descEl = document.getElementById('modal-description');
+  if (descEl && prompt) {
+    const defaultVIcats = {
+      camera: 'Góc Máy', lighting: 'Ánh Sáng', composition: 'Bố Cục', editing: 'Hậu Kỳ', genres: 'Thể Loại', storytelling: 'Kể Chuyện', vfx: 'Kỹ Xảo', gear: 'Thiết Bị', audio: 'Âm Thanh & SFX', omni: 'Omni Flash (8 Lớp)'
+    };
+    const friendlyCat = defaultVIcats[prompt.category] || prompt.category;
+
+    descEl.innerHTML = `
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+        <!-- Technical Badge Header Row -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:4px;">
+          <span style="background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.3); color:#ffd700; border-radius:6px; padding:3px 10px; font-size:0.72rem; font-weight:800; letter-spacing:0.04em;">🗂️ CHỦ ĐỀ: ${friendlyCat.toUpperCase()}</span>
+          <span style="background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.3); color:#38bdf8; border-radius:6px; padding:3px 10px; font-size:0.72rem; font-weight:800; letter-spacing:0.04em;">⚡ CẤP ĐỘ: ${(prompt.difficulty || 'Mặc Định').toUpperCase()}</span>
+          <span style="background:rgba(52,211,153,0.12); border:1px solid rgba(52,211,153,0.3); color:#34d399; border-radius:6px; padding:3px 10px; font-size:0.72rem; font-weight:800; letter-spacing:0.04em;">🎬 SUITABILITY: ĐA NĂNG HOLLYWOOD</span>
+        </div>
+
+        <!-- 1. Rich Original Definition Block -->
+        <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-left:4px solid #ffd700; border-radius:12px; padding:16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+          <div style="color:#ffd700; font-weight:800; font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>📖 ĐỊNH NGHĨA KỸ THUẬT GỐC (FULL EXPLANATION)</span>
+          </div>
+          <div style="color:#e4e4e7; font-size:0.83rem; line-height:1.65; font-family:var(--font-ui);">
+            ${escapeHTML(prompt.definition || prompt.description || 'Kỹ thuật điện ảnh chuyên nghiệp với đầy đủ thông số.')}
+          </div>
+        </div>
+
+        <!-- 2. Application Context Quick Tip Box -->
+        <div style="background:linear-gradient(135deg, rgba(56,189,248,0.06), rgba(0,0,0,0.25)); border:1px solid rgba(56,189,248,0.2); border-radius:12px; padding:16px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+          <div style="color:#38bdf8; font-weight:800; font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+            <span>🎯 NGỮ CẢNH VẬN HÀNH (OPERATIONAL USAGE)</span>
+          </div>
+          <div style="color:#bae6fd; font-size:0.83rem; line-height:1.6; font-family:var(--font-ui);">
+            ${escapeHTML(prompt.whenToUse || 'Áp dụng cho các phân cảnh đặc tả hoặc toàn cảnh cần chiều sâu và điểm nhấn điện ảnh mạnh mẽ.')}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (descEl) {
+    descEl.innerHTML = '';
+    descEl.textContent = definition || '';
+  }
+
+  // Populate dynamic specs if prompt object is provided
+  if (prompt) {
+    const imgCode = document.getElementById('modal-prompt-template');
+    const vidCode = document.getElementById('modal-video-template');
+    const motionTag = document.getElementById('modal-motion-tag');
+    const arTag = document.getElementById('modal-ar-tag');
+
+    const subjectInput = document.getElementById('subject-input');
+    let subject = subjectInput ? subjectInput.value.trim() : '';
+    if (!subject) subject = '[Subject]';
+
+    const arSelect = document.getElementById('aspect-ratio');
+    const aspectRatioFlag = (arSelect && arSelect.value) ? arSelect.value : '--ar 16:9';
+
+    let assembledImg = (prompt.promptTemplate || prompt.name).replace(/\[Subject\]/gi, subject);
+    assembledImg += ', 8k resolution, cinematic masterpiece, highly detailed still ' + aspectRatioFlag + ' --style raw';
+    const negInput = document.getElementById('negative-input');
+    if (negInput && negInput.value.trim()) {
+      assembledImg += ' --no ' + negInput.value.trim();
+    }
+
+    let assembledVid = (prompt.promptTemplate || prompt.name).replace(/\[Subject\]/gi, subject);
+    assembledVid += ', 24fps cinema motion, camera movement, Aspect Ratio: ' + aspectRatioFlag.replace('--ar ', '');
+
+    if (imgCode) imgCode.textContent = assembledImg;
+    if (vidCode) vidCode.textContent = assembledVid;
+    if (motionTag) motionTag.textContent = prompt.recommendedMotion || 'Pan / Zoom / Dolly';
+    if (arTag) arTag.textContent = aspectRatioFlag;
+  }
+
+  // Setup modal-select-btn to assign prompt to grid & close modal
+  const selectBtn = document.getElementById('modal-select-btn');
+  if (selectBtn && prompt) {
+    selectBtn.onclick = () => {
+      // Simulate selecting card & close modal
+      const gridCard = document.querySelector(`.card[data-id="${prompt.id}"]`);
+      if (gridCard) {
+        // Trigger select card
+        const cardClickEvent = new Event('click', { bubbles: true });
+        // Temporarily bypass openModal click prevention to avoid infinite loop
+        gridCard.dataset.fromModalSelect = "true";
+        gridCard.dispatchEvent(cardClickEvent);
+      }
+      closeModal();
+    };
+  }
 
   // Setup fav button
   if (favBtn) {
     const activeCard = document.querySelector('.card.is-active');
-    const promptId = activeCard ? activeCard.dataset.id : null;
+    const promptId = activeCard ? activeCard.dataset.id : (prompt ? prompt.id : null);
     if (promptId) {
       favBtn.className = isFavorite(promptId) ? 'fav-btn is-favorite' : 'fav-btn';
       favBtn.onclick = (e) => {
         const isFav = !favBtn.classList.contains('is-favorite');
         favBtn.className = isFav ? 'fav-btn is-favorite' : 'fav-btn';
         // Simulate click on grid card to sync
-        const gridBtn = activeCard.querySelector('.fav-btn');
+        const gridCard = document.querySelector(`.card[data-id="${promptId}"]`);
+        const gridBtn = gridCard?.querySelector('.fav-btn');
         if (gridBtn) gridBtn.click();
       };
     }
@@ -483,44 +867,53 @@ export function openDeepDiveModal(prompt) {
   const overlay = document.getElementById('deep-dive-modal-overlay');
   if (!overlay) return;
 
-  // Set Badges
+  // Close the main modal first if it's open
+  const mainOverlay = document.getElementById('modal-overlay');
+  if (mainOverlay && mainOverlay.classList.contains('is-open')) {
+    mainOverlay.classList.remove('is-open');
+  }
+
+  // Populate badge header
   const catBadge = document.getElementById('dd-badge-cat');
   const diffBadge = document.getElementById('dd-badge-diff');
   const moodBadge = document.getElementById('dd-badge-mood');
-  
-  if (catBadge) catBadge.textContent = prompt.category || 'N/A';
-  if (diffBadge) diffBadge.textContent = prompt.difficulty || 'N/A';
-  if (moodBadge) moodBadge.textContent = prompt.mood || 'N/A';
+  if (catBadge) catBadge.textContent = (prompt.category || 'N/A').toUpperCase();
+  if (diffBadge) diffBadge.textContent = (prompt.difficulty || 'N/A').toUpperCase();
+  if (moodBadge) moodBadge.textContent = (prompt.mood || 'N/A').toUpperCase();
 
-  // Set Content
-  const title = document.getElementById('deep-dive-modal-title');
-  const def = document.getElementById('dd-definition');
-  const promptText = document.getElementById('dd-prompt-text');
+  // Title
+  const titleEl = document.getElementById('deep-dive-modal-title');
+  if (titleEl) titleEl.textContent = `🔍 ${prompt.name}`;
 
-  // Deep Dive data
-  const whenToUse = document.getElementById('dd-when-to-use');
-  const bestPractices = document.getElementById('dd-best-practices');
-  const commonMistakes = document.getElementById('dd-common-mistakes');
+  // Definition
+  const defEl = document.getElementById('dd-definition');
+  if (defEl) defEl.textContent = prompt.definition || 'Không có mô tả.';
+
+  // When to use
+  const whenEl = document.getElementById('dd-when-to-use');
+  if (whenEl) whenEl.textContent = prompt.whenToUse || 'Chưa có dữ liệu.';
+
+  // Best practices
+  const bestEl = document.getElementById('dd-best-practices');
+  if (bestEl) bestEl.textContent = prompt.bestPractices || 'Chưa có dữ liệu.';
+
+  // Common mistakes
+  const mistakesEl = document.getElementById('dd-common-mistakes');
   const mistakesHeader = document.getElementById('dd-mistakes-header');
-
-  if (title) title.textContent = prompt.name;
-  if (def) def.textContent = prompt.definition || 'Không có mô tả.';
-  if (whenToUse) whenToUse.textContent = prompt.whenToUse || 'Chưa có dữ liệu.';
-  if (bestPractices) bestPractices.textContent = prompt.bestPractices || 'Chưa có dữ liệu.';
-  
-  if (commonMistakes && mistakesHeader) {
+  if (mistakesEl && mistakesHeader) {
     if (prompt.commonMistakes && prompt.commonMistakes.length > 0) {
       mistakesHeader.style.display = 'block';
-      commonMistakes.style.display = 'block';
-      commonMistakes.innerHTML = prompt.commonMistakes.map(m => `<li>${escapeHTML(m)}</li>`).join('');
+      mistakesEl.style.display = 'block';
+      mistakesEl.innerHTML = prompt.commonMistakes.map(m => `<li>${escapeHTML(m)}</li>`).join('');
     } else {
       mistakesHeader.style.display = 'none';
-    commonMistakes.style.display = 'none';
-      commonMistakes.innerHTML = '';
+      mistakesEl.style.display = 'none';
+      mistakesEl.innerHTML = '';
     }
   }
 
   // Assemble the prompt template
+  const promptText = document.getElementById('dd-prompt-text');
   let assembledText = prompt.promptTemplate || '';
   if (promptText) {
     const subjectInput = document.getElementById('subject-input');
@@ -531,7 +924,7 @@ export function openDeepDiveModal(prompt) {
 
     const arSelect = document.getElementById('aspect-ratio');
     const aspectRatioFlag = (arSelect && arSelect.value !== 'none') ? arSelect.value : '--ar 16:9';
-    
+
     assembledText += ', 8k resolution, cinematic masterpiece, highly detailed still ' + aspectRatioFlag + ' --style raw';
 
     const negInput = document.getElementById('negative-input');
@@ -542,10 +935,12 @@ export function openDeepDiveModal(prompt) {
     promptText.textContent = assembledText;
   }
 
+  const lang = localStorage.getItem("cine_lang") || "vi";
+
   // Handle Copy Button
   const copyBtn = document.getElementById('dd-copy-btn');
   if (copyBtn) {
-    copyBtn.textContent = 'Sao chép';
+    copyBtn.textContent = lang === 'vi' ? 'Sao chép' : 'Copy';
     copyBtn.classList.remove('copied');
     copyBtn.onclick = async () => {
       const text = promptText ? promptText.textContent : (prompt.promptTemplate || '');
@@ -559,7 +954,7 @@ export function openDeepDiveModal(prompt) {
         document.execCommand('copy');
         document.body.removeChild(ta);
       }
-      copyBtn.textContent = 'Đã chép!';
+      copyBtn.textContent = lang === 'vi' ? 'Đã chép!' : 'Copied!';
       copyBtn.classList.add('copied');
     };
   }
@@ -567,28 +962,26 @@ export function openDeepDiveModal(prompt) {
   // Handle Translate Button
   const translateBtn = document.getElementById('dd-translate-prompt-btn');
   if (translateBtn) {
-    translateBtn.textContent = 'Dịch';
+    translateBtn.textContent = lang === 'vi' ? '🇻🇳 Dịch' : '🌐 Translate';
     translateBtn.disabled = false;
     translateBtn.onclick = async () => {
-      const text = prompt.promptTemplate || '';
+      const text = promptText ? promptText.textContent : (prompt.promptTemplate || '');
       if (!text) return;
 
-      translateBtn.textContent = 'Đang dịch...';
+      translateBtn.textContent = lang === 'vi' ? 'Đang dịch...' : 'Translating...';
       translateBtn.disabled = true;
 
       try {
-        const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=' + encodeURIComponent(text);
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        if (!data || !data[0]) throw new Error('Empty response');
-        
-        const translatedText = data[0].map(item => item[0]).join('');
-        if (promptText) promptText.textContent = translatedText;
-        translateBtn.textContent = 'Đã dịch';
+        const targetLang = lang === 'vi' ? 'vi' : 'en';
+        const translatedText = await translateCinematicText(text, targetLang);
+
+        if (promptText && translatedText) {
+          promptText.textContent = translatedText;
+        }
+        translateBtn.textContent = lang === 'vi' ? 'Đã dịch' : 'Translated';
       } catch (err) {
         console.error('Translation error:', err);
-        translateBtn.textContent = 'Lỗi dịch';
+        translateBtn.textContent = lang === 'vi' ? 'Lỗi dịch' : 'Error';
         translateBtn.disabled = false;
       }
     };
@@ -597,6 +990,9 @@ export function openDeepDiveModal(prompt) {
   // Open modal
   overlay.classList.add('is-open');
   document.body.style.overflow = 'hidden';
+
+  // Scroll overlay to top
+  overlay.scrollTop = 0;
 
   // Setup close events if not already done
   if (!overlay.dataset.eventsBound) {
@@ -610,8 +1006,15 @@ export function openDeepDiveModal(prompt) {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) close();
     });
+    // ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+        close();
+      }
+    });
   }
 }
+
 
 /**
  * Returns a human-readable relative time string.
@@ -724,3 +1127,47 @@ export function renderHistoryGrid(historyItems, onLoadItem, onClearHistory) {
     }
   });
 }
+
+/**
+ * Updates summary badges on the Studio Engine Camera Dashboard header.
+ * @param {{ shotSize?: string, shotAngle?: string, cameraMotion?: string, motionSpeed?: string }} state
+ */
+export function updateStudioCameraBadges(state = {}) {
+  const badgeSize = document.getElementById('scb-badge-size');
+  const badgeAngle = document.getElementById('scb-badge-angle');
+  const badgeMotion = document.getElementById('scb-badge-motion');
+
+  if (badgeSize) {
+    if (state.shotSize) {
+      const shortName = state.shotSize.split('(')[0].trim();
+      badgeSize.textContent = `Cỡ: ${shortName}`;
+      badgeSize.classList.add('is-active');
+    } else {
+      badgeSize.textContent = 'Cỡ cảnh: Tự do';
+      badgeSize.classList.remove('is-active');
+    }
+  }
+
+  if (badgeAngle) {
+    if (state.shotAngle) {
+      const shortName = state.shotAngle.split(',')[0].trim();
+      badgeAngle.textContent = `Góc: ${shortName}`;
+      badgeAngle.classList.add('is-active');
+    } else {
+      badgeAngle.textContent = 'Góc: Tự do';
+      badgeAngle.classList.remove('is-active');
+    }
+  }
+
+  if (badgeMotion) {
+    if (state.cameraMotion) {
+      const speed = state.motionSpeed ? `${state.motionSpeed} ` : '';
+      badgeMotion.textContent = `Motion: ${speed}${state.cameraMotion.split(' ')[0]}`;
+      badgeMotion.classList.add('is-active');
+    } else {
+      badgeMotion.textContent = 'Chuyển động: Mặc định';
+      badgeMotion.classList.remove('is-active');
+    }
+  }
+}
+

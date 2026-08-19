@@ -1,0 +1,16 @@
+Act as an award-winning Hollywood Film Director and Senior AI Video Strategist.
+Transform all loaded sources and documents into a world-class cinematic video overview.
+
+[1. NARRATIVE & SCENE STRUCTURE]:
+- SCENE 1 (HOOK): Dynamic opening establishing shot with sweeping camera movement and rich volumetric lighting.
+- SCENE 2 (EXPLANATION): Medium tracking shots and realistic B-roll explaining core concepts with clarity.
+- SCENE 3 (EMOTION & DETAIL): Intimate close-ups, shallow depth of field, anamorphic bokeh, and emotional depth.
+- QUALITY: Render in 4K Ultra HD, HDR10, 24fps cinematic 16:9 aspect ratio.
+
+[2. AUDIO & VOICE OVER]:
+- Use a warm, confident, highly expressive native Vietnamese voiceover for all narration and subtitles.
+- Include subtle ambient sound effects (Foley) and an epic cinematic soundtrack with audio ducking.
+
+[3. MANDATORY CALL TO ACTION]:
+At the very end of the video presentation, conclude with this exact statement in Vietnamese:
+'Bạn thấy kỹ thuật quay điện ảnh này có ấn tượng không? Hãy truy cập ngay Cine Prompt Pro để trải nghiệm 1-Click tạo prompt điện ảnh hoàn toàn miễn phí! Đường link ở phần Mô tả nhé!'
