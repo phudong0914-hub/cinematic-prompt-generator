@@ -1,5 +1,23 @@
 [
   {
+    "id": "vn-masterpiece-hanoi-2049-cyberpunk",
+    "name": "Hà Nội 2049: Vết Sương Cyberpunk (Mai Courier)",
+    "definition": "Siêu phẩm kịch bản điện ảnh Cyberpunk Việt Nam phong cách Wong Kar-wai x Roger Deakins với nhân vật nữ Mai, đèn lồng neon holographic và mưa ướt phố cổ.",
+    "category": "genres",
+    "difficulty": "Advanced",
+    "mood": "Cinematic",
+    "image": "/img/cinematique/hanoi-2049.webp",
+    "videoRef": "/video/cinematique/hanoi-2049.mp4",
+    "promptTemplate": "Wide establishing shot, Vietnamese cyberpunk courier Mai [CHARACTER IDENTITY LOCK: VN_MAI_2049] standing on a rain-slicked ancient Hanoi balcony, glowing neon holographic lanterns casting red and cyan reflections on wet asphalt below, distant futuristic Pagoda skyscrapers piercing atmospheric rain mist, shot on ARRI Alexa 65 with 35mm anamorphic lens f/1.8, Wong Kar-wai neon-noir color palette, volumetric god rays through steam, Kodak Portra 400 film grain, 8k resolution, photorealistic masterpiece still",
+    "whenToUse": "Dùng để tạo phim ngắn, TVC quảng cáo công nghệ, music video triệu view hoặc benchmark năng lực AI Video thế hệ mới.",
+    "bestPractices": "Kết hợp ánh sáng neon đỏ thẫm và xanh ngọc (cyan/magenta), sử dụng cú máy Push Past qua đèn lồng và slow dolly in vào ánh mắt nhân vật.",
+    "commonMistakes": [
+      "Quên tiêm mã Khóa Nhận Diện [VN_MAI_2049] khiến mặt nhân vật bị trôi qua các cảnh.",
+      "Thiếu mô tả mưa rơi và vệt phản chiếu trên mặt đường ướt."
+    ],
+    "videoPrompt": "Generate a 10-second cinematic video. Scene: Wide establishing shot of Vietnamese cyberpunk courier Mai [CHARACTER IDENTITY LOCK: VN_MAI_2049] overlooking futuristic wet Hanoi streets. Camera Motion: push past. Movement: move camera forward past hanging wet neon lanterns into the open balcony view. Speed: smooth cinematic glide. Framing: let wet lanterns blur in foreground while Mai and futuristic cityscape reveal. End: arrive at balanced wide shot. Native audio: Heavy rain pouring on tin roofs, distant atmospheric synth drone, wet street splashes. Frame Rate: 24fps, Aspect Ratio: 16:9"
+  },
+  {
     "id": "omni-food-saigon-cold-brew",
     "name": "Saigon Cold Brew Phin (Cà Phê Phin Sữa Đá)",
     "definition": "Cinematic macro commercial for authentic Vietnamese iced milk coffee with traditional metal phin dripping over condensed milk with crystal ice cubes and morning golden sunlight.",
