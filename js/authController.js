@@ -76,11 +76,17 @@ export function initAuthUI() {
 
   function openAuthModal(initialView = 'login') {
     switchAuthView(initialView);
-    if (authModal) authModal.classList.add('active');
+    if (authModal) {
+      authModal.classList.add('is-open', 'active');
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   function closeAuthModal() {
-    if (authModal) authModal.classList.remove('active');
+    if (authModal) {
+      authModal.classList.remove('is-open', 'active');
+      document.body.style.overflow = '';
+    }
   }
 
   authModalClose?.addEventListener('click', closeAuthModal);
@@ -405,11 +411,17 @@ export function initAuthUI() {
     renderAccountProfile();
     render2FAPanel();
     renderTeamPanel();
-    if (accountModal) accountModal.classList.add('active');
+    if (accountModal) {
+      accountModal.classList.add('is-open', 'active');
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   function closeAccountModal() {
-    if (accountModal) accountModal.classList.remove('active');
+    if (accountModal) {
+      accountModal.classList.remove('is-open', 'active');
+      document.body.style.overflow = '';
+    }
   }
 
   accountModalClose?.addEventListener('click', closeAccountModal);

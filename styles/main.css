@@ -2027,7 +2027,8 @@ body::before {
   transition: opacity 0.24s var(--ease-snappy);
 }
 
-.modal-overlay.is-open {
+.modal-overlay.is-open,
+.modal-overlay.active {
   opacity: 1;
   pointer-events: all;
 }
