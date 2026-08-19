@@ -20,19 +20,27 @@
     <!-- ================================================================ -->
     <aside class="sidebar-input">
       
-      <!-- 1. Brand Logo Header (Row 1) -->
-      <div class="header-brand" style="display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:2px;">
-        <div class="brand-icon" style="background: transparent; border: 2px solid #ffd700; width: 38px; height: 38px; overflow: hidden; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); flex-shrink: 0;">
-          <img src="/logo.jpg" alt="Cine Prompt Pro Logo" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/38x38/38d9e2/ffffff?text=C'" />
+      <!-- 1. Brand Logo Header with Auth Badge -->
+      <div class="header-brand" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:2px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="brand-icon" style="background: transparent; border: 2px solid #ffd700; width: 38px; height: 38px; overflow: hidden; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); flex-shrink: 0;">
+            <img src="/logo.jpg" alt="Cine Prompt Pro Logo" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/38x38/38d9e2/ffffff?text=C'" />
+          </div>
+          <div>
+            <h1 class="brand-title" translate="no" style="font-size: 1.1rem; margin:0; line-height: 1.2;">
+              <span class="brand-cine">CINE</span>
+              <span class="brand-prompt">PROMPT</span>
+              <span class="brand-pro">PRO</span>
+            </h1>
+            <p class="brand-subtitle" style="font-size: 0.72rem; margin:0; color: #a1a1aa;">Studio Engine v2.0</p>
+          </div>
         </div>
-        <div>
-          <h1 class="brand-title" translate="no" style="font-size: 1.1rem; margin:0; line-height: 1.2;">
-            <span class="brand-cine">CINE</span>
-            <span class="brand-prompt">PROMPT</span>
-            <span class="brand-pro">PRO</span>
-          </h1>
-          <p class="brand-subtitle" style="font-size: 0.72rem; margin:0; color: #a1a1aa;">Studio Engine v2.0</p>
-        </div>
+
+        <!-- User Profile & Auth Header Button -->
+        <button id="auth-header-btn" title="Quản lý Tài Khoản, 2FA & Đội Ngũ" style="background: rgba(255, 215, 0, 0.12); border: 1px solid rgba(255, 215, 0, 0.35); color: #ffd700; padding: 4px 8px; border-radius: 8px; font-size: 0.73rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+          <div id="auth-header-avatar" style="width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 800;">DT</div>
+          <span id="auth-header-name" style="max-width: 95px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Đạo Diễn Trung</span>
+        </button>
       </div>
 
       <!-- 2. Integrated Action Control Toolbar (Spacious & Ergonomic Layout - Zero Overflow) -->
@@ -2046,6 +2054,476 @@
               ✅ Eye Structure & Hairline: CANON MATCH<br>
               ✅ Identity Drift Level: 0 (STABLE)
             </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── AUTHENTICATION MODAL (SIGN IN, SIGN UP, FORGOT PWD, EMAIL OTP) ─── -->
+  <div id="auth-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content help-modal-content" style="max-width: 520px; width: 92vw; background: rgba(15, 17, 26, 0.98); backdrop-filter: blur(24px); border: 1px solid rgba(255,215,0,0.35); border-radius: 20px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 40px rgba(201,162,39,0.15); overflow: hidden;">
+      <button id="auth-modal-close" class="modal-close" aria-label="Close Auth Modal" style="top: 18px; right: 18px;">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="modal-body" style="padding: 28px 24px;">
+
+        <!-- ════════════ VIEW 1: ĐĂNG NHẬP (LOG IN) ════════════ -->
+        <div id="auth-view-login" class="auth-subview">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); margin-bottom: 10px; font-size: 1.4rem;">🎬</div>
+            <h2 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin: 0;">Chào Mừng Trở Lại</h2>
+            <p style="color: #a1a1aa; font-size: 0.8rem; margin: 4px 0 0;">Đăng nhập để tiếp tục sáng tạo các kịch bản điện ảnh triệu view</p>
+          </div>
+
+          <!-- Social SSO Buttons (1-Click) -->
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+            <button class="auth-social-btn" data-provider="Google" style="width: 100%; height: 38px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.3 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/></svg>
+              <span>Đăng nhập với Google</span>
+            </button>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <button class="auth-social-btn" data-provider="GitHub" style="height: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span>🐙 GitHub</span>
+              </button>
+              <button class="auth-social-btn" data-provider="Apple" style="height: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span>🍎 Apple ID</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+            <span style="font-size: 0.7rem; color: #71717a; text-transform: uppercase;">Hoặc bằng Email</span>
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          </div>
+
+          <!-- Error Feedback Banner -->
+          <div id="login-error-banner" style="display: none; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); border-radius: 8px; padding: 10px; margin-bottom: 14px; color: #fca5a5; font-size: 0.76rem; line-height: 1.4;">
+            <div style="display: flex; align-items: center; gap: 6px; font-weight: 700;">
+              <span>⚠️ Đăng nhập không thành công</span>
+            </div>
+            <div id="login-error-msg" style="margin-top: 2px;"></div>
+          </div>
+
+          <!-- Form Inputs -->
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Địa chỉ Email</label>
+              <input type="email" id="login-email-input" class="text-input new-input-field" placeholder="director@cineprompt.pro" style="padding: 9px 12px; font-size: 0.85rem;" />
+              <div id="login-email-error" style="display: none; font-size: 0.7rem; color: #f87171; margin-top: 3px;">⚠️ Vui lòng nhập địa chỉ email hợp lệ.</div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7;">Mật khẩu</label>
+                <button id="auth-to-forgot-btn" type="button" style="background: none; border: none; color: #38bdf8; font-size: 0.72rem; cursor: pointer; text-decoration: underline;">Quên mật khẩu?</button>
+              </div>
+              <div style="position: relative;">
+                <input type="password" id="login-password-input" class="text-input new-input-field" placeholder="••••••••" style="padding: 9px 38px 9px 12px; font-size: 0.85rem;" />
+                <button id="login-pwd-toggle" type="button" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #a1a1aa; cursor: pointer; font-size: 0.9rem;" title="Ẩn/Hiện mật khẩu">👁️</button>
+              </div>
+              <div id="login-pwd-error" style="display: none; font-size: 0.7rem; color: #f87171; margin-top: 3px;">⚠️ Vui lòng nhập mật khẩu.</div>
+            </div>
+          </div>
+
+          <!-- Remember Me Checkbox -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+            <input type="checkbox" id="login-remember-me" checked style="width: 16px; height: 16px; accent-color: #ffd700; cursor: pointer;" />
+            <label for="login-remember-me" style="font-size: 0.76rem; color: #a1a1aa; cursor: pointer;">Duy trì đăng nhập trên thiết bị này</label>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="login-submit-btn" class="new-btn-primary" style="width: 100%; padding: 11px; font-size: 0.88rem; font-weight: 800; background: linear-gradient(135deg, #ffd700, #f59e0b); color: #000; border: none; border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 20px rgba(255,215,0,0.35);">
+            <span id="login-btn-text">Đăng Nhập</span>
+          </button>
+
+          <!-- Switch to Sign Up -->
+          <div style="text-align: center; margin-top: 16px; font-size: 0.78rem; color: #a1a1aa;">
+            Chưa có tài khoản? <button id="auth-to-signup-btn" type="button" style="background: none; border: none; color: #ffd700; font-weight: 700; cursor: pointer; text-decoration: underline;">Đăng ký dùng thử 14 ngày</button>
+          </div>
+        </div>
+
+        <!-- ════════════ VIEW 2: ĐĂNG KÝ (SIGN UP - DOMINO STYLE) ════════════ -->
+        <div id="auth-view-signup" class="auth-subview" style="display: none;">
+          <div style="text-align: center; margin-bottom: 18px;">
+            <h2 style="color: #fff; font-size: 1.3rem; font-weight: 800; margin: 0;">Khởi Tạo Studio Của Bạn</h2>
+            <p style="color: #a1a1aa; font-size: 0.78rem; margin: 4px 0 0;">Gia nhập hơn 150,000+ Nhà sáng tạo & Đạo diễn AI trên toàn cầu</p>
+          </div>
+
+          <!-- 3 Social Signups -->
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+            <button class="auth-social-btn" data-provider="Google" style="width: 100%; height: 38px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.3 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/></svg>
+              <span>Đăng ký với Google</span>
+            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <button class="auth-social-btn" data-provider="Facebook" style="height: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span>📘 Facebook</span>
+              </button>
+              <button class="auth-social-btn" data-provider="Apple" style="height: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span>🍎 Apple ID</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+            <span style="font-size: 0.7rem; color: #71717a; text-transform: uppercase;">Hoặc Đăng Ký Email</span>
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          </div>
+
+          <!-- Sign Up Inputs -->
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Họ và Tên</label>
+              <input type="text" id="signup-name-input" class="text-input new-input-field" placeholder="Đạo diễn Trần Minh" style="padding: 8px 12px; font-size: 0.85rem;" />
+            </div>
+
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Địa chỉ Email</label>
+              <input type="email" id="signup-email-input" class="text-input new-input-field" placeholder="creator@studio.com" style="padding: 8px 12px; font-size: 0.85rem;" />
+              <div id="signup-email-error" style="display: none; font-size: 0.7rem; color: #f87171; margin-top: 3px;">⚠️ Vui lòng nhập email hợp lệ.</div>
+            </div>
+
+            <div>
+              <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Thiết lập mật khẩu</label>
+              <div style="position: relative;">
+                <input type="password" id="signup-password-input" class="text-input new-input-field" placeholder="Ít nhất 8 ký tự..." style="padding: 8px 38px 8px 12px; font-size: 0.85rem;" />
+                <button id="signup-pwd-toggle" type="button" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #a1a1aa; cursor: pointer; font-size: 0.9rem;">👁️</button>
+              </div>
+
+              <!-- Password Strength Meter Bar -->
+              <div style="margin-top: 6px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.68rem; margin-bottom: 2px;">
+                  <span style="color: #a1a1aa;">Độ mạnh mật khẩu:</span>
+                  <span id="signup-strength-label" style="font-weight: 700; color: #ef4444;">Chưa nhập</span>
+                </div>
+                <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+                  <div id="signup-strength-bar" style="width: 0%; height: 100%; background: #ef4444; transition: all 0.3s;"></div>
+                </div>
+                <!-- Requirements Checklist -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 0.65rem; color: #71717a; margin-top: 4px;">
+                  <div id="req-len">• Ít nhất 8 ký tự</div>
+                  <div id="req-upper">• Có chữ hoa (A-Z)</div>
+                  <div id="req-num">• Có chữ số (0-9)</div>
+                  <div id="req-special">• Ký tự đặc biệt (@#$)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Free Trial & Plan Note -->
+          <div style="background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; font-size: 0.72rem; color: #bae6fd; display: flex; align-items: center; gap: 8px;">
+            <span>🎁</span>
+            <span>Miễn phí <strong>14 ngày trải nghiệm Pro</strong> toàn diện. Không yêu cầu thẻ tín dụng!</span>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="signup-submit-btn" class="new-btn-primary" style="width: 100%; padding: 11px; font-size: 0.88rem; font-weight: 800; background: linear-gradient(135deg, #ec4899, #a855f7); color: #fff; border: none; border-radius: 9px; cursor: pointer; box-shadow: 0 4px 20px rgba(236,72,153,0.35);">
+            Tạo Tài Khoản Miễn Phí
+          </button>
+
+          <!-- Social Proof & Testimonial -->
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <div style="color: #ffd700; font-size: 0.75rem; margin-bottom: 2px;">⭐⭐⭐⭐⭐ 4.9/5 từ 12,000+ Đạo diễn</div>
+            <div style="font-size: 0.68rem; color: #a1a1aa; font-style: italic;">"Công cụ nén toàn bộ quy trình làm phim 3 ngày thành 1 phút!" — Hoàng Vũ (DP)</div>
+          </div>
+
+          <!-- Switch to Login -->
+          <div style="text-align: center; margin-top: 12px; font-size: 0.78rem; color: #a1a1aa;">
+            Đã có tài khoản? <button id="auth-to-login-btn" type="button" style="background: none; border: none; color: #38bdf8; font-weight: 700; cursor: pointer; text-decoration: underline;">Đăng nhập ngay</button>
+          </div>
+        </div>
+
+        <!-- ════════════ VIEW 3: QUÊN & ĐẶT LẠI MẬT KHẨU (RESET PWD) ════════════ -->
+        <div id="auth-view-forgot" class="auth-subview" style="display: none;">
+          <div style="text-align: center; margin-bottom: 18px;">
+            <div style="font-size: 1.5rem; margin-bottom: 6px;">🔐</div>
+            <h2 style="color: #fff; font-size: 1.25rem; font-weight: 800; margin: 0;">Đặt Lại Mật Khẩu</h2>
+            <p style="color: #a1a1aa; font-size: 0.78rem; margin: 4px 0 0;">Nhập email của bạn để nhận mã khôi phục tài khoản</p>
+          </div>
+
+          <div id="forgot-step-1">
+            <div style="margin-bottom: 14px;">
+              <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Địa chỉ Email tài khoản</label>
+              <input type="email" id="forgot-email-input" class="text-input new-input-field" placeholder="director@cineprompt.pro" style="padding: 9px 12px; font-size: 0.85rem;" />
+            </div>
+
+            <button id="forgot-send-btn" class="new-btn-primary" style="width: 100%; padding: 10px; font-size: 0.85rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); color: #000; border: none; border-radius: 8px; cursor: pointer;">
+              Gửi Mã Đặt Lại Mật Khẩu
+            </button>
+          </div>
+
+          <div id="forgot-step-2" style="display: none;">
+            <div style="background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 10px; margin-bottom: 14px; font-size: 0.75rem; color: #bae6fd;">
+              📧 Đã gửi mã xác minh 6 số tới: <strong id="forgot-sent-target"></strong>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+              <div>
+                <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Mã xác thực 6 số (OTP)</label>
+                <input type="text" id="forgot-code-input" maxlength="6" class="text-input new-input-field" placeholder="VD: 123456" style="padding: 8px 12px; font-size: 0.9rem; font-family: monospace; letter-spacing: 2px; text-align: center;" />
+              </div>
+              <div>
+                <label style="font-size: 0.76rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Mật khẩu mới</label>
+                <input type="password" id="forgot-new-pwd-input" class="text-input new-input-field" placeholder="Ít nhất 8 ký tự..." style="padding: 8px 12px; font-size: 0.85rem;" />
+              </div>
+            </div>
+
+            <button id="forgot-confirm-btn" class="new-btn-primary" style="width: 100%; padding: 10px; font-size: 0.85rem; font-weight: 800; background: linear-gradient(135deg, #10b981, #34d399); color: #000; border: none; border-radius: 8px; cursor: pointer;">
+              Xác Nhận Đổi Mật Khẩu
+            </button>
+          </div>
+
+          <div style="text-align: center; margin-top: 14px;">
+            <button id="forgot-back-btn" type="button" style="background: none; border: none; color: #a1a1aa; font-size: 0.76rem; cursor: pointer; text-decoration: underline;">← Quay lại Đăng nhập</button>
+          </div>
+        </div>
+
+        <!-- ════════════ VIEW 4: XÁC MINH EMAIL (6-DIGIT OTP) ════════════ -->
+        <div id="auth-view-verify" class="auth-subview" style="display: none;">
+          <div style="text-align: center; margin-bottom: 18px;">
+            <div style="font-size: 1.8rem; margin-bottom: 6px;">📩</div>
+            <h2 style="color: #fff; font-size: 1.25rem; font-weight: 800; margin: 0;">Xác Minh Địa Chỉ Email</h2>
+            <p style="color: #a1a1aa; font-size: 0.78rem; margin: 4px 0 0;">Nhập mã 6 chữ số vừa được gửi đến email:</p>
+            <div style="color: #ffd700; font-weight: 700; font-size: 0.82rem; margin-top: 2px;">
+              <span id="verify-email-display">director@cineprompt.pro</span>
+              <button id="verify-edit-email-btn" style="background: none; border: none; color: #38bdf8; font-size: 0.7rem; cursor: pointer; text-decoration: underline; margin-left: 6px;">(Đổi email)</button>
+            </div>
+          </div>
+
+          <!-- 6-Digit OTP Boxes -->
+          <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 16px;">
+            <input type="text" maxlength="1" class="otp-box" data-idx="0" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+            <input type="text" maxlength="1" class="otp-box" data-idx="1" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+            <input type="text" maxlength="1" class="otp-box" data-idx="2" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+            <input type="text" maxlength="1" class="otp-box" data-idx="3" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+            <input type="text" maxlength="1" class="otp-box" data-idx="4" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+            <input type="text" maxlength="1" class="otp-box" data-idx="5" style="width: 44px; height: 50px; text-align: center; font-size: 1.4rem; font-weight: 800; background: rgba(0,0,0,0.5); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff; outline: none;" />
+          </div>
+
+          <div id="verify-error-msg" style="display: none; text-align: center; color: #f87171; font-size: 0.75rem; margin-bottom: 12px;">⚠️ Mã không chính xác. Vui lòng kiểm tra lại.</div>
+
+          <button id="verify-submit-btn" class="new-btn-primary" style="width: 100%; padding: 11px; font-size: 0.88rem; font-weight: 800; background: linear-gradient(135deg, #10b981, #34d399); color: #000; border: none; border-radius: 8px; cursor: pointer;">
+            Xác Thực & Vào Studio
+          </button>
+
+          <!-- Resend Countdown -->
+          <div style="text-align: center; margin-top: 14px; font-size: 0.75rem; color: #a1a1aa;">
+            Chưa nhận được mã? <button id="verify-resend-btn" style="background: none; border: none; color: #38bdf8; font-weight: 700; cursor: pointer; text-decoration: underline;">Gửi lại mã (<span id="verify-countdown">59</span>s)</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ACCOUNT & USER MANAGEMENT MODAL (PROFILE, 2FA, TEAM, PLANS) ─── -->
+  <div id="account-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content help-modal-content" style="max-width: 860px; width: 94vw; background: rgba(15, 17, 26, 0.98); backdrop-filter: blur(24px); border: 1px solid rgba(255,215,0,0.35); border-radius: 20px; box-shadow: 0 25px 70px rgba(0,0,0,0.95); overflow: hidden;">
+      <button id="account-modal-close" class="modal-close" aria-label="Close Account Modal" style="top: 18px; right: 18px;">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="modal-body" style="padding: 24px;">
+
+        <!-- Header Profile Banner -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px 18px; margin-bottom: 18px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="position: relative;">
+              <div id="acc-header-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; border: 2px solid #ffd700;">DT</div>
+              <span id="acc-header-badge" style="position: absolute; bottom: -2px; right: -2px; background: #10b981; color: #fff; font-size: 0.55rem; padding: 1px 4px; border-radius: 4px; font-weight: 800; border: 1.5px solid #0f172a;">PRO</span>
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 id="acc-header-name" style="color: #fff; font-size: 1.1rem; font-weight: 800; margin: 0;">Đạo Diễn Trung</h3>
+                <span id="acc-header-role-badge" style="background: rgba(234,179,8,0.2); border: 1px solid #facc15; color: #facc15; font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+              </div>
+              <p id="acc-header-email" style="color: #a1a1aa; font-size: 0.75rem; margin: 2px 0 0;">director@cineprompt.pro</p>
+            </div>
+          </div>
+
+          <button id="acc-logout-btn" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35); color: #f87171; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <span>🚪 Đăng Xuất</span>
+          </button>
+        </div>
+
+        <!-- 4 Sub-Tabs Navigation -->
+        <div style="display: flex; gap: 6px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 4px; margin-bottom: 18px; flex-wrap: wrap;">
+          <button id="acc-tab-profile" class="acc-tab-btn active" style="flex: 1; background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.4); color: #ffd700; padding: 8px 10px; border-radius: 7px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">👤 1. Hồ Sơ Cá Nhân</button>
+          <button id="acc-tab-security" class="acc-tab-btn" style="flex: 1; background: transparent; border: 1px solid transparent; color: #a1a1aa; padding: 8px 10px; border-radius: 7px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">🔐 2. Bảo Mật & 2FA</button>
+          <button id="acc-tab-team" class="acc-tab-btn" style="flex: 1; background: transparent; border: 1px solid transparent; color: #a1a1aa; padding: 8px 10px; border-radius: 7px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">👥 3. Quản Lý Đội Ngũ (<span id="acc-team-count-badge">3</span>)</button>
+          <button id="acc-tab-billing" class="acc-tab-btn" style="flex: 1; background: transparent; border: 1px solid transparent; color: #a1a1aa; padding: 8px 10px; border-radius: 7px; font-size: 0.76rem; font-weight: 700; cursor: pointer;">💳 4. Gói Cước & Trial</button>
+        </div>
+
+        <!-- ════════════ TAB 1: HỒ SƠ CÁ NHÂN (PROFILE) ════════════ -->
+        <div id="acc-view-profile" class="acc-subview">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Tên hiển thị công khai</label>
+              <input type="text" id="prof-display-name" class="text-input new-input-field" style="padding: 8px 10px; font-size: 0.82rem;" />
+            </div>
+
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Tên tài khoản nội bộ (Handle)</label>
+              <input type="text" id="prof-account-name" class="text-input new-input-field" style="padding: 8px 10px; font-size: 0.82rem;" />
+            </div>
+
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Chức danh / Vai trò</label>
+              <input type="text" id="prof-job-title" class="text-input new-input-field" style="padding: 8px 10px; font-size: 0.82rem;" />
+            </div>
+
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 4px;">Số điện thoại liên hệ</label>
+              <input type="text" id="prof-phone" class="text-input new-input-field" style="padding: 8px 10px; font-size: 0.82rem;" />
+            </div>
+          </div>
+
+          <!-- Connected Accounts -->
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.78rem; font-weight: 700; color: #e4e4e7; margin-bottom: 8px;">🔗 Tài Khoản Đã Kết Nối SSO</div>
+            <div id="prof-connected-list" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Save Button (Disabled by default -> Active on change -> Loading spinner) -->
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px;">
+            <button id="prof-save-btn" disabled style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #71717a; padding: 8px 18px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: not-allowed; transition: all 0.25s;">
+              💾 Lưu Thay Đổi
+            </button>
+          </div>
+
+          <!-- Danger Zone -->
+          <div style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 14px;">
+            <div style="color: #f87171; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">⚠️ Khu Vực Nguy Hiểm (Danger Zone)</div>
+            <p style="font-size: 0.72rem; color: #a1a1aa; margin: 0 0 10px;">Vô hiệu hóa tạm thời hoặc xóa vĩnh viễn dữ liệu tài khoản khỏi phim trường.</p>
+            <div style="display: flex; gap: 8px;">
+              <button id="prof-deactivate-btn" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #f87171; padding: 6px 12px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer;">Tạm Khóa Tài Khoản</button>
+              <button id="prof-delete-btn" style="background: #ef4444; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.74rem; font-weight: 800; cursor: pointer;">Xóa Vĩnh Viễn</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════ TAB 2: BẢO MẬT & 2FA (2-FACTOR AUTH) ════════════ -->
+        <div id="acc-view-security" class="acc-subview" style="display: none;">
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <h4 style="color: #fff; font-size: 0.95rem; font-weight: 700; margin: 0;">Xác Thực Hai Yếu Tố (2FA)</h4>
+                <p style="color: #a1a1aa; font-size: 0.74rem; margin: 2px 0 0;">Bảo vệ tài khoản bằng mã bảo mật 6 số từ Google Authenticator hoặc tin nhắn SMS</p>
+              </div>
+              <span id="twofa-status-pill" style="background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 800;">🟢 ĐÃ KÍCH HOẠT</span>
+            </div>
+
+            <!-- Setup Box when 2FA is OFF or Configuring -->
+            <div id="twofa-setup-card" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(56,189,248,0.3); border-radius: 10px; padding: 14px;">
+              <div style="display: flex; gap: 18px; align-items: center;">
+                <div id="twofa-qr-container" style="background: #fff; padding: 6px; border-radius: 8px; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <img id="twofa-qr-img" src="" alt="2FA QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 0.76rem; color: #e4e4e7; font-weight: 700; margin-bottom: 4px;">Bước 1: Quét mã QR hoặc sao chép Khóa Thiết Lập:</div>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                    <input type="text" id="twofa-secret-input" readonly value="CINE-PRO-SECRET-KEY" style="flex: 1; padding: 5px 8px; font-family: monospace; font-size: 0.75rem; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); color: #ffd700; border-radius: 4px;" />
+                    <button id="twofa-copy-secret-btn" style="background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.35); color: #ffd700; padding: 5px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">📋 Chép</button>
+                  </div>
+                  <div style="font-size: 0.76rem; color: #e4e4e7; font-weight: 700; margin-bottom: 4px;">Bước 2: Nhập mã 6 số từ ứng dụng để xác nhận:</div>
+                  <div style="display: flex; gap: 6px;">
+                    <input type="text" id="twofa-verify-input" maxlength="6" placeholder="123456" style="width: 120px; padding: 6px 10px; font-size: 0.85rem; font-family: monospace; letter-spacing: 2px; text-align: center; background: rgba(0,0,0,0.6); border: 1px solid rgba(56,189,248,0.4); color: #fff; border-radius: 6px;" />
+                    <button id="twofa-confirm-btn" style="background: linear-gradient(135deg, #10b981, #34d399); border: none; color: #000; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; cursor: pointer;">Xác Nhận Kích Hoạt</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 8 Backup Recovery Codes -->
+              <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 0.74rem; font-weight: 700; color: #ffd700;">🔑 8 Mã Khôi Phục Dự Phòng (1-Time Backup Codes):</span>
+                  <div style="display: flex; gap: 6px;">
+                    <button id="twofa-copy-backup-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; cursor: pointer;">📋 Chép hết</button>
+                    <button id="twofa-download-backup-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; cursor: pointer;">💾 Tải file .txt</button>
+                  </div>
+                </div>
+                <div id="twofa-backup-codes-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-family: monospace; font-size: 0.72rem; color: #38bdf8;">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════ TAB 3: QUẢN LÝ ĐỘI NGŨ & PHÂN QUYỀN (TEAM) ════════════ -->
+        <div id="acc-view-team" class="acc-subview" style="display: none;">
+          <!-- Controls Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 8px; flex: 1;">
+              <input type="text" id="team-search-input" class="text-input new-input-field" placeholder="🔍 Tìm theo tên hoặc email..." style="padding: 7px 10px; font-size: 0.78rem; flex: 1;" />
+              <select id="team-role-filter" class="select-input new-input-field" style="padding: 7px 10px; font-size: 0.78rem; width: 120px;">
+                <option value="ALL">Tất cả vai trò</option>
+                <option value="Admin">Admin</option>
+                <option value="Member">Member</option>
+                <option value="Viewer">Viewer</option>
+              </select>
+            </div>
+            <button id="team-invite-btn" style="background: linear-gradient(135deg, #ffd700, #f59e0b); border: none; color: #000; font-weight: 800; padding: 7px 14px; border-radius: 7px; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+              ➕ Mời Thành Viên Mới
+            </button>
+          </div>
+
+          <!-- User Table -->
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 14px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left;">
+              <thead>
+                <tr style="background: rgba(255,255,255,0.04); color: #a1a1aa; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                  <th style="padding: 10px 12px;">Thành Viên</th>
+                  <th style="padding: 10px 12px;">Vai Trò Phân Quyền</th>
+                  <th style="padding: 10px 12px;">Trạng Thái</th>
+                  <th style="padding: 10px 12px;">Hoạt Động</th>
+                  <th style="padding: 10px 12px; text-align: right;">Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="team-user-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pending Invites Section -->
+          <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.12); border-radius: 10px; padding: 12px;">
+            <div style="font-size: 0.76rem; font-weight: 700; color: #ffd700; margin-bottom: 6px;">📨 Lời Mời Đang Chờ Xử Lý (<span id="team-pending-count">1</span>)</div>
+            <div id="team-pending-list" style="display: flex; flex-direction: column; gap: 6px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════ TAB 4: GÓI CƯỚC & BILLING (TRIAL) ════════════ -->
+        <div id="acc-view-billing" class="acc-subview" style="display: none;">
+          <div style="background: linear-gradient(135deg, rgba(201,162,39,0.12), rgba(147,51,234,0.12)); border: 1px solid rgba(255,215,0,0.35); border-radius: 14px; padding: 18px; margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 0.7rem; background: rgba(255,215,0,0.2); color: #ffd700; border: 1px solid #ffd700; padding: 2px 8px; border-radius: 4px; font-weight: 800;">GÓI HIỆN TẠI</span>
+                <h3 style="color: #fff; font-size: 1.2rem; font-weight: 800; margin: 4px 0 0;">Studio Director Pro Tier</h3>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 1.2rem; font-weight: 800; color: #34d399;">$0 <span style="font-size: 0.75rem; color: #a1a1aa;">/ 14 ngày dùng thử</span></div>
+                <div style="font-size: 0.68rem; color: #ffd700;">(Còn 12 ngày trải nghiệm miễn phí)</div>
+              </div>
+            </div>
+            <div style="font-size: 0.74rem; color: #e4e4e7; line-height: 1.5; margin-bottom: 12px;">
+              • Không giới hạn xuất kịch bản 4 phân cảnh Hollywood.<br>
+              • Trọn quyền truy cập 414+ Kỹ thuật điện ảnh & 40+ Cú máy Dan Kieft.<br>
+              • Phân tích ảnh AI Vision & Khóa nhận diện nhân vật DNA không giới hạn.
+            </div>
+            <button style="background: linear-gradient(135deg, #ffd700, #f59e0b); border: none; color: #000; font-weight: 800; padding: 8px 16px; border-radius: 8px; font-size: 0.78rem; cursor: pointer;">
+              ⚡ Nâng Cấp Gói Năm (Tiết Kiệm 40%)
+            </button>
           </div>
         </div>
 

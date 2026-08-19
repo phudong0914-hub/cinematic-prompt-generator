@@ -32,6 +32,7 @@ import { onboardingTour } from './tour.js';
 import { voiceEngine } from './voiceService.js';
 import { translateCinematicText } from './translator.js';
 import { characterOS } from './characterOS.js';
+import { initAuthUI } from './authController.js';
 
 // Phase 1 & 2: New modules
 import { sanitizePrompt, countTokens, enforceTokenLimit } from './guardrails.js';
@@ -2283,6 +2284,7 @@ async function init() {
     // 5. Initialize Checklist Design Master Features & Character OS V4.0
     initChecklistDesignFeatures();
     initCharacterOSModule();
+    initAuthUI();
 
     // Optimize search with debounce to prevent UI hangs on rapid typing
     let debounceTimer;
