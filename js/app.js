@@ -2148,20 +2148,34 @@ function initCharacterOSModule() {
     const pack = characterOS.generateStoryPack(text);
     
     if (storyResults && pack.scenes) {
-      storyResults.innerHTML = pack.scenes.map((scene, idx) => `
+      const fullChainText = pack.scenes.map((s, i) => `=== SCENE ${i+1}: ${s.title.toUpperCase()} ===\n[IMAGE PROMPT]: ${s.imagePrompt}\n[VIDEO PROMPT]: ${s.videoPrompt}\n`).join('\n');
+
+      storyResults.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(236,72,153,0.15); border: 1px solid rgba(236,72,153,0.35); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px;">
+          <span style="color: #ffd700; font-size: 0.75rem; font-weight: 800;">⚡ CHUỖI 4 PHÂN CẢNH ĐỒNG NHẤT (NARRATIVE VIDEO CHAIN)</span>
+          <button id="cos-copy-all-chain-btn" style="background: linear-gradient(135deg, #ffd700, #f59e0b); border: none; color: #000; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; display: flex; align-items: center; gap: 4px;">⚡ Chép Toàn Bộ 4 Cảnh</button>
+        </div>
+        ${pack.scenes.map((scene, idx) => `
         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <span style="color: #f472b6; font-weight: 700; font-size: 0.8rem;">${scene.title}</span>
             <span style="font-size: 0.65rem; color: #ffd700; background: rgba(201,162,39,0.15); padding: 2px 6px; border-radius: 4px;">${scene.shotType}</span>
           </div>
-          <div style="font-size: 0.72rem; color: #a1a1aa; font-family: monospace; margin-bottom: 8px; max-height: 40px; overflow: hidden; text-overflow: ellipsis;">
+          <div style="font-size: 0.72rem; color: #a1a1aa; font-family: monospace; margin-bottom: 8px; line-height: 1.45;">
             ${scene.videoPrompt}
           </div>
           <div style="display: flex; justify-content: flex-end; gap: 6px;">
-            <button class="cos-copy-scene-btn" data-idx="${idx}" style="background: linear-gradient(135deg, #ec4899, #a855f7); border: none; color: #fff; font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; cursor: pointer;">📋 Chép Prompt Cảnh ${idx + 1}</button>
+            <button class="cos-copy-scene-btn" data-idx="${idx}" style="background: linear-gradient(135deg, #ec4899, #a855f7); border: none; color: #fff; font-weight: 700; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; cursor: pointer;">📋 Chép Cảnh ${idx + 1}</button>
           </div>
         </div>
-      `).join('');
+      `).join('')}
+      `;
+
+      document.getElementById('cos-copy-all-chain-btn')?.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(fullChainText);
+        soundFX.playCopy();
+        showToast('🚀 Đã chép toàn bộ chuỗi 4 cảnh phim & chỉ lệnh cú máy vào Clipboard!', 'success');
+      });
 
       storyResults.querySelectorAll('.cos-copy-scene-btn').forEach(btn => {
         btn.addEventListener('click', async () => {

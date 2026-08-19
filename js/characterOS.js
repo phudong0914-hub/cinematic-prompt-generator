@@ -120,40 +120,50 @@ class CharacterProductionOS {
   }
 
   /**
-   * Generates a 3-Scene Storyboard Sequence maintaining 100% Character Continuity
+   * Generates a 4-Scene Storyboard & Music Video Sequence maintaining 100% Character Continuity
+   * Implements Lee Veo's Workflow Compression + Dan Kieft's 4-Part Motion Directives
    */
   generateStoryPack(storyPremise, charId = null) {
     const char = charId ? this.characters.get(charId) : this.getActiveCharacter();
     const charName = char ? char.name : 'Nhân vật chính';
-    const charAnchor = char ? `[${char.name} - ${char.faceDNA}]` : '';
+    const charAnchor = char ? `[${char.name} - ${char.faceDNA}, apparent age ${char.apparentAge}, wearing ${char.wardrobeCanon}]` : '';
 
     const scenes = [
       {
         sceneId: 'SCENE_01',
-        title: 'Cảnh 1: Mở Đầu · Khởi Tạo Bối Cảnh',
-        shotType: 'Wide Establishing Shot',
-        action: `${charName} xuất hiện trong bối cảnh ban đầu, thể hiện thần thái nhân vật.`,
-        lighting: 'Golden Hour Natural Light',
-        imagePrompt: `Wide establishing shot, ${charName} ${charAnchor}, in cinematic environment, golden hour lighting, 8k resolution, highly detailed, photorealistic, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 1: Wide establishing shot of ${charName} ${charAnchor}. Camera slowly pans left. Native audio: ambient atmospheric sounds. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        title: 'Cảnh 1: Mở Màn · Thiết Lập Thế Giới Quan (Establishing & Atmosphere)',
+        shotType: 'Wide Establishing Shot & Push Past',
+        action: `${charName} xuất hiện giữa không gian đại cảnh, không khí bao trùm mở đầu câu chuyện.`,
+        lighting: 'Golden Hour Atmospheric Haze & Volumetric Light',
+        imagePrompt: `Wide establishing shot, ${charName} ${charAnchor}, in cinematic environment, golden hour atmospheric haze, volumetric god rays, shot on ARRI Alexa 65 35mm anamorphic lens, 8k resolution, photorealistic masterpiece still, --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 1: Wide establishing shot of ${charName} ${charAnchor} in environment. Camera Motion: push past. Movement: move forward past visible foreground edge. Speed: smooth forward glide. Framing: let foreground pass close to lens while subject space reveals. End: arrive inside scene layer. Native audio: atmospheric wind, distant environmental reverberations. Frame Rate: 24fps, Aspect Ratio: 16:9`
       },
       {
         sceneId: 'SCENE_02',
-        title: 'Cảnh 2: Trung Cảnh · Phát Triển Hành Động',
-        shotType: 'Medium Shot & Over The Shoulder',
-        action: `${charName} thực hiện hành động chính, tương tác với môi trường hoặc vật thể.`,
-        lighting: 'Chiaroscuro Cinematic Contrast',
-        imagePrompt: `Medium shot, ${charName} ${charAnchor}, engaging in action, dramatic cinematic lighting, shallow depth of field, 8k resolution, filmic grain, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 2: Medium shot of ${charName} ${charAnchor} walking forward. Camera slow zoom in. Native audio: footsteps and background motion. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        title: 'Cảnh 2: Trung Cảnh · Nhận Diện & Biểu Cảm (Performance & Character Focus)',
+        shotType: 'Medium Close-Up & Dolly In',
+        action: `${charName} di chuyển và bộc lộ cảm xúc tâm trạng, tương tác với đạo cụ/ánh nhìn.`,
+        lighting: 'Chiaroscuro Cinematic Key Light with Rim Accent',
+        imagePrompt: `Medium close-up shot, ${charName} ${charAnchor}, expressive eye contact, authentic skin texture, chiaroscuro lighting contrast, shallow depth of field, 8k resolution, Kodak Portra 400 film stock, --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 2: Medium close-up of ${charName} ${charAnchor} performing. Camera Motion: slow dolly in. Movement: move camera physically forward in a straight line toward character. Speed: smooth controlled push. Framing: keep facial expression centered while distance closes. End: finish on tight emotional composition. Native audio: subtle breath, footsteps, cloth rustle. Frame Rate: 24fps, Aspect Ratio: 16:9`
       },
       {
         sceneId: 'SCENE_03',
-        title: 'Cảnh 3: Cận Cảnh · Cảm Xúc & Kết Thúc',
-        shotType: 'Close-Up & Portrait Focus',
-        action: `Cận cảnh ánh mắt và biểu cảm cảm xúc xuất thần của ${charName}.`,
-        lighting: 'Soft Key Light & Subtle Rim Light',
-        imagePrompt: `Extreme close-up portrait, ${charName} ${charAnchor}, intense emotional eye gaze, anamorphic bokeh backdrop, 8k resolution, masterpiece still photo, --ar 16:9 --style raw`,
-        videoPrompt: `Generate a 10-second cinematic video. Scene 3: Close-up portrait of ${charName} ${charAnchor} looking into camera. Camera subtle orbit 360. Native audio: deep emotional score. Frame Rate: 24fps, Aspect Ratio: 16:9`
+        title: 'Cảnh 3: Đột Phá Cao Trào · Chuyển Động Gắt (Climax & Dynamic Action Burst)',
+        shotType: 'Dynamic Action Shot & Whip Pan / Crash Zoom',
+        action: `Khoảnh khắc bùng nổ năng lượng, chuyển động dứt khoát và đột phá góc máy của ${charName}.`,
+        lighting: 'High-Contrast Neon/Strobe Dynamic Lighting',
+        imagePrompt: `Dynamic action hero shot, ${charName} ${charAnchor}, explosive movement, high-contrast dynamic lighting, motion blur on limbs, cinematic color grading, 8k resolution, IMAX capture, --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 3: Dynamic high-energy action of ${charName} ${charAnchor}. Camera Motion: whip pan right. Movement: rotate rapidly from starting action toward new focal point. Speed: fast snap with brief cinematic motion blur. Framing: land squarely on impactful hero pose. End: settle into sharp final frame. Native audio: powerful impact whoosh, crescendo musical beat. Frame Rate: 24fps, Aspect Ratio: 16:9`
+      },
+      {
+        sceneId: 'SCENE_04',
+        title: 'Cảnh 4: Kết Thúc & Dư Âm Điện Ảnh (Resolution & Outro)',
+        shotType: 'Extreme Close-Up to Dolly-Out Pull Back',
+        action: `Ánh mắt lắng đọng của ${charName} khi camera từ từ lùi xa, để lại dư âm nghệ thuật sâu sắc.`,
+        lighting: 'Twilight Soft Ambient Light & Organic Bokeh',
+        imagePrompt: `Cinematic outro shot, ${charName} ${charAnchor}, poignant thoughtful gaze, fading ambient twilight, soft organic bokeh, 35mm film grain, 8k masterpiece still, --ar 16:9 --style raw`,
+        videoPrompt: `Generate a 10-second cinematic video. Scene 4: Cinematic resolution of ${charName} ${charAnchor}. Camera Motion: smooth dolly out. Movement: move camera physically backward away from subject. Speed: smooth controlled retreat. Framing: keep character silhouette centered as wide environment envelops frame. End: finish in expansive wide outro composition. Native audio: gentle ambient fade-out, lingering musical resonance. Frame Rate: 24fps, Aspect Ratio: 16:9`
       }
     ];
 

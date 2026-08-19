@@ -13,6 +13,118 @@ import { translateCinematicText } from './translator.js';
 /** Core video quality suffix; dynamic parts (motion, AR) are appended by displayDualResult. */
 const VIDEO_SUFFIX = ', cinematic motion, smooth camera movement, highly detailed video, continuous action';
 
+/**
+ * Standardized 4-Part AI Camera Movement Directives (from aicameramovements.com)
+ * Architecture: [Movement Name]. Movement: [Action]. Speed: [Speed]. Framing: [Framing/Parallax]. End: [Landing Frame].
+ */
+export const AI_CAMERA_DIRECTIVES = {
+  'slow dolly-in push': {
+    name: 'dolly in',
+    movement: 'move camera physically forward in a straight line toward main subject',
+    speed: 'smooth controlled push',
+    framing: 'keep camera height, lens direction and subject centered while distance closes',
+    end: 'settle on a tighter composition'
+  },
+  'smooth dolly-out pull back': {
+    name: 'dolly out',
+    movement: 'move camera physically backward in a straight line away from main subject',
+    speed: 'smooth controlled retreat',
+    framing: 'keep lens direction and camera height consistent while environment enters frame',
+    end: 'finish in a wider composition'
+  },
+  'smooth horizontal pan left': {
+    name: 'pan left',
+    movement: 'rotate camera horizontally from right to left from one fixed point',
+    speed: 'smooth constant rotation',
+    framing: 'keep horizon level while new space enters from left side',
+    end: 'settle on a clear final composition'
+  },
+  'smooth horizontal pan right': {
+    name: 'pan right',
+    movement: 'rotate camera horizontally from left to right from one fixed point',
+    speed: 'smooth constant rotation',
+    framing: 'keep horizon level while new space enters from right side',
+    end: 'settle on a clear final composition'
+  },
+  'vertical tilt up reveal': {
+    name: 'tilt up',
+    movement: 'rotate camera upward from one fixed point',
+    speed: 'smooth constant tilt',
+    framing: 'keep vertical subject or architecture centered as frame travels upward',
+    end: 'land on upper target'
+  },
+  'vertical tilt down reveal': {
+    name: 'tilt down',
+    movement: 'rotate camera downward from one fixed point',
+    speed: 'smooth constant tilt',
+    framing: 'keep vertical subject centered as frame travels downward',
+    end: 'land on lower target'
+  },
+  'smooth 360-degree orbit around subject': {
+    name: '360 orbit',
+    movement: 'circle around main subject at consistent radius',
+    speed: 'smooth controlled orbit',
+    framing: 'keep subject centered while background rotates seamlessly',
+    end: 'complete intended arc with stable framing'
+  },
+  'dynamic FPV drone dive and swoop': {
+    name: 'FPV drone sweep',
+    movement: 'sweep through 3D space with continuous dynamic altitude adjustment',
+    speed: 'fast agile trajectory',
+    framing: 'wide immersive perspective with dynamic banking',
+    end: 'settle on sweeping cinematic wide shot'
+  },
+  'organic handheld camera motion with subtle shake': {
+    name: 'handheld camera',
+    movement: 'natural organic handheld movement with subtle physical micro-jitters',
+    speed: 'natural human pace',
+    framing: 'follow subject organically with realistic breathing room',
+    end: 'stable handheld rest'
+  },
+  'static tripod-mounted locked shot': {
+    name: 'locked-off static shot',
+    movement: 'hold one fixed camera position for full clip',
+    speed: 'still and steady',
+    framing: 'keep same angle, height, lens distance and composition',
+    end: 'finish with same framing and camera position'
+  },
+  'push past foreground layer into scene': {
+    name: 'push past',
+    movement: 'move forward past visible foreground object, edge or opening',
+    speed: 'smooth forward glide',
+    framing: 'let foreground pass close to lens while space beyond reveals',
+    end: 'arrive inside or beyond foreground layer'
+  },
+  'rapid whip pan right with motion blur': {
+    name: 'whip pan right',
+    movement: 'rotate rapidly from starting direction toward new target on right',
+    speed: 'fast snap with brief motion blur during rotation',
+    framing: 'begin on readable composition and land on second target',
+    end: 'settle into sharp final frame'
+  },
+  'dramatic crash zoom in on subject': {
+    name: 'crash zoom in',
+    movement: 'snap lens rapidly toward main visual target',
+    speed: 'very fast and punchy',
+    framing: 'keep target centered through sudden scale change',
+    end: 'land on bold tighter composition'
+  },
+  'vertigo dolly zoom effect, dolly-in with zoom-out': {
+    name: 'vertigo dolly zoom',
+    movement: 'physically dolly camera in while zooming lens out simultaneously',
+    speed: 'smooth calibrated counter-motion',
+    framing: 'keep subject size constant while background perspective warp expands',
+    end: 'settle on dramatic altered depth'
+  },
+  'smooth arc curve movement around subject': {
+    name: 'arc right',
+    movement: 'move on shallow curved path around main subject toward right side',
+    speed: 'smooth measured curve',
+    framing: 'keep distance, height and subject readability consistent',
+    end: 'finish from new right-side angle'
+  }
+};
+
 /* ── Colour maps ──────────────────────────────────────────── */
 
 const DIFFICULTY_COLORS = {
@@ -473,7 +585,7 @@ export function displayDualResult(basePrompt, title, options = {}) {
     transImageEl.style.display = 'none';
   }
 
-  // ── Video prompt ───────────────────────────────────────
+  // ── Video prompt (Standardized 4-Part AI Camera Movement Directive) ─────────────────
   const aspectLabel = aspectRatioFlag.replace('--ar ', '');
   let videoText = basePrompt;
   if (studioVidPrefixes.length > 0) {
@@ -484,7 +596,12 @@ export function displayDualResult(basePrompt, title, options = {}) {
   }
   videoText += VIDEO_SUFFIX;
 
-  if (motionTags.length) {
+  // Format 4-Part Directive for AICameraMovements if active
+  if (studioCamera && studioCamera.cameraMotion && AI_CAMERA_DIRECTIVES[studioCamera.cameraMotion]) {
+    const dir = AI_CAMERA_DIRECTIVES[studioCamera.cameraMotion];
+    const speedPref = studioCamera.motionSpeed ? ` (${studioCamera.motionSpeed} pacing)` : '';
+    videoText += ` | Camera Directive [${dir.name.toUpperCase()}]: Movement: ${dir.movement}. Speed: ${dir.speed}${speedPref}. Framing: ${dir.framing}. End: ${dir.end}.`;
+  } else if (motionTags.length) {
     videoText += ', Camera Motion: ' + motionTags.join(', ');
   }
 
