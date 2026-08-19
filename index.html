@@ -143,34 +143,57 @@
         </script>
       </div>
 
-      <!-- Input 3: Reference Image Upload & Vision AI Module -->
-      <div class="control-group control-group--reference-image" style="border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 12px; background: rgba(56, 189, 248, 0.04); margin-bottom: 12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-          <label class="control-label" style="color: #38bdf8; font-weight: bold; margin-bottom: 0; font-size: 0.85rem; display:flex; align-items:center; gap:5px;">
-            <span data-i18n="ref-label">📸 3. Ảnh Tham Chiếu (Reference Image)</span>
+      <!-- Input 3: Reference Image Upload & Vision AI Module (Checklist UX Pro) -->
+      <div class="control-group control-group--reference-image" style="border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 14px; background: rgba(56, 189, 248, 0.03); margin-bottom: 14px; transition: all 0.25s;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+          <label class="control-label" style="color: #38bdf8; font-weight: bold; margin-bottom: 0; font-size: 0.85rem; display:flex; align-items:center; gap:6px;">
+            <span data-i18n="ref-label">📸 3. Ảnh Tham Chiếu (Reference Image / Anchor)</span>
           </label>
-          <span id="ref-image-status" data-i18n="ref-status" style="font-size:0.7rem; color:#a1a1aa;">Image-to-Video Hook</span>
+          <span id="ref-image-status" data-i18n="ref-status" style="font-size:0.7rem; color:#a1a1aa; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">Image-to-Video Anchor</span>
         </div>
 
         <input type="file" id="ref-image-file-input" accept="image/png, image/jpeg, image/webp" style="display:none;" />
         
-        <!-- Dropzone Box -->
-        <div id="ref-image-dropzone" style="border: 1px solid rgba(56, 189, 248, 0.25); background: rgba(0,0,0,0.3); border-radius: 8px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s;">
-          <div style="font-size: 1.3rem; margin-bottom: 4px;">🖼️</div>
-          <div style="font-size: 0.78rem; color: #bae6fd; font-weight: 600;" data-i18n="ref-drop-title">Kéo thả hoặc bấm để tải ảnh sản phẩm / nhân vật</div>
-          <div style="font-size: 0.68rem; color: #71717a; margin-top: 2px;" data-i18n="ref-drop-sub">Hỗ trợ PNG, JPG, WEBP (Tối đa 10MB)</div>
+        <!-- 1. Dropzone Box (Trạng thái trống & Kéo thả) -->
+        <div id="ref-image-dropzone" style="border: 1px dashed rgba(56, 189, 248, 0.35); background: rgba(0,0,0,0.35); border-radius: 10px; padding: 18px 12px; text-align: center; cursor: pointer; transition: all 0.25s; position: relative;">
+          <div style="font-size: 1.6rem; margin-bottom: 6px;">🖼️</div>
+          <div id="ref-drop-text-main" style="font-size: 0.8rem; color: #bae6fd; font-weight: 700;" data-i18n="ref-drop-title">Kéo thả ảnh vào đây hoặc bấm để chọn tệp</div>
+          <div style="font-size: 0.68rem; color: #71717a; margin-top: 4px;" data-i18n="ref-drop-sub">Định dạng: <strong>PNG, JPG, WEBP</strong> · Dung lượng tối đa: <strong>10MB</strong></div>
         </div>
 
-        <!-- Preview Box (Hidden by default) -->
-        <div id="ref-image-preview-box" style="display: none; margin-top: 8px; background: rgba(0,0,0,0.4); border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 8px; align-items: center; gap: 10px;">
-          <img id="ref-image-thumb" src="" alt="Reference Preview" style="width: 52px; height: 52px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);" />
+        <!-- 2. Progress Indicator Bar (Thanh tiến độ tải lên) -->
+        <div id="ref-image-progress-bar" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.5); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(56,189,248,0.3);">
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #38bdf8; margin-bottom: 4px; font-weight: 600;">
+            <span id="ref-progress-label">Đang đọc dữ liệu ảnh...</span>
+            <span id="ref-progress-percent">100%</span>
+          </div>
+          <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+            <div id="ref-progress-fill" style="width: 100%; height: 100%; background: linear-gradient(90deg, #38bdf8, #a855f7); transition: width 0.3s;"></div>
+          </div>
+        </div>
+
+        <!-- 3. Preview & File Actions Box (Trạng thái kết quả & Hành động) -->
+        <div id="ref-image-preview-box" style="display: none; margin-top: 10px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 10px; padding: 10px; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+          <div style="position: relative;">
+            <img id="ref-image-thumb" src="" alt="Reference Preview" style="width: 58px; height: 58px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);" />
+            <span style="position: absolute; bottom: -4px; right: -4px; background: #10b981; color: #fff; font-size: 0.6rem; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #0f172a;">✓</span>
+          </div>
+          
           <div style="flex: 1; min-width: 0;">
-            <div id="ref-image-name" style="color: #e4e4e7; font-size: 0.75rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
-            <div style="display: flex; gap: 6px; margin-top: 4px;">
-              <button id="ref-image-analyze-btn" style="background: linear-gradient(135deg, #9333ea, #a855f7); border: none; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 3px;">
-                <span data-i18n="ref-btn-analyze">✨ AI Phân Tích Ảnh</span>
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+              <span id="ref-image-name" style="color: #f4f4f5; font-size: 0.78rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">image.png</span>
+              <span id="ref-image-size" style="font-size: 0.65rem; color: #a1a1aa; background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 4px;"></span>
+            </div>
+            <div style="font-size: 0.68rem; color: #34d399; font-weight: 600; margin-bottom: 6px;">✅ Đã Khóa Nhân Diện & Tách DNA Thành Công</div>
+            
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button id="ref-image-analyze-btn" style="background: linear-gradient(135deg, #9333ea, #a855f7); border: none; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                <span data-i18n="ref-btn-analyze">✨ AI Trích Xuất DNA</span>
               </button>
-              <button id="ref-image-remove-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">
+              <button id="ref-image-replace-btn" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">
+                🔄 Đổi Ảnh
+              </button>
+              <button id="ref-image-remove-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">
                 <span data-i18n="ref-btn-remove">🗑️ Gỡ</span>
               </button>
             </div>

@@ -1288,37 +1288,49 @@ function updatePipelineStep(stepNum, statusText) {
 }
 
 /**
- * Reference Image Upload & Smart Textarea Auto-Resize Controller
+ * Reference Image Upload & Smart Textarea Auto-Resize Controller (Checklist Compliant)
  */
 function initReferenceImageModule() {
   const dropzone = document.getElementById('ref-image-dropzone');
   const fileInput = document.getElementById('ref-image-file-input');
   const previewBox = document.getElementById('ref-image-preview-box');
+  const progressBar = document.getElementById('ref-image-progress-bar');
+  const progressFill = document.getElementById('ref-progress-fill');
+  const progressPercent = document.getElementById('ref-progress-percent');
+  const progressLabel = document.getElementById('ref-progress-label');
   const thumbImg = document.getElementById('ref-image-thumb');
   const nameEl = document.getElementById('ref-image-name');
+  const sizeEl = document.getElementById('ref-image-size');
   const removeBtn = document.getElementById('ref-image-remove-btn');
+  const replaceBtn = document.getElementById('ref-image-replace-btn');
   const analyzeBtn = document.getElementById('ref-image-analyze-btn');
   const statusEl = document.getElementById('ref-image-status');
+  const dropTextMain = document.getElementById('ref-drop-text-main');
   
   if (!dropzone || !fileInput) return;
 
-  // Dropzone click
+  // 1. Click to upload / replace
   dropzone.addEventListener('click', () => fileInput.click());
+  replaceBtn?.addEventListener('click', () => fileInput.click());
 
-  // Drag & drop handlers
+  // 2. Drag & Drop Visual Interactions
   ['dragenter', 'dragover'].forEach(eventName => {
     dropzone.addEventListener(eventName, (e) => {
       e.preventDefault();
       dropzone.style.borderColor = '#38bdf8';
-      dropzone.style.background = 'rgba(56, 189, 248, 0.15)';
+      dropzone.style.background = 'rgba(56, 189, 248, 0.18)';
+      dropzone.style.boxShadow = '0 0 20px rgba(56,189,248,0.3)';
+      if (dropTextMain) dropTextMain.textContent = '✨ Thả ảnh vào đây để tải lên ngay!';
     }, false);
   });
 
   ['dragleave', 'drop'].forEach(eventName => {
     dropzone.addEventListener(eventName, (e) => {
       e.preventDefault();
-      dropzone.style.borderColor = 'rgba(56, 189, 248, 0.25)';
-      dropzone.style.background = 'rgba(0, 0, 0, 0.3)';
+      dropzone.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+      dropzone.style.background = 'rgba(0, 0, 0, 0.35)';
+      dropzone.style.boxShadow = 'none';
+      if (dropTextMain) dropTextMain.textContent = 'Kéo thả ảnh vào đây hoặc bấm để chọn tệp';
     }, false);
   });
 
@@ -1336,38 +1348,90 @@ function initReferenceImageModule() {
     }
   });
 
+  // 3. File validation & Progress handling
+  function formatBytes(bytes, decimals = 1) {
+    if (!+bytes) return '0 B';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  }
+
   function handleImageFile(file) {
+    // Check format constraint
     if (!file.type.startsWith('image/')) {
-      alert('Vui lòng chọn tệp hình ảnh (PNG, JPG, WEBP)!');
+      soundFX.playClick();
+      showToast('⚠️ Định dạng không hợp lệ! Vui lòng chọn tệp ảnh PNG, JPG hoặc WEBP.', 'error');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      const base64 = dataUrl.split(',')[1];
-      currentReferenceImage = {
-        name: file.name,
-        mimeType: file.type,
-        base64: base64,
-        dataUrl: dataUrl
-      };
-      
-      // Update UI
-      if (thumbImg) thumbImg.src = dataUrl;
-      if (nameEl) nameEl.textContent = file.name;
-      if (dropzone) dropzone.style.display = 'none';
-      if (previewBox) previewBox.style.display = 'flex';
-      if (statusEl) {
-        statusEl.textContent = '🟢 Active Anchor';
-        statusEl.style.color = '#34d399';
-      }
 
-      refreshResult();
+    // Check size constraint (Max 10MB)
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      soundFX.playClick();
+      showToast('⚠️ Dung lượng vượt quá giới hạn! Vui lòng chọn ảnh nhỏ hơn 10MB.', 'error');
+      return;
+    }
+
+    // Show Progress Bar
+    if (progressBar) {
+      progressBar.style.display = 'block';
+      if (progressPercent) progressPercent.textContent = '35%';
+      if (progressFill) progressFill.style.width = '35%';
+      if (progressLabel) progressLabel.textContent = `Đang đọc ${file.name}...`;
+    }
+
+    const reader = new FileReader();
+
+    reader.onprogress = (e) => {
+      if (e.lengthComputable && progressBar) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        if (progressPercent) progressPercent.textContent = `${percent}%`;
+        if (progressFill) progressFill.style.width = `${percent}%`;
+      }
     };
+
+    reader.onload = (event) => {
+      setTimeout(() => {
+        const dataUrl = event.target.result;
+        const base64 = dataUrl.split(',')[1];
+        currentReferenceImage = {
+          name: file.name,
+          size: file.size,
+          mimeType: file.type,
+          base64: base64,
+          dataUrl: dataUrl
+        };
+        
+        // Update UI
+        if (thumbImg) thumbImg.src = dataUrl;
+        if (nameEl) nameEl.textContent = file.name;
+        if (sizeEl) sizeEl.textContent = formatBytes(file.size);
+        if (progressBar) progressBar.style.display = 'none';
+        if (dropzone) dropzone.style.display = 'none';
+        if (previewBox) previewBox.style.display = 'flex';
+        if (statusEl) {
+          statusEl.textContent = '🟢 Active Anchor';
+          statusEl.style.color = '#34d399';
+        }
+
+        soundFX.playCopy();
+        showToast(`✅ Đã tải thành công: ${file.name} (${formatBytes(file.size)})`, 'success');
+        refreshResult();
+      }, 300);
+    };
+
+    reader.onerror = () => {
+      if (progressBar) progressBar.style.display = 'none';
+      soundFX.playClick();
+      showToast('❌ Đọc tệp thất bại. Vui lòng thử lại!', 'error');
+    };
+
     reader.readAsDataURL(file);
   }
 
-  // Remove image
+  // 4. Remove image action
   removeBtn?.addEventListener('click', () => {
     currentReferenceImage = null;
     if (fileInput) fileInput.value = '';
@@ -1377,18 +1441,21 @@ function initReferenceImageModule() {
       statusEl.textContent = 'Image-to-Video Hook';
       statusEl.style.color = '#a1a1aa';
     }
+    soundFX.playClick();
+    showToast('🗑️ Đã gỡ ảnh tham chiếu.', 'info');
     refreshResult();
   });
 
-  // AI Vision Analyze Image
+  // 5. AI Vision Analyze Image
   analyzeBtn?.addEventListener('click', async () => {
     if (!currentReferenceImage) return;
     const config = getAIConfig();
     const originalText = analyzeBtn.innerHTML;
     
     try {
-      analyzeBtn.innerHTML = '⏳ Đang phân tích...';
+      analyzeBtn.innerHTML = '⏳ Đang phân tích DNA...';
       analyzeBtn.disabled = true;
+      soundFX.playRoll();
       
       const visionResult = await analyzeImageWithAI(
         currentReferenceImage.base64,
@@ -1403,9 +1470,11 @@ function initReferenceImageModule() {
         subInput.dispatchEvent(new Event('input', { bubbles: true }));
       }
       
-      showCopyFeedback(analyzeBtn, '✨ Xong!');
+      soundFX.playCopy();
+      showToast('✨ AI Vision đã trích xuất thành công DNA & bối cảnh từ ảnh!', 'success');
     } catch (err) {
-      alert('Lỗi AI Vision: ' + err.message);
+      soundFX.playClick();
+      showToast('⚠️ AI Vision: ' + (err.message || 'Không thể phân tích ảnh'), 'error');
     } finally {
       analyzeBtn.innerHTML = originalText;
       analyzeBtn.disabled = false;
