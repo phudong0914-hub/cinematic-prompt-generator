@@ -6,6 +6,7 @@
  */
 
 import './i18n.js';
+import './securityShield.js';
 
 import {
   loadPrompts,
