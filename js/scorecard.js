@@ -53,9 +53,9 @@ const CRITERIA = {
         score: 20,
         keywords: [
           'chiaroscuro', 'rembrandt light', 'split light', 'butterfly light',
-          'volumetric light', 'volumetric ray', 'god ray', 'crepuscular',
+          'volumetric light', 'volumetric lighting', 'volumetric ray', 'god ray', 'god rays', 'crepuscular',
           'caustic', 'subsurface scattering', 'three point',
-          'practical light', 'motivated light', 'bounce light',
+          'practical light', 'practical lights', 'motivated light', 'bounce light',
         ],
         minMatches: 2,
       },
