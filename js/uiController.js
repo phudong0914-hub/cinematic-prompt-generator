@@ -18,6 +18,65 @@ const VIDEO_SUFFIX = ', cinematic motion, smooth camera movement, highly detaile
  * Architecture: [Movement Name]. Movement: [Action]. Speed: [Speed]. Framing: [Framing/Parallax]. End: [Landing Frame].
  */
 export const AI_CAMERA_DIRECTIVES = {
+  // ── NHÓM 1: CỐ ĐỊNH & THU PHÓNG (STATIC & ZOOMS) ──
+  'static tripod-mounted locked shot': {
+    name: 'locked-off static shot',
+    movement: 'hold one fixed camera position for full clip',
+    speed: 'still and steady',
+    framing: 'keep same angle, height, lens distance and composition',
+    end: 'finish with same framing and camera position'
+  },
+  'slow zoom in': {
+    name: 'slow zoom in',
+    movement: 'slowly increase lens focal length toward tighter frame',
+    speed: 'gradual and even push',
+    framing: 'keep main visual target readable as it becomes larger in frame',
+    end: 'finish on stable tighter composition'
+  },
+  'slow zoom out': {
+    name: 'slow zoom out',
+    movement: 'slowly decrease lens focal length toward wider frame',
+    speed: 'gradual and even retreat',
+    framing: 'keep main visual target readable as surrounding space appears',
+    end: 'finish on stable wider composition'
+  },
+  'dramatic crash zoom in on subject': {
+    name: 'crash zoom in',
+    movement: 'snap lens rapidly toward main visual target',
+    speed: 'very fast and punchy',
+    framing: 'keep target centered through sudden scale change',
+    end: 'land on bold tighter composition'
+  },
+  'crash zoom out': {
+    name: 'crash zoom out',
+    movement: 'snap lens rapidly away from main visual target',
+    speed: 'very fast and punchy',
+    framing: 'keep target readable as environment violently reveals',
+    end: 'land on bold wider composition'
+  },
+  'infinite zoom': {
+    name: 'infinite zoom',
+    movement: 'zoom continuously inward toward exact center target without stopping',
+    speed: 'smooth accelerating zoom',
+    framing: 'keep circular target centered as it endlessly expands',
+    end: 'finish when next visual world fills frame'
+  },
+  'earth zoom out': {
+    name: 'earth zoom out',
+    movement: 'pull straight upward from ground level through street, city, clouds and planet scale',
+    speed: 'rapid expanding zoom out',
+    framing: 'keep starting point centered as cosmic scale grows',
+    end: 'finish on planet-scale view with starting point implied at center'
+  },
+  'vertigo dolly zoom effect, dolly-in with zoom-out': {
+    name: 'vertigo dolly zoom',
+    movement: 'physically dolly camera in while zooming lens out simultaneously',
+    speed: 'smooth calibrated counter-motion',
+    framing: 'keep subject size constant while background perspective warp expands',
+    end: 'settle on dramatic altered depth'
+  },
+
+  // ── NHÓM 2: TRỤC DI CHUYỂN VẬT LÝ (DOLLY, TRUCK, PEDESTAL, SLIDER) ──
   'slow dolly-in push': {
     name: 'dolly in',
     movement: 'move camera physically forward in a straight line toward main subject',
@@ -32,6 +91,50 @@ export const AI_CAMERA_DIRECTIVES = {
     framing: 'keep lens direction and camera height consistent while environment enters frame',
     end: 'finish in a wider composition'
   },
+  'truck right': {
+    name: 'truck right',
+    movement: 'move camera physically to right on straight horizontal track',
+    speed: 'smooth constant lateral travel',
+    framing: 'keep lens facing same direction while scene slides across frame',
+    end: 'finish on clean lateral composition'
+  },
+  'truck left': {
+    name: 'truck left',
+    movement: 'move camera physically to left on straight horizontal track',
+    speed: 'smooth constant lateral travel',
+    framing: 'keep lens facing same direction while scene slides across frame',
+    end: 'finish on clean lateral composition'
+  },
+  'pedestal up': {
+    name: 'pedestal up',
+    movement: 'raise entire camera vertically upward in a straight line without tilting lens',
+    speed: 'smooth constant vertical lift',
+    framing: 'keep lens level while higher vantage point reveals',
+    end: 'finish with higher framing clearly readable'
+  },
+  'pedestal down': {
+    name: 'pedestal down',
+    movement: 'lower entire camera vertically downward in a straight line without tilting lens',
+    speed: 'smooth constant vertical descent',
+    framing: 'keep lens level while lower details enter frame',
+    end: 'finish with lower framing clearly readable'
+  },
+  'slider right': {
+    name: 'slider right',
+    movement: 'slide camera a small measured distance to right',
+    speed: 'slow controlled constant motion',
+    framing: 'keep foreground and background parallax layers shifting smoothly',
+    end: 'finish on refined composition with new right-side angle'
+  },
+  'slider left': {
+    name: 'slider left',
+    movement: 'slide camera a small measured distance to left',
+    speed: 'slow controlled constant motion',
+    framing: 'keep foreground and background parallax layers shifting smoothly',
+    end: 'finish on refined composition with new left-side angle'
+  },
+
+  // ── NHÓM 3: XOAY & LIA (PAN, TILT, WHIP PAN) ──
   'smooth horizontal pan left': {
     name: 'pan left',
     movement: 'rotate camera horizontally from right to left from one fixed point',
@@ -60,33 +163,35 @@ export const AI_CAMERA_DIRECTIVES = {
     framing: 'keep vertical subject centered as frame travels downward',
     end: 'land on lower target'
   },
+  'rapid whip pan right with motion blur': {
+    name: 'whip pan right',
+    movement: 'rotate rapidly from starting direction toward new target on right',
+    speed: 'fast snap with brief motion blur during rotation',
+    framing: 'begin on readable composition and land on second target',
+    end: 'settle into sharp final frame'
+  },
+  'whip pan left': {
+    name: 'whip pan left',
+    movement: 'rotate rapidly from starting direction toward new target on left',
+    speed: 'fast snap with brief motion blur during rotation',
+    framing: 'begin on readable composition and land on second target',
+    end: 'settle into sharp final frame'
+  },
+
+  // ── NHÓM 4: QUỸ ĐẠO & XUYÊN THẤU (ORBIT, ARC, PUSH PAST, PASS-THROUGH) ──
   'smooth 360-degree orbit around subject': {
     name: '360 orbit',
-    movement: 'circle around main subject at consistent radius',
+    movement: 'circle clockwise around main subject at consistent radius',
     speed: 'smooth controlled orbit',
     framing: 'keep subject centered while background rotates seamlessly',
     end: 'complete intended arc with stable framing'
   },
-  'dynamic FPV drone dive and swoop': {
-    name: 'FPV drone sweep',
-    movement: 'sweep through 3D space with continuous dynamic altitude adjustment',
-    speed: 'fast agile trajectory',
-    framing: 'wide immersive perspective with dynamic banking',
-    end: 'settle on sweeping cinematic wide shot'
-  },
-  'organic handheld camera motion with subtle shake': {
-    name: 'handheld camera',
-    movement: 'natural organic handheld movement with subtle physical micro-jitters',
-    speed: 'natural human pace',
-    framing: 'follow subject organically with realistic breathing room',
-    end: 'stable handheld rest'
-  },
-  'static tripod-mounted locked shot': {
-    name: 'locked-off static shot',
-    movement: 'hold one fixed camera position for full clip',
-    speed: 'still and steady',
-    framing: 'keep same angle, height, lens distance and composition',
-    end: 'finish with same framing and camera position'
+  'counterclockwise orbit': {
+    name: 'counterclockwise orbit',
+    movement: 'circle counterclockwise around main subject at consistent radius',
+    speed: 'smooth controlled orbit',
+    framing: 'keep subject centered while background rotates counterclockwise',
+    end: 'complete intended circle with stable framing'
   },
   'push past foreground layer into scene': {
     name: 'push past',
@@ -95,26 +200,12 @@ export const AI_CAMERA_DIRECTIVES = {
     framing: 'let foreground pass close to lens while space beyond reveals',
     end: 'arrive inside or beyond foreground layer'
   },
-  'rapid whip pan right with motion blur': {
-    name: 'whip pan right',
-    movement: 'rotate rapidly from starting direction toward new target on right',
-    speed: 'fast snap with brief motion blur during rotation',
-    framing: 'begin on readable composition and land on second target',
-    end: 'settle into sharp final frame'
-  },
-  'dramatic crash zoom in on subject': {
-    name: 'crash zoom in',
-    movement: 'snap lens rapidly toward main visual target',
-    speed: 'very fast and punchy',
-    framing: 'keep target centered through sudden scale change',
-    end: 'land on bold tighter composition'
-  },
-  'vertigo dolly zoom effect, dolly-in with zoom-out': {
-    name: 'vertigo dolly zoom',
-    movement: 'physically dolly camera in while zooming lens out simultaneously',
-    speed: 'smooth calibrated counter-motion',
-    framing: 'keep subject size constant while background perspective warp expands',
-    end: 'settle on dramatic altered depth'
+  'pass-through movement': {
+    name: 'pass-through',
+    movement: 'move forward toward visible opening, glass or barrier and penetrate into space beyond',
+    speed: 'smooth centered glide',
+    framing: 'keep opening centered as seamless portal transition point',
+    end: 'arrive inside revealed space beyond'
   },
   'smooth arc curve movement around subject': {
     name: 'arc right',
@@ -122,6 +213,108 @@ export const AI_CAMERA_DIRECTIVES = {
     speed: 'smooth measured curve',
     framing: 'keep distance, height and subject readability consistent',
     end: 'finish from new right-side angle'
+  },
+  'arc left': {
+    name: 'arc left',
+    movement: 'move on shallow curved path around main subject toward left side',
+    speed: 'smooth measured curve',
+    framing: 'keep distance, height and subject readability consistent',
+    end: 'finish from new left-side angle'
+  },
+
+  // ── NHÓM 5: BÁM THEO & NHÂN VẬT (TRACKING & SNORRICAM) ──
+  'tracking shot': {
+    name: 'tracking shot',
+    movement: 'move through scene with main subject along their path',
+    speed: 'match subject pace precisely',
+    framing: 'keep subject consistently readable while environment moves around them',
+    end: 'maintain clear moving composition'
+  },
+  'reverse tracking walk-and-talk': {
+    name: 'reverse tracking',
+    movement: 'move backward in front of walking subject facing camera',
+    speed: 'match subject forward walking pace',
+    framing: 'keep front-facing face and body framing stable as background moves behind',
+    end: 'hold clear front-facing moving composition'
+  },
+  'side tracking shot': {
+    name: 'side tracking',
+    movement: 'move parallel beside subject along direction of travel',
+    speed: 'match subject motion',
+    framing: 'keep subject in side profile or 3/4 profile at stable distance',
+    end: 'continue parallel movement with clean horizontal motion'
+  },
+  'snorricam body-mounted shot': {
+    name: 'snorricam body-mounted',
+    movement: 'keep camera rigidly fixed relative to subject torso/face while subject moves',
+    speed: 'match subject body momentum',
+    framing: 'keep subject centered and facing camera while background swings wildly behind them',
+    end: 'finish with subject still locked in frame'
+  },
+  'chase shot': {
+    name: 'chase shot',
+    movement: 'follow moving subject aggressively along action route',
+    speed: 'fast, reactive and physically close',
+    framing: 'keep subject visible while allowing energetic kinetic reframing',
+    end: 'stay connected to subject in motion'
+  },
+  'organic handheld camera motion with subtle shake': {
+    name: 'handheld camera',
+    movement: 'natural organic handheld movement with subtle physical micro-jitters',
+    speed: 'natural human pace',
+    framing: 'follow subject organically with realistic breathing room',
+    end: 'stable handheld rest'
+  },
+
+  // ── NHÓM 6: TRÊN KHÔNG & ĐẶC BIỆT (AERIAL, CRANE, FPV, TILT-SHIFT, TIMELAPSE) ──
+  'dynamic FPV drone dive and swoop': {
+    name: 'FPV drone sweep',
+    movement: 'sweep through 3D space with continuous dynamic altitude adjustment',
+    speed: 'fast agile trajectory',
+    framing: 'wide immersive perspective with dynamic banking',
+    end: 'settle on sweeping cinematic wide shot'
+  },
+  'drone push in': {
+    name: 'drone push in',
+    movement: 'fly smoothly forward through open space toward destination',
+    speed: 'controlled aerial glide',
+    framing: 'keep destination readable as altitude and distance close',
+    end: 'arrive at closer aerial composition'
+  },
+  'drone pull back': {
+    name: 'drone pull back',
+    movement: 'fly smoothly backward away from destination',
+    speed: 'controlled aerial retreat',
+    framing: 'reveal massive surrounding landscape scale',
+    end: 'finish on wide expansive aerial view'
+  },
+  'crane up': {
+    name: 'crane up',
+    movement: 'travel smoothly upward through open space on crane arm',
+    speed: 'slow controlled vertical lift',
+    framing: 'reveal large-scale environment as camera ascends',
+    end: 'finish with higher scale clearly visible'
+  },
+  'crane down': {
+    name: 'crane down',
+    movement: 'travel smoothly downward through open space toward ground target',
+    speed: 'slow controlled vertical descent',
+    framing: 'isolate subject as camera descends to eye level',
+    end: 'finish with intimate lower framing'
+  },
+  'tilt-shift miniature view': {
+    name: 'tilt-shift miniature',
+    movement: 'glide from high angled view over miniature-scale environment',
+    speed: 'small precise movement',
+    framing: 'narrow band of sharp focus with dreamy optical blur above and below',
+    end: 'finish with miniature diorama look intact'
+  },
+  'locked-camera time-lapse': {
+    name: 'time-lapse',
+    movement: 'hold one fixed rigid position while time moves rapidly forward',
+    speed: 'fast time compression with stable frame',
+    framing: 'keep same composition as clouds, sun and shadows streak through frame',
+    end: 'finish with dramatic passage of time'
   }
 };
 
