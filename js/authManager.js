@@ -341,13 +341,35 @@ class AuthManager {
     this.updateProfile(this.currentUser);
   }
 
-  // ── Delete / Deactivate Account (Danger Zone) ──
+  // ── Delete / Deactivate / Role Management (CMS Admin) ──
   deactivateAccount(userId) {
     const user = this.users.find(u => u.id === userId);
     if (user) {
       user.status = user.status === 'Active' ? 'Inactive' : 'Active';
       this.saveToStorage();
+      return user;
     }
+    return null;
+  }
+
+  setUserStatus(userId, newStatus) {
+    const user = this.users.find(u => u.id === userId);
+    if (user) {
+      user.status = newStatus;
+      this.saveToStorage();
+      return user;
+    }
+    return null;
+  }
+
+  setUserRole(userId, newRole) {
+    const user = this.users.find(u => u.id === userId);
+    if (user) {
+      user.role = newRole;
+      this.saveToStorage();
+      return user;
+    }
+    return null;
   }
 
   deleteAccount(userId) {

@@ -29,12 +29,14 @@ export function initAuthUI() {
   const accountModal = document.getElementById('account-modal-overlay');
   const accountModalClose = document.getElementById('account-modal-close');
 
-  // Sub-tabs in Account Modal (Minimal: Profile & Storage Engine)
+  // Sub-tabs in Account Modal (Profile, Storage & CMS Admin)
   const tabProfileBtn = document.getElementById('acc-tab-profile');
   const tabStorageBtn = document.getElementById('acc-tab-storage');
+  const tabCmsBtn = document.getElementById('acc-tab-cms');
 
   const viewProfile = document.getElementById('acc-view-profile');
   const viewStorage = document.getElementById('acc-view-storage');
+  const viewCms = document.getElementById('acc-view-cms');
 
   // State
   let pendingEmail = '';
@@ -398,31 +400,34 @@ export function initAuthUI() {
     if (e.target === accountModal) closeAccountModal();
   });
 
-  // Sub-tabs Switching (Steve Jobs Simplicity: Profile & Storage)
+  // Sub-tabs Switching (Profile, Storage & CMS Admin)
   function switchAccountTab(tabName) {
     const isProfile = tabName === 'profile';
+    const isStorage = tabName === 'storage';
+    const isCms = tabName === 'cms';
+
     if (viewProfile) viewProfile.style.display = isProfile ? 'block' : 'none';
-    if (viewStorage) viewStorage.style.display = isProfile ? 'none' : 'block';
+    if (viewStorage) viewStorage.style.display = isStorage ? 'block' : 'none';
+    if (viewCms) viewCms.style.display = isCms ? 'block' : 'none';
 
-    if (tabProfileBtn) {
-      tabProfileBtn.style.background = isProfile ? 'rgba(255,215,0,0.18)' : 'transparent';
-      tabProfileBtn.style.borderColor = isProfile ? 'rgba(255,215,0,0.4)' : 'transparent';
-      tabProfileBtn.style.color = isProfile ? '#ffd700' : '#a1a1aa';
-    }
+    const setTabStyle = (btn, active) => {
+      if (!btn) return;
+      btn.style.background = active ? 'rgba(255,215,0,0.18)' : 'transparent';
+      btn.style.borderColor = active ? 'rgba(255,215,0,0.4)' : 'transparent';
+      btn.style.color = active ? '#ffd700' : '#a1a1aa';
+    };
 
-    if (tabStorageBtn) {
-      tabStorageBtn.style.background = !isProfile ? 'rgba(255,215,0,0.18)' : 'transparent';
-      tabStorageBtn.style.borderColor = !isProfile ? 'rgba(255,215,0,0.4)' : 'transparent';
-      tabStorageBtn.style.color = !isProfile ? '#ffd700' : '#a1a1aa';
-    }
+    setTabStyle(tabProfileBtn, isProfile);
+    setTabStyle(tabStorageBtn, isStorage);
+    setTabStyle(tabCmsBtn, isCms);
 
-    if (!isProfile) {
-      renderStoragePanel();
-    }
+    if (isStorage) renderStoragePanel();
+    if (isCms) renderCMSPanel();
   }
 
   tabProfileBtn?.addEventListener('click', () => switchAccountTab('profile'));
   tabStorageBtn?.addEventListener('click', () => switchAccountTab('storage'));
+  tabCmsBtn?.addEventListener('click', () => switchAccountTab('cms'));
 
   // ═════════════════════════════════════════════════════════════
   // 1. PROFILE VIEW CONTROLLER
@@ -618,6 +623,187 @@ export function initAuthUI() {
       renderStoragePanel();
     }
   });
+
+  // ═════════════════════════════════════════════════════════════
+  // 3. CMS ADMIN USER MANAGEMENT CONTROLLER
+  // ═════════════════════════════════════════════════════════════
+  const cmsSearchInput = document.getElementById('cms-search-input');
+  const cmsFilterStatus = document.getElementById('cms-filter-status');
+  const cmsFilterRole = document.getElementById('cms-filter-role');
+  const cmsTableBody = document.getElementById('cms-user-table-body');
+  const cmsEmptyState = document.getElementById('cms-empty-state');
+
+  function renderCMSPanel() {
+    const users = authManager.users || [];
+
+    // 1. Update stats
+    const totalUsers = users.length;
+    const activeUsers = users.filter(u => u.status === 'Active').length;
+    const inactiveUsers = users.filter(u => u.status !== 'Active').length;
+    const adminUsers = users.filter(u => u.role === 'Admin').length;
+
+    const statTotal = document.getElementById('cms-stat-total');
+    const statActive = document.getElementById('cms-stat-active');
+    const statInactive = document.getElementById('cms-stat-inactive');
+    const statAdmins = document.getElementById('cms-stat-admins');
+
+    if (statTotal) statTotal.textContent = totalUsers;
+    if (statActive) statActive.textContent = activeUsers;
+    if (statInactive) statInactive.textContent = inactiveUsers;
+    if (statAdmins) statAdmins.textContent = adminUsers;
+
+    // 2. Filter users
+    const query = cmsSearchInput?.value.toLowerCase().trim() || '';
+    const statusFilter = cmsFilterStatus?.value || 'all';
+    const roleFilter = cmsFilterRole?.value || 'all';
+
+    const filtered = users.filter(u => {
+      const matchQuery = !query || 
+        (u.displayName && u.displayName.toLowerCase().includes(query)) || 
+        (u.email && u.email.toLowerCase().includes(query)) ||
+        (u.jobTitle && u.jobTitle.toLowerCase().includes(query));
+
+      const matchStatus = statusFilter === 'all' || u.status === statusFilter;
+      const matchRole = roleFilter === 'all' || u.role === roleFilter;
+
+      return matchQuery && matchStatus && matchRole;
+    });
+
+    // 3. Render table
+    if (!cmsTableBody) return;
+    cmsTableBody.innerHTML = '';
+
+    if (filtered.length === 0) {
+      if (cmsEmptyState) cmsEmptyState.style.display = 'block';
+      return;
+    }
+
+    if (cmsEmptyState) cmsEmptyState.style.display = 'none';
+
+    filtered.forEach(u => {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+      tr.style.transition = 'background 0.15s';
+      tr.onmouseenter = () => tr.style.background = 'rgba(255,255,255,0.03)';
+      tr.onmouseleave = () => tr.style.background = 'transparent';
+
+      const isActive = u.status === 'Active';
+      const isAdmin = u.role === 'Admin';
+      const isCurrent = authManager.currentUser && authManager.currentUser.id === u.id;
+      const deviceCount = u.devices ? u.devices.length : 0;
+      const createdDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString('vi-VN') : 'Mặc định';
+
+      const statusBadge = isActive
+        ? `<span style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.7rem;">Active</span>`
+        : `<span style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.7rem;">Inactive</span>`;
+
+      const roleBadge = isAdmin
+        ? `<span style="background: rgba(234,179,8,0.15); color: #facc15; border: 1px solid rgba(234,179,8,0.35); padding: 2px 8px; border-radius: 6px; font-weight: 700; font-size: 0.7rem;">👑 Admin</span>`
+        : `<span style="background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.25); padding: 2px 8px; border-radius: 6px; font-weight: 600; font-size: 0.7rem;">${u.role || 'Member'}</span>`;
+
+      const avatarHtml = u.avatarUrl
+        ? `<img src="${u.avatarUrl}" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1.5px solid #ffd700;" />`
+        : `<div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 800;">${authManager.getInitials(u.displayName)}</div>`;
+
+      tr.innerHTML = `
+        <td style="padding: 10px 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${avatarHtml}
+            <div>
+              <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 4px;">
+                ${u.displayName || 'Unnamed'}
+                ${isCurrent ? '<span style="font-size: 0.6rem; color: #ffd700; background: rgba(255,215,0,0.15); padding: 1px 4px; border-radius: 4px;">(Bạn)</span>' : ''}
+              </div>
+              <div style="font-size: 0.68rem; color: #71717a;">${u.jobTitle || 'AI Creator'}</div>
+            </div>
+          </div>
+        </td>
+        <td style="padding: 10px 12px; color: #bae6fd; font-family: monospace; font-size: 0.74rem;">
+          ${u.email}
+        </td>
+        <td style="padding: 10px 8px; text-align: center;">
+          ${roleBadge}
+        </td>
+        <td style="padding: 10px 8px; text-align: center;">
+          ${statusBadge}
+        </td>
+        <td style="padding: 10px 8px; text-align: center; color: #a1a1aa; font-size: 0.72rem;">
+          <span style="color: ${deviceCount >= 3 ? '#f87171' : '#34d399'}; font-weight: 700;">${deviceCount}</span>/3
+        </td>
+        <td style="padding: 10px 8px; color: #71717a; font-size: 0.72rem;">
+          ${createdDate}
+        </td>
+        <td style="padding: 10px 12px; text-align: center;">
+          <div style="display: flex; justify-content: center; align-items: center; gap: 6px;">
+            <!-- Active / Deactivate Toggle Button -->
+            <button class="cms-btn-toggle" data-id="${u.id}" title="${isActive ? 'Khóa tài khoản' : 'Kích hoạt tài khoản'}" style="background: ${isActive ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.15)'}; border: 1px solid ${isActive ? 'rgba(239,68,68,0.3)' : 'rgba(16,185,129,0.35)'}; color: ${isActive ? '#f87171' : '#34d399'}; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">
+              ${isActive ? '⛔ Khóa' : '⚡ Kích hoạt'}
+            </button>
+
+            <!-- Role Toggle Button -->
+            <button class="cms-btn-role" data-id="${u.id}" title="Đổi quyền Admin / Member" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer;">
+              👑 Role
+            </button>
+
+            <!-- Delete Button (Only for non-current users) -->
+            ${!isCurrent ? `
+              <button class="cms-btn-delete" data-id="${u.id}" data-name="${u.displayName}" title="Xóa tài khoản vĩnh viễn" style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 4px 6px; border-radius: 6px; font-size: 0.7rem; cursor: pointer;">
+                🗑️
+              </button>
+            ` : ''}
+          </div>
+        </td>
+      `;
+
+      cmsTableBody.appendChild(tr);
+    });
+
+    // Delegate Actions
+    cmsTableBody.querySelectorAll('.cms-btn-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const uid = btn.dataset.id;
+        const targetUser = authManager.users.find(u => u.id === uid);
+        if (!targetUser) return;
+        const newStatus = targetUser.status === 'Active' ? 'Inactive' : 'Active';
+        authManager.setUserStatus(uid, newStatus);
+        soundFX.playClick();
+        showToast(`Đã ${newStatus === 'Active' ? 'kích hoạt ⚡' : 'tạm khóa ⛔'} tài khoản ${targetUser.displayName}!`, 'info');
+        renderCMSPanel();
+      });
+    });
+
+    cmsTableBody.querySelectorAll('.cms-btn-role').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const uid = btn.dataset.id;
+        const targetUser = authManager.users.find(u => u.id === uid);
+        if (!targetUser) return;
+        const newRole = targetUser.role === 'Admin' ? 'Member' : 'Admin';
+        authManager.setUserRole(uid, newRole);
+        soundFX.playRoll();
+        showToast(`Đã đổi quyền của ${targetUser.displayName} thành ${newRole}!`, 'success');
+        renderCMSPanel();
+        renderAccountProfile();
+      });
+    });
+
+    cmsTableBody.querySelectorAll('.cms-btn-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const uid = btn.dataset.id;
+        const uname = btn.dataset.name || 'Người dùng';
+        if (confirm(`⚠️ Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${uname}" không? Hành động này không thể hoàn tác.`)) {
+          authManager.deleteAccount(uid);
+          soundFX.playClick();
+          showToast(`🗑️ Đã xóa tài khoản ${uname} khỏi hệ thống!`, 'info');
+          renderCMSPanel();
+        }
+      });
+    });
+  }
+
+  // Bind CMS search & filter listeners
+  cmsSearchInput?.addEventListener('input', renderCMSPanel);
+  cmsFilterStatus?.addEventListener('change', renderCMSPanel);
+  cmsFilterRole?.addEventListener('change', renderCMSPanel);
 
   // Initial State Setup
   updateHeaderBadge();
