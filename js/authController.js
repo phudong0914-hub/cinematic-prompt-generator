@@ -44,7 +44,14 @@ export function initAuthUI() {
   function updateHeaderBadge() {
     const user = authManager.currentUser;
     if (user) {
-      if (authHeaderAvatar) authHeaderAvatar.textContent = authManager.getInitials(user.displayName);
+      if (authHeaderAvatar) {
+        // Show avatar photo in topbar if uploaded
+        if (user.avatarUrl) {
+          authHeaderAvatar.innerHTML = `<img src="${user.avatarUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+        } else {
+          authHeaderAvatar.textContent = authManager.getInitials(user.displayName);
+        }
+      }
       if (authHeaderName) authHeaderName.textContent = user.displayName;
     } else {
       if (authHeaderAvatar) authHeaderAvatar.textContent = '👤';
@@ -433,20 +440,73 @@ export function initAuthUI() {
     const headerName = document.getElementById('acc-header-name');
     const headerEmail = document.getElementById('acc-header-email');
     const headerRole = document.getElementById('acc-header-role-badge');
-    const headerAvatar = document.getElementById('acc-header-avatar');
+    const avatarInitials = document.getElementById('acc-avatar-initials');
+    const avatarImg = document.getElementById('acc-avatar-img');
 
     if (headerName) headerName.textContent = user.displayName;
     if (headerEmail) headerEmail.textContent = user.email;
     if (headerRole) headerRole.textContent = (user.role || 'Admin').toUpperCase();
-    if (headerAvatar) headerAvatar.textContent = authManager.getInitials(user.displayName);
+
+    // Avatar: show uploaded photo or fallback to initials
+    if (user.avatarUrl && avatarImg) {
+      avatarImg.src = user.avatarUrl;
+      avatarImg.style.display = 'block';
+      if (avatarInitials) avatarInitials.style.display = 'none';
+    } else {
+      if (avatarImg) avatarImg.style.display = 'none';
+      if (avatarInitials) {
+        avatarInitials.style.display = '';
+        avatarInitials.textContent = authManager.getInitials(user.displayName);
+      }
+    }
 
     if (profDisplayName) profDisplayName.value = user.displayName || '';
     if (profAccountName) profAccountName.value = user.accountName || '';
     if (profJobTitle) profJobTitle.value = user.jobTitle || '';
     if (profPhone) profPhone.value = user.phone || '';
 
+    // Email readonly display
+    const profEmailDisplay = document.getElementById('prof-email-display');
+    if (profEmailDisplay) profEmailDisplay.value = user.email || '';
+
     disableSaveBtn();
   }
+
+  // ── Avatar Upload Handler ──
+  const avatarUploadInput = document.getElementById('avatar-upload-input');
+  avatarUploadInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('⚠️ Ảnh đại diện tối đa 2MB. Vui lòng chọn ảnh nhỏ hơn.', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const base64Url = ev.target.result;
+
+      // Update UI immediately
+      const avatarImg = document.getElementById('acc-avatar-img');
+      const avatarInitials = document.getElementById('acc-avatar-initials');
+      if (avatarImg) {
+        avatarImg.src = base64Url;
+        avatarImg.style.display = 'block';
+      }
+      if (avatarInitials) avatarInitials.style.display = 'none';
+
+      // Persist to user data
+      authManager.updateProfile({ avatarUrl: base64Url });
+      updateHeaderBadge();
+      soundFX.playCopy();
+      showToast('📸 Đã cập nhật ảnh đại diện thành công!', 'success');
+    };
+    reader.readAsDataURL(file);
+    // Reset input so same file can be re-selected
+    e.target.value = '';
+  });
 
   function enableSaveBtn() {
     if (!profSaveBtn) return;
@@ -492,8 +552,7 @@ export function initAuthUI() {
     showToast('✅ Đã lưu cập nhật thông tin tài khoản thành công!', 'success');
     disableSaveBtn();
     updateHeaderBadge();
-    const headerName = document.getElementById('acc-header-name');
-    if (headerName) headerName.textContent = newName;
+    renderAccountProfile();
   });
 
   // Logout Handler

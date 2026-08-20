@@ -2314,8 +2314,19 @@
         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px 18px; margin-bottom: 18px;">
           <div style="display: flex; align-items: center; gap: 14px;">
             <div style="position: relative;">
-              <div id="acc-header-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; border: 2px solid #ffd700;">DT</div>
-              <span id="acc-header-badge" style="position: absolute; bottom: -2px; right: -2px; background: #10b981; color: #fff; font-size: 0.55rem; padding: 1px 4px; border-radius: 4px; font-weight: 800; border: 1.5px solid #0f172a;">PRO</span>
+              <!-- Clickable Avatar Upload Zone -->
+              <label for="avatar-upload-input" style="cursor: pointer; display: block; position: relative;" title="Nhấn để tải ảnh đại diện">
+                <div id="acc-header-avatar" style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #ec4899, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; border: 2.5px solid #ffd700; overflow: hidden; position: relative;">
+                  <span id="acc-avatar-initials">DT</span>
+                  <img id="acc-avatar-img" src="" alt="" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; border-radius: 50%;" />
+                </div>
+                <!-- Camera overlay icon -->
+                <div style="position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; background: #ffd700; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #0f172a; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke="#000" stroke-width="2.5"/></svg>
+                </div>
+              </label>
+              <input type="file" id="avatar-upload-input" accept="image/png,image/jpeg,image/webp,image/gif" style="display: none;" />
+              <span id="acc-header-badge" style="position: absolute; top: -4px; left: -4px; background: #10b981; color: #fff; font-size: 0.55rem; padding: 1px 4px; border-radius: 4px; font-weight: 800; border: 1.5px solid #0f172a;">PRO</span>
             </div>
             <div>
               <div style="display: flex; align-items: center; gap: 8px;">
@@ -2347,6 +2358,14 @@
             <div style="grid-column: span 2;">
               <label style="font-size: 0.78rem; font-weight: 700; color: #e4e4e7; display: block; margin-bottom: 6px;">Họ và Tên (Tên hiển thị của bạn)</label>
               <input type="text" id="prof-display-name" class="text-input new-input-field" placeholder="VD: Đạo Diễn Trung" style="padding: 10px 14px; font-size: 0.88rem; width: 100%;" />
+            </div>
+
+            <div style="grid-column: span 2;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: #a1a1aa; display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l-10 7L2 6" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Email đăng ký (không thể thay đổi)
+              </label>
+              <input type="email" id="prof-email-display" class="text-input new-input-field" readonly style="padding: 8px 12px; font-size: 0.84rem; width: 100%; color: #71717a; background: rgba(255,255,255,0.04); cursor: not-allowed; border-color: rgba(255,255,255,0.06);" />
             </div>
 
             <div>
