@@ -683,12 +683,40 @@ function generateBuilderCombo() {
     }
   }
 
+  const dialogueVal = document.getElementById('builder-dialogue-input')?.value.trim();
+  const voiceToneVal = document.getElementById('builder-voice-tone-input')?.value.trim();
+  const sfxVal = document.getElementById('builder-sfx-input')?.value.trim();
+
   if (aId) {
     const a = findById(aId);
     if (a) {
-      parts.push(`Audio direction: ${a.promptTemplate}`);
+      parts.push(`Ambient noise: ${a.promptTemplate}`);
       titles.push(`🔊 ${a.name}`);
     }
+  }
+
+  // Veo 3.1 Audio & Dialogue formatting
+  if (dialogueVal) {
+    let dialoguePart = `Dialogue: "${dialogueVal.replace(/^["']|["']$/g, '')}"`;
+    if (voiceToneVal) {
+      dialoguePart += ` ${voiceToneVal.startsWith('spoken') ? voiceToneVal : 'spoken ' + voiceToneVal}`;
+    }
+    parts.push(dialoguePart);
+    titles.push('💬 Lời thoại');
+  } else if (voiceToneVal) {
+    parts.push(`Voice style: ${voiceToneVal}`);
+  }
+
+  if (sfxVal) {
+    const formattedSfx = sfxVal.startsWith('SFX:') ? sfxVal : `SFX: ${sfxVal}`;
+    parts.push(formattedSfx);
+    titles.push('⚡ SFX');
+  }
+
+  const physicsVal = document.getElementById('builder-physics-select')?.value;
+  if (physicsVal) {
+    parts.push(`Physics & Motion: ${physicsVal}`);
+    titles.push('🌊 Physics');
   }
 
   if (parts.length === 0) {
@@ -698,8 +726,73 @@ function generateBuilderCombo() {
 
   parts.push(aspectVal);
 
+  const isProMode = document.getElementById('builder-pro-mode')?.checked;
+  if (isProMode) {
+    const arClean = aspectVal.replace('--ar ', '');
+    const subName = subjectVal || 'Chủ thể chính';
+    const subClean = subjectVal || 'Nhân vật / Sản phẩm chính';
+    const lightText = lId ? (findById(lId)?.promptTemplate || lId) : 'Warm studio lighting with soft highlights';
+    const camText = cId ? (findById(cId)?.promptTemplate || cId) : 'Slow dolly-in shot';
+    const compText = cpId ? (findById(cpId)?.promptTemplate || cpId) : 'Rule of thirds composition';
+    const vfxText = vId ? (findById(vId)?.promptTemplate || vId) : 'Cinematic color grading';
+    const audioText = aId ? (findById(aId)?.promptTemplate || aId) : 'Subtle ambient room tone';
+    const dlgText = dialogueVal ? `"${dialogueVal.replace(/^["']|["']$/g, '')}"` : '"..."';
+
+    currentTemplate = `## SCENE 1 (0-10S)
+Tỷ lệ: ${arClean}
+Style: Cinematic commercial film
+
+### CONTINUITY LOCK
+* Character Locked Spec: ${subClean}, detailed facial structure & signature outfit.
+* Environment Locked Spec: Cinematic studio setup, balanced lighting, consistent color palette.
+
+### CHARACTER DESCRIPTION LOCK
+* Character Name: ${subName}
+* Appearance: ${subClean}, ${compText}, ${vfxText}.
+* Color Palette (HEX): #121420, #FFD700, #38BDF8
+
+### ENVIRONMENT
+Location: Studio / Ambient scene
+Time/Lighting: ${lightText}
+Mood: Atmospheric & Cinematic
+
+### ACTION (ARC 8-GIÂY)
+[0-2s] Close-up reveal of ${subClean}.
+[2-5s] Main action sequence: ${subClean} moves naturally under ${camText}.
+[5-8s] Final hero frame placement with ${physicsVal || 'natural motion'}.
+
+### CAMERA
+${camText}, ${compText}.
+
+### VOICE OVER / DIALOGUE
+VO: ${dlgText}
+WORD_COUNT: ${dialogueVal ? dialogueVal.split(' ').length : 0}
+
+### LIP-SYNC LOCK
+Sync mouth movement with VO when speaking; keep closed during ambient moments.
+
+### AUDIO & VFX
+Ambient/Score: ${audioText}.
+Visual FX: ${vfxText}, ${sfxVal ? 'SFX: ' + sfxVal : 'subtle SFX'}.
+
+### SCENE ANCHOR
+${subName} positioned at center, camera held steady on final hero frame.
+
+### TRANSITION HOOK
+Smooth lighting fade for seamless transition to Scene 2.
+
+### NEGATIVE PROMPT (MANDATORY)
+no proportion changes, no color shifts, no 3D realistic details, no wrong-speaker lip-sync, no cluttered background, no distorted hands.`;
+
+    currentTitle = `UNIVERSAL PROMPT PRO (11 PHẦN): ${titles.slice(0, 3).join(' + ')}`;
+    setActiveCard(null);
+    refreshResult();
+    closeBuilder();
+    return;
+  }
+
   currentTemplate = parts.join('. ') + '.';
-  currentTitle = `STUDIO COMBO: ${titles.slice(0, 4).join(' + ')}`;
+  currentTitle = `STUDIO COMBO (VEO 3.1): ${titles.slice(0, 4).join(' + ')}`;
 
   setActiveCard(null);
   refreshResult();
@@ -1184,6 +1277,97 @@ const STYLE_PRESETS = {
       vfx:         ['pastel', 'warm tones', 'whimsical', 'color palette', 'retro'],
     },
     extraSuffix: ', Wes Anderson film aesthetic, perfect bilateral symmetry, pastel color palette, whimsical storybook, quirky deadpan',
+  },
+  food_asmr: {
+    label: '🍜 F&B ASMR 10s',
+    color: '#10b981',
+    fps: '24fps',
+    description: 'Food & Drink ASMR · Macro Texture · 10s Multi-Shot Timeline',
+    keywords: {
+      camera:      ['macro shot', 'close up', 'slow push in', 'extreme close up'],
+      lighting:    ['warm light', 'soft backlight', 'cozy morning', 'natural light'],
+      composition: ['shallow depth of field', 'leading lines', 'rule of thirds'],
+      vfx:         ['cinematic steam', 'fluid dynamics', 'high appetite appeal'],
+    },
+    extraSuffix: ', 10-second vertical 9:16 food ASMR, macro texture focus, high appetite appeal, realistic fluid dynamics',
+  },
+  travel_resort: {
+    label: '✈️ Travel Reel 10s',
+    color: '#38bdf8',
+    fps: '24fps',
+    description: 'Luxury Travel · Destination Reel · 10s Dreamscape Multi-Shot',
+    keywords: {
+      camera:      ['aerial', 'drone', 'slow tracking shot', 'establishing', 'wide shot'],
+      lighting:    ['golden hour', 'blue hour', 'soft morning light', 'twilight'],
+      composition: ['layered depth', 'foreground interest', 'rule of thirds', 'negative space'],
+      vfx:         ['cinematic travel reel', 'luxury resort aesthetics', 'dreamscape'],
+    },
+    extraSuffix: ', 10-second vertical 9:16 luxury destination travel reel, cinematic atmosphere, authentic location audio',
+  },
+  wf_shop: {
+    label: '🛍️ Shop Online 10s',
+    color: '#10b981',
+    fps: '24fps',
+    description: 'Video bán hàng 10s · Khóa sản phẩm 100% · Safe zone CTA',
+    keywords: {
+      camera:      ['close up', 'macro shot', 'slow push in', 'static shot'],
+      lighting:    ['warm morning light', 'softbox studio light', 'natural light'],
+      composition: ['center frame', 'rule of thirds', 'clean minimal'],
+      vfx:         ['high appetite appeal', 'realistic commercial', 'sharp focus'],
+    },
+    extraSuffix: ', 10-second vertical 9:16 product sales video, strictly maintain product shape and logo, leave safe zone at top for CTA caption',
+  },
+  wf_marketer: {
+    label: '📊 Marketer A/B',
+    color: '#f59e0b',
+    fps: '24fps',
+    description: 'Workflow A/B Test · Visual Hook · High Conversion Framing',
+    keywords: {
+      camera:      ['establishing', 'orbit shot', 'medium shot', 'slow tracking shot'],
+      lighting:    ['rim light', 'three point', 'cinematic', 'high-key lighting'],
+      composition: ['leading lines', 'rule of thirds', 'negative space'],
+      vfx:         ['commercial', 'color grading', 'sharp focus'],
+    },
+    extraSuffix: ', 10-second marketing A/B concept reel, strong 2-second visual hook, clean brand framing',
+  },
+  wf_faceless: {
+    label: '🎬 Creator Faceless',
+    color: '#a855f7',
+    fps: '24fps',
+    description: 'B-Roll Kênh Không Mặt · Safe Zone Caption · Clean Lifestyle',
+    keywords: {
+      camera:      ['top-down', 'pov shot', 'medium shot', 'close up'],
+      lighting:    ['soft light', 'natural light', 'diffused'],
+      composition: ['negative space', 'clean minimal', 'rule of thirds'],
+      vfx:         ['shallow depth of field', 'bokeh', 'minimalist'],
+    },
+    extraSuffix: ', 10-second vertical 9:16 faceless B-roll, no human faces visible, spacious top safe zone for voiceover captions',
+  },
+  wf_educator: {
+    label: '🎓 Educator Claymation',
+    color: '#ec4899',
+    fps: '24fps',
+    description: 'Video Giải Thích · Handmade Claymation · Metaphor Visual',
+    keywords: {
+      camera:      ['flat angle', 'medium shot', 'overhead', 'slow push in'],
+      lighting:    ['warm light', 'soft light', 'diffused'],
+      composition: ['center frame', 'symmetry', 'rule of thirds'],
+      vfx:         ['claymation', 'stop motion', 'whimsical'],
+    },
+    extraSuffix: ', 10-second handmade claymation style educational video, tactile clay textures, clear single visual metaphor, warm friendly light',
+  },
+  wf_freelancer: {
+    label: '💼 Freelancer Moodboard',
+    color: '#6366f1',
+    fps: '24fps',
+    description: 'Dựng Video Moodboard 10s · Aesthetic Showcase · Zero Artifacts',
+    keywords: {
+      camera:      ['slow dolly in', 'tracking shot', 'establishing', 'wide shot'],
+      lighting:    ['chiaroscuro', 'low key', 'golden hour', 'blue hour'],
+      composition: ['layered depth', 'foreground interest', 'rule of thirds'],
+      vfx:         ['film look', 'cinematic lighting', 'high dynamic range'],
+    },
+    extraSuffix: ', 10-second cinematic previsualization moodboard, high aesthetic motion showcase, zero distortion artifacts',
   },
 };
 
@@ -2275,6 +2459,21 @@ async function init() {
     // 2. Populate category dropdown
     populateCategoryFilter(getCategories());
 
+    // Auto-fill voice-over bank selection
+    const voicebankSelect = document.getElementById('builder-voicebank-select');
+    voicebankSelect?.addEventListener('change', () => {
+      const val = voicebankSelect.value;
+      if (!val) return;
+      const dialogueMatch = val.match(/dialogue="([^"]+)"/);
+      const toneMatch = val.match(/tone=([^|]+)/);
+
+      const dlgInput = document.getElementById('builder-dialogue-input');
+      const toneInput = document.getElementById('builder-voice-tone-input');
+
+      if (dialogueMatch && dlgInput) dlgInput.value = `"${dialogueMatch[1]}"`;
+      if (toneMatch && toneInput) toneInput.value = toneMatch[1];
+    });
+
     // 3. Render all cards
     renderGrid(filterPrompts(), handleCardClick, handleFavClick);
 
@@ -2308,7 +2507,34 @@ async function init() {
       }
     });
 
-    // Global Keyboard Shortcuts (Checklist.design Standard)
+    // 🛠️ 10 Audio Fix Modifiers Handler
+    const fixMap = {
+      mix_music_low: "\n\n[AUDIO AUTO-FIX]: Mix: keep music low under the product SFX and voice-over. Product sounds must remain clear and audible.",
+      ambience_match: "\n\n[AUDIO AUTO-FIX]: Ambience must match the visible location exactly. Use only specific environment noise, no unrelated crowd or indoor sounds.",
+      short_dialogue: "\n\n[AUDIO AUTO-FIX]: Use one short spoken line only, under 8 words. Keep mouth movement subtle and naturally timed.",
+      sfx_sync: "\n\n[AUDIO AUTO-FIX]: Sync each SFX to the visible action: cap click when cap opens, ice clink when ice falls, pour sound when liquid flows.",
+      clean_sparse: "\n\n[AUDIO AUTO-FIX]: Use a clean sparse sound design: one ambience bed, one primary product SFX, and one subtle music cue only.",
+      realistic_foley: "\n\n[AUDIO AUTO-FIX]: Use realistic natural sound, not cartoon sound effects. Keep all foley grounded, close-mic, and physically believable.",
+      muffled_crowd: "\n\n[AUDIO AUTO-FIX]: Background voices should be indistinct and muffled. No clear random dialogue, no unrelated speech.",
+      product_foreground: "\n\n[AUDIO AUTO-FIX]: Product SFX foreground: make the product action audible and satisfying, such as cap click, spray mist, glass clink, or pour.",
+      restrained_trailer: "\n\n[AUDIO AUTO-FIX]: Use a restrained premium trailer cue, not aggressive. No heavy boom, no horror hit, no overblown bass.",
+      clean_cta_ending: "\n\n[AUDIO AUTO-FIX]: End with a clean 1-second audio resolve and no extra voices, leaving space for CTA voice-over or caption overlay in post-production."
+    };
+
+    document.querySelectorAll('.audio-fix-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fixKey = btn.getAttribute('data-fix');
+        const fixText = fixMap[fixKey];
+        const audioRes = document.getElementById('result-text-audio');
+        if (audioRes && fixText && !audioRes.classList.contains('result-placeholder')) {
+          if (!audioRes.textContent.includes(fixText)) {
+            audioRes.textContent += fixText;
+            btn.style.borderColor = '#10b981';
+            btn.style.background = 'rgba(16,185,129,0.25)';
+          }
+        }
+      });
+    });
     document.addEventListener('keydown', (e) => {
       // Ctrl+K / Cmd+K: Focus search box
       if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {

@@ -837,8 +837,14 @@ export function displayDualResult(basePrompt, title, options = {}) {
     }
 
     let audioText = "";
+    let veo31Format = "";
     if (category === 'food') {
-      audioText = 
+      veo31Format = `🎬 VEO 3.1 NATIVE AUDIO PROMPT (Dùng trực tiếp cho Veo 3.1 / Kling 3.0):
+Ambient noise: cozy cafe murmur and soft room tone. SFX: close-mic sizzling of ${topic}, ice clinks, liquid pouring sound. Dialogue: "Nóng hổi, đậm đà, đúng vị quen." spoken by narrator in a warm friendly voice.
+
+--------------------------------------------------
+`;
+      audioText = veo31Format + 
 `Audio Direction (6-Layer / 10s Timeline) for "${topic}":
 0-2s (Hook): Close-mic sizzling or ice clinks with a fresh splash of "${topic}", satisfying opening hook.
 2-5s (Body): Liquid pouring, cup/ceramic plate resonance, morning room tone or warm kitchen background.
@@ -849,11 +855,16 @@ Mix Direction:
 - Ambience: Cozy cafe murmur or soft kitchen room tone.
 - Foley: Ceramic cup clink, paper wrap rustle, or chopsticks contact.
 - Product SFX: Close-mic pouring of "${topic}", ice clinks, or pan sizzle.
-- Voice-over: Friendly Vietnamese voice: "Nóng hổi, đậm đà, đúng vị quen." (or "Mát một ngụm, vui cả buổi.")
+- Voice-over (Veo 3.1 Dialogue): "Nóng hổi, đậm đà, đúng vị quen." spoken by narrator in a warm friendly voice.
 - Music Cue: Subtle non-lyrical acoustic guitar or low piano pad.
 - Mix priority: Keep "${topic}" pouring and plate/glass SFX crisp in the foreground, ambience low, music warm but non-distracting.`;
     } else if (category === 'beauty') {
-      audioText = 
+      veo31Format = `🎬 VEO 3.1 NATIVE AUDIO PROMPT (Dùng trực tiếp cho Veo 3.1 / Kling 3.0):
+Ambient noise: peaceful spa studio hum, soft breeze. SFX: dropper click, spray mist of ${topic}, glass bottle clink. Dialogue: "Đẹp nhẹ nhàng, tự tin mỗi ngày." spoken by woman in a calm elegant voice.
+
+--------------------------------------------------
+`;
+      audioText = veo31Format + 
 `Audio Direction (6-Layer / 10s Timeline) for "${topic}":
 0-2s (Hook): Soft dropper click or elegant spray burst of "${topic}", close-mic texture.
 2-5s (Body): Gentle glide/patting sound on skin, fabric swish, quiet breath, airy room tone.
@@ -864,11 +875,16 @@ Mix Direction:
 - Ambience: Airy bathroom tone or peaceful spa studio hum.
 - Foley: Cloth/fabric movement, soft makeup compact mirror click.
 - Product SFX: Dropper click, spray mist, or glass bottle clink of "${topic}".
-- Voice-over: Calm Vietnamese female voice: "Đẹp nhẹ nhàng, tự tin mỗi ngày." (or "Một chạm nhỏ, khác biệt lớn.")
+- Voice-over (Veo 3.1 Dialogue): "Đẹp nhẹ nhàng, tự tin mỗi ngày." spoken by woman in a calm elegant voice.
 - Music Cue: Slow-tempo premium ambient pad (non-lyrical).
 - Mix priority: Keep "${topic}" spray/dropper SFX delicate in the foreground, room ambience airy, music low and premium.`;
     } else if (category === 'tech') {
-      audioText = 
+      veo31Format = `🎬 VEO 3.1 NATIVE AUDIO PROMPT (Dùng trực tiếp cho Veo 3.1 / Kling 3.0):
+Ambient noise: quiet studio room tone, subtle electronic hum. SFX: mechanical button click of ${topic}, keyboard taps, camera shutter. Dialogue: "Việc gọn hơn, ngày nhẹ hơn." spoken by man in a crisp clear voice.
+
+--------------------------------------------------
+`;
+      audioText = veo31Format + 
 `Audio Direction (6-Layer / 10s Timeline) for "${topic}":
 0-2s (Hook): Crisp device snap-on, switch flip, or button click of "${topic}".
 2-5s (Body): Rhythmic keyboard taps, precise mouse clicks, pen writing/ticking on paper, desk room tone.
@@ -879,11 +895,16 @@ Mix Direction:
 - Ambience: Quiet office hum or creative studio room tone.
 - Foley: Keyboard taps, mouse clicks, paper page rustle, or box lid lift.
 - Product SFX: Mechanical button click, camera shutter, or appliance hum of "${topic}".
-- Voice-over: Clear Vietnamese business voice: "Việc gọn hơn, ngày nhẹ hơn."
+- Voice-over (Veo 3.1 Dialogue): "Việc gọn hơn, ngày nhẹ hơn." spoken by man in a crisp clear voice.
 - Music Cue: Minimal modern electronic pulse (medium-low tempo, no lyrics).
 - Mix priority: Keep work/tech foley sharp, synth low and focused, ending chime clear.`;
     } else if (category === 'travel') {
-      audioText = 
+      veo31Format = `🎬 VEO 3.1 NATIVE AUDIO PROMPT (Dùng trực tiếp cho Veo 3.1 / Kling 3.0):
+Ambient noise: ocean waves crashing gently, morning forest birds, soft breeze. SFX: footsteps on wood floor, water splash of ${topic}. Dialogue: "Đổi gió một hôm, nhớ cả tuần." spoken by narrator in a reflective calm tone.
+
+--------------------------------------------------
+`;
+      audioText = veo31Format + 
 `Audio Direction (6-Layer / 10s Timeline) for "${topic}":
 0-2s (Hook): Immersive wave crash, rain tapping, or wind whoosh in "${topic}".
 2-5s (Body): Footsteps on wood floor/stone path, door handle turn, distant birds or wind chimes.
@@ -894,11 +915,16 @@ Mix Direction:
 - Ambience: Ocean waves, morning forest birds, or soft rain on window/tin roof.
 - Foley: Rhythmic footsteps, door open, suitcase wheels rolling, or fabric swish.
 - Product SFX: Water splashes, leaf rustling, or breeze moving curtains in "${topic}".
-- Voice-over: Calm Vietnamese travel narrator: "Đổi gió một hôm, nhớ cả tuần."
+- Voice-over (Veo 3.1 Dialogue): "Đổi gió một hôm, nhớ cả tuần." spoken by narrator in a reflective calm tone.
 - Music Cue: Soft emotional piano or ambient acoustic pad.
 - Mix priority: Ambience wide and realistic, steps/foley clear in middle distance, music emotional but restrained.`;
     } else {
-      audioText = 
+      veo31Format = `🎬 VEO 3.1 NATIVE AUDIO PROMPT (Dùng trực tiếp cho Veo 3.1 / Kling 3.0):
+Ambient noise: quiet cinematic room tone. SFX: low cinematic riser, fabric movement, synchronized reveal sound of ${topic}. Dialogue: "Một chạm nhỏ, khác biệt lớn." spoken by narrator in a deep confident voice.
+
+--------------------------------------------------
+`;
+      audioText = veo31Format + 
 `Audio Direction (6-Layer / 10s Timeline) for "${topic}":
 0-2s (Hook): Low cinematic riser or atmospheric whoosh, drawing attention to "${topic}".
 2-5s (Body): Subtle material sound (fabric swish, glass clink, or packaging rustle), quiet room tone.
@@ -909,7 +935,7 @@ Mix Direction:
 - Ambience: Quiet premium room tone.
 - Foley: Delicate fabric movement or object handling.
 - Product SFX: Synchronized movement or reveal sound of "${topic}".
-- Voice-over: Sincere Vietnamese voice: "Một chạm nhỏ, khác biệt lớn."
+- Voice-over (Veo 3.1 Dialogue): "Một chạm nhỏ, khác biệt lớn." spoken by narrator in a deep confident voice.
 - Music Cue: Cinematic ambient pad building to a clean hit.
 - Mix priority: Keep reveal hit elegant, product SFX recognizable in the foreground, music low.`;
     }

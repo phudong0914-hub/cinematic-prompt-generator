@@ -76,6 +76,7 @@ class AuthManager {
           connectedAccounts: ['Google', 'GitHub'],
           twoFactorEnabled: true,
           plan: 'Studio Pro Tier (Unlimited)',
+          devices: [],
           createdAt: new Date().toISOString()
         },
         {
@@ -165,10 +166,20 @@ class AuthManager {
   }
 
   // ── 1. Đăng ký (Sign Up) ──
-  registerUser({ email, password, displayName, role = 'Member' }) {
+  registerUser({ email, password, displayName, role = 'Member', deviceId = null }) {
     const existing = this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
     if (existing) {
       throw new Error('Email này đã tồn tại trong hệ thống. Vui lòng đăng nhập!');
+    }
+
+    const devices = [];
+    if (deviceId) {
+      devices.push({
+        id: deviceId,
+        name: this._detectDeviceName(),
+        type: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+        lastLogin: new Date().toLocaleDateString('vi-VN')
+      });
     }
 
     const newUser = {
@@ -186,6 +197,7 @@ class AuthManager {
       connectedAccounts: [],
       twoFactorEnabled: false,
       plan: 'Pro Trial 14 Ngày (Miễn Phí)',
+      devices: devices,
       createdAt: new Date().toISOString()
     };
 
@@ -214,6 +226,50 @@ class AuthManager {
       this.saveToStorage();
     }
     return user;
+  }
+
+  // ── 2b. Đăng nhập bằng Email OTP (Passwordless) ──
+  loginUserByEmail(email, deviceId = null) {
+    const user = this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (!user) {
+      throw new Error('Không tìm thấy tài khoản. Vui lòng đăng ký!');
+    }
+    if (user.status === 'Inactive' || user.status === 'Banned') {
+      throw new Error('Tài khoản này đang bị tạm khóa.');
+    }
+
+    // Track device
+    if (deviceId) {
+      if (!user.devices) user.devices = [];
+      const existingDevice = user.devices.find(d => d.id === deviceId);
+      if (existingDevice) {
+        existingDevice.lastLogin = new Date().toLocaleDateString('vi-VN');
+      } else if (user.devices.length < 3) {
+        user.devices.push({
+          id: deviceId,
+          name: this._detectDeviceName(),
+          type: /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+          lastLogin: new Date().toLocaleDateString('vi-VN')
+        });
+      }
+    }
+
+    user.lastActive = 'Vừa xong';
+    this.currentUser = user;
+    this.saveToStorage();
+    return user;
+  }
+
+  // ── Helper: detect device name ──
+  _detectDeviceName() {
+    const ua = navigator.userAgent;
+    if (/iPhone/.test(ua)) return 'iPhone';
+    if (/iPad/.test(ua)) return 'iPad';
+    if (/Android/.test(ua)) return 'Android';
+    if (/Mac/.test(ua)) return 'MacBook';
+    if (/Win/.test(ua)) return 'Windows PC';
+    if (/Linux/.test(ua)) return 'Linux';
+    return 'Thiết bị không xác định';
   }
 
   // ── Social SSO Login (Google / Facebook / Apple / GitHub) ──
@@ -435,6 +491,104 @@ class AuthManager {
       }
       this.saveToStorage();
     }
+  }
+
+  // ── Storage & Backup Engine (Production-Ready Architecture) ──
+  getStorageStats() {
+    let favCount = 0;
+    let projCount = 0;
+    let historyCount = 0;
+    let totalBytes = 0;
+
+    try {
+      const favs = JSON.parse(localStorage.getItem('cinematique_favorites') || '[]');
+      favCount = Array.isArray(favs) ? favs.length : 0;
+    } catch {}
+
+    try {
+      const projs = JSON.parse(localStorage.getItem('cinematique_projects') || '[]');
+      projCount = Array.isArray(projs) ? projs.length : 0;
+    } catch {}
+
+    try {
+      const hist = JSON.parse(localStorage.getItem('cinematique_prompt_history') || '[]');
+      historyCount = Array.isArray(hist) ? hist.length : 0;
+    } catch {}
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith('cine') || key.startsWith('cinematique'))) {
+        const val = localStorage.getItem(key) || '';
+        totalBytes += (key.length + val.length) * 2;
+      }
+    }
+
+    const kbSize = (totalBytes / 1024).toFixed(1);
+
+    return {
+      favCount,
+      projCount,
+      historyCount,
+      kbSize: `${kbSize} KB`,
+      storageType: 'Bộ Nhớ Cục Bộ (Local Storage Engine)',
+      cloudSyncStatus: 'Sẵn sàng kết nối Backend khi Deploy'
+    };
+  }
+
+  exportAllUserData() {
+    const backupData = {
+      app: 'Cinematique Prompt Studio',
+      version: '2.5.0',
+      exportedAt: new Date().toISOString(),
+      user: this.currentUser,
+      data: {
+        favorites: JSON.parse(localStorage.getItem('cinematique_favorites') || '[]'),
+        projects: JSON.parse(localStorage.getItem('cinematique_projects') || '[]'),
+        promptHistory: JSON.parse(localStorage.getItem('cinematique_prompt_history') || '[]'),
+        characterOS: JSON.parse(localStorage.getItem('cinematique_char_os_v4') || '{}'),
+        aiConfig: JSON.parse(localStorage.getItem('cinematique_ai_config') || '{}'),
+        theme: localStorage.getItem('cine_theme') || 'dark',
+        lang: localStorage.getItem('cine_lang') || 'vi'
+      }
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    const dateStamp = new Date().toISOString().slice(0, 10);
+    downloadAnchor.setAttribute("download", `cinematique_backup_${dateStamp}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    return true;
+  }
+
+  importUserData(jsonString) {
+    const parsed = JSON.parse(jsonString);
+    if (!parsed || !parsed.data) {
+      throw new Error('Định dạng tệp sao lưu không hợp lệ.');
+    }
+
+    const d = parsed.data;
+    if (d.favorites) localStorage.setItem('cinematique_favorites', JSON.stringify(d.favorites));
+    if (d.projects) localStorage.setItem('cinematique_projects', JSON.stringify(d.projects));
+    if (d.promptHistory) localStorage.setItem('cinematique_prompt_history', JSON.stringify(d.promptHistory));
+    if (d.characterOS) localStorage.setItem('cinematique_char_os_v4', JSON.stringify(d.characterOS));
+    if (d.aiConfig) localStorage.setItem('cinematique_ai_config', JSON.stringify(d.aiConfig));
+    if (d.theme) localStorage.setItem('cine_theme', d.theme);
+    if (d.lang) localStorage.setItem('cine_lang', d.lang);
+
+    if (parsed.user) {
+      this.currentUser = { ...this.currentUser, ...parsed.user };
+      this.saveToStorage();
+    }
+
+    return true;
+  }
+
+  clearStorageCache() {
+    localStorage.removeItem('cinematique_prompt_history');
+    return true;
   }
 
   // ── Helper: Initials Avatar ──
