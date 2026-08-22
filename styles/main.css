@@ -1033,6 +1033,155 @@ body::before {
   gap: 24px;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* 🎬 HOLLYWOOD DIRECTOR & BRAND STUDIO HEADER                                 */
+/* ══════════════════════════════════════════════════════════════════════════ */
+.header-brand-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 2px;
+}
+
+.brand-icon-crest {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.45);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-icon-crest img {
+  width: 36px !important;
+  height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+.director-identity-slate {
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, rgba(28, 22, 14, 0.95) 0%, rgba(15, 17, 26, 0.98) 100%);
+  border: 1.2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 215, 0, 0.15);
+  text-align: left;
+}
+
+.director-identity-slate:hover {
+  transform: translateY(-1px);
+  border-color: #ffd700;
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.25), inset 0 1px 1px rgba(255, 215, 0, 0.35);
+  background: linear-gradient(135deg, rgba(42, 32, 18, 0.98) 0%, rgba(20, 24, 36, 1) 100%);
+}
+
+.director-identity-slate:active {
+  transform: translateY(0);
+}
+
+.dsh-avatar-box {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.dsh-avatar-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.70rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1.5px solid #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.dsh-rec-dot {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 1px solid #18181b;
+  box-shadow: 0 0 5px #22c55e;
+  animation: recBlink 1.5s infinite ease-in-out;
+}
+
+.dsh-director-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  gap: 1px;
+}
+
+.dsh-director-top {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.dsh-role-badge {
+  font-size: 0.54rem;
+  font-weight: 800;
+  color: #ffd700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.dsh-director-name {
+  font-family: var(--font-ui, 'Inter', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.15;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  max-width: 92px;
+}
+
+@keyframes recBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.85); }
+}
+
 /* Brand */
 .header-brand {
   display: flex;

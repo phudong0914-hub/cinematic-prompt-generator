@@ -7,6 +7,8 @@
 
 import { isFavorite } from './dataManager.js';
 import { translateCinematicText } from './translator.js';
+import { OpticalLinter } from './opticalLinter.js';
+import { sanitizeCinematicPrompt } from './directorKnowledgeEngine.js';
 
 /* ── Video suffix (base, without dynamic parts) ───────────── */
 
@@ -749,6 +751,7 @@ export function displayDualResult(basePrompt, title, options = {}) {
       .trim();
   }
 
+  // ── 1. Midjourney V8.2 Slate ────────
   let imageText = cleanImageBase;
   if (studioImgPrefixes.length > 0) {
     imageText = studioImgPrefixes.join(', ') + ', ' + imageText;
@@ -756,7 +759,9 @@ export function displayDualResult(basePrompt, title, options = {}) {
   if (cleanChar) {
     imageText += `, character visual anchor: ${cleanChar}`;
   }
-  imageText += ', 8k resolution, cinematic masterpiece, highly detailed still ' + aspectRatioFlag + ' --style raw';
+  // Sanitize obsolete keywords and apply v8.2 flags
+  imageText = sanitizeCinematicPrompt(imageText);
+  imageText += ', 65mm IMAX format, fine grain resolution, highly detailed cinematic still ' + aspectRatioFlag + ' --v 8.2 --style raw --stylize 250';
 
   if (negativePrompt.trim()) {
     imageText += ' --no ' + negativePrompt.trim();
@@ -765,7 +770,7 @@ export function displayDualResult(basePrompt, title, options = {}) {
   resultTextImage.textContent = imageText;
   resultTextImage.classList.remove('result-placeholder');
   
-  // Real-time Word & Character Counter for Image Prompt
+  // Real-time Word & Character Counter for Midjourney
   const imgWords = imageText.trim() ? imageText.trim().split(/\s+/).length : 0;
   const countImgBadge = document.getElementById('count-badge-image');
   if (countImgBadge) {
@@ -773,12 +778,33 @@ export function displayDualResult(basePrompt, title, options = {}) {
     countImgBadge.style.color = imgWords > 120 ? '#fbbf24' : '#34d399';
   }
 
+  // ── 2. Nanobana Pro 2 (Hyper-Dense Spatial Prompt) ────────
+  const resultTextNanobana = document.getElementById('result-text-nanobana');
+  if (resultTextNanobana) {
+    const nanobanaPrompt = `[SUBJECT/ACTION]: ${cleanChar ? cleanChar + ' - ' : ''}${cleanImageBase}
+[SPATIAL COMPOSITION]: Multi-layer depth layout, foreground elements, midground focus, atmospheric background falloff.
+[OPTICAL & LENS]: Panavision C-Series Anamorphic 40mm, T1.4 aperture, authentic horizontal blue streak flares.
+[LIGHTING RATIO]: High-contrast Chiaroscuro key (8:1 ratio), 3200K tungsten practical rim lights against cool ambient shadows.
+[MATERIAL FIDELITY]: Subsurface skin scattering, natural micro-pore texture, realistic fabric roughness, zero digital smoothing.
+[FORMAT]: ${aspectRatioFlag.replace('--ar ', '')} Aspect Ratio, Photorealistic 35mm film grain.`;
+    resultTextNanobana.textContent = nanobanaPrompt;
+    resultTextNanobana.classList.remove('result-placeholder');
+  }
+
+  // ── 3. Image GPT 2 / DALL-E 4 (Deep Narrative Prose) ────────
+  const resultTextImageGPT = document.getElementById('result-text-imagegpt');
+  if (resultTextImageGPT) {
+    const gptPrompt = `An award-winning Hollywood cinematic screenshot featuring ${cleanImageBase}. ${cleanChar ? `The character is visually grounded as ${cleanChar}. ` : ''}The scene is illuminated by dramatic Chiaroscuro key lighting with warm amber rim highlights sculpting the subject against deep, velvety shadows. Captured on 70mm IMAX using an ARRI Master Prime 35mm lens at T1.3, showcasing razor-sharp ocular focus, creamy shallow bokeh, and authentic Kodak Vision3 500T 35mm film grain texture. The atmosphere is dense with subtle volumetric mist and suspended airborne dust particles catching the light, evoking a quiet, profound cinematic weight.`;
+    resultTextImageGPT.textContent = gptPrompt;
+    resultTextImageGPT.classList.remove('result-placeholder');
+  }
+
   if (transImageEl) {
     transImageEl.textContent = '';
     transImageEl.style.display = 'none';
   }
 
-  // ── Video prompt (Standardized 4-Part AI Camera Movement Directive) ─────────────────
+  // ── 4. Video Prompt (Sora 2 / Veo 3.1 10-Component Script) ─────────────────
   const aspectLabel = aspectRatioFlag.replace('--ar ', '');
   let videoText = basePrompt;
   if (studioVidPrefixes.length > 0) {
@@ -815,6 +841,29 @@ export function displayDualResult(basePrompt, title, options = {}) {
   if (transVideoEl) {
     transVideoEl.textContent = '';
     transVideoEl.style.display = 'none';
+  }
+
+  // ── 5. Run Optical & Physics Linter Scanner ─────────────────
+  const linterResult = OpticalLinter.validate(imageText + ' ' + videoText, { aspectRatio: aspectLabel });
+  const linterBadge = document.getElementById('linter-badge');
+  const linterDetail = document.getElementById('linter-detail');
+  if (linterBadge && linterDetail) {
+    if (linterResult.isClean) {
+      linterBadge.textContent = `OPTICAL INTEGRITY: ${linterResult.score}% CLEAN (${linterResult.badge})`;
+      linterBadge.style.color = '#22c55e';
+      linterDetail.textContent = 'Không phát hiện xung đột quang học hay nguồn sáng.';
+    } else {
+      const topConflict = linterResult.conflicts[0];
+      linterBadge.textContent = `OPTICAL NOTICE (${linterResult.score}%): ${topConflict.type}`;
+      linterBadge.style.color = topConflict.severity === 'HIGH' ? '#ef4444' : '#f59e0b';
+      linterDetail.textContent = topConflict.message;
+    }
+  }
+
+  // ── 6. Update Director Viewfinder Watermark ─────────────────
+  const vfWatermark = document.getElementById('vf-director-watermark');
+  if (vfWatermark) {
+    vfWatermark.textContent = `🎬 ${aspectLabel} · ${fpsValue} · Panavision Cine`;
   }
 
   // ── Audio prompt ───────────────────────────────────────

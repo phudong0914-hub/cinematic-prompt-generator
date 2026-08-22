@@ -1213,6 +1213,97 @@ function handleDirectorsCut() {
  * Each preset defines arrays of terms to match against prompt names/definitions.
  */
 const STYLE_PRESETS = {
+  nolan: {
+    label: '🚀 Nolan IMAX',
+    color: '#ffd700',
+    fps: '24fps',
+    description: '70mm IMAX 15-perf · Thực tế vật lý · Kèn Hans Zimmer',
+    keywords: {
+      camera:      ['extreme wide', 'establishing', 'tracking shot', 'low angle'],
+      lighting:    ['tungsten', 'natural light', 'volumetric', 'high contrast'],
+      composition: ['rule of thirds', 'leading lines', 'layered depth', 'scale'],
+      vfx:         ['film grain', 'anamorphic', 'imax', 'photorealistic'],
+    },
+    extraSuffix: ', directed by Christopher Nolan, 70mm IMAX cinematography, practical in-camera realism, grand architectural scale, Hans Zimmer brass swell',
+  },
+  deakins: {
+    label: '🕯️ Deakins Light',
+    color: '#f59e0b',
+    fps: '24fps',
+    description: 'Bậc Thầy Ánh Sáng Tự Nhiên · Ngược Sáng Silhouette · 35mm Master Prime',
+    keywords: {
+      camera:      ['medium shot', 'wide shot', 'slow dolly in', 'silhouette'],
+      lighting:    ['chiaroscuro', 'low key', 'golden hour', 'natural light', 'rim light'],
+      composition: ['rule of thirds', 'leading lines', 'symmetry', 'negative space'],
+      vfx:         ['film look', 'atmospheric', 'high dynamic range'],
+    },
+    extraSuffix: ', cinematography by Roger Deakins, natural low-key lighting, ARRI Alexa with 35mm Master Prime, deep chiaroscuro silhouettes',
+  },
+  villeneuve: {
+    label: '🏜️ Villeneuve Dune',
+    color: '#ea580c',
+    fps: '24fps',
+    description: 'Kiến Trúc Monolith Khổng Lồ · Bụi Khí Quyển · Bảng Màu Ochre/Slate',
+    keywords: {
+      camera:      ['extreme wide', 'aerial', 'drone', 'low angle'],
+      lighting:    ['diffused', 'overcast', 'golden hour', 'volumetric'],
+      composition: ['scale', 'negative space', 'center frame', 'symmetry'],
+      vfx:         ['dust haze', 'sandstorm', 'atmospheric', 'monolithic'],
+    },
+    extraSuffix: ', directed by Denis Villeneuve, cinematography by Greig Fraser, monumental brutalist architecture, dense atmospheric sand haze',
+  },
+  tarantino: {
+    label: '🔥 Tarantino 70s',
+    color: '#ef4444',
+    fps: '24fps',
+    description: 'Trunk Shot Từ Cốp Xe · 70s Technicolor Rực Cháy · Whip Pan',
+    keywords: {
+      camera:      ['low angle', 'close up', 'whip pan', 'snap zoom'],
+      lighting:    ['hard light', 'dramatic', 'vintage', 'warm light'],
+      composition: ['framing within frame', 'center frame', 'rule of thirds'],
+      vfx:         ['technicolor', 'vintage', '70s film', 'high contrast'],
+    },
+    extraSuffix: ', directed by Quentin Tarantino, low-angle upward trunk shot, rich 1970s Technicolor film saturation, vintage pulp cinema aesthetic',
+  },
+  fincher: {
+    label: '📐 Fincher Precision',
+    color: '#10b981',
+    fps: '24fps',
+    description: 'Chuyển Động Chuẩn Xác · Tông Vàng Xanh Lạnh · Vi Tương Phản Cao',
+    keywords: {
+      camera:      ['slow tracking shot', 'medium shot', 'low angle', 'close up'],
+      lighting:    ['low key', 'fluorescent', 'moody', 'shadow'],
+      composition: ['rule of thirds', 'symmetry', 'leading lines'],
+      vfx:         ['desaturated', 'sickly green', 'film look', 'clean'],
+    },
+    extraSuffix: ', directed by David Fincher, surgical camera stabilization, clinical desaturated sickly yellow-green color grading',
+  },
+  wong_kar_wai: {
+    label: '🌃 Wong Kar-wai',
+    color: '#ec4899',
+    fps: '12fps',
+    description: 'Step-printing 12fps · Mưa Đêm Neon Hong Kong · Nỗi Buồn Hoài Niệm',
+    keywords: {
+      camera:      ['close up', 'medium shot', 'dutch angle', 'slow motion'],
+      lighting:    ['neon', 'reflected light', 'moody', 'low key'],
+      composition: ['framing within frame', 'rule of thirds', 'layered depth'],
+      vfx:         ['step printing', 'motion blur', 'film grain', 'vintage'],
+    },
+    extraSuffix: ', directed by Wong Kar-wai, step-printing 12fps motion blur, neon-drenched Hong Kong rain reflections, poetic yearning melancholy',
+  },
+  ridley_scott: {
+    label: '🌧️ Ridley Scott',
+    color: '#06b6d4',
+    fps: '24fps',
+    description: 'Khói Sương Volumetric · Vệt Anamorphic Xanh · Blade Runner Noir',
+    keywords: {
+      camera:      ['wide shot', 'tracking shot', 'low angle', 'establishing'],
+      lighting:    ['backlight', 'rim light', 'volumetric rays', 'neon'],
+      composition: ['layered depth', 'foreground interest', 'rule of thirds'],
+      vfx:         ['anamorphic flare', 'volumetric smoke', 'blade runner', 'cyberpunk'],
+    },
+    extraSuffix: ', directed by Ridley Scott, heavy volumetric atmospheric smoke and backlit rain, sharp Panavision anamorphic blue streak flares',
+  },
   vox: {
     label: '📺 Vox Style',
     color: '#38bdf8',
@@ -2809,15 +2900,117 @@ async function init() {
       .getElementById('translate-btn-notebooklm')
       ?.addEventListener('click', () => translatePanel('notebooklm'));
 
-    document
-      .getElementById('translate-btn-audio')
-      ?.addEventListener('click', () => translatePanel('audio'));
+    // ── MULTI-MODEL SLATE TABS (Midjourney, Nanobana, Image GPT, Video, NotebookLM) ──
+    document.querySelectorAll('.model-tab-btn').forEach(tabBtn => {
+      tabBtn.addEventListener('click', () => {
+        const tabKey = tabBtn.dataset.tab;
+        document.querySelectorAll('.model-tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = 'transparent';
+          b.style.color = '#a1a1aa';
+        });
+        tabBtn.classList.add('active');
+        tabBtn.style.background = 'rgba(201,162,39,0.3)';
+        tabBtn.style.color = '#ffd700';
 
-    document
-      .getElementById('copy-btn-audio')
-      ?.addEventListener('click', () => {
-        copyPanel('result-text-audio', 'copy-btn-audio');
+        // Hide all tab panels
+        document.querySelectorAll('.result-panel').forEach(p => {
+          if (p.id.startsWith('panel-tab-')) p.style.display = 'none';
+        });
+
+        // Show target panel
+        const targetPanel = document.getElementById(`panel-tab-${tabKey}`);
+        if (targetPanel) {
+          targetPanel.style.display = tabKey === 'notebooklm' ? 'flex' : 'block';
+        }
       });
+    });
+
+    // Copy Buttons for Nanobana & Image GPT
+    document.getElementById('copy-btn-nanobana')?.addEventListener('click', () => {
+      copyPanel('result-text-nanobana', 'copy-btn-nanobana');
+    });
+    document.getElementById('copy-btn-imagegpt')?.addEventListener('click', () => {
+      copyPanel('result-text-imagegpt', 'copy-btn-imagegpt');
+    });
+
+    // ── DIRECTOR VIEWFINDER ASPECT RATIO CONTROLS ──
+    document.querySelectorAll('.vf-aspect-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const aspect = btn.dataset.aspect;
+        document.querySelectorAll('.vf-aspect-btn').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = 'rgba(255,255,255,0.06)';
+          b.style.borderColor = 'rgba(255,255,255,0.15)';
+          b.style.color = '#e4e4e7';
+        });
+        btn.classList.add('active');
+        btn.style.background = 'rgba(201,162,39,0.3)';
+        btn.style.borderColor = '#ffd700';
+        btn.style.color = '#ffd700';
+
+        // Sync with aspect-ratio select
+        const arSelect = document.getElementById('aspect-ratio');
+        if (arSelect) {
+          arSelect.value = `--ar ${aspect}`;
+          refreshResult();
+        }
+      });
+    });
+
+    // ── DUAL MODE SWITCHER: QUICK DIRECTOR vs. PRO DP STUDIO ──
+    const quickBtn = document.getElementById('mode-quick-btn');
+    const proBtn = document.getElementById('mode-pro-btn');
+    const advancedGroups = [
+      '.control-group--character',
+      '.control-group--reference-image',
+      '.control-group--negative',
+      '#studio-camera-builder-dashboard'
+    ];
+
+    function setWorkspaceMode(mode) {
+      if (mode === 'quick') {
+        quickBtn?.classList.add('active');
+        if (quickBtn) {
+          quickBtn.style.background = 'linear-gradient(135deg, rgba(201,162,39,0.35), rgba(255,215,0,0.25))';
+          quickBtn.style.color = '#ffd700';
+        }
+        proBtn?.classList.remove('active');
+        if (proBtn) {
+          proBtn.style.background = 'transparent';
+          proBtn.style.color = '#a1a1aa';
+        }
+        advancedGroups.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => el.style.display = 'none');
+        });
+      } else {
+        proBtn?.classList.add('active');
+        if (proBtn) {
+          proBtn.style.background = 'linear-gradient(135deg, rgba(168,85,247,0.35), rgba(255,215,0,0.25))';
+          proBtn.style.color = '#ffd700';
+        }
+        quickBtn?.classList.remove('active');
+        if (quickBtn) {
+          quickBtn.style.background = 'transparent';
+          quickBtn.style.color = '#a1a1aa';
+        }
+        advancedGroups.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => el.style.display = '');
+        });
+      }
+    }
+
+    quickBtn?.addEventListener('click', () => setWorkspaceMode('quick'));
+    proBtn?.addEventListener('click', () => setWorkspaceMode('pro'));
+
+    // ── OPTICAL LINTER AUTO-HARMONIZE ──
+    document.getElementById('linter-autofix-btn')?.addEventListener('click', () => {
+      const subjectInput = document.getElementById('subject-input');
+      if (subjectInput && subjectInput.value) {
+        soundFX.playSuccess();
+        refreshResult();
+      }
+    });
 
     
     // Telegram / Google Apps Script Lead Form Hook

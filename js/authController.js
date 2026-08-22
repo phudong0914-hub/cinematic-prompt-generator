@@ -12,9 +12,12 @@ import { showToast } from './toast.js';
 
 export function initAuthUI() {
   // Elements: Header Auth Button
+  // Elements: Header Auth Button & Hollywood Director Slate
   const authHeaderBtn = document.getElementById('auth-header-btn');
   const authHeaderAvatar = document.getElementById('auth-header-avatar');
   const authHeaderName = document.getElementById('auth-header-name');
+  const authHeaderRole = document.getElementById('auth-header-role');
+  const authHeaderJob = document.getElementById('auth-header-job');
 
   // Elements: Auth Modal
   const authModal = document.getElementById('auth-modal-overlay');
@@ -42,9 +45,12 @@ export function initAuthUI() {
   let pendingEmail = '';
   let countdownTimer = null;
 
-  // ── Render Topbar Header State ──
+  // ── Render Topbar Header State (Hollywood Master Director) ──
   function updateHeaderBadge() {
     const user = authManager.currentUser;
+    const roleEl = document.getElementById('auth-header-role');
+    const jobEl = document.getElementById('auth-header-job');
+
     if (user) {
       if (authHeaderAvatar) {
         // Show avatar photo in topbar if uploaded
@@ -55,9 +61,13 @@ export function initAuthUI() {
         }
       }
       if (authHeaderName) authHeaderName.textContent = user.displayName;
+      if (roleEl) roleEl.textContent = user.role === 'Admin' ? '🎬 HOLLYWOOD DIRECTOR' : '🎬 FILM DIRECTOR';
+      if (jobEl) jobEl.textContent = user.jobTitle || 'Executive AI Film Director';
     } else {
-      if (authHeaderAvatar) authHeaderAvatar.textContent = '👤';
+      if (authHeaderAvatar) authHeaderAvatar.textContent = '🎬';
       if (authHeaderName) authHeaderName.textContent = 'Đăng Nhập';
+      if (roleEl) roleEl.textContent = 'GUEST ACCESS';
+      if (jobEl) jobEl.textContent = 'Chạm để kết nối';
     }
   }
 
@@ -67,6 +77,13 @@ export function initAuthUI() {
       openAccountModal();
     } else {
       openAuthModal();
+    }
+  });
+
+  authHeaderBtn?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      authHeaderBtn.click();
     }
   });
 
@@ -709,12 +726,12 @@ export function initAuthUI() {
         <td style="padding: 10px 12px;">
           <div style="display: flex; align-items: center; gap: 8px;">
             ${avatarHtml}
-            <div>
-              <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 4px;">
-                ${u.displayName || 'Unnamed'}
-                ${isCurrent ? '<span style="font-size: 0.6rem; color: #ffd700; background: rgba(255,215,0,0.15); padding: 1px 4px; border-radius: 4px;">(Bạn)</span>' : ''}
+            <div style="min-width: 0;">
+              <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 5px; white-space: nowrap;">
+                <span>${u.displayName || 'Unnamed'}</span>
+                ${isCurrent ? '<span style="font-size: 0.6rem; font-weight: 800; color: #ffd700; background: rgba(255,215,0,0.15); padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(255,215,0,0.3);">(Bạn)</span>' : ''}
               </div>
-              <div style="font-size: 0.68rem; color: #71717a;">${u.jobTitle || 'AI Creator'}</div>
+              <div style="font-size: 0.68rem; color: #a1a1aa; white-space: nowrap;">${u.jobTitle || 'AI Creator'}</div>
             </div>
           </div>
         </td>
