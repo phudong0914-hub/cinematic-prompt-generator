@@ -3012,6 +3012,17 @@ async function init() {
       }
     });
 
+    // ── AUDIO PANEL HANDLERS (Restored) ──
+    document
+      .getElementById('translate-btn-audio')
+      ?.addEventListener('click', () => translatePanel('audio'));
+
+    document
+      .getElementById('copy-btn-audio')
+      ?.addEventListener('click', () => {
+        copyPanel('result-text-audio', 'copy-btn-audio');
+      });
+
     
     // Telegram / Google Apps Script Lead Form Hook
     const leadForm = document.getElementById('lead-form');

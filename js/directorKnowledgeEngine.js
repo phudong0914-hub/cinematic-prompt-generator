@@ -271,3 +271,5 @@ export function buildMasterHollywoodVideoPrompt({
 6. AUDIO & FOLEY SYNC: ${selectedSound}.
 7. NEGATIVE RESTRICTIONS: No digital over-sharpening, no plastic smooth skin, no CGI cartoon artifacts. --ar 16:9 --style raw --v 8.2`;
 }
+
+
