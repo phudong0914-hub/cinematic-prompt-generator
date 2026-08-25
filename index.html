@@ -143,32 +143,11 @@
           ></textarea>
         </div>
         <div style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap;">
-          <button id="viral-remake-btn" style="background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(56,189,248,0.25)); border: 1px solid #a855f7; color: #e9d5ff; font-weight: 700; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;" onclick="openViralModal()">
+          <button id="viral-remake-btn" type="button" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
             <span>🕵️‍♂️ Phân Tích & Re-make Video Viral Đối Thủ</span>
           </button>
         </div>
         <script>
-          function openViralModal() {
-            const modal = document.getElementById('viral-analyzer-modal-overlay');
-            if (modal) modal.style.display = 'flex';
-          }
-          function closeViralModal() {
-            const modal = document.getElementById('viral-analyzer-modal-overlay');
-            if (modal) modal.style.display = 'none';
-          }
-          function executeViralRemake() {
-            const url = document.getElementById('viral-video-url')?.value.trim() || '';
-            const script = document.getElementById('viral-video-script')?.value.trim() || '';
-            const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
-            
-            const input = document.getElementById('subject-input');
-            if (input) {
-              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Nội dung / Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
-              input.focus();
-              input.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-            closeViralModal();
-            const enhanceBtn = document.getElementById('ai-enhance-btn');
             if (enhanceBtn) {
               enhanceBtn.click();
             }
