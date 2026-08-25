@@ -143,21 +143,34 @@
           ></textarea>
         </div>
         <div style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap;">
-          <button id="viral-remake-btn" style="background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(56,189,248,0.25)); border: 1px solid #a855f7; color: #e9d5ff; font-weight: 700; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;" onclick="triggerViralRemakePrompt()">
+          <button id="viral-remake-btn" style="background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(56,189,248,0.25)); border: 1px solid #a855f7; color: #e9d5ff; font-weight: 700; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;" onclick="openViralModal()">
             <span>🕵️‍♂️ Phân Tích & Re-make Video Viral Đối Thủ</span>
           </button>
         </div>
         <script>
-          function triggerViralRemakePrompt() {
+          function openViralModal() {
+            const modal = document.getElementById('viral-analyzer-modal-overlay');
+            if (modal) modal.style.display = 'flex';
+          }
+          function closeViralModal() {
+            const modal = document.getElementById('viral-analyzer-modal-overlay');
+            if (modal) modal.style.display = 'none';
+          }
+          function executeViralRemake() {
+            const url = document.getElementById('viral-video-url')?.value.trim() || '';
+            const script = document.getElementById('viral-video-script')?.value.trim() || '';
+            const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
+            
             const input = document.getElementById('subject-input');
             if (input) {
-              input.value = "[VIRAL REMAKE MODE]: Dán kịch bản / lời thoại / link video đối thủ vào đây (Ví dụ: Video review cà phê triệu view trên TikTok...). AI hãy phân tích 3s Viral Hook, nhịp chuyển cảnh và viết lại kịch bản mới 100% cho sản phẩm của tôi!";
+              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Nội dung / Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
               input.focus();
               input.dispatchEvent(new Event('input', { bubbles: true }));
-              const enhanceBtn = document.getElementById('ai-enhance-btn');
-              if (enhanceBtn) {
-                enhanceBtn.style.animation = 'pulse 1s infinite';
-              }
+            }
+            closeViralModal();
+            const enhanceBtn = document.getElementById('ai-enhance-btn');
+            if (enhanceBtn) {
+              enhanceBtn.click();
             }
           }
         </script>
@@ -2666,6 +2679,49 @@
 
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VIRAL VIDEO ANALYZER MODAL ───────────────────────── -->
+  <div id="viral-analyzer-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="viral-modal-title" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div class="modal-content" role="document" style="background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 16px; padding: 24px; max-width: 580px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(168,85,247,0.2); position: relative; color: #f8fafc;">
+      <button id="viral-modal-close" class="modal-close" onclick="closeViralModal()" aria-label="Close Modal" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: none; color: #94a3b8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;">
+        ✕
+      </button>
+      
+      <h2 id="viral-modal-title" class="modal-title" style="color: #c084fc; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 8px; margin-top: 0; margin-bottom: 8px;">
+        🕵️‍♂️ AI Phân Tích & Re-Make Video Viral Nền Tảng
+      </h2>
+      <p class="modal-definition" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 20px; line-height: 1.45;">
+        Dán link video <strong>TikTok, YouTube Shorts, Facebook Reels, Douyin</strong> của đối thủ. Lõi AI Đạo Diễn sẽ tự bóc tách công thức triệu view và tự động tạo <strong>Kịch bản MỚI 100%</strong> cho thương hiệu của bạn!
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
+            🔗 1. Link Video Đối Thủ (TikTok / Shorts / Reels / Douyin)
+          </label>
+          <input type="text" id="viral-video-url" class="text-input new-input-field" placeholder="https://www.tiktok.com/@user/video/123456789... hoặc https://youtube.com/shorts/..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff;" />
+        </div>
+
+        <div>
+          <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; display: block; margin-bottom: 6px;">
+            📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
+          </label>
+          <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh đổ lon nước bọt tung tóe, sau đó bạn nam phỏng vấn cô gái về giá tiền..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff; resize: none;"></textarea>
+        </div>
+
+        <div>
+          <label style="font-weight: 700; color: #ffd700; font-size: 0.82rem; display: block; margin-bottom: 6px;">
+            🎯 3. Sản Phẩm / Thương Hiệu MỚI Của Bạn (Để Re-Make)
+          </label>
+          <input type="text" id="viral-my-product" class="text-input new-input-field" placeholder="Ví dụ: Lon Cà Phê Sữa Đá Thương Hiệu X / Mỹ phẩm Skincare Y / Áo dài Tết..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.4); border-radius: 8px; color: #fff;" />
+        </div>
+
+        <button id="viral-execute-btn" onclick="executeViralRemake()" style="margin-top: 10px; background: linear-gradient(135deg, #9333ea, #06b6d4); border: none; color: #fff; font-weight: 800; padding: 12px 18px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 0 20px rgba(168,85,247,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+          🚀 CHẠY AI PHÂN TÍCH LINK & TẠO KỊCH BẢN MỚI
+        </button>
       </div>
     </div>
   </div>
