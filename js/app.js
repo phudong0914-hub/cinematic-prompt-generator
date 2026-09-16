@@ -5,6 +5,7 @@
  * Delegates data work to dataManager and DOM work to uiController.
  */
 
+import '../styles/main.css';
 import './i18n.js';
 import './securityShield.js';
 
@@ -33,6 +34,7 @@ import { voiceEngine } from './voiceService.js';
 import { translateCinematicText } from './translator.js';
 import { characterOS } from './characterOS.js';
 import { initAuthUI } from './authController.js';
+import { workflowTracker } from './workflowTracker.js';
 
 // Phase 1 & 2: New modules
 import { sanitizePrompt, countTokens, enforceTokenLimit } from './guardrails.js';
@@ -66,7 +68,14 @@ import {
   closeModal,
   renderHistoryGrid,
   updateStudioCameraBadges,
+  renderModelOptimizerBar,
+  renderMultiShotTimelineUI,
 } from './uiController.js';
+
+import { applySmartMerge } from './smartMergeEngine.js';
+import { AI_MODELS, reorderPromptByModel } from './modelOptimizer.js';
+import { multishotEngine } from './multishotEngine.js';
+import { byokStudio } from './byokStudio.js';
 
 /* ── State ────────────────────────────────────────────────── */
 
@@ -90,14 +99,38 @@ let currentReferenceImage = null;
 
 /**
  * Auto-resizes any textarea smoothly according to content.
+ * Smart elastic: expands to show full prompt without cutoffs,
+ * and collapses back when content is deleted.
  * @param {HTMLTextAreaElement} el
  */
 function autoResizeTextarea(el) {
-  if (!el) return;
+  if (!el || el.tagName !== 'TEXTAREA') return;
+  const minH = parseInt(el.getAttribute('data-min-height')) || 48;
+  // Reset height to calculate actual needed scrollHeight cleanly
   el.style.height = 'auto';
-  el.style.height = Math.max(48, Math.min(el.scrollHeight, 200)) + 'px';
+  const targetH = Math.max(minH, el.scrollHeight + 4);
+  const maxAllowed = Math.round(window.innerHeight * 0.82); // Up to 82% of screen height
+  if (targetH > maxAllowed) {
+    el.style.height = maxAllowed + 'px';
+    el.style.overflowY = 'auto';
+  } else {
+    el.style.height = targetH + 'px';
+    el.style.overflowY = 'hidden';
+  }
 }
 window.autoResizeTextarea = autoResizeTextarea;
+
+// ── Global Smart Auto-Expand for ALL textareas (input, paste) ──
+document.addEventListener('input', (e) => {
+  if (e.target && e.target.tagName === 'TEXTAREA') {
+    autoResizeTextarea(e.target);
+  }
+});
+document.addEventListener('paste', (e) => {
+  if (e.target && e.target.tagName === 'TEXTAREA') {
+    setTimeout(() => autoResizeTextarea(e.target), 10);
+  }
+});
 
 /**
  * Studio Engine (StudioBinder & AICameraMovements) State
@@ -193,6 +226,21 @@ function refreshResult() {
   const videoText = document.getElementById('result-text-video')?.textContent || '';
   const notebooklmText = document.getElementById('result-text-notebooklm')?.textContent || '';
   const audioText = document.getElementById('result-text-audio')?.textContent || '';
+
+  // ── CINEPROMPT SUITE: FRAME TO MOTION DUAL SLATE UPDATE ──
+  const fmImageBox = document.getElementById('fm-image-prompt-box');
+  const fmMotionBox = document.getElementById('fm-motion-prompt-box');
+  if (fmImageBox && fmMotionBox) {
+    // Keyframe Image Prompt (Pristine static optical description)
+    fmImageBox.textContent = imageText;
+    // Motion Prompt (Dynamic physical motion + camera trajectory)
+    fmMotionBox.textContent = videoText;
+  }
+
+  // ── CINEPROMPT SUITE: JSON VIEW SYNC ──
+  if (window.isJsonViewMode) {
+    applyJsonViewToPanels();
+  }
 
   // ── GUARDRAILS: Sanitize output ──
   if (imageText && !imageText.includes('Chọn một thẻ')) {
@@ -2267,10 +2315,16 @@ function initStudioCameraDashboard() {
 
   // 1. Shot Sizes
   document.querySelectorAll('#scb-size-pills .scb-pill').forEach(pill => {
+    pill.setAttribute('role', 'radio');
+    pill.setAttribute('aria-checked', pill.classList.contains('active') ? 'true' : 'false');
     pill.addEventListener('click', () => {
       soundFX.playClick();
-      document.querySelectorAll('#scb-size-pills .scb-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('#scb-size-pills .scb-pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-checked', 'false');
+      });
       pill.classList.add('active');
+      pill.setAttribute('aria-checked', 'true');
       studioCameraState.shotSize = pill.dataset.size || '';
       updateStudioCameraBadges(studioCameraState);
       refreshResult();
@@ -2279,10 +2333,16 @@ function initStudioCameraDashboard() {
 
   // 2. Camera Angles
   document.querySelectorAll('#scb-angle-pills .scb-pill').forEach(pill => {
+    pill.setAttribute('role', 'radio');
+    pill.setAttribute('aria-checked', pill.classList.contains('active') ? 'true' : 'false');
     pill.addEventListener('click', () => {
       soundFX.playClick();
-      document.querySelectorAll('#scb-angle-pills .scb-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('#scb-angle-pills .scb-pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-checked', 'false');
+      });
       pill.classList.add('active');
+      pill.setAttribute('aria-checked', 'true');
       studioCameraState.shotAngle = pill.dataset.angle || '';
       updateStudioCameraBadges(studioCameraState);
       refreshResult();
@@ -2787,6 +2847,7 @@ async function init() {
           videoPrompt: document.getElementById('result-text-video')?.textContent || '',
           notebooklmPrompt: document.getElementById('result-text-notebooklm')?.textContent || ''
         });
+        workflowTracker.logAction('Xuất gói Package', '📦', currentTitle || 'Full Package');
       });
 
     document
@@ -2800,6 +2861,7 @@ async function init() {
           videoPrompt: document.getElementById('result-text-video')?.textContent || '',
           notebooklmPrompt: document.getElementById('result-text-notebooklm')?.textContent || ''
         });
+        workflowTracker.logAction('Xuất PDF Kịch bản', '📄', currentTitle || 'Shotlist PDF');
       });
 
     document
@@ -2893,6 +2955,10 @@ async function init() {
       ?.addEventListener('click', () => translatePanel('image'));
 
     document
+      .getElementById('translate-btn-wan')
+      ?.addEventListener('click', () => translatePanel('wan'));
+
+    document
       .getElementById('translate-btn-video')
       ?.addEventListener('click', () => translatePanel('video'));
 
@@ -2900,18 +2966,16 @@ async function init() {
       .getElementById('translate-btn-notebooklm')
       ?.addEventListener('click', () => translatePanel('notebooklm'));
 
-    // ── MULTI-MODEL SLATE TABS (Midjourney, Nanobana, Image GPT, Video, NotebookLM) ──
+    // ── MULTI-MODEL SLATE TABS (Midjourney, Wan 2.5, Sora Video, Nanobana, Image GPT, NotebookLM, Audio) ──
     document.querySelectorAll('.model-tab-btn').forEach(tabBtn => {
       tabBtn.addEventListener('click', () => {
         const tabKey = tabBtn.dataset.tab;
         document.querySelectorAll('.model-tab-btn').forEach(b => {
           b.classList.remove('active');
-          b.style.background = 'transparent';
-          b.style.color = '#a1a1aa';
+          b.style.background = '';
+          b.style.color = '';
         });
         tabBtn.classList.add('active');
-        tabBtn.style.background = 'rgba(201,162,39,0.3)';
-        tabBtn.style.color = '#ffd700';
 
         // Hide all tab panels
         document.querySelectorAll('.result-panel').forEach(p => {
@@ -2923,15 +2987,245 @@ async function init() {
         if (targetPanel) {
           targetPanel.style.display = tabKey === 'notebooklm' ? 'flex' : 'block';
         }
+        workflowTracker.setStep('model', true, tabKey.toUpperCase());
+        workflowTracker.logAction('Đổi Model AI', '🤖', tabBtn.textContent.trim());
       });
     });
 
-    // Copy Buttons for Nanobana & Image GPT
+    // ── BOTTOM STUDIO DOCK CONTROLS (COLLAPSE / EXPAND & MAXIMIZE THEATER MODE) ──
+    const bottomDock = document.getElementById('bottom-studio-dock');
+    const dockToggleBtn = document.getElementById('dock-toggle-btn');
+    const dockToggleIcon = document.getElementById('dock-toggle-icon');
+    const dockToggleLabel = document.getElementById('dock-toggle-label');
+    const dockMaximizeBtn = document.getElementById('dock-maximize-btn');
+    const dockMaximizeIcon = document.getElementById('dock-maximize-icon');
+
+    dockToggleBtn?.addEventListener('click', () => {
+      if (!bottomDock) return;
+      const isCollapsed = bottomDock.classList.toggle('is-collapsed');
+      if (dockToggleIcon) dockToggleIcon.textContent = isCollapsed ? '▲' : '▼';
+      if (dockToggleLabel) dockToggleLabel.textContent = isCollapsed ? 'Mở rộng' : 'Thu gọn';
+      if (isCollapsed) bottomDock.classList.remove('is-maximized');
+    });
+
+    dockMaximizeBtn?.addEventListener('click', () => {
+      if (!bottomDock) return;
+      bottomDock.classList.remove('is-collapsed');
+      if (dockToggleIcon) dockToggleIcon.textContent = '▼';
+      if (dockToggleLabel) dockToggleLabel.textContent = 'Thu gọn';
+      const isMax = bottomDock.classList.toggle('is-maximized');
+      if (dockMaximizeIcon) dockMaximizeIcon.textContent = isMax ? '❐' : '⛶';
+      const maxLabel = dockMaximizeBtn.querySelector('.dock-tool-label');
+      if (maxLabel) maxLabel.textContent = isMax ? 'Thu nhỏ' : 'Phóng to';
+    });
+
+    window.ensureDockOpen = function() {
+      if (bottomDock && bottomDock.classList.contains('is-collapsed')) {
+        bottomDock.classList.remove('is-collapsed');
+        if (dockToggleIcon) dockToggleIcon.textContent = '▼';
+        if (dockToggleLabel) dockToggleLabel.textContent = 'Thu gọn';
+      }
+    };
+
+    // Copy Buttons for Wan 2.5, Nanobana & Image GPT
+    document.getElementById('copy-btn-wan')?.addEventListener('click', () => {
+      copyPanel('result-text-wan', 'copy-btn-wan');
+    });
+    document.getElementById('copy-btn-wan-comfy')?.addEventListener('click', async () => {
+      const el = document.getElementById('result-text-wan');
+      const text = el?.dataset.comfyPrompt || el?.textContent;
+      if (!text || el?.classList.contains('result-placeholder')) return;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      showCopyFeedback('copy-btn-wan-comfy');
+    });
+
+    // Wan 2.5 T2V / I2V Mode Switching (Alibaba Official Formula)
+    const btnWanT2V = document.getElementById('wan-mode-t2v');
+    const btnWanI2V = document.getElementById('wan-mode-i2v');
+    btnWanT2V?.addEventListener('click', () => {
+      window.wanMode = 't2v';
+      btnWanT2V.classList.add('active');
+      btnWanT2V.style.background = 'rgba(234,179,8,0.3)';
+      btnWanT2V.style.color = '#facc15';
+      btnWanI2V?.classList.remove('active');
+      if (btnWanI2V) {
+        btnWanI2V.style.background = 'transparent';
+        btnWanI2V.style.color = '#a1a1aa';
+      }
+      refreshResult();
+    });
+    btnWanI2V?.addEventListener('click', () => {
+      window.wanMode = 'i2v';
+      btnWanI2V.classList.add('active');
+      btnWanI2V.style.background = 'rgba(234,179,8,0.3)';
+      btnWanI2V.style.color = '#facc15';
+      btnWanT2V?.classList.remove('active');
+      if (btnWanT2V) {
+        btnWanT2V.style.background = 'transparent';
+        btnWanT2V.style.color = '#a1a1aa';
+      }
+      refreshResult();
+    });
+
+    // ── ChatGPT Images 2.5 (Sunburst vs Flare) Mode Switching ──
+    const btnGptSunburst = document.getElementById('gpt25-mode-sunburst');
+    const btnGptFlare = document.getElementById('gpt25-mode-flare');
+    btnGptSunburst?.addEventListener('click', () => {
+      window.gpt25Mode = 'sunburst';
+      btnGptSunburst.classList.add('active');
+      btnGptSunburst.style.background = 'rgba(168,85,247,0.3)';
+      btnGptSunburst.style.color = '#c084fc';
+      btnGptFlare?.classList.remove('active');
+      if (btnGptFlare) {
+        btnGptFlare.style.background = 'transparent';
+        btnGptFlare.style.color = '#a1a1aa';
+      }
+      refreshResult();
+    });
+    btnGptFlare?.addEventListener('click', () => {
+      window.gpt25Mode = 'flare';
+      btnGptFlare.classList.add('active');
+      btnGptFlare.style.background = 'rgba(168,85,247,0.3)';
+      btnGptFlare.style.color = '#c084fc';
+      btnGptSunburst?.classList.remove('active');
+      if (btnGptSunburst) {
+        btnGptSunburst.style.background = 'transparent';
+        btnGptSunburst.style.color = '#a1a1aa';
+      }
+      refreshResult();
+    });
+
+    // Copy Wan Official Negative Prompt
+    document.getElementById('copy-btn-wan-neg')?.addEventListener('click', async () => {
+      const negText = 'blurry details, static, motion artifacts, distorted limbs, extra fingers, poor quality, JPEG compression, low resolution, jitter, flicker';
+      try {
+        await navigator.clipboard.writeText(negText);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = negText;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      showCopyFeedback('copy-btn-wan-neg');
+    });
+
+    // Midjourney v8.2 Native 2K (--hd) Toggle
+    const mjHdBtn = document.getElementById('mj-hd-toggle-btn');
+    mjHdBtn?.addEventListener('click', () => {
+      window.mjHdMode = !window.mjHdMode;
+      if (window.mjHdMode) {
+        mjHdBtn.style.background = 'rgba(56,189,248,0.3)';
+        mjHdBtn.style.color = '#38bdf8';
+        mjHdBtn.style.borderColor = '#38bdf8';
+      } else {
+        mjHdBtn.style.background = 'transparent';
+        mjHdBtn.style.color = '#a1a1aa';
+        mjHdBtn.style.borderColor = 'rgba(255,255,255,0.15)';
+      }
+      refreshResult();
+    });
+
+    document.getElementById('copy-btn-imagen')?.addEventListener('click', () => {
+      copyPanel('result-text-imagen', 'copy-btn-imagen');
+    });
     document.getElementById('copy-btn-nanobana')?.addEventListener('click', () => {
       copyPanel('result-text-nanobana', 'copy-btn-nanobana');
     });
     document.getElementById('copy-btn-imagegpt')?.addEventListener('click', () => {
       copyPanel('result-text-imagegpt', 'copy-btn-imagegpt');
+    });
+
+    // ── RELAY TO CHROME EXTENSION (ChatGPT & Google Flow) ──
+    function relayToExtension(target, panelTextId) {
+      const el = document.getElementById(panelTextId);
+      const text = el?.dataset?.comfyPrompt || el?.textContent?.trim() || '';
+      if (!text || el?.classList.contains('result-placeholder')) {
+        showToast('⚠️ Vui lòng chọn thẻ hoặc tạo prompt trước khi gửi!', 'warning');
+        return;
+      }
+
+      const negEl = document.getElementById('wan-neg-preview');
+      const negPrompt = negEl ? negEl.textContent.trim() : (document.getElementById('negative-prompt')?.value || '');
+      const refImgEl = document.getElementById('director-filmstrip-thumb') || document.querySelector('.card.selected img');
+      const refImgSrc = refImgEl?.src || '';
+
+      const relayMessage = {
+        type: 'PROMPT_AGENT_RELAY',
+        target: target, // 'flow' | 'chatgpt'
+        source: 'cineprompt_pro',
+        payload: {
+          version: 1,
+          source: 'cineprompt_pro',
+          mediaType: target === 'flow' ? 'video' : 'image',
+          prompt: text,
+          negativePrompt: negPrompt,
+          assetUrl: (refImgSrc.startsWith('data:') || refImgSrc.startsWith('http')) ? refImgSrc : '',
+          sceneIndex: '1',
+          parameters: {
+            mode: window.wanMode || 't2v',
+            aspectRatio: document.getElementById('aspect-ratio')?.value || '',
+            fps: window.activeFPS || 24
+          }
+        },
+        // Also keep top-level convenience properties
+        prompt: text,
+        negativePrompt: negPrompt,
+        timestamp: Date.now()
+      };
+
+      // 1. window.postMessage for content script on this page
+      window.postMessage(relayMessage, '*');
+
+      // 2. Direct extension messaging if extension is installed & externally_connectable
+      if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
+        try {
+          chrome.runtime.sendMessage(relayMessage, () => {
+            if (chrome.runtime.lastError) {
+              // Handled by content script bridge
+            }
+          });
+        } catch (err) {}
+      }
+
+      const targetLabel = target === 'flow' ? '⚡ Google Flow' : '💬 ChatGPT';
+      showToast(`🚀 Đã chuyển tiếp kịch bản sang ${targetLabel}!`, 'success');
+    }
+
+    document.getElementById('relay-flow-btn-imagen')?.addEventListener('click', () => {
+      relayToExtension('flow', 'result-text-imagen');
+    });
+    document.getElementById('relay-gpt-btn-imagegpt')?.addEventListener('click', () => {
+      relayToExtension('chatgpt', 'result-text-imagegpt');
+    });
+    document.getElementById('relay-flow-btn-wan')?.addEventListener('click', () => {
+      relayToExtension('flow', 'result-text-wan');
+    });
+    document.getElementById('relay-gpt-btn-wan')?.addEventListener('click', () => {
+      relayToExtension('chatgpt', 'result-text-wan');
+    });
+    document.getElementById('relay-flow-btn-video')?.addEventListener('click', () => {
+      relayToExtension('flow', 'result-text-video');
+    });
+    document.getElementById('relay-gpt-btn-video')?.addEventListener('click', () => {
+      relayToExtension('chatgpt', 'result-text-video');
+    });
+    document.getElementById('relay-gpt-btn-image')?.addEventListener('click', () => {
+      relayToExtension('chatgpt', 'result-text-image');
     });
 
     // ── DIRECTOR VIEWFINDER ASPECT RATIO CONTROLS ──
@@ -2955,6 +3249,8 @@ async function init() {
           arSelect.value = `--ar ${aspect}`;
           refreshResult();
         }
+        workflowTracker.setStep('aspect', true, aspect);
+        workflowTracker.logAction('Đổi Tỉ lệ Viewfinder', '🎥', aspect);
       });
     });
 
@@ -3005,11 +3301,11 @@ async function init() {
 
     // ── OPTICAL LINTER AUTO-HARMONIZE ──
     document.getElementById('linter-autofix-btn')?.addEventListener('click', () => {
-      const subjectInput = document.getElementById('subject-input');
-      if (subjectInput && subjectInput.value) {
-        soundFX.playSuccess();
-        refreshResult();
-      }
+      soundFX.playSuccess();
+      refreshResult();
+      workflowTracker.setStep('optical', true, '100% Sạch');
+      workflowTracker.logAction('Cân chỉnh Quang học', '🛡️', 'Optical 100% Clean');
+      showToast('🛡️ Đã cân chỉnh quang học chuẩn điện ảnh!', 'success');
     });
 
     // ── AUDIO PANEL HANDLERS (Restored) ──
@@ -3099,6 +3395,33 @@ async function init() {
       }
     };
     
+    // Expose Viral Video Remake Modal Functions to window
+    window.openViralModal = function() {
+      const modal = document.getElementById('viral-analyzer-modal-overlay');
+      if (modal) modal.style.display = 'flex';
+    };
+    window.closeViralModal = function() {
+      const modal = document.getElementById('viral-analyzer-modal-overlay');
+      if (modal) modal.style.display = 'none';
+    };
+    window.executeViralRemake = function() {
+      const url = document.getElementById('viral-video-url')?.value.trim() || '';
+      const script = document.getElementById('viral-video-script')?.value.trim() || '';
+      const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
+      
+      const input = document.getElementById('subject-input');
+      if (input) {
+        input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
+        input.focus();
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      window.closeViralModal();
+      const enhanceBtn = document.getElementById('ai-enhance-btn');
+      if (enhanceBtn) {
+        enhanceBtn.click();
+      }
+    };
+
     if (onboardingModal) {
       if (!localStorage.getItem('cinematique_onboarding_seen')) {
         setTimeout(() => {
@@ -3118,6 +3441,20 @@ async function init() {
       });
     }
 
+    // ── ZEN EDITOR MODAL (Phóng to khung soạn thảo) ──
+    initZenEditor();
+
+    // ── CINEPROMPT SUITE 2026: INITIALIZE ALL POWER ENGINES ──
+    initCinePromptSuite();
+
+    // ── DIRECTOR WORKFLOW & TASK AUDIT TRACKER ──
+    workflowTracker.initDOMEvents();
+
+    // Auto-resize any pre-filled textareas on initialization
+    setTimeout(() => {
+      document.querySelectorAll('textarea').forEach(el => autoResizeTextarea(el));
+    }, 100);
+
   } catch (err) {
     console.error('[Cinématique] Initialisation failed:', err);
 
@@ -3134,6 +3471,287 @@ async function init() {
     const count = document.getElementById('result-count');
     if (count) count.textContent = 'Error';
   }
+}
+
+/**
+ * Initializes the Zen Editor Modal for full-screen expanded prompt editing.
+ */
+function initZenEditor() {
+  const modal = document.getElementById('zen-editor-modal');
+  const textarea = document.getElementById('zen-editor-textarea');
+  const title = document.getElementById('zen-editor-title');
+  const stats = document.getElementById('zen-editor-stats');
+  const applyBtn = document.getElementById('zen-editor-apply-btn');
+  const cancelBtn = document.getElementById('zen-editor-cancel-btn');
+  const closeBtn = document.getElementById('zen-editor-close-btn');
+  const copyBtn = document.getElementById('zen-editor-copy-btn');
+  const clearBtn = document.getElementById('zen-editor-clear-btn');
+
+  let currentTargetInput = null;
+
+  function updateStats() {
+    if (!textarea || !stats) return;
+    const text = textarea.value;
+    const chars = text.length;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    stats.textContent = `Ký tự: ${chars.toLocaleString()} | Từ: ${words.toLocaleString()}`;
+  }
+
+  function openZenEditor(targetInputId, fieldName) {
+    const target = document.getElementById(targetInputId);
+    if (!target || !modal || !textarea) return;
+    currentTargetInput = target;
+    textarea.value = target.value;
+    if (title) title.textContent = `⛶ Soạn Thảo Toàn Cảnh: ${fieldName}`;
+    updateStats();
+    modal.style.display = 'flex';
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    }, 60);
+  }
+
+  function closeZenEditor(save = false) {
+    if (!modal) return;
+    if (save && currentTargetInput && textarea) {
+      currentTargetInput.value = textarea.value;
+      autoResizeTextarea(currentTargetInput);
+      currentTargetInput.dispatchEvent(new Event('input', { bubbles: true }));
+      showToast('✅ Đã cập nhật nội dung prompt!', 'success');
+    }
+    modal.style.display = 'none';
+    currentTargetInput = null;
+  }
+
+  document.getElementById('subject-expand-btn')?.addEventListener('click', () => {
+    openZenEditor('subject-input', '🎯 1. Ý tưởng Chủ đề');
+  });
+
+  document.getElementById('character-expand-btn')?.addEventListener('click', () => {
+    openZenEditor('character-input', '👤 2. Khóa Nhân Vật');
+  });
+
+  textarea?.addEventListener('input', updateStats);
+  applyBtn?.addEventListener('click', () => closeZenEditor(true));
+  cancelBtn?.addEventListener('click', () => closeZenEditor(false));
+  closeBtn?.addEventListener('click', () => closeZenEditor(false));
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeZenEditor(false);
+  });
+
+  copyBtn?.addEventListener('click', () => {
+    if (!textarea) return;
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      showToast('📋 Đã sao chép toàn bộ prompt vào bộ nhớ tạm!', 'success');
+    });
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    if (!textarea) return;
+    textarea.value = '';
+    updateStats();
+    textarea.focus();
+  });
+}
+
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * CINEPROMPT.IO ENHANCEMENT SUITE (HOLLYWOOD STUDIO ENGINE 2026)
+ * ═══════════════════════════════════════════════════════════════════
+ */
+
+window.currentAiModel = window.currentAiModel || 'universal';
+window.currentStudioMode = window.currentStudioMode || 'single';
+window.isJsonViewMode = false;
+
+function applyJsonViewToPanels() {
+  const mode = window.currentStudioMode;
+  if (mode === 'multishot') {
+    const jsonOutput = multishotEngine.compileJsonSchema();
+    const resultBox = document.getElementById('result-text-video');
+    if (resultBox) {
+      resultBox.textContent = JSON.stringify(jsonOutput, null, 2);
+    }
+    return;
+  }
+
+  // Single or FrameToMotion mode
+  const currentSub = getSubjectValue();
+  const currentAspect = getAspectRatioValue();
+  const currentFps = getActiveFPS();
+  const currentCam = studioCameraState;
+
+  const jsonSchema = {
+    generator: "Cine Prompt Pro v2.0 - Studio Engine",
+    director: "Đạo Diễn Trung",
+    targetModel: window.currentAiModel,
+    specs: {
+      aspectRatio: currentAspect,
+      frameRate: currentFps,
+      cameraShot: currentCam?.shotSize || 'Medium close-up',
+      cameraAngle: currentCam?.shotAngle || 'Eye-level',
+      motionDirective: currentCam?.cameraMotion || 'Slow smooth dolly tracking'
+    },
+    subject: {
+      identity: currentSub || "Primary protagonist",
+      characterAnchor: getCharacterValue() || "Consistent facial geometry"
+    },
+    cinematography: {
+      optics: "Cooke Anamorphic /i Prime 40mm, T2.3",
+      lighting: "Chiaroscuro rim light with soft volumetric wrap",
+      colorGrading: "ARRI LogC3 flat log footage, natural skin saturation"
+    },
+    prompt: {
+      prose: document.getElementById('result-text-image')?.textContent || '',
+      negative: getNegativePromptValue() || "--no blur, plastic, distortion"
+    }
+  };
+
+  const imageBox = document.getElementById('result-text-image');
+  const videoBox = document.getElementById('result-text-video');
+  if (imageBox) imageBox.textContent = JSON.stringify(jsonSchema, null, 2);
+  if (videoBox) videoBox.textContent = JSON.stringify(jsonSchema, null, 2);
+}
+
+function initCinePromptSuite() {
+  // 1. Model Optimizer Bar
+  renderModelOptimizerBar('model-optimizer-container', window.currentAiModel, (selectedModel) => {
+    window.currentAiModel = selectedModel;
+    refreshResult();
+    showToast(`⚡ Đã tối ưu hóa trật tự Prompt theo thuật toán ${selectedModel.toUpperCase()}!`, 'info');
+  });
+
+  // 2. Studio Master Mode Tabs (Single / Frame to Motion / Multi-Shot)
+  const modeTabs = document.querySelectorAll('.studio-mode-tab');
+  const multishotContainer = document.getElementById('multishot-timeline-container');
+  const framemotionContainer = document.getElementById('framemotion-dual-container');
+
+  const updateTabStyles = (activeTab) => {
+    modeTabs.forEach(t => {
+      if (t === activeTab) {
+        t.classList.add('is-active');
+        t.style.background = 'linear-gradient(135deg, #ffd700, #f59e0b)';
+        t.style.color = '#0f172a';
+        t.style.fontWeight = '900';
+        t.style.boxShadow = '0 2px 10px rgba(255,215,0,0.35)';
+      } else {
+        t.classList.remove('is-active');
+        t.style.background = 'transparent';
+        t.style.color = '#a1a1aa';
+        t.style.fontWeight = '700';
+        t.style.boxShadow = 'none';
+      }
+    });
+  };
+
+  modeTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      updateTabStyles(tab);
+
+      const mode = tab.dataset.mode;
+      window.currentStudioMode = mode;
+
+      if (mode === 'single') {
+        if (multishotContainer) multishotContainer.style.display = 'none';
+        if (framemotionContainer) framemotionContainer.style.display = 'none';
+        showToast('⚡ Chuyển sang chế độ Single Cinema Prompt', 'info');
+      } else if (mode === 'framemotion') {
+        if (multishotContainer) multishotContainer.style.display = 'none';
+        if (framemotionContainer) framemotionContainer.style.display = 'block';
+        showToast('🎞️ Kích hoạt Dual-Prompt: Frame to Motion (img2vid)', 'info');
+      } else if (mode === 'multishot') {
+        if (framemotionContainer) framemotionContainer.style.display = 'none';
+        if (multishotContainer) {
+          multishotContainer.style.display = 'block';
+          renderMultiShotTimelineUI(multishotContainer, () => {
+            const prose = multishotEngine.compileScreenplayProse();
+            const videoBox = document.getElementById('result-text-video');
+            if (videoBox) videoBox.textContent = prose;
+          });
+        }
+        showToast('🎬 Kích hoạt Multi-Shot Timeline & Character Consistency', 'info');
+      }
+
+      refreshResult();
+    });
+  });
+
+  // 3. Format Toggle (Prose Screenplay vs JSON Schema)
+  const btnProse = document.getElementById('format-toggle-prose');
+  const btnJson = document.getElementById('format-toggle-json');
+
+  const updateFormatStyles = (isJson) => {
+    if (isJson) {
+      if (btnJson) {
+        btnJson.classList.add('is-active');
+        btnJson.style.background = 'linear-gradient(135deg, rgba(201,162,39,0.35), rgba(255,215,0,0.25))';
+        btnJson.style.borderColor = '#ffd700';
+        btnJson.style.color = '#ffd700';
+        btnJson.style.boxShadow = '0 0 8px rgba(255,215,0,0.3)';
+      }
+      if (btnProse) {
+        btnProse.classList.remove('is-active');
+        btnProse.style.background = 'transparent';
+        btnProse.style.borderColor = 'transparent';
+        btnProse.style.color = '#a1a1aa';
+        btnProse.style.boxShadow = 'none';
+      }
+    } else {
+      if (btnProse) {
+        btnProse.classList.add('is-active');
+        btnProse.style.background = 'linear-gradient(135deg, rgba(201,162,39,0.35), rgba(255,215,0,0.25))';
+        btnProse.style.borderColor = '#ffd700';
+        btnProse.style.color = '#ffd700';
+        btnProse.style.boxShadow = '0 0 8px rgba(255,215,0,0.3)';
+      }
+      if (btnJson) {
+        btnJson.classList.remove('is-active');
+        btnJson.style.background = 'transparent';
+        btnJson.style.borderColor = 'transparent';
+        btnJson.style.color = '#a1a1aa';
+        btnJson.style.boxShadow = 'none';
+      }
+    }
+  };
+
+  btnProse?.addEventListener('click', () => {
+    window.isJsonViewMode = false;
+    updateFormatStyles(false);
+    refreshResult();
+    showToast('🎬 Chuyển sang định dạng Kịch Bản Điện Ảnh', 'info');
+  });
+
+  btnJson?.addEventListener('click', () => {
+    window.isJsonViewMode = true;
+    updateFormatStyles(true);
+    applyJsonViewToPanels();
+    showToast('{ } Chuyển sang định dạng JSON Structured Schema', 'info');
+  });
+
+  // 4. Frame to Motion Copy buttons
+  document.getElementById('fm-copy-image-btn')?.addEventListener('click', () => {
+    const text = document.getElementById('fm-image-prompt-box')?.textContent || '';
+    if (text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Đã sao chép Starting Keyframe Image Prompt!', 'success');
+      });
+    }
+  });
+
+  document.getElementById('fm-copy-motion-btn')?.addEventListener('click', () => {
+    const text = document.getElementById('fm-motion-prompt-box')?.textContent || '';
+    if (text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Đã sao chép Motion & Camera Trajectory Prompt!', 'success');
+      });
+    }
+  });
+
+  // 5. BYOK Live Studio Button
+  document.getElementById('byok-studio-btn')?.addEventListener('click', () => {
+    byokStudio.openModal();
+  });
 }
 
 if (document.readyState === 'loading') {

@@ -176,5 +176,93 @@ END OF PRODUCTION PACKAGE — DEPLOY TO REMOTION / HYPERFRAME
   link.setAttribute('download', `Production_Package_${(title || 'Shot').replace(/[^a-zA-Z0-9]/g, '_')}.txt`);
   document.body.appendChild(link);
   link.click();
+}
+
+/**
+ * Xuất Gói TVC Commercial Đa Cảnh (Google Flow & Runway/Sora Ready)
+ * Được tối ưu hóa chuyên sâu theo thuật toán của các nền tảng video AI:
+ * Tách sẵn từng phân cảnh độc lập (Scene 1-4) với câu lệnh sạch, không lẫn tag rác,
+ * đồng thời có kịch bản Master Storyboard dành cho Chatbot/Gemini của Flow.
+ *
+ * @param {Object} data { productName, coreMessage, scenes, scriptText, styleVibe, duration, aspectRatio }
+ */
+export function exportTVCFlowPackage({
+  productName = "Product",
+  coreMessage = "Message",
+  scenes = [],
+  scriptText = "",
+  styleVibe = "minimalist",
+  duration = 15,
+  aspectRatio = "16:9"
+}) {
+  const isEn = (localStorage.getItem('cine_lang') || 'vi') === 'en';
+  const dateStr = new Date().toLocaleString(isEn ? 'en-US' : 'vi-VN');
+
+  let scenesFormatted = '';
+  if (scenes && scenes.length > 0) {
+    scenesFormatted = scenes.map(s => `================================================================================
+🎬 SCENE ${s.sceneNum}: ${s.title.toUpperCase()} [Timecode: ${s.timeRange || `${s.startSec}-${s.endSec}s`}]
+================================================================================
+🎯 FLOW / VEO / SORA READY PROMPT (Copy dòng này dán thẳng vào ô Video Prompt của Flow):
+${s.prompt}
+
+🎥 CAMERA TRAJECTORY:
+${s.cameraMotion}
+
+🔤 LOWER-THIRD SUBTITLE / END CARD:
+"${s.textOverlay || ''}"
+
+🎙️ VOICEOVER NARRATION (LỜI THOẠI LỒNG TIẾNG):
+- Tiếng Việt: "${s.voiceoverVI || ''}"
+- English:    "${s.voiceoverEN || ''}"
+`).join('\n\n');
+  } else {
+    scenesFormatted = scriptText || 'No detailed scene prompts generated.';
+  }
+
+  const packageContent = 
+`================================================================================
+🎬 CINE PROMPT PRO v2.0 — GOOGLE FLOW & SORA COMMERCIAL PRODUCTION PACKAGE
+================================================================================
+THỜI GIAN XUẤT   : ${dateStr}
+SẢN PHẨM / BRIEF : ${productName}
+THÔNG ĐIỆP CỐT LÕI: ${coreMessage}
+PHONG CÁCH THẨM MỸ: ${styleVibe}
+THỜI LƯỢNG       : ${duration}s (Chuẩn TVC 4 Hồi: Hook -> Tension -> Reveal -> CTA)
+TỶ LỆ KHUNG HÌNH : ${aspectRatio}
+
+--------------------------------------------------------------------------------
+💡 HƯỚNG DẪN DÀNH CHO NGƯỜI DÙNG THỦ CÔNG (KHÔNG CẦN CÀI CHROME EXTENSION):
+--------------------------------------------------------------------------------
+1. Mở Google Flow (labs.google/fx/tools/flow).
+2. Tạo 4 Node Video (hoặc 4 lượt tạo) tương ứng với 4 Phân Cảnh bên dưới.
+3. Chỉ cần copy đúng đoạn văn dưới mục "FLOW / VEO / SORA READY PROMPT" của từng cảnh
+   và dán thẳng vào ô Prompt của Flow. AI sẽ render chính xác 100% không bị lẫn chữ rác!
+4. Nếu Flow có node Gemini / Chat Storyboard: Hãy copy toàn bộ phần [MASTER STORYBOARD]
+   ở cuối tài liệu này để AI của Flow tự phân tích nhánh video.
+
+${scenesFormatted}
+
+================================================================================
+📋 MASTER STORYBOARD SCRIPT (DÀNH CHO CHATBOT / GEMINI FLOW ORCHESTRATOR)
+================================================================================
+${scriptText}
+
+================================================================================
+⚛️ HƯỚNG DẪN DỰNG VIDEO BẰNG CODE (REMOTION / MP4 PIPELINE):
+================================================================================
+Toàn bộ 4 phân cảnh trên đã được chuẩn hóa frame rate 24fps/30fps và mốc thời gian 
+0-3s, 3-6s, 6-10s, 10-15s. Sau khi tải video từ Flow về, bạn có thể ghép ngay bằng 
+Remotion component hoặc bất kỳ trình biên tập video nào.
+================================================================================`;
+
+  const blob = new Blob([packageContent], { type: 'text/plain;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', `Flow_TVC_Package_${productName.replace(/[^a-zA-Z0-9]/g, '_')}_${duration}s.txt`);
+  document.body.appendChild(link);
+  link.click();
   document.body.removeChild(link);
 }
+

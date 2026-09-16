@@ -9,6 +9,11 @@ import { isFavorite } from './dataManager.js';
 import { translateCinematicText } from './translator.js';
 import { OpticalLinter } from './opticalLinter.js';
 import { sanitizeCinematicPrompt } from './directorKnowledgeEngine.js';
+import { workflowTracker } from './workflowTracker.js';
+import { applySmartMerge, mergeCameraAndColorScience, mergeShotAndMovement } from './smartMergeEngine.js';
+import { AI_MODELS, reorderPromptByModel, compileProsePrompt } from './modelOptimizer.js';
+import { multishotEngine } from './multishotEngine.js';
+import { byokStudio } from './byokStudio.js';
 
 /* ── Video suffix (base, without dynamic parts) ───────────── */
 
@@ -715,6 +720,9 @@ export function displayDualResult(basePrompt, title, options = {}) {
   if (!resultBox || !promptTitle || !resultTextImage || !resultTextVideo) return;
 
   promptTitle.textContent = title;
+  const promptTitleDock = document.getElementById('prompt-title-dock');
+  if (promptTitleDock) promptTitleDock.textContent = title ? `— ${title}` : '';
+  if (window.ensureDockOpen) window.ensureDockOpen();
 
   const cleanChar = characterAnchor ? characterAnchor.trim() : '';
 
@@ -751,7 +759,7 @@ export function displayDualResult(basePrompt, title, options = {}) {
       .trim();
   }
 
-  // ── 1. Midjourney V8.2 Slate ────────
+  // ── 1. Midjourney V8.2 Slate (Official Docs Compliant) ────────
   let imageText = cleanImageBase;
   if (studioImgPrefixes.length > 0) {
     imageText = studioImgPrefixes.join(', ') + ', ' + imageText;
@@ -761,7 +769,8 @@ export function displayDualResult(basePrompt, title, options = {}) {
   }
   // Sanitize obsolete keywords and apply v8.2 flags
   imageText = sanitizeCinematicPrompt(imageText);
-  imageText += ', 65mm IMAX format, fine grain resolution, highly detailed cinematic still ' + aspectRatioFlag + ' --v 8.2 --style raw --stylize 250';
+  const isMjHd = window.mjHdMode === true;
+  imageText += ', 65mm IMAX format, fine grain resolution, highly detailed cinematic still ' + aspectRatioFlag + ' --v 8.2 --style raw --stylize 250' + (isMjHd ? ' --hd' : '');
 
   if (negativePrompt.trim()) {
     imageText += ' --no ' + negativePrompt.trim();
@@ -778,23 +787,93 @@ export function displayDualResult(basePrompt, title, options = {}) {
     countImgBadge.style.color = imgWords > 120 ? '#fbbf24' : '#34d399';
   }
 
-  // ── 2. Nanobana Pro 2 (Hyper-Dense Spatial Prompt) ────────
-  const resultTextNanobana = document.getElementById('result-text-nanobana');
-  if (resultTextNanobana) {
-    const nanobanaPrompt = `[SUBJECT/ACTION]: ${cleanChar ? cleanChar + ' - ' : ''}${cleanImageBase}
-[SPATIAL COMPOSITION]: Multi-layer depth layout, foreground elements, midground focus, atmospheric background falloff.
-[OPTICAL & LENS]: Panavision C-Series Anamorphic 40mm, T1.4 aperture, authentic horizontal blue streak flares.
-[LIGHTING RATIO]: High-contrast Chiaroscuro key (8:1 ratio), 3200K tungsten practical rim lights against cool ambient shadows.
-[MATERIAL FIDELITY]: Subsurface skin scattering, natural micro-pore texture, realistic fabric roughness, zero digital smoothing.
-[FORMAT]: ${aspectRatioFlag.replace('--ar ', '')} Aspect Ratio, Photorealistic 35mm film grain.`;
-    resultTextNanobana.textContent = nanobanaPrompt;
-    resultTextNanobana.classList.remove('result-placeholder');
+  // ── Wan 2.5 Video Engine (Alibaba Official Formula: Camera + Subject + Motion + Scene) ────────
+  const resultTextWan = document.getElementById('result-text-wan');
+  if (resultTextWan) {
+    let cameraActionDesc = 'Camera pushes slowly forward on the subject with steady cinematic tracking';
+    if (studioCamera && studioCamera.cameraMotion && AI_CAMERA_DIRECTIVES[studioCamera.cameraMotion]) {
+      const dir = AI_CAMERA_DIRECTIVES[studioCamera.cameraMotion];
+      cameraActionDesc = `${dir.movement} at ${dir.speed} pacing, ${dir.framing}, concluding with ${dir.end}`;
+    } else if (motionTags.length) {
+      cameraActionDesc = motionTags.join(', ');
+    }
+
+    const isI2V = window.wanMode === 'i2v';
+    const cleanDesc = sanitizeCinematicPrompt(cleanImageBase);
+    let wanPrompt = '';
+    let comfyClean = '';
+
+    if (isI2V) {
+      // Alibaba Official I2V Golden Rule: DO NOT re-describe subject appearance to prevent identity hallucination.
+      // Focus 100% on Camera Trajectory + Dynamic Physical Action + Lighting/Environmental Flow.
+      wanPrompt = `[Camera Movement]: ${cameraActionDesc}.
+[Motion Dynamics]: The subject performs organic, lifelike movement with natural micro-expressions, breathing subtly, without hesitation or freezing.
+[Atmosphere & Lighting]: Dramatic cinematic rim lighting, gentle environmental airflow moving through hair and clothing, authentic Panavision anamorphic lens blur with smooth shallow depth of field.
+[Production Specs]: --mode wan-i2v --resolution 1080p --fps ${fpsValue} --motion-bucket 120 --steps 35`;
+      comfyClean = `${cameraActionDesc}, natural fluid organic motion, subtle breathing, atmospheric wind movement, cinematic lighting, 35mm optical blur`;
+    } else {
+      // Alibaba Official T2V Formula: [Camera Movement] + [Subject Description] + [Scene Description] + [Motion Description] + [Atmosphere/Style] (~80-100 words optimal)
+      wanPrompt = `Camera Movement: ${cameraActionDesc}.
+Subject & Scene: A cinematic master shot capturing ${cleanChar ? cleanChar + ', ' : ''}${cleanDesc}. The environment features rich spatial depth with practical background separation, natural textures, and volumetric mist.
+Motion & Timeline Beats:
+- [0.0s - 2.5s]: Establishing dynamic scene, subject micro-gestures unfold organically, atmospheric lighting illuminates ambient particles.
+- [2.5s - 5.0s]: Continuous camera trajectory, fluid kinetic motion, depth of field rack focusing with creamy anamorphic bokeh.
+Production Specs: --model wan2.5-t2v --resolution 1080p --ar ${aspectRatioFlag.replace('--ar ', '')} --fps ${fpsValue} --motion-bucket 120 --steps 30`;
+      comfyClean = `${cameraActionDesc}, ${cleanChar ? cleanChar + ', ' : ''}${cleanDesc}, Panavision C-Series anamorphic 40mm, cinematic film lighting, volumetric mist, realistic textures, highly detailed, photorealistic 8k render, masterpiece composition`;
+    }
+
+    resultTextWan.textContent = wanPrompt;
+    resultTextWan.dataset.comfyPrompt = comfyClean;
+    resultTextWan.classList.remove('result-placeholder');
+
+    // Real-time Word & Character Counter for Wan 2.5
+    const wanWords = wanPrompt.trim() ? wanPrompt.trim().split(/\s+/).length : 0;
+    const countWanBadge = document.getElementById('count-badge-wan');
+    if (countWanBadge) {
+      countWanBadge.textContent = `${wanWords} từ · ${wanPrompt.length} ký tự`;
+      countWanBadge.style.color = (wanWords >= 70 && wanWords <= 130) ? '#34d399' : '#facc15';
+    }
   }
 
-  // ── 3. Image GPT 2 / DALL-E 4 (Deep Narrative Prose) ────────
+  const transWanEl = document.getElementById('result-translation-wan');
+  if (transWanEl) {
+    transWanEl.textContent = '';
+    transWanEl.style.display = 'none';
+  }
+
+  // ── 2. Google Gemini 3.1 Flash Image ("Nano Banana" / Flow Keyframe Engine) ────────
+  const resultTextImagen = document.getElementById('result-text-imagen');
+  if (resultTextImagen) {
+    const cleanAspect = aspectRatioFlag.replace('--ar ', '').trim() || '16:9';
+    const geminiPrompt = `[CORE SUBJECT & SPATIAL ANCHORS]: A high-resolution cinematic photograph of ${cleanChar ? cleanChar + ', ' : ''}${cleanImageBase}.
+[FOREGROUND & MIDGROUND]: Sharp subject focus with authentic optical depth of field, natural skin pores, realistic fabric folds, tangible material textures.
+[BACKGROUND & ENVIRONMENT]: Rich environmental layering with subtle atmospheric haze, natural perspective falloff.
+[LIGHTING & OPTICS]: Illuminated by cinematic natural light with warm bounce fill and authentic specular highlights. Captured on an ARRI Alexa with a 50mm prime lens at f/1.4. Rich organic color science, zero digital smoothing, zero watermark.
+[TYPOGRAPHY NOTE]: Any visible brand text or product labels must appear exactly inside double quotes "" without distortion.
+[PRODUCTION METADATA]: --engine gemini-flash-image --flow-keyframe true --aspect ${cleanAspect}`;
+    resultTextImagen.textContent = geminiPrompt;
+    resultTextImagen.classList.remove('result-placeholder');
+  }
+
+  // ── 3. ChatGPT Images 2.5 Engine (OpenAI Sunburst & Flare Architecture) ────────
   const resultTextImageGPT = document.getElementById('result-text-imagegpt');
   if (resultTextImageGPT) {
-    const gptPrompt = `An award-winning Hollywood cinematic screenshot featuring ${cleanImageBase}. ${cleanChar ? `The character is visually grounded as ${cleanChar}. ` : ''}The scene is illuminated by dramatic Chiaroscuro key lighting with warm amber rim highlights sculpting the subject against deep, velvety shadows. Captured on 70mm IMAX using an ARRI Master Prime 35mm lens at T1.3, showcasing razor-sharp ocular focus, creamy shallow bokeh, and authentic Kodak Vision3 500T 35mm film grain texture. The atmosphere is dense with subtle volumetric mist and suspended airborne dust particles catching the light, evoking a quiet, profound cinematic weight.`;
+    const isFlare = window.gpt25Mode === 'flare';
+    let gptPrompt = '';
+
+    if (isFlare) {
+      // GPT-Image-2.5 Flare: Fast, high-quality daily generation (~50% lower latency)
+      gptPrompt = `A cinematic, vivid photograph featuring ${cleanImageBase}. ${cleanChar ? `The character is: ${cleanChar}. ` : ''}Natural sunlight filtering through the space, creating authentic ambient highlights and deep cinematic shadows. Captured on 35mm motion picture film with an 85mm portrait lens at f/1.8. Genuine physical textures, lifelike skin details, and authentic human expression with zero artificial plastic smoothing.
+[SYSTEM PARAMS]: --model gpt-image-2.5-flare --latency low --fidelity balanced`;
+    } else {
+      // GPT-Image-2.5 Sunburst: SOTA precision, subject persistence across turns, sketch & comment edit ready
+      gptPrompt = `[SUBJECT CONSISTENCY & IDENTITY]: The primary subject is permanently anchored as: ${cleanChar || 'the defined protagonist'}. Maintain exact facial bone structure, skin tone, hair texture, and styling consistent across all multi-turn edits and sequential scene shots.
+[SCENE & VISUAL STORY]: A masterpiece cinematic frame capturing ${cleanImageBase}. The setting boasts layered spatial depth, authentic material friction, and genuine atmospheric presence.
+[OPTICAL LIGHTING & CAMERA]: Cinematic chiaroscuro lighting ratio with soft directional key light and natural rim separation. Photographed with a 50mm prime cinema lens at f/1.4, rendering true optical depth of field, authentic film stock grain, and tangible micro-textures.
+[IMAGES 2.5 MULTI-TURN DIRECTIVE]: Optimized for multi-turn conversational edits, comment annotations, and sketch guidance. When modifying background elements or angles in subsequent turns, preserve the subject identity intact.
+[SYSTEM PARAMS]: --model gpt-image-2.5-sunburst --fidelity maximum --preserve-subject true`;
+    }
+
     resultTextImageGPT.textContent = gptPrompt;
     resultTextImageGPT.classList.remove('result-placeholder');
   }
@@ -1046,6 +1125,27 @@ Act as a professional Film Director. Based on the uploaded source documents, gen
       transNotebookLMEl.textContent = '';
       transNotebookLMEl.style.display = 'none';
     }
+  }
+
+  // ── 7. Update Director Workflow & Task Audit Tracker ──
+  try {
+    if (workflowTracker) {
+      const hasConcept = Boolean((prompt && prompt.title) || (userSubject && userSubject.trim().length > 2));
+      const hasCamera = Boolean(studioCamera && (studioCamera.shotSize || studioCamera.cameraAngle || studioCamera.cameraMotion));
+      const cameraDetails = studioCamera ? [studioCamera.shotSize, studioCamera.cameraAngle, studioCamera.cameraMotion].filter(Boolean).join(' + ') : '';
+
+      workflowTracker.setStep('concept', hasConcept, prompt?.title || userSubject || 'Custom Concept');
+      workflowTracker.setStep('camera', hasCamera, cameraDetails || 'Đã áp dụng');
+      workflowTracker.setStep('aspect', true, aspectLabel || '16:9 Phim');
+      workflowTracker.setStep('optical', linterResult?.isClean, `${linterResult?.score || 100}% Clean`);
+      workflowTracker.setStep('audio', Boolean(resultTextAudio && !resultTextAudio.classList.contains('result-placeholder')), 'Đã tạo SFX');
+
+      if (prompt && prompt.title) {
+        workflowTracker.logAction('Nạp kịch bản', '🎬', prompt.title);
+      }
+    }
+  } catch (err) {
+    // Non-blocking
   }
 
   // Reveal the result box
@@ -1554,5 +1654,231 @@ export function updateStudioCameraBadges(state = {}) {
       badgeMotion.classList.remove('is-active');
     }
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* CINEPROMPT.IO ENHANCEMENT SUITE (HOLLYWOOD STUDIO 2026)             */
+/* ═══════════════════════════════════════════════════════════════════ */
+
+/**
+ * Render the Model Optimizer Selector Bar (Kling, LTX, Sora, Runway, MiniMax, FLUX, Midjourney)
+ * @param {HTMLElement | string} container
+ * @param {string} activeModel
+ * @param {(modelKey: string) => void} onSelect
+ */
+export function renderModelOptimizerBar(container, activeModel = 'universal', onSelect) {
+  const el = typeof container === 'string' ? document.getElementById(container) : container;
+  if (!el) return;
+
+  el.innerHTML = '';
+  el.className = 'model-optimizer-bar';
+  el.style.cssText = 'background: linear-gradient(135deg, rgba(16, 18, 30, 0.96) 0%, rgba(9, 11, 18, 0.98) 100%); border: 1.2px solid rgba(255, 215, 0, 0.35); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 215, 0, 0.15); box-sizing: border-box;';
+
+  const titleWrapper = document.createElement('div');
+  titleWrapper.className = 'model-opt-header';
+  titleWrapper.style.cssText = 'display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;';
+  titleWrapper.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 1rem;">⚡</span>
+      <span class="model-opt-label" style="font-size: 0.76rem; font-weight: 900; color: #ffd700; letter-spacing: 0.06em; text-transform: uppercase;">MODEL OPTIMIZER</span>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <span class="model-opt-sub" style="font-size: 0.68rem; color: #a1a1aa;">Tự động cấu trúc lại trật tự Prompt tối ưu cho từng thuật toán AI</span>
+    </div>
+    <span style="font-size: 0.62rem; color: #4ade80; font-weight: 800; background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 7px; border-radius: 10px;">AUTO ATTENTION</span>
+  `;
+  el.appendChild(titleWrapper);
+
+  const pillsContainer = document.createElement('div');
+  pillsContainer.className = 'model-opt-pills';
+  pillsContainer.style.cssText = 'display: flex; flex-wrap: wrap; gap: 6px; align-items: center;';
+
+  const applyPillStyle = (btn, isActive) => {
+    if (isActive) {
+      btn.style.cssText = 'display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(245, 158, 11, 0.18)); border: 1.5px solid #ffd700; color: #ffd700; padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; cursor: pointer; box-shadow: 0 0 12px rgba(255, 215, 0, 0.35); transition: all 0.2s ease;';
+      const dot = btn.querySelector('.pill-dot');
+      if (dot) dot.style.cssText = 'width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e;';
+      const badge = btn.querySelector('.pill-badge');
+      if (badge) badge.style.cssText = 'font-size: 0.60rem; background: rgba(255, 215, 0, 0.25); color: #ffd700; padding: 1px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase;';
+    } else {
+      btn.style.cssText = 'display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12); color: #d4d4d8; padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;';
+      const dot = btn.querySelector('.pill-dot');
+      if (dot) dot.style.cssText = 'width: 6px; height: 6px; border-radius: 50%; background: #71717a;';
+      const badge = btn.querySelector('.pill-badge');
+      if (badge) badge.style.cssText = 'font-size: 0.60rem; background: rgba(255, 255, 255, 0.07); color: #a1a1aa; padding: 1px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase;';
+    }
+  };
+
+  Object.values(AI_MODELS).forEach((m) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `model-pill-btn ${m.id === activeModel ? 'is-active' : ''}`;
+    btn.dataset.model = m.id;
+    btn.title = `${m.name} (${m.provider}): ${m.description}`;
+
+    btn.innerHTML = `
+      <span class="pill-dot"></span>
+      <span class="pill-name">${m.name}</span>
+      <span class="pill-badge">${m.badge}</span>
+    `;
+
+    applyPillStyle(btn, m.id === activeModel);
+
+    btn.addEventListener('mouseenter', () => {
+      if (!btn.classList.contains('is-active')) {
+        btn.style.background = 'rgba(255, 215, 0, 0.1)';
+        btn.style.borderColor = 'rgba(255, 215, 0, 0.4)';
+        btn.style.color = '#ffffff';
+      }
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      if (!btn.classList.contains('is-active')) {
+        applyPillStyle(btn, false);
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      pillsContainer.querySelectorAll('.model-pill-btn').forEach(b => {
+        b.classList.remove('is-active');
+        applyPillStyle(b, false);
+      });
+      btn.classList.add('is-active');
+      applyPillStyle(btn, true);
+      window.currentAiModel = m.id;
+      if (onSelect) onSelect(m.id);
+    });
+
+    pillsContainer.appendChild(btn);
+  });
+
+  el.appendChild(pillsContainer);
+}
+
+/**
+ * Render Multi-Shot Timeline interactive UI
+ * @param {HTMLElement | string} container
+ * @param {() => void} onPromptRefresh
+ */
+export function renderMultiShotTimelineUI(container, onPromptRefresh) {
+  const el = typeof container === 'string' ? document.getElementById(container) : container;
+  if (!el) return;
+
+  const shots = multishotEngine.getShots();
+  el.innerHTML = '';
+
+  const header = document.createElement('div');
+  header.className = 'multishot-header';
+  header.innerHTML = `
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+      <div>
+        <h4 style="margin:0; font-size:0.95rem; font-weight:800; color:#ffd700; letter-spacing:0.5px;">🎬 MULTI-SHOT SEQUENCE TIMELINE</h4>
+        <span style="font-size:0.75rem; color:#a1a1aa;">Xây dựng kịch bản liên hoàn nhiều phân cảnh kèm Character Consistency</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button id="ms-add-shot-btn" type="button" class="btn-cine-gold" style="padding:6px 14px; font-size:0.78rem; font-weight:700; border-radius:6px; cursor:pointer;">+ Thêm Shot Mới</button>
+      </div>
+    </div>
+  `;
+  el.appendChild(header);
+
+  const listContainer = document.createElement('div');
+  listContainer.className = 'multishot-list';
+  listContainer.style.cssText = 'display:flex; flex-direction:column; gap:12px; margin-bottom:14px;';
+
+  shots.forEach((shot, index) => {
+    const card = document.createElement('div');
+    card.className = 'multishot-card';
+    card.style.cssText = 'background:rgba(20,23,36,0.85); border:1px solid rgba(255,215,0,0.25); border-radius:10px; padding:12px 14px; position:relative;';
+
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:6px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="background:#ffd700; color:#000; font-weight:900; font-size:0.72rem; padding:2px 8px; border-radius:4px;">SHOT ${shot.shotNumber}</span>
+          <span style="font-size:0.75rem; color:#d4d4d8; font-family:monospace;">Timecode:</span>
+          <input type="text" class="ms-input-tc" data-index="${index}" data-field="tcIn" value="${shot.tcIn}" style="width:50px; background:#000; border:1px solid #333; color:#ffd700; font-size:0.75rem; padding:2px 4px; border-radius:4px; text-align:center;" />
+          <span style="color:#71717a;">–</span>
+          <input type="text" class="ms-input-tc" data-index="${index}" data-field="tcOut" value="${shot.tcOut}" style="width:50px; background:#000; border:1px solid #333; color:#ffd700; font-size:0.75rem; padding:2px 4px; border-radius:4px; text-align:center;" />
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          ${index > 0 ? `
+            <select class="ms-select-trans" data-index="${index}" style="background:#090a10; border:1px solid rgba(255,255,255,0.15); color:#a1a1aa; font-size:0.72rem; border-radius:4px; padding:2px 6px;">
+              <option value="Cut to" ${shot.transition === 'Cut to' ? 'selected' : ''}>Cut to</option>
+              <option value="Whip pan to" ${shot.transition === 'Whip pan to' ? 'selected' : ''}>Whip pan to</option>
+              <option value="Dissolve to" ${shot.transition === 'Dissolve to' ? 'selected' : ''}>Dissolve to</option>
+              <option value="Match cut on action to" ${shot.transition === 'Match cut on action to' ? 'selected' : ''}>Match cut to</option>
+            </select>
+          ` : ''}
+          ${shots.length > 1 ? `<button type="button" class="ms-del-btn" data-index="${index}" style="background:transparent; border:none; color:#ef4444; font-size:0.9rem; cursor:pointer;" title="Xóa Shot này">🗑️</button>` : ''}
+        </div>
+      </div>
+
+      <!-- Action & Camera details -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:8px;">
+        <div>
+          <label style="font-size:0.68rem; color:#a1a1aa; text-transform:uppercase;">Góc máy & Cỡ cảnh</label>
+          <input type="text" class="ms-input" data-index="${index}" data-field="shotType" value="${shot.shotType}" placeholder="Cỡ cảnh (ví dụ: Close-up shot)" style="width:100%; box-sizing:border-box; background:#090a10; border:1px solid #27272a; color:#f4f4f5; font-size:0.78rem; padding:4px 8px; border-radius:6px;" />
+        </div>
+        <div>
+          <label style="font-size:0.68rem; color:#a1a1aa; text-transform:uppercase;">Chuyển động Camera</label>
+          <input type="text" class="ms-input" data-index="${index}" data-field="cameraMovement" value="${shot.cameraMovement}" placeholder="Máy quay (ví dụ: Slow tracking forward)" style="width:100%; box-sizing:border-box; background:#090a10; border:1px solid #27272a; color:#f4f4f5; font-size:0.78rem; padding:4px 8px; border-radius:6px;" />
+        </div>
+      </div>
+
+      <!-- Action Description -->
+      <div style="margin-bottom:8px;">
+        <label style="font-size:0.68rem; color:#a1a1aa; text-transform:uppercase;">Hành Động Phân Cảnh (Action)</label>
+        <textarea class="ms-input-textarea" data-index="${index}" data-field="action" rows="2" placeholder="Diễn biến hành động trong phân cảnh..." style="width:100%; box-sizing:border-box; background:#090a10; border:1px solid #27272a; color:#f4f4f5; font-size:0.78rem; padding:6px 8px; border-radius:6px; resize:none;">${shot.action || ''}</textarea>
+      </div>
+
+      <!-- Dialogue line -->
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:8px;">
+        <div>
+          <label style="font-size:0.68rem; color:#ffd700; text-transform:uppercase;">Tên Nhân Vật</label>
+          <input type="text" class="ms-input" data-index="${index}" data-field="characterName" value="${shot.characterName || ''}" placeholder="Tên nhân vật..." style="width:100%; box-sizing:border-box; background:#090a10; border:1px solid #27272a; color:#ffd700; font-size:0.78rem; padding:4px 8px; border-radius:6px;" />
+        </div>
+        <div>
+          <label style="font-size:0.68rem; color:#ffd700; text-transform:uppercase;">Lời Thoại Chuẩn Screenplay</label>
+          <input type="text" class="ms-input" data-index="${index}" data-field="dialogueLine" value="${shot.dialogueLine || ''}" placeholder="Lời thoại đặt trong ngoặc kép..." style="width:100%; box-sizing:border-box; background:#090a10; border:1px solid #27272a; color:#f4f4f5; font-size:0.78rem; padding:4px 8px; border-radius:6px;" />
+        </div>
+      </div>
+    `;
+
+    listContainer.appendChild(card);
+  });
+
+  el.appendChild(listContainer);
+
+  // Wire events
+  document.getElementById('ms-add-shot-btn')?.addEventListener('click', () => {
+    multishotEngine.addShot();
+    renderMultiShotTimelineUI(container, onPromptRefresh);
+    if (onPromptRefresh) onPromptRefresh();
+  });
+
+  el.querySelectorAll('.ms-del-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = parseInt(btn.dataset.index);
+      multishotEngine.removeShot(idx);
+      renderMultiShotTimelineUI(container, onPromptRefresh);
+      if (onPromptRefresh) onPromptRefresh();
+    });
+  });
+
+  el.querySelectorAll('.ms-input, .ms-input-tc, .ms-input-textarea').forEach(input => {
+    input.addEventListener('input', () => {
+      const idx = parseInt(input.dataset.index);
+      const field = input.dataset.field;
+      multishotEngine.updateShot(idx, { [field]: input.value });
+      if (onPromptRefresh) onPromptRefresh();
+    });
+  });
+
+  el.querySelectorAll('.ms-select-trans').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const idx = parseInt(sel.dataset.index);
+      multishotEngine.updateShot(idx, { transition: sel.value });
+      if (onPromptRefresh) onPromptRefresh();
+    });
+  });
 }
 

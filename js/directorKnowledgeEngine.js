@@ -138,7 +138,9 @@ export const MASTER_LENSES_AND_STOCKS = {
     { name: "ARRI Master Prime 35mm T1.3", prompt: "ARRI Master Prime 35mm lens shot wide open at T1.3, surgical sharpness at focal center, creamy creamy bokeh falloff, zero chromatic aberration" },
     { name: "Cooke S4/i 85mm 'Cooke Look'", prompt: "Cooke S4/i 85mm portrait prime, legendary warm flattering skin tones, gentle natural contrast transition, silky smooth optical round bokeh" },
     { name: "Angenieux Optimo 24-290mm Zoom", prompt: "Angenieux Optimo cinema zoom, classic 1970s slow optical push-in, rich vintage saturation" },
-    { name: "Laowa 24mm Probe Macro Lens", prompt: "Laowa 24mm Probe macro lens perspective, deep field of view crawling inches along textured surface with immense spatial scale" }
+    { name: "Laowa 24mm Probe Macro Lens", prompt: "Laowa 24mm Probe macro lens perspective, deep field of view crawling inches along textured surface with immense spatial scale" },
+    { name: "iPhone 15 Pro (Authentic UGC)", prompt: "Shot on iPhone 15 Pro, natural everyday lighting, authentic handheld micro-sway, organic shallow depth of field, candid lifestyle photography, zero artificial retouching, warm genuine skin tones" },
+    { name: "100mm Macro Studio Commerce", prompt: "100mm macro studio lens, extreme product close-up, pristine commercial-grade softbox lighting, photorealistic premium advertising photography, clean infinite negative space, specular micro-highlights on polished surfaces" }
   ],
   filmStocks: [
     { name: "Kodak Vision3 500T 5219", prompt: "Shot on Kodak Vision3 500T 35mm film, rich shadow latitude, gorgeous golden skin warmth under tungsten key light, subtle organic grain structure" },
@@ -271,5 +273,428 @@ export function buildMasterHollywoodVideoPrompt({
 6. AUDIO & FOLEY SYNC: ${selectedSound}.
 7. NEGATIVE RESTRICTIONS: No digital over-sharpening, no plastic smooth skin, no CGI cartoon artifacts. --ar 16:9 --style raw --v 8.2`;
 }
+
+// ── 6. AI AGENT SKILL: CINEMATIC ADVERTISING VIDEO GENERATOR (v1.0) ──
+export const CINEMATIC_AD_ARCHITECT = {
+  metadata: {
+    skillName: "Cinematic Ad Prompt Architect",
+    description: "Transforms basic product descriptions and marketing goals into high-end, segment-by-segment cinematic video prompts optimized for advanced AI video generation models (Wan 2.5, Sora 2, DeepMind Veo 3.1, Runway Gen-3, Kling).",
+    version: "1.0",
+    tags: ["Video Generation", "Marketing", "Prompt Engineering", "Cinematography"]
+  },
+  narrativeArc: {
+    hook: {
+      timing: "0-3s",
+      name: "The Visual Disruption Hook",
+      description: "High-contrast visual shock, macro texture or kinetic camera move that stops scrolling in the first 1.5 seconds."
+    },
+    problem: {
+      timing: "3-6s",
+      name: "The Relatable Friction / Context",
+      description: "Establishes human vulnerability, everyday struggle, or atmospheric tension before the breakthrough."
+    },
+    solution: {
+      timing: "6-10s",
+      name: "The Hero Product Reveal",
+      description: "Triumphant lighting shift, golden volumetric god rays, tactile macro details, and fluid dynamics."
+    },
+    cta: {
+      timing: "10-15s",
+      name: "The Cinematic Call-to-Action & End Card",
+      description: "Clean typography negative space, premium brand aesthetic, confident closure, and uplifting sound."
+    }
+  },
+  styleVibes: {
+    minimalist: {
+      label: "Minimalist Apple Tech Glow",
+      palette: "Matte titanium, studio white, brushed silver, pristine slate gray",
+      lighting: "Soft diffuse top lightbox, pristine gradient reflections, micro specular glints",
+      lens: "Cooke S4/i 50mm Prime, ultra-clean organic bokeh, neutral edge sharpness",
+      bgm: "Clean ambient synth pulse, minimalist piano chords, crisp electronic clicks"
+    },
+    cyberpunk: {
+      label: "Cyberpunk Kinetic Neon",
+      palette: "Neon cyan, hot magenta, obsidian black, holographic teal",
+      lighting: "Wet asphalt reflections, high-contrast neon rim light, volumetric steam",
+      lens: "Panavision C-Series 35mm Anamorphic T1.5, horizontal blue streak flare",
+      bgm: "Heavy synthetic bassline, dystopian synthwave sub-bass, metallic whooshes"
+    },
+    korean_mv: {
+      label: "Korean MV Ethereal Glamour",
+      palette: "Pastel peach, lavender haze, soft warm gold, pearlescent glow",
+      lighting: "High-key beauty lighting, iridescent backlight, dreamy ethereal diffusion",
+      lens: "Arri Master Prime 85mm f/1.3, Pro-Mist 1/4 halation, glowing highlights",
+      bgm: "Dreamy melodic pop chords, airy vocal reverberations, gentle rhythmic beat"
+    },
+    luxury_heritage: {
+      label: "Vintage Heritage Luxury",
+      palette: "Cognac leather, aged brass, deep emerald velvet, warm amber",
+      lighting: "Warm tungsten chiaroscuro, dramatic window slant rays, floating dust motes",
+      lens: "Vintage Cooke Speed Panchro 40mm, warm organic vignette, 35mm Kodak 500T grain",
+      bgm: "Cinematic cello and acoustic strings, grand orchestral warmth, subtle vinyl crackle"
+    },
+    high_octane: {
+      label: "High-Octane Sport Energy",
+      palette: "Electric volt yellow, carbon fiber black, athletic racing red",
+      lighting: "Harsh direct midday sun, explosive lens flares, dynamic moving shadow cuts",
+      lens: "Ultra-wide 16mm Cine Prime, high shutter speed 45-degree angle, razor grit",
+      bgm: "Aggressive drum cadence, heartbeat thumps, high-velocity riser drops"
+    },
+    apple_studio: {
+      label: "Apple Studio Minimalist (Táo Khuyết)",
+      palette: "Brushed titanium, studio white, frosted matte glass, monochromatic silver-gray",
+      lighting: "Soft diffused top lightbox, pristine infinite white cyclorama, subtle specular micro-glints on curved aluminum edges",
+      lens: "100mm macro studio lens, extreme product close-up, clean infinite negative space, commercial-grade softbox",
+      bgm: "Minimal ambient electronic pulse, airy reverb piano note, crystalline chime, Apple Keynote-style confident silence"
+    },
+    ugc_authentic: {
+      label: "Authentic UGC Lifestyle (Shot on iPhone)",
+      palette: "Warm café latte tones, natural morning gold, organic muted earth, soft desaturated greens",
+      lighting: "Natural window sunlight filtering through café glass, golden hour side-light, authentic everyday lighting with zero studio artifice",
+      lens: "Shot on iPhone 15 Pro, authentic handheld micro-sway, organic shallow depth of field, candid lifestyle, zero retouching",
+      bgm: "Lo-fi acoustic guitar chords, ambient café chatter undertone, gentle vinyl warmth crackle, organic folk hum"
+    }
+  }
+};
+
+/**
+ * Builds a complete 4-part Cinematic Advertising Script adhering to the AI Agent Skill specification.
+ */
+export function buildCinematicAdScript({
+  productName = "Product",
+  targetAudience = "General Audience",
+  coreMessage = "Elevate your everyday experience",
+  styleVibe = "minimalist",
+  duration = 15,
+  aspectRatio = "16:9"
+}) {
+  const vibe = CINEMATIC_AD_ARCHITECT.styleVibes[styleVibe] || CINEMATIC_AD_ARCHITECT.styleVibes.minimalist;
+  const is916 = aspectRatio.includes("9:16");
+  const aspectText = is916 ? "9:16 (Vertical TikTok / Reels / Shorts)" : "16:9 (Cinematic Widescreen / YouTube)";
+
+  return `**1. Core Visual Concept:**
+A high-end cinematic commercial for "${productName}", embodying the ${vibe.label} aesthetic. The visual tone speaks directly to ${targetAudience} by communicating "${coreMessage}". Rendered with ${vibe.lighting} and an opulent color grade of ${vibe.palette}.
+
+**2. Technical Specs:**
+- Aspect Ratio: ${aspectText}
+- Frame Rate/Motion: 24fps cinematic film look with 120fps high-speed slow-motion moments
+- Color Palette: ${vibe.palette}
+- Optical Package: ${vibe.lens}
+
+**3. Scene-by-Scene Prompts:**
+
+* **Scene 1 (0-3s): The Visual Disruption Hook**
+    * **Prompt:** Extreme macro close-up (ECU) of ${productName}, tactile textures and pristine edges illuminated by ${vibe.lighting}. Subtle airborne dust particles catching golden rim light, shallow depth of field with creamy bokeh, high-end commercial aesthetic.
+    * **Camera Motion:** Dynamic rapid push-in slowing gracefully into a locked hero frame.
+    * **Text Overlay / Subtitle:** "Thế hệ tiếp theo của ${productName}"
+
+* **Scene 2 (3-6s): The Everyday Context / Tension**
+    * **Prompt:** Medium shot of a stylish ${targetAudience} individual in a moody atmospheric environment, cinematic natural lighting with deep shadows. The subject gazes with contemplation, natural skin texture, authentic emotion, cinematic film grain.
+    * **Camera Motion:** Slow tracking dolly shot moving right to left with subtle organic handheld breath.
+    * **Text Overlay / Subtitle:** "${coreMessage}"
+
+* **Scene 3 (6-10s): The Hero Product Reveal & Solution**
+    * **Prompt:** Sweeping low-angle hero shot of ${productName} in full glory. Volumetric light rays slicing through the atmosphere, pristine specular reflections gliding across polished materials, fluid particle dynamics swirling organically in slow motion.
+    * **Camera Motion:** 360-degree smooth orbital rotation with anamorphic horizontal lens flare.
+    * **Text Overlay / Subtitle:** "Đỉnh Cao Thiết Kế · Đột Phá Trải Nghiệm"
+
+* **Scene 4 (10-15s): The Iconic Call-to-Action & End Card**
+    * **Prompt:** Minimalist elegant composition of ${productName} centered in frame with ample negative space. Soft rim lighting, warm vignette, pristine reflection on a black glass pedestal, premium luxury finish.
+    * **Camera Motion:** Slow majestic pull-back breathing drift, coming to a gentle rest.
+    * **Text Overlay / Subtitle:** "${productName} — Khám phá ngay hôm nay."
+
+**4. Voiceover Narration (Lời Thoại Lồng Tiếng Đồng Bộ):**
+* **Scene 1 (0-3s):** [VI] "Tương lai không chờ đợi ai..." | [EN] "The future waits for no one..."
+* **Scene 2 (3-6s):** [VI] "${coreMessage}." | [EN] "Experience the difference where others see limitations."
+* **Scene 3 (6-10s):** [VI] "Đỉnh cao đột phá cùng ${productName}." | [EN] "Engineered for pure perfection — ${productName}."
+* **Scene 4 (10-15s):** [VI] "${productName}. Chạm đến chuẩn mực mới ngay hôm nay." | [EN] "${productName}. Elevate your world today."
+
+**5. Post-Production Notes:**
+- **BGM Style:** ${vibe.bgm}.
+- **SFX Foley:** Tactile mechanical clicks, high-frequency riser (0-3s), subtle atmospheric sub-bass drop (at 6s reveal), and resonant chime resolution (at 15s end card).`;
+}
+
+/**
+ * Parses a cinematic ad script markdown into structured scene objects for player simulation and batch relay.
+ * @param {string} scriptText
+ * @returns {Array<object>}
+ */
+export function parseCinematicAdScenes(scriptText = "") {
+  if (!scriptText) return [];
+  const scenes = [];
+  const sceneRegex = /\* \*\*Scene (\d+)\s*\((.*?)\):\s*(.*?)\*\*\s*[\r\n]+([\s\S]*?)(?=(\* \*\*Scene \d+|$|\*\*4\.|\*\*5\.))/g;
+  let match;
+
+  while ((match = sceneRegex.exec(scriptText)) !== null) {
+    const sceneNum = parseInt(match[1], 10);
+    const timeRange = match[2].trim();
+    const title = match[3].trim();
+    const block = match[4];
+
+    const promptMatch = block.match(/\* \*\*Prompt:\*\* (.*?)(?=\n\s*\*|$)/);
+    const motionMatch = block.match(/\* \*\*Camera Motion:\*\* (.*?)(?=\n\s*\*|$)/);
+    const textMatch = block.match(/\* \*\*Text Overlay \/ Subtitle:\*\* (.*?)(?=\n\s*\*|$)/);
+
+    // Extract start and end seconds from timeRange (e.g. "0-3s" -> start: 0, end: 3)
+    const timeMatch = timeRange.match(/(\d+)\s*-\s*(\d+)/);
+    const startSec = timeMatch ? parseInt(timeMatch[1], 10) : (sceneNum - 1) * 3;
+    const endSec = timeMatch ? parseInt(timeMatch[2], 10) : sceneNum * 3;
+
+    scenes.push({
+      sceneNum,
+      timeRange,
+      startSec,
+      endSec,
+      title,
+      prompt: promptMatch ? promptMatch[1].trim() : '',
+      cameraMotion: motionMatch ? motionMatch[1].trim() : 'Cinematic camera movement',
+      textOverlay: textMatch ? textMatch[1].replace(/["']/g, '').trim() : ''
+    });
+  }
+
+  // Extract Voiceovers if present
+  const voBlockMatch = scriptText.match(/\*\*4\. Voiceover Narration[\s\S]*?\n([\s\S]*?)(?=\n\*\*5\.|\n\*\*Post|$)/);
+  if (voBlockMatch && scenes.length > 0) {
+    const voLines = voBlockMatch[1].split('\n');
+    scenes.forEach(scene => {
+      const line = voLines.find(l => l.includes(`Scene ${scene.sceneNum}`));
+      if (line) {
+        const viMatch = line.match(/\[VI\]\s*"(.*?)"/);
+        const enMatch = line.match(/\[EN\]\s*"(.*?)"/);
+        scene.voiceoverVI = viMatch ? viMatch[1] : '';
+        scene.voiceoverEN = enMatch ? enMatch[1] : '';
+      }
+    });
+  }
+
+  return scenes;
+}
+
+/**
+ * Generates production-ready Remotion (React Video) component code for 1-click video rendering.
+ * @param {object} options
+ * @returns {string}
+ */
+export function generateRemotionTVCCode({
+  productName = "Product",
+  scenes = [],
+  duration = 15,
+  aspectRatio = "16:9",
+  styleVibe = "minimalist"
+}) {
+  const is916 = aspectRatio.includes("9:16");
+  const width = is916 ? 1080 : 1920;
+  const height = is916 ? 1920 : 1080;
+  const fps = 30;
+  const totalFrames = duration * fps;
+
+  const defaultScenes = scenes.length > 0 ? scenes : [
+    { sceneNum: 1, startSec: 0, endSec: 3, title: "The Visual Disruption Hook", textOverlay: `Thế hệ tiếp theo của ${productName}`, voiceoverVI: "Tương lai không chờ đợi ai..." },
+    { sceneNum: 2, startSec: 3, endSec: 6, title: "Everyday Context / Tension", textOverlay: "Đột phá mọi giới hạn", voiceoverVI: "Cảm nhận sự khác biệt đích thực." },
+    { sceneNum: 3, startSec: 6, endSec: 10, title: "Hero Product Reveal", textOverlay: "Đỉnh Cao Thiết Kế · Đột Phá Trải Nghiệm", voiceoverVI: `Đỉnh cao công nghệ cùng ${productName}.` },
+    { sceneNum: 4, startSec: 10, endSec: 15, title: "Iconic Call To Action", textOverlay: `${productName} — Khám phá ngay hôm nay`, voiceoverVI: "Chạm đến chuẩn mực mới ngay hôm nay." }
+  ];
+
+  const sequencesCode = defaultScenes.map(s => {
+    const fromFrame = s.startSec * fps;
+    const durationInFrames = (s.endSec - s.startSec) * fps;
+    return `      {/* Scene ${s.sceneNum}: ${s.title} (${s.startSec}s - ${s.endSec}s) */}
+      <Sequence from={${fromFrame}} durationInFrames={${durationInFrames}}>
+        <SceneView
+          sceneNumber={${s.sceneNum}}
+          title="${s.title.replace(/"/g, '\\"')}"
+          textOverlay="${(s.textOverlay || '').replace(/"/g, '\\"')}"
+          voiceover="${(s.voiceoverVI || '').replace(/"/g, '\\"')}"
+          cameraMotion="${(s.cameraMotion || 'Cinematic Motion').replace(/"/g, '\\"')}"
+        />
+      </Sequence>`;
+  }).join('\n\n');
+
+  return `import React from 'react';
+import { Composition, Sequence, useCurrentFrame, useVideoConfig, spring, interpolate, AbsoluteFill } from 'remotion';
+
+/**
+ * Cine Prompt Pro - Professional TVC Commercial Composition
+ * Product: ${productName}
+ * Resolution: ${width}x${height} (${aspectRatio}) | FPS: ${fps} | Duration: ${duration}s (${totalFrames} frames)
+ * Style Vibe: ${styleVibe}
+ *
+ * Generated automatically by Cine Prompt Pro - Studio Engine V2.0
+ */
+
+// Scene Component with smooth Hollywood title card & spring animations
+const SceneView: React.FC<{
+  sceneNumber: number;
+  title: string;
+  textOverlay: string;
+  voiceover: string;
+  cameraMotion: string;
+}> = ({ sceneNumber, title, textOverlay, voiceover, cameraMotion }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  // Entrance spring animation for Text Overlay
+  const titleEntrance = spring({
+    frame,
+    fps,
+    config: { damping: 14, mass: 0.8, stiffness: 100 }
+  });
+
+  // Slow zoom camera drift simulation (Ken Burns effect)
+  const scale = interpolate(frame, [0, 90], [1.0, 1.08], { extrapolateRight: 'clamp' });
+  const textOpacity = interpolate(frame, [0, 15, 75, 90], [0, 1, 1, 0], { extrapolateRight: 'clamp' });
+
+  return (
+    <AbsoluteFill style={{
+      backgroundColor: '#0a0a0f',
+      overflow: 'hidden',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+    }}>
+      {/* Background Video / Visual Layer (Placeholder container for Flow/Sora render) */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        transform: \`scale(\${scale})\`,
+        background: 'radial-gradient(circle at center, #1e1b4b 0%, #09090b 100%)',
+        opacity: 0.85,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        {/* Placeholder footage indicator */}
+        <div style={{
+          padding: '12px 24px',
+          background: 'rgba(255, 215, 0, 0.08)',
+          border: '1px solid rgba(255, 215, 0, 0.3)',
+          borderRadius: '12px',
+          color: '#ffd700',
+          fontSize: '${is916 ? '24px' : '20px'}',
+          fontWeight: 700,
+          textAlign: 'center'
+        }}>
+          🎬 SCENE {sceneNumber}: {cameraMotion}
+          <div style={{ fontSize: '14px', color: '#a1a1aa', marginTop: '6px' }}>
+            [Insert Footage from Google Flow: Scene {sceneNumber}]
+          </div>
+        </div>
+      </div>
+
+      {/* Cinematic Lower Third / Subtitle Overlay */}
+      {textOverlay && (
+        <div style={{
+          position: 'absolute',
+          bottom: '${is916 ? '15%' : '12%'}',
+          left: '5%',
+          right: '5%',
+          textAlign: 'center',
+          opacity: textOpacity,
+          transform: \`translateY(\${(1 - titleEntrance) * 20}px)\`
+        }}>
+          <div style={{
+            display: 'inline-block',
+            padding: '14px 28px',
+            background: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 215, 0, 0.4)',
+            borderRadius: '12px',
+            color: '#ffffff',
+            fontSize: '${is916 ? '32px' : '36px'}',
+            fontWeight: 800,
+            letterSpacing: '0.02em',
+            textShadow: '0 2px 10px rgba(0,0,0,0.8)'
+          }}>
+            {textOverlay}
+          </div>
+
+          {/* Voiceover Teleprompter Subtext */}
+          {voiceover && (
+            <div style={{
+              marginTop: '10px',
+              fontSize: '${is916 ? '20px' : '22px'}',
+              color: '#ffd700',
+              fontStyle: 'italic',
+              textShadow: '0 1px 4px rgba(0,0,0,0.9)'
+            }}>
+              🎙️ VO: "{voiceover}"
+            </div>
+          )}
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
+
+export const CineTVCComposition: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ backgroundColor: '#000000' }}>
+${sequencesCode}
+    </AbsoluteFill>
+  );
+};
+
+export const RemotionRoot: React.FC = () => {
+  return (
+    <Composition
+      id="CineTVC"
+      component={CineTVCComposition}
+      durationInFrames={${totalFrames}}
+      fps={${fps}}
+      width={${width}}
+      height={${height}}
+      defaultProps={{}}
+    />
+  );
+};
+`;
+}
+
+
+// ── 7. 5-LAYER COMMERCIAL PROMPT BUILDER (Kling / Seedance 2.0 / Midjourney / Wan 2.5 Optimized) ──
+/**
+ * Builds a structured 5-layer commercial prompt optimized for generative AI engines.
+ * Layers: [Subject & Action] → [Environment & Lighting] → [Camera & Optics] → [Brand & Typography] → [Engine Parameters]
+ * @param {object} config
+ * @returns {string}
+ */
+export function build5LayerCommercialPrompt({
+  subject = "A premium product",
+  action = "elegantly displayed",
+  environment = "a clean minimalist studio",
+  lighting = "soft diffused studio softbox lighting",
+  cameraLens = "100mm macro studio lens",
+  depthOfField = "shallow depth of field with creamy bokeh",
+  brandName = "",
+  brandPlacement = "",
+  aspectRatio = "16:9",
+  engine = "midjourney",
+  motionScale = ""
+} = {}) {
+  const brandLine = brandName
+    ? `\n[BRAND & TYPOGRAPHY]: The elegant text logo "${brandName}" ${brandPlacement || 'subtly integrated into the scene — embossed, neon backlit, or sleek product branding'}. Premium brand presence without visual clutter.`
+    : '';
+
+  const engineParams = {
+    midjourney: `--ar ${aspectRatio} --style raw --v 8.2 --stylize 250`,
+    wan: `--model wan2.5-t2v --resolution 1080p --ar ${aspectRatio} --fps 24 --motion-bucket 120`,
+    kling: `Aspect ratio ${aspectRatio}. ${motionScale ? `Motion scale: ${motionScale}.` : 'Smooth cinematic motion, zero temporal morphing.'}`,
+    seedance: `Aspect ratio ${aspectRatio}. Temporal consistency anchor enabled. ${motionScale ? `Motion intensity: ${motionScale}.` : ''}`,
+    veo: `--ar ${aspectRatio} --duration 8s --fps 24 --camera smooth_tracking`,
+    gemini_flow: `--engine gemini-flash-image --flow-keyframe true --aspect ${aspectRatio}`,
+    chatgpt_sunburst: `--model gpt-image-2.5-sunburst --fidelity maximum --preserve-subject true`,
+    chatgpt_flare: `--model gpt-image-2.5-flare --latency low --fidelity balanced`
+  };
+
+  return `[SUBJECT & CORE ACTION]: ${subject}, ${action}.
+
+[ENVIRONMENT & LIGHTING]: Set in ${environment}. ${lighting}. Rich volumetric atmospheric depth, ample negative space for premium composition.
+
+[CAMERA & OPTICS]: ${cameraLens}, ${depthOfField}. Photorealistic commercial-grade render, tactile material fidelity with micro-surface textures.${brandLine}
+
+[ENGINE PARAMETERS]: ${engineParams[engine] || engineParams.midjourney}`;
+}
+
 
 

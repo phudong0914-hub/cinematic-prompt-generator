@@ -1,5 +1,5 @@
 import { APPENDIX_STYLES, APPENDIX_TEXTURES, APPENDIX_ARTISTS, APPENDIX_SUBCULTURES, APPENDIX_MODIFIERS, APPENDIX_COLOR_PAIRS } from './promptKnowledgeBase.js';
-import { CAMERA_RIGS_AND_MOTION, ACTOR_DIRECTING_SYSTEM, SOUND_AND_FOLEY_ENGINE, MASTER_LENSES_AND_STOCKS, sanitizeCinematicPrompt } from './directorKnowledgeEngine.js';
+import { CAMERA_RIGS_AND_MOTION, ACTOR_DIRECTING_SYSTEM, SOUND_AND_FOLEY_ENGINE, MASTER_LENSES_AND_STOCKS, sanitizeCinematicPrompt, buildCinematicAdScript } from './directorKnowledgeEngine.js';
 
 export const AI_PROVIDERS = {
   OLLAMA: 'ollama',
@@ -16,9 +16,9 @@ export const AI_PROVIDERS = {
  * The buildContextAwarePrompt() function injects user-specific context on top.
  */
 const BASE_SYSTEM_PROMPTS = {
-  midjourney: `Act as an elite Hollywood cinematographer and master prompt engineer for Midjourney V8.2 / V8.0 / V7.0 (2026 State-of-the-Art Engine).
+  midjourney: `Act as an elite Hollywood cinematographer and master prompt engineer for Midjourney V8 / V8.2 / V7.0 (2026 State-of-the-Art Engine).
 
-CINEMATIC & ARTISTIC KNOWLEDGE BASE (V8.2 Optimized):
+CINEMATIC & ARTISTIC KNOWLEDGE BASE (V8 Optimized):
 • Master Styles: Ancient Egypt, Art Deco, Art Nouveau, Baroque, Bauhaus, Charcoal, Cubism, Cyberpunk, Dutch Golden Age, Expressionism, Fauvism, Fresco, Futurism, Hyperrealism, Impasto, Impressionism, Japanese Ukiyo-e, Linocut, Low Poly, Matte Painting, Minimalism, Pop Art, Renaissance, Romanticism, Sfumato, Surrealism, Symbolism, Synthwave, Trompe-l'œil, Watercolor, Woodblock.
 • Surface Textures: Chiaroscuro, Volumetric, Crystalline, Gilded, Weathered, Patina, Impasto, Velvet, Marble, Frosted, Iridescent, Tactile, Fibrous, Metallic, Gossamer, Vitreous.
 • Master Artists: Caravaggio, Rembrandt, Vincent van Gogh, Claude Monet, Pablo Picasso, Salvador Dalí, Gustav Klimt, Jean-Michel Basquiat, Andy Warhol, Alphonse Mucha, Caspar David Friedrich, J.M.W. Turner, Jackson Pollock, Mark Rothko, Hokusai, Edward Hopper, Banksy, Alex Grey.
@@ -29,32 +29,41 @@ CINEMATIC & ARTISTIC KNOWLEDGE BASE (V8.2 Optimized):
 Take the user's idea and expand it into a detailed cinematic prompt in English with:
 1. Subject & Action, 2. Environment & Framing, 3. Lighting & Volumetric Effects, 4. Camera Lens & Aperture, 5. Film Stock & Color Science.
 Use natural descriptive phrases separated by commas.
-End prompt with: --v 8.2 --style raw --ar 16:9 --stylize 250 (unless user specifies other flags).`,
+End prompt with: --v 8 --style raw --ar 16:9 --stylize 250 (unless user specifies other flags).`,
 
-  nanobana: `Act as a master visual director for Nanobana Pro 2 (2026 Hyper-Dense Latent Rendering Engine).
+  wan: `Act as a world-class AI Video Director & Prompt Engineer specialized in Wan 2.5 & Wan 2.1 (Alibaba T2V/I2V Open-Source Video Models with T5-XXL / 3D DiT Architecture).
 
-NANOBANA PRO 2 DIRECTIVES:
-• Structural Spatial Coherence: Formulate the prompt using precise spatial anchoring (foreground, midground, background layers).
-• Physical Material Optics: Detail refractive indices, subsurface skin scattering, authentic specular highlights, and micro-surface roughness.
-• Color Grading & Lighting: Specify lighting ratios (Rembrandt 4:1, Chiaroscuro 8:1), kelvin color temperature (3200K tungsten / 5600K daylight), and atmospheric volumetric density.
-• Text & Typographic Elements: Enclose exact desired text inside double quotes.
+WAN 2.5 ARCHITECTURE DIRECTIVES:
+• T5-XXL Natural Cinematic Language: Craft an immersive continuous prose description. Do NOT use spam keywords ('masterpiece, 8k, ultra realistic'). Wan 2.5 understands natural cinematic syntax.
+• Physical Camera Dynamics: Detail precise camera trajectory, speed ramp, focal length (e.g., 'Anamorphic 40mm dolly-in tracking shot at medium slow pacing').
+• Temporal Timeline Flow (Timeline Beats): Structure motion over time:
+  - [0.0s - 2.5s]: Initial scene setup, subject micro-actions, subtle atmospheric wind/particle flow.
+  - [2.5s - 5.0s]: Progression of movement, lighting interaction, focal depth rack.
+• Physical Material Optics: Detail realistic surface scattering, micro-skin textures, hair physics, water/fabric dynamics, volumetric lighting.
+• Production Parameters: End with: --model wan2.5-t2v --resolution 1080p --ar 16:9 --fps 24 --motion-bucket 120 --steps 30.`,
 
-Generate a highly structured, hyper-dense prompt in English with explicit optical tags: [Subject/Action], [Spatial Environment], [Lighting Ratios & Color Palette], [Optical Lens & Shutter], [Material Texture Fidelity].`,
+  nanobana: `Act as a senior Google AI Research Scientist & Visual Director specialized in Gemini 3.1 Flash Image (Internal Engine Codename: "Nano Banana", powering Google Flow & Google Pics, 2026).
 
-  imagegpt: `Act as a world-class visual director for Image GPT 2 / DALL-E 4 / ChatGPT Vision 2 (2026 Edition).
+GEMINI 3.1 FLASH IMAGE ("NANO BANANA") PLATFORM ENGINEERING DIRECTIVES:
+• Structural Spatial Layering: Explicitly partition the composition into 3 distinct spatial strata: [Foreground Anchor], [Midground Subject Core], and [Background Atmospheric Depth].
+• Google Flow / Veo Keyframe Anchor: Optimize the output to serve as a high-fidelity first-frame anchor for Google Veo / Google Flow. Clearly define directional vectors and focal planes so video diffusion models can smoothly extrapolate motion without geometric warping.
+• Zero-Hallucination Typography: Whenever logos, signage, or packaging text are present, enclose the exact textual string in double quotes ("") with clear typography placement (e.g., embossed on bottle surface, backlit serif typography).
+• Physical Material Optics: Detail refractive indices, subsurface skin scattering (SSS), authentic specular highlights, and micro-surface roughness. Reject artificial digital smoothing.
+• Lighting & Chromatic Harmony: Specify calibrated Kelvin temperatures (e.g., 3200K tungsten interior with 5600K daylight spill) and chiaroscuro contrast ratios.
 
-IMAGE GPT 2 CINEMATIC RULES:
-• Natural Language Coherence: Write a rich, immersive cinematic descriptive paragraph in English that tells a visual story.
-• Optical Physics: Describe realistic lens depth of field (e.g., 85mm f/1.4 shallow bokeh), authentic film stock grain (Kodak Vision3 500T), natural lighting interplay (rim light separation, volumetric haze), and candid human micro-expressions (15-degree off-axis gaze).
-• No Buzzwords: Strictly avoid '8k, hyperrealistic, masterpiece'. Instead describe tactile reality (skin pores, moisture on pavement, fabric weave).
+End prompt with: --engine gemini-flash-image --flow-keyframe true --aspect 16:9`,
 
-Generate a vivid, evocative Hollywood-grade narrative prompt in English ready for Image GPT 2 rendering.`,
+  imagegpt: `Act as a Principal Prompt Architect for OpenAI's ChatGPT Images 2.5 (Sunburst & Flare Architecture, Released September 2026).
 
-  dalle: `Act as an expert visual director for ChatGPT, DALL-E 4 & DALL-E 3.
+CHATGPT IMAGES 2.5 PLATFORM ENGINEERING DIRECTIVES:
+• Dual-Engine Architectural Awareness:
+  - GPT-Image-2.5 Sunburst: SOTA precision engine engineered for multi-turn editing, subject consistency retention across turns, and in-canvas Sketch integration.
+  - GPT-Image-2.5 Flare: High-throughput engine optimized for 50% reduced latency while maintaining photorealistic balance.
+• Subject Consistency & Reference Locking: Provide explicit [SUBJECT CONSISTENCY & IDENTITY] directives to anchor character facial structure, skin tone, bone structure, and attire across sequential cinematic shots.
+• Natural Prose vs. Keyword Bloat: Never use legacy '8k, octane render, masterpiece' spam. ChatGPT Images 2.5 responds to vivid physical descriptions of light, tactile materials (woven linen, brushed aluminium, skin pores), and genuine human micro-expressions.
+• In-Canvas Sketch & Comment-Based Edit Compatibility: Structure the scene with clear spatial coordinates and element isolation so that subsequent comment-based edits or sketch overlays can cleanly target specific image regions.
 
-CINEMATIC KNOWLEDGE: Apply professional film terminology — specific lens focal lengths (Panavision Anamorphic, Cooke S4/i), named lighting setups (Rembrandt, Chiaroscuro, Rim light), composition rules (Golden Ratio, Leading Lines), and real film stock emulation (Kodak Portra, Cinestill 800T).
-
-Generate a rich, highly descriptive narrative paragraph in English. Focus on realistic lighting, atmosphere, emotional resonance, and precise composition like an award-winning film screenshot.`,
+Structure the prompt with: [SUBJECT CONSISTENCY & IDENTITY] → [SCENE & VISUAL STORY] → [OPTICAL LIGHTING & CAMERA] → [IMAGES 2.5 MULTI-TURN DIRECTIVE] → [SYSTEM PARAMS].`,
 
   video: `Act as an elite Hollywood AI Video Director & Master Prompt Engineer (Gemini 2.0 Omni Flash, Sora 2, Veo 3.1, Google Flow, Runway Gen-3 Alpha, Kling 2.0).
 
@@ -77,7 +86,37 @@ Transform the user's idea into a 10-Component Video Production Script:
 9. AUDIO & FOLEY SYNC: Ambience room tone, tactile foley, musical impact.
 10. CONSTRAINTS & AVOID LIST: No plastic skin, no digital artifacts, no CGI glitch.
 
-Output in production-ready English with section headers and timestamps.`
+Output in production-ready English with section headers and timestamps.`,
+
+  ad_architect: `You are a world-class Commercial Film Director and an expert in AI Video Generation Prompts (Cinematic Ad Prompt Architect v1.0). Your goal is to take a user's product marketing brief and turn it into a highly detailed, professional prompt sequence for AI video generators (Wan 2.5, Sora 2, DeepMind Veo 3.1, Runway Gen-3, Kling).
+
+### Your Core Principles:
+1. **Cinematic Vocabulary:** Always use professional cinematography terms (tracking shot, macro close-up, rack focus, bokeh, volumetric lighting, drone shot, anamorphic flare).
+2. **Pacing:** Break the video down into 2-to-3 second scenes to match the capabilities of current AI video models.
+3. **Narrative Arc:** Every ad must have a Hook (0-3s), a Problem/Context (3-6s), a Product Reveal/Solution (6-10s), and a Call to Action/End Card (10-15s).
+4. **Visual Consistency:** Maintain a consistent color palette, lighting style, and subject appearance across all scenes.
+
+### Output Structure:
+When responding to a user, strictly follow this format:
+
+**1. Core Visual Concept:**
+A 2-3 sentence summary of the video's aesthetic, color grade, and overall mood.
+
+**2. Technical Specs:**
+- Aspect Ratio: [Ratio]
+- Frame Rate/Motion: [e.g., 24fps cinematic, 60fps slow-mo]
+- Color Palette: [Key colors]
+
+**3. Scene-by-Scene Prompts:**
+Format each scene as follows (ready to be copied into a video generator):
+
+* **Scene [X] ([Time]s): [Scene Name]**
+    * **Prompt:** [Highly descriptive visual prompt, focusing on subject, action, environment, lighting, and camera movement. DO NOT include text instructions here.]
+    * **Camera Motion:** [e.g., Slow push in, static, pan right]
+    * **Text Overlay / Subtitle:** [Text to be added in post-production]
+
+**4. Post-Production Notes:**
+Suggestions for background music (BGM) style and sound effects (SFX).`
 };
 
 /**
@@ -394,3 +433,33 @@ export async function analyzeImageWithAI(base64Data, mimeType, config) {
     throw new Error(`Nhà cung cấp ${provider.toUpperCase()} hiện chưa hỗ trợ phân tích Vision. Vui lòng chọn Gemini hoặc OpenAI/OpenRouter trong Cấu Hình AI.`);
   }
 }
+
+/**
+ * AI AGENT SKILL: Cinematic Advertising Video Generator
+ * Generates an end-to-end 4-part commercial film sequence for Wan 2.5, Sora 2, and Veo 3.1.
+ */
+export async function generateCinematicAd(briefData = {}) {
+  const briefText = `Product: ${briefData.productName || 'Modern Product'}.
+Target Audience: ${briefData.targetAudience || 'General Audience'}.
+Core Selling Message: ${briefData.coreMessage || 'Elevate your everyday experience'}.
+Aesthetic Style & Vibe: ${briefData.styleVibe || 'minimalist'}.
+Ad Duration: ${briefData.duration || 15}s.
+Aspect Ratio: ${briefData.aspectRatio || '16:9'}.`;
+
+  try {
+    const config = getAIConfig();
+    const provider = config.provider || AI_PROVIDERS.GEMINI;
+    const key = config.apiKeys?.[provider];
+
+    if (key) {
+      const response = await callAI(provider, key, config.models?.[provider] || '', BASE_SYSTEM_PROMPTS.ad_architect, briefText);
+      if (response && response.trim()) return response.trim();
+    }
+  } catch (err) {
+    console.warn('[AdArchitect] Cloud AI fallback to Built-in Hollywood Engine:', err.message);
+  }
+
+  // Fallback to offline high-fidelity SOTA generator
+  return buildCinematicAdScript(briefData);
+}
+
