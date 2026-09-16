@@ -3,791 +3,469 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Archify — Cine Prompt Pro v2.0 System Architecture</title>
+<title>Archify — CinePrompt Pro v2.0 System Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#07080d;--bg2:#0c0e16;--bg3:#12141e;
-  --gold:#ffd700;--gold2:#c9a227;--gold3:#a8891a;
-  --cyan:#38bdf8;--rose:#ec4899;--purple:#a855f7;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
-  --text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;
-  --font:'Inter','Segoe UI',system-ui,sans-serif;
-  --mono:'JetBrains Mono','Fira Code',monospace;
-  --border:rgba(255,215,0,0.15);
-  --glow:0 0 20px rgba(255,215,0,0.15);
+  --bg:#07080d;--bg2:#0c0e16;--bg3:#12141e;--bg4:#1a1c2a;
+  --gold:#ffd700;--gold2:#c9a227;--gold-glow:rgba(255,215,0,0.12);
+  --cyan:#38bdf8;--rose:#ec4899;--purple:#a855f7;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;
+  --text:#f0f0f2;--text2:#a1a1aa;--text3:#71717a;
+  --font:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --border:rgba(255,215,0,0.12);
 }
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font)}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden}
+body{background:radial-gradient(ellipse at 50% 0%,rgba(255,215,0,0.03) 0%,transparent 60%),var(--bg)}
 
-/* ─── TOOLBAR ─── */
-.toolbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;height:52px;
-  display:flex;align-items:center;gap:10px;padding:0 16px;
-  background:linear-gradient(180deg,rgba(12,14,22,0.98),rgba(7,8,13,0.95));
-  border-bottom:1px solid var(--border);backdrop-filter:blur(20px);
+/* ═══ HEADER ═══ */
+.page-header{
+  position:sticky;top:0;z-index:100;padding:14px 32px;
+  display:flex;align-items:center;gap:16px;
+  background:rgba(7,8,13,0.92);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
 }
-.toolbar .brand{display:flex;align-items:center;gap:8px}
-.toolbar .brand-icon{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold);background:linear-gradient(135deg,#1a1510,#0f111a);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 10px rgba(255,215,0,0.3)}
-.toolbar .brand-text{font-size:0.82rem;font-weight:800;letter-spacing:0.04em}
-.toolbar .brand-text span:first-child{color:var(--gold)}
-.toolbar .brand-text span:nth-child(2){color:var(--text)}
-.toolbar .brand-text span:last-child{color:var(--gold2);font-size:0.65rem;opacity:0.7;margin-left:4px}
-.toolbar .sep{width:1px;height:24px;background:var(--border);margin:0 4px}
-.toolbar .view-tabs{display:flex;gap:2px;background:rgba(0,0,0,0.4);border-radius:8px;padding:2px;border:1px solid rgba(255,255,255,0.06)}
-.toolbar .vtab{padding:5px 12px;border-radius:6px;border:none;background:transparent;color:var(--text3);font-size:0.72rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.toolbar .vtab.active{background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(201,162,39,0.15));color:var(--gold);box-shadow:0 0 8px rgba(255,215,0,0.15)}
-.toolbar .vtab:hover:not(.active){color:var(--text2);background:rgba(255,255,255,0.04)}
-.search-box{margin-left:auto;position:relative}
-.search-box input{width:200px;padding:6px 10px 6px 30px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.4);color:var(--text);font-size:0.75rem;font-family:var(--font);outline:none;transition:all 0.2s}
-.search-box input:focus{border-color:var(--gold2);box-shadow:0 0 10px rgba(255,215,0,0.1);width:260px}
-.search-box::before{content:'🔍';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:0.7rem;opacity:0.5}
-.toolbar .tbtn{padding:5px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:var(--text2);font-size:0.7rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px}
-.toolbar .tbtn:hover{background:rgba(255,215,0,0.1);border-color:var(--gold2);color:var(--gold)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);background:linear-gradient(135deg,#1a1510,#0f111a);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 0 14px rgba(255,215,0,0.25)}
+.brand h1{font-size:0.9rem;font-weight:800;letter-spacing:0.03em}
+.brand h1 span:first-child{color:var(--gold)}
+.brand h1 span:nth-child(2){color:var(--text)}
+.brand-sub{font-size:0.6rem;color:var(--text3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.header-sep{width:1px;height:28px;background:var(--border)}
 
-/* ─── CANVAS ─── */
-.canvas-container{position:fixed;top:52px;left:0;right:0;bottom:0;overflow:hidden;cursor:grab}
-.canvas-container.dragging{cursor:grabbing}
-.canvas{transform-origin:0 0;will-change:transform}
+/* View switcher */
+.view-switch{display:flex;gap:3px;background:rgba(0,0,0,0.4);border-radius:10px;padding:3px;border:1px solid rgba(255,255,255,0.06)}
+.view-btn{padding:7px 16px;border-radius:8px;border:none;background:transparent;color:var(--text3);font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:6px}
+.view-btn.active{background:linear-gradient(135deg,rgba(255,215,0,0.18),rgba(201,162,39,0.1));color:var(--gold);box-shadow:0 0 12px rgba(255,215,0,0.12)}
+.view-btn:hover:not(.active){color:var(--text2);background:rgba(255,255,255,0.03)}
 
-/* ─── NODE STYLES ─── */
-.arch-node{
-  position:absolute;border-radius:14px;padding:14px 16px;cursor:pointer;transition:box-shadow 0.25s,transform 0.15s;
-  border:1.2px solid rgba(255,255,255,0.08);user-select:none;min-width:160px;
-}
-.arch-node:hover{transform:scale(1.03);z-index:50}
-.arch-node .node-icon{font-size:1.3rem;margin-bottom:4px}
-.arch-node .node-title{font-size:0.78rem;font-weight:800;letter-spacing:0.02em;margin-bottom:3px}
-.arch-node .node-subtitle{font-size:0.63rem;color:var(--text3);font-weight:500;line-height:1.3}
-.arch-node .node-badge{position:absolute;top:-6px;right:-6px;padding:2px 6px;border-radius:8px;font-size:0.55rem;font-weight:800;letter-spacing:0.04em}
-.arch-node .node-files{margin-top:6px;display:flex;flex-wrap:wrap;gap:3px}
-.arch-node .node-file{padding:1px 5px;border-radius:4px;font-size:0.58rem;font-family:var(--mono);font-weight:500;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);color:var(--text3)}
+.header-stats{margin-left:auto;display:flex;gap:8px}
+.h-stat{padding:4px 10px;border-radius:8px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);font-size:0.65rem;color:var(--text3);display:flex;align-items:center;gap:5px;font-weight:600}
+.h-stat b{color:var(--gold);font-weight:800}
 
-/* Tier colors */
-.tier-presentation{background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(201,162,39,0.04));border-color:rgba(255,215,0,0.25)}
-.tier-presentation:hover{box-shadow:0 0 30px rgba(255,215,0,0.15)}
-.tier-presentation .node-title{color:var(--gold)}
-.tier-presentation .node-badge{background:rgba(255,215,0,0.2);color:var(--gold);border:1px solid rgba(255,215,0,0.3)}
+/* ═══ DIRECTOR VIEW ═══ */
+.director-view{padding:32px;max-width:1400px;margin:0 auto}
 
-.tier-engine{background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(59,130,246,0.04));border-color:rgba(56,189,248,0.25)}
-.tier-engine:hover{box-shadow:0 0 30px rgba(56,189,248,0.15)}
-.tier-engine .node-title{color:var(--cyan)}
-.tier-engine .node-badge{background:rgba(56,189,248,0.2);color:var(--cyan);border:1px solid rgba(56,189,248,0.3)}
+/* Hero */
+.hero-block{text-align:center;margin-bottom:48px;padding:40px 20px}
+.hero-block h2{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.hero-block p{font-size:0.9rem;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.6}
 
-.tier-persist{background:linear-gradient(135deg,rgba(168,85,247,0.08),rgba(139,92,246,0.04));border-color:rgba(168,85,247,0.25)}
-.tier-persist:hover{box-shadow:0 0 30px rgba(168,85,247,0.15)}
-.tier-persist .node-title{color:var(--purple)}
-.tier-persist .node-badge{background:rgba(168,85,247,0.2);color:var(--purple);border:1px solid rgba(168,85,247,0.3)}
+/* Journey */
+.journey{position:relative;display:flex;flex-direction:column;gap:0}
+.journey::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--cyan),var(--purple),var(--rose),var(--green));border-radius:3px;transform:translateX(-50%);opacity:0.3}
 
-.tier-inference{background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(244,63,94,0.04));border-color:rgba(236,72,153,0.25)}
-.tier-inference:hover{box-shadow:0 0 30px rgba(236,72,153,0.15)}
-.tier-inference .node-title{color:var(--rose)}
-.tier-inference .node-badge{background:rgba(236,72,153,0.2);color:var(--rose);border:1px solid rgba(236,72,153,0.3)}
+.journey-step{display:flex;align-items:stretch;gap:0;position:relative}
+.journey-step:nth-child(odd){flex-direction:row}
+.journey-step:nth-child(even){flex-direction:row-reverse}
 
-.tier-export{background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(22,163,74,0.04));border-color:rgba(34,197,94,0.25)}
-.tier-export:hover{box-shadow:0 0 30px rgba(34,197,94,0.15)}
-.tier-export .node-title{color:var(--green)}
-.tier-export .node-badge{background:rgba(34,197,94,0.2);color:var(--green);border:1px solid rgba(34,197,94,0.3)}
+.step-connector{width:80px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.step-number{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;z-index:2;border:3px solid;box-shadow:0 0 20px rgba(0,0,0,0.5)}
 
-/* ─── BOUNDARY ZONES ─── */
-.boundary{position:absolute;border-radius:18px;border:1.5px dashed;padding:12px;pointer-events:none}
-.boundary .boundary-label{position:absolute;top:-11px;left:20px;padding:2px 10px;border-radius:6px;font-size:0.62rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase}
-.bnd-gold{border-color:rgba(255,215,0,0.2)}.bnd-gold .boundary-label{background:rgba(255,215,0,0.15);color:var(--gold);border:1px solid rgba(255,215,0,0.2)}
-.bnd-cyan{border-color:rgba(56,189,248,0.2)}.bnd-cyan .boundary-label{background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.2)}
-.bnd-purple{border-color:rgba(168,85,247,0.2)}.bnd-purple .boundary-label{background:rgba(168,85,247,0.15);color:var(--purple);border:1px solid rgba(168,85,247,0.2)}
-.bnd-rose{border-color:rgba(236,72,153,0.2)}.bnd-rose .boundary-label{background:rgba(236,72,153,0.15);color:var(--rose);border:1px solid rgba(236,72,153,0.2)}
-.bnd-green{border-color:rgba(34,197,94,0.2)}.bnd-green .boundary-label{background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+.step-card{flex:1;max-width:580px;border-radius:16px;padding:24px 28px;border:1px solid rgba(255,255,255,0.08);position:relative;transition:transform 0.25s,box-shadow 0.25s;cursor:default;margin:16px 0}
+.step-card:hover{transform:translateY(-2px)}
 
-/* ─── SVG CONNECTIONS ─── */
-.connections-layer{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
-.conn-line{stroke-width:1.5;fill:none;opacity:0.4;transition:opacity 0.3s}
-.conn-line.highlight{opacity:0.9;stroke-width:2.5}
+.step-card .step-emoji{font-size:2rem;margin-bottom:8px}
+.step-card .step-title{font-size:1.05rem;font-weight:800;margin-bottom:4px}
+.step-card .step-what{font-size:0.8rem;color:var(--text2);line-height:1.55;margin-bottom:14px}
+.step-card .step-modules{display:flex;flex-wrap:wrap;gap:5px}
+.step-card .mod-chip{padding:4px 10px;border-radius:7px;font-size:0.65rem;font-weight:700;display:flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.25)}
 
-/* ─── PARTICLES ─── */
-.particle{position:absolute;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:60;animation:particlePulse 1.5s infinite}
-@keyframes particlePulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+/* Arrow between steps */
+.journey-arrow{text-align:center;font-size:1.2rem;color:var(--text3);padding:4px 0;opacity:0.4;position:relative;z-index:1}
 
-/* ─── DETAIL PANEL ─── */
-.detail-panel{
-  position:fixed;right:0;top:52px;bottom:0;width:340px;z-index:90;
-  background:linear-gradient(180deg,rgba(12,14,22,0.98),rgba(7,8,13,0.96));
-  border-left:1px solid var(--border);backdrop-filter:blur(20px);
-  transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  overflow-y:auto;padding:20px;
-}
-.detail-panel.open{transform:translateX(0)}
-.detail-panel .dp-close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:var(--text3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;transition:all 0.2s}
-.detail-panel .dp-close:hover{background:rgba(255,255,255,0.1);color:var(--text)}
-.detail-panel .dp-icon{font-size:2rem;margin-bottom:8px}
-.detail-panel .dp-title{font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.detail-panel .dp-tier{font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:12px}
-.detail-panel .dp-desc{font-size:0.78rem;color:var(--text2);line-height:1.55;margin-bottom:16px}
-.detail-panel .dp-section{margin-bottom:14px}
-.detail-panel .dp-section-title{font-size:0.68rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.detail-panel .dp-file-list{display:flex;flex-direction:column;gap:3px}
-.detail-panel .dp-file{padding:5px 8px;border-radius:6px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);font-family:var(--mono);font-size:0.68rem;color:var(--text2);display:flex;align-items:center;gap:6px}
-.detail-panel .dp-file .ficon{opacity:0.5}
-.detail-panel .dp-dep{padding:4px 8px;border-radius:6px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);font-size:0.65rem;color:var(--cyan);cursor:pointer;transition:all 0.15s}
-.detail-panel .dp-dep:hover{background:rgba(56,189,248,0.15)}
-.detail-panel .dp-exports{display:flex;flex-wrap:wrap;gap:3px}
-.detail-panel .dp-export{padding:2px 6px;border-radius:4px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.15);font-family:var(--mono);font-size:0.6rem;color:var(--green)}
+/* Step colors */
+.step-gold .step-number{background:linear-gradient(135deg,#2a2210,#1a1810);color:var(--gold);border-color:var(--gold)}
+.step-gold .step-card{background:linear-gradient(135deg,rgba(255,215,0,0.05),rgba(201,162,39,0.02));border-color:rgba(255,215,0,0.15)}
+.step-gold .step-card:hover{box-shadow:0 8px 32px rgba(255,215,0,0.08)}
+.step-gold .step-title{color:var(--gold)}
+.step-gold .mod-chip{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.15);color:var(--gold)}
 
-/* ─── MINIMAP ─── */
-.minimap{
-  position:fixed;bottom:16px;right:16px;width:180px;height:120px;z-index:80;
-  background:rgba(12,14,22,0.9);border:1px solid var(--border);border-radius:10px;
-  overflow:hidden;backdrop-filter:blur(10px);
-}
-.minimap canvas{width:100%;height:100%}
-.minimap .mm-viewport{position:absolute;border:1.5px solid var(--gold);border-radius:2px;pointer-events:none;opacity:0.6}
+.step-cyan .step-number{background:linear-gradient(135deg,#0f1a2a,#101520);color:var(--cyan);border-color:var(--cyan)}
+.step-cyan .step-card{background:linear-gradient(135deg,rgba(56,189,248,0.05),rgba(59,130,246,0.02));border-color:rgba(56,189,248,0.15)}
+.step-cyan .step-card:hover{box-shadow:0 8px 32px rgba(56,189,248,0.08)}
+.step-cyan .step-title{color:var(--cyan)}
+.step-cyan .mod-chip{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.15);color:var(--cyan)}
 
-/* ─── STATS BAR ─── */
-.stats-bar{
-  position:fixed;bottom:16px;left:16px;z-index:80;display:flex;gap:8px;
-}
-.stat-chip{padding:5px 10px;border-radius:8px;background:rgba(12,14,22,0.9);border:1px solid var(--border);backdrop-filter:blur(10px);font-size:0.65rem;font-weight:600;color:var(--text3);display:flex;align-items:center;gap:5px}
-.stat-chip .sc-val{color:var(--gold);font-weight:800}
-.stat-chip .sc-dot{width:6px;height:6px;border-radius:50%}
+.step-purple .step-number{background:linear-gradient(135deg,#1a102a,#151020);color:var(--purple);border-color:var(--purple)}
+.step-purple .step-card{background:linear-gradient(135deg,rgba(168,85,247,0.05),rgba(139,92,246,0.02));border-color:rgba(168,85,247,0.15)}
+.step-purple .step-card:hover{box-shadow:0 8px 32px rgba(168,85,247,0.08)}
+.step-purple .step-title{color:var(--purple)}
+.step-purple .mod-chip{background:rgba(168,85,247,0.08);border-color:rgba(168,85,247,0.15);color:var(--purple)}
 
-/* ─── ZOOM CONTROLS ─── */
-.zoom-controls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:80;display:flex;gap:4px;background:rgba(12,14,22,0.9);border:1px solid var(--border);border-radius:10px;padding:4px;backdrop-filter:blur(10px)}
-.zoom-controls button{width:32px;height:28px;border-radius:6px;border:none;background:transparent;color:var(--text3);font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center}
-.zoom-controls button:hover{background:rgba(255,215,0,0.1);color:var(--gold)}
-.zoom-controls .zoom-level{padding:0 8px;font-size:0.65rem;color:var(--text3);display:flex;align-items:center;font-weight:600}
+.step-rose .step-number{background:linear-gradient(135deg,#2a1020,#1a0f18);color:var(--rose);border-color:var(--rose)}
+.step-rose .step-card{background:linear-gradient(135deg,rgba(236,72,153,0.05),rgba(244,63,94,0.02));border-color:rgba(236,72,153,0.15)}
+.step-rose .step-card:hover{box-shadow:0 8px 32px rgba(236,72,153,0.08)}
+.step-rose .step-title{color:var(--rose)}
+.step-rose .mod-chip{background:rgba(236,72,153,0.08);border-color:rgba(236,72,153,0.15);color:var(--rose)}
 
-/* highlighted node */
-.arch-node.highlighted{animation:nodeHighlight 1.5s ease-in-out 3}
-@keyframes nodeHighlight{0%,100%{box-shadow:none}50%{box-shadow:0 0 30px rgba(255,215,0,0.4)}}
-.arch-node.dimmed{opacity:0.2;transition:opacity 0.3s}
+.step-green .step-number{background:linear-gradient(135deg,#0f2a18,#101a14);color:var(--green);border-color:var(--green)}
+.step-green .step-card{background:linear-gradient(135deg,rgba(34,197,94,0.05),rgba(22,163,74,0.02));border-color:rgba(34,197,94,0.15)}
+.step-green .step-card:hover{box-shadow:0 8px 32px rgba(34,197,94,0.08)}
+.step-green .step-title{color:var(--green)}
+.step-green .mod-chip{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.15);color:var(--green)}
 
-/* Light theme */
-.theme-light{--bg:#f8f9fa;--bg2:#ffffff;--bg3:#f1f3f5;--text:#1a1a2e;--text2:#495057;--text3:#868e96;--border:rgba(0,0,0,0.1)}
+/* ═══ DEVELOPER VIEW ═══ */
+.dev-view{padding:32px;max-width:1400px;margin:0 auto;display:none}
+
+.dev-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;padding:14px 18px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--text3);font-weight:600}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+.dev-hint{font-size:0.72rem;color:var(--text3);margin-bottom:20px;padding:10px 14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.1);border-radius:10px;display:flex;align-items:center;gap:8px}
+
+/* Tier sections */
+.tier-section{margin-bottom:32px}
+.tier-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.tier-dot{width:14px;height:14px;border-radius:4px}
+.tier-header h3{font-size:0.85rem;font-weight:800;letter-spacing:0.02em}
+.tier-header .tier-count{font-size:0.62rem;color:var(--text3);font-weight:600;padding:2px 8px;background:rgba(255,255,255,0.04);border-radius:6px}
+
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+
+.mod-card{border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s;position:relative}
+.mod-card:hover{transform:translateY(-1px)}
+.mod-card .mc-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.mod-card .mc-icon{font-size:1.2rem}
+.mod-card .mc-title{font-size:0.78rem;font-weight:800}
+.mod-card .mc-sub{font-size:0.62rem;color:var(--text3);font-weight:500}
+.mod-card .mc-files{margin-top:8px;display:flex;flex-wrap:wrap;gap:3px}
+.mod-card .mc-file{padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:0.6rem;font-weight:500;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.05);color:var(--text3)}
+.mod-card .mc-deps{margin-top:8px;font-size:0.6rem;color:var(--text3)}
+.mod-card .mc-deps span{font-weight:700}
+
+/* Dep details */
+.mod-card .mc-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)}
+.mod-card.expanded .mc-detail{display:block}
+.mod-card .mc-detail .mc-desc{font-size:0.7rem;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.mod-card .mc-detail .mc-export-list{display:flex;flex-wrap:wrap;gap:3px}
+.mod-card .mc-detail .mc-exp{padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:0.58rem;font-weight:500}
+.mod-card .mc-detail .mc-dep-list{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.mod-card .mc-detail .mc-dep-tag{padding:2px 7px;border-radius:4px;font-size:0.6rem;font-weight:600;cursor:pointer;transition:all 0.15s}
+
+/* Module colors by tier */
+.mc-t1{background:linear-gradient(135deg,rgba(255,215,0,0.06),rgba(201,162,39,0.02));border-color:rgba(255,215,0,0.12)}
+.mc-t1:hover{box-shadow:0 4px 20px rgba(255,215,0,0.06);border-color:rgba(255,215,0,0.25)}
+.mc-t1 .mc-title{color:var(--gold)}
+.mc-t1 .mc-exp{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.12);color:var(--gold)}
+.mc-t1 .mc-dep-tag{background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.12);color:var(--cyan)}
+
+.mc-t2{background:linear-gradient(135deg,rgba(56,189,248,0.06),rgba(59,130,246,0.02));border-color:rgba(56,189,248,0.12)}
+.mc-t2:hover{box-shadow:0 4px 20px rgba(56,189,248,0.06);border-color:rgba(56,189,248,0.25)}
+.mc-t2 .mc-title{color:var(--cyan)}
+.mc-t2 .mc-exp{background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.12);color:var(--cyan)}
+.mc-t2 .mc-dep-tag{background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.12);color:var(--purple)}
+
+.mc-t3{background:linear-gradient(135deg,rgba(168,85,247,0.06),rgba(139,92,246,0.02));border-color:rgba(168,85,247,0.12)}
+.mc-t3:hover{box-shadow:0 4px 20px rgba(168,85,247,0.06);border-color:rgba(168,85,247,0.25)}
+.mc-t3 .mc-title{color:var(--purple)}
+.mc-t3 .mc-exp{background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.12);color:var(--purple)}
+.mc-t3 .mc-dep-tag{background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.12);color:var(--rose)}
+
+.mc-t4{background:linear-gradient(135deg,rgba(236,72,153,0.06),rgba(244,63,94,0.02));border-color:rgba(236,72,153,0.12)}
+.mc-t4:hover{box-shadow:0 4px 20px rgba(236,72,153,0.06);border-color:rgba(236,72,153,0.25)}
+.mc-t4 .mc-title{color:var(--rose)}
+.mc-t4 .mc-exp{background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.12);color:var(--rose)}
+.mc-t4 .mc-dep-tag{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.12);color:var(--green)}
+
+.mc-t5{background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(22,163,74,0.02));border-color:rgba(34,197,94,0.12)}
+.mc-t5:hover{box-shadow:0 4px 20px rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.25)}
+.mc-t5 .mc-title{color:var(--green)}
+.mc-t5 .mc-exp{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.12);color:var(--green)}
+.mc-t5 .mc-dep-tag{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.12);color:var(--gold)}
+
+/* ═══ FOOTER ═══ */
+.page-footer{padding:20px 32px;text-align:center;border-top:1px solid var(--border);margin-top:40px}
+.page-footer p{font-size:0.65rem;color:var(--text3)}
+.page-footer a{color:var(--gold2);text-decoration:none}
 </style>
 </head>
 <body>
 
-<!-- ─── TOOLBAR ─── -->
-<header class="toolbar">
+<!-- ═══ HEADER ═══ -->
+<header class="page-header">
   <div class="brand">
     <div class="brand-icon">🎬</div>
-    <div class="brand-text">
-      <span>ARCHIFY</span>
-      <span> × CINEPROMPT</span>
-      <span>v2.0</span>
+    <div>
+      <h1><span>ARCHIFY</span><span> × CINEPROMPT PRO</span></h1>
+      <div class="brand-sub">System Architecture Map v2.0</div>
     </div>
   </div>
-  <div class="sep"></div>
-  <div class="view-tabs">
-    <button class="vtab active" data-view="architecture" title="High-Level Component Architecture">🏛 Architecture</button>
-    <button class="vtab" data-view="dataflow" title="Data Flow Pipeline">🔀 Data Flow</button>
-    <button class="vtab" data-view="sequence" title="Runtime Sequence">⚡ Sequence</button>
+  <div class="header-sep"></div>
+  <div class="view-switch">
+    <button class="view-btn active" data-view="director">🎬 Bản Đồ Đạo Diễn</button>
+    <button class="view-btn" data-view="developer">🔧 Bản Đồ Developer</button>
   </div>
-  <div class="sep"></div>
-  <button class="tbtn" id="btn-toggle-particles" title="Toggle Data Flow Particles">✨ Particles</button>
-  <button class="tbtn" id="btn-toggle-theme" title="Toggle Light/Dark Theme">🌙 Theme</button>
-  <div class="search-box">
-    <input type="text" id="search-input" placeholder="Search modules..." autocomplete="off"/>
+  <div class="header-stats">
+    <div class="h-stat">📦 Modules: <b>27</b></div>
+    <div class="h-stat">🔗 Kết nối: <b>42</b></div>
+    <div class="h-stat">📄 ~12,000 dòng code</div>
   </div>
-  <div class="sep"></div>
-  <button class="tbtn" id="btn-export-svg" title="Export as SVG">📐 SVG</button>
-  <button class="tbtn" id="btn-export-png" title="Export as PNG">🖼 PNG</button>
 </header>
 
-<!-- ─── CANVAS ─── -->
-<div class="canvas-container" id="canvas-container">
-  <div class="canvas" id="canvas">
-    <svg class="connections-layer" id="connections-svg"></svg>
+<!-- ═══════════════════════════════════════════ -->
+<!-- DIRECTOR VIEW — User Journey Storytelling  -->
+<!-- ═══════════════════════════════════════════ -->
+<main class="director-view" id="director-view">
+
+  <div class="hero-block">
+    <h2>🎬 Hệ Thống Hoạt Động Như Thế Nào?</h2>
+    <p>Đi theo hành trình từ lúc bạn mở ứng dụng đến khi nhận được prompt điện ảnh chuyên nghiệp — qua 6 bước tự động.</p>
   </div>
-</div>
 
-<!-- ─── DETAIL PANEL ─── -->
-<div class="detail-panel" id="detail-panel">
-  <button class="dp-close" id="dp-close">✕</button>
-  <div id="dp-content"></div>
-</div>
+  <div class="journey">
 
-<!-- ─── ZOOM CONTROLS ─── -->
-<div class="zoom-controls">
-  <button id="zoom-out" title="Zoom Out">−</button>
-  <div class="zoom-level" id="zoom-level">100%</div>
-  <button id="zoom-in" title="Zoom In">+</button>
-  <button id="zoom-fit" title="Fit to Screen">⊞</button>
-</div>
+    <!-- STEP 1 -->
+    <div class="journey-step step-gold">
+      <div style="flex:1;display:flex;justify-content:flex-end"><div class="step-card">
+        <div class="step-emoji">✍️</div>
+        <div class="step-title">Bước 1 — Bạn Nhập Ý Tưởng</div>
+        <div class="step-what">
+          Bạn gõ một câu đơn giản vào ô chủ đề, ví dụ: <em>"Cô gái áo dài đỏ ngồi trong quán cà phê mưa Sài Gòn"</em>.<br/>
+          Hệ thống cũng cung cấp <strong>414+ kỹ thuật quay</strong> sẵn có (zoom, dolly, crane...) để bạn chọn nhanh thay vì phải nhớ thuật ngữ.
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">🖥️ Giao diện 3 cột (IPO)</span>
+          <span class="mod-chip">🗂️ Kho 414+ kỹ thuật</span>
+          <span class="mod-chip">🌐 Song ngữ EN/VI</span>
+          <span class="mod-chip">🎓 Tour hướng dẫn</span>
+        </div>
+      </div></div>
+      <div class="step-connector"><div class="step-number">1</div></div>
+      <div style="flex:1"></div>
+    </div>
 
-<!-- ─── STATS BAR ─── -->
-<div class="stats-bar">
-  <div class="stat-chip"><span class="sc-dot" style="background:var(--gold)"></span> Modules <span class="sc-val">27</span></div>
-  <div class="stat-chip"><span class="sc-dot" style="background:var(--cyan)"></span> Connections <span class="sc-val" id="conn-count">0</span></div>
-  <div class="stat-chip"><span class="sc-dot" style="background:var(--purple)"></span> Tiers <span class="sc-val">5</span></div>
-  <div class="stat-chip"><span class="sc-dot" style="background:var(--green)"></span> Lines <span class="sc-val">~12K</span></div>
-</div>
+    <div class="journey-arrow">▼</div>
 
-<!-- ─── MINIMAP ─── -->
-<div class="minimap" id="minimap"><canvas id="minimap-canvas"></canvas><div class="mm-viewport" id="mm-viewport"></div></div>
+    <!-- STEP 2 -->
+    <div class="journey-step step-cyan">
+      <div style="flex:1"></div>
+      <div class="step-connector"><div class="step-number">2</div></div>
+      <div style="flex:1;display:flex;justify-content:flex-start"><div class="step-card">
+        <div class="step-emoji">🧠</div>
+        <div class="step-title">Bước 2 — AI Nâng Cấp & Tinh Chế</div>
+        <div class="step-what">
+          Câu nhập đơn giản của bạn được <strong>7 bộ máy AI</strong> xử lý đồng thời:<br/>
+          → Thêm camera body, lens chuẩn Hollywood (Cooke Anamorphic, ARRI Alexa...)<br/>
+          → Thêm ánh sáng, góc quay, chuyển động camera chuyên nghiệp<br/>
+          → Khử trùng lặp, gộp thông tin, tối ưu cấu trúc câu<br/>
+          → Đánh giá chất lượng S+ Score (0-100 điểm kiểu Hollywood)
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">🎬 Tri thức Đạo diễn (7 Pillars)</span>
+          <span class="mod-chip">🔗 Smart Merge (Khử lặp)</span>
+          <span class="mod-chip">🔬 Optical Linter (Quy chuẩn)</span>
+          <span class="mod-chip">📊 Scorecard S+ (Chấm điểm)</span>
+          <span class="mod-chip">🛡️ Guardrails (An toàn)</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="journey-arrow">▼</div>
+
+    <!-- STEP 3 -->
+    <div class="journey-step step-purple">
+      <div style="flex:1;display:flex;justify-content:flex-end"><div class="step-card">
+        <div class="step-emoji">🎯</div>
+        <div class="step-title">Bước 3 — Tối Ưu Theo Model AI Đích</div>
+        <div class="step-what">
+          Mỗi model AI (Sora, Kling, Midjourney, Runway...) đọc prompt theo <strong>thứ tự khác nhau</strong>.<br/>
+          Hệ thống tự động sắp xếp lại prompt theo đúng "thứ tự chú ý" (Attention Ordering) của model bạn chọn — giống như dịch cùng 1 bài hát sang 8 thứ tiếng vậy.
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">🤖 Model Optimizer (8 models)</span>
+          <span class="mod-chip">🎭 Character OS (Khóa nhân vật)</span>
+          <span class="mod-chip">🎞️ Multi-Shot Timeline</span>
+        </div>
+      </div></div>
+      <div class="step-connector"><div class="step-number">3</div></div>
+      <div style="flex:1"></div>
+    </div>
+
+    <div class="journey-arrow">▼</div>
+
+    <!-- STEP 4 -->
+    <div class="journey-step step-rose">
+      <div style="flex:1"></div>
+      <div class="step-connector"><div class="step-number">4</div></div>
+      <div style="flex:1;display:flex;justify-content:flex-start"><div class="step-card">
+        <div class="step-emoji">🚀</div>
+        <div class="step-title">Bước 4 — Gửi Tới Cloud AI (Tùy Chọn)</div>
+        <div class="step-what">
+          Nếu bạn gắn API key, hệ thống gọi thẳng tới <strong>Gemini, GPT-4o hoặc Claude</strong> để AI nâng cấp prompt lên tầm cao hơn nữa.<br/>
+          Hoặc dùng <strong>BYOK Studio</strong> để sinh ảnh/video trực tiếp từ Runway, Luma, Kling mà không cần rời ứng dụng.
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">🧪 AI Hub (Gemini/GPT/Claude)</span>
+          <span class="mod-chip">🔑 BYOK Studio (Sinh trực tiếp)</span>
+          <span class="mod-chip">☁️ Serverless API (Vercel Edge)</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="journey-arrow">▼</div>
+
+    <!-- STEP 5 -->
+    <div class="journey-step step-green">
+      <div style="flex:1;display:flex;justify-content:flex-end"><div class="step-card">
+        <div class="step-emoji">📋</div>
+        <div class="step-title">Bước 5 — Nhận Kết Quả Kép</div>
+        <div class="step-what">
+          Bạn nhận được <strong>2 prompt song song</strong>:<br/>
+          🖼 <strong>Image Prompt</strong> — dán vào Midjourney/FLUX để tạo ảnh<br/>
+          🎥 <strong>Video Prompt</strong> — dán vào Sora/Kling/Runway để tạo video<br/><br/>
+          Cả hai đều đã tối ưu, chấm điểm S+, và khóa nhân vật nhất quán. Sao chép 1 click.
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">🎛️ UI Controller (Hiển thị)</span>
+          <span class="mod-chip">🎙️ Voice Director (Thuyết minh)</span>
+          <span class="mod-chip">🌍 Translator (Dịch EN↔VI)</span>
+        </div>
+      </div></div>
+      <div class="step-connector"><div class="step-number">5</div></div>
+      <div style="flex:1"></div>
+    </div>
+
+    <div class="journey-arrow">▼</div>
+
+    <!-- STEP 6 -->
+    <div class="journey-step step-gold">
+      <div style="flex:1"></div>
+      <div class="step-connector"><div class="step-number">6</div></div>
+      <div style="flex:1;display:flex;justify-content:flex-start"><div class="step-card">
+        <div class="step-emoji">📦</div>
+        <div class="step-title">Bước 6 — Xuất Bản & Lưu Trữ</div>
+        <div class="step-what">
+          Xuất toàn bộ kết quả dưới nhiều định dạng:<br/>
+          📄 <strong>PDF Shotlist</strong> — gửi cho đội quay<br/>
+          📊 <strong>CSV</strong> — import vào bảng tính<br/>
+          🔗 <strong>JSON Schema</strong> — tích hợp automation pipeline<br/>
+          📚 <strong>11 Module Guide</strong> — tài liệu làm phim chuyên sâu
+        </div>
+        <div class="step-modules">
+          <span class="mod-chip">📦 Export (PDF/CSV/JSON)</span>
+          <span class="mod-chip">🎞️ Remotion React Codebase</span>
+          <span class="mod-chip">🚀 Vite → Vercel Deploy</span>
+          <span class="mod-chip">📝 Prompt History</span>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DEVELOPER VIEW — Clean Module Reference    -->
+<!-- ═══════════════════════════════════════════ -->
+<main class="dev-view" id="dev-view"></main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="page-footer">
+  <p>Generated by <a href="https://github.com/tt-a1i/archify" target="_blank">Archify</a> × Antigravity — <a href="https://github.com/phudong0914-hub/cinematic-prompt-generator" target="_blank">View Source on GitHub</a></p>
+</footer>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// ARCHIFY IR — CINE PROMPT PRO v2.0 TYPED ARCHITECTURE SPEC
+// DATA — SAME ARCHIFY IR AS BEFORE
 // ═══════════════════════════════════════════════════════════════
 
-const SYSTEM_IR = {
-  meta: {
-    name: "Cine Prompt Pro v2.0 — Studio Engine",
-    version: "2.0.0",
-    generator: "Archify × Antigravity",
-    date: new Date().toISOString().slice(0,10),
-    repo: "https://github.com/phudong0914-hub/cinematic-prompt-generator"
-  },
-  tiers: [
-    { id:"T1", name:"Presentation & IPO Layer", color:"gold",   y: 30 },
-    { id:"T2", name:"Core Studio Engines",      color:"cyan",   y: 310 },
-    { id:"T3", name:"Persistence & Vault",      color:"purple", y: 680 },
-    { id:"T4", name:"Multi-Model Inference",    color:"rose",   y: 920 },
-    { id:"T5", name:"Export & Distribution",     color:"green",  y: 1130 }
-  ],
-  nodes: [
-    // ─── TIER 1: PRESENTATION ───
-    { id:"N01", tier:"T1", icon:"🖥️", title:"IPO Layout Engine",      subtitle:"3-Column Input→Process→Output Architecture", x:40,  y:60,  w:200, files:["index.html","styles/main.css"], exports:["DOM Structure","CSS Design System"], desc:"Kiến trúc giao diện 3 cột điện ảnh: Sidebar Input (310px), Main Canvas (flex), Output Console. Responsive Dark & Gold Cinema design với 5200+ dòng CSS."},
-    { id:"N02", tier:"T1", icon:"🎛️", title:"UI Controller",           subtitle:"DOM Rendering & Reactive State Manager",    x:260, y:60,  w:200, files:["js/uiController.js"], exports:["renderPromptGrid","displayDualResult","refreshResult"], desc:"Bộ điều khiển giao diện chính: render grid prompt, hiển thị kết quả kép (Image/Video), quản lý reactive state và event delegation cho toàn bộ IPO flow." },
-    { id:"N03", tier:"T1", icon:"🗂️", title:"Data Manager",            subtitle:"Prompt Loading, Filtering & Favorites",     x:480, y:60,  w:200, files:["js/dataManager.js","public/data/prompts.json"], exports:["loadPrompts","filterPrompts","toggleFavorite","getAIConfig"], desc:"Quản lý toàn bộ dữ liệu prompt (414+ kỹ thuật điện ảnh), bộ lọc đa chiều (category, difficulty, search), hệ thống yêu thích và cấu hình AI." },
-    { id:"N04", tier:"T1", icon:"🌐", title:"i18n & Theme Engine",     subtitle:"Bilingual (EN/VI) & Dark/Light Mode",       x:700, y:60,  w:200, files:["js/i18n.js"], exports:["applyLanguage","toggleLanguage","applyTheme","t()"], desc:"Hệ thống đa ngôn ngữ Tiếng Việt/English với 400+ translation keys. Chuyển đổi Dark Mode (Obsidian) / Light Mode liền mạch." },
-    { id:"N05", tier:"T1", icon:"🔊", title:"Sound & Toast System",    subtitle:"Cinematic Audio Feedback & Notifications",  x:920, y:60,  w:200, files:["js/soundFX.js","js/toast.js"], exports:["soundFX","showToast"], desc:"Hệ thống âm thanh tương tác điện ảnh (click, success, error, whoosh) và toast notification kiểu Hollywood với animation slide-in." },
-    { id:"N06", tier:"T1", icon:"🎓", title:"Onboarding Tour",         subtitle:"Interactive 3-Step Guided Tour",            x:1140,y:60,  w:190, files:["js/tour.js"], exports:["onboardingTour"], desc:"Tour hướng dẫn tương tác 3 bước với spotlight overlay, tooltip bubble và progress indicator cho người dùng mới." },
-    { id:"N07", tier:"T1", icon:"🔐", title:"Auth & Identity Suite",   subtitle:"Login, 2FA, Team Roles & Director Slate",   x:40,  y:190, w:200, files:["js/authController.js","js/authManager.js"], exports:["initAuthUI","authManager"], desc:"Bộ xác thực 9 điểm: Login/Signup, Email OTP, 2FA, Profile Avatar, Team Roles (Director/DP/Editor), Director Identity Slate với Hollywood ranking." },
+const NODES = [
+  {id:"N01",tier:"T1",icon:"🖥️",title:"IPO Layout Engine",sub:"3-Column Input→Process→Output",files:["index.html","styles/main.css"],exports:["DOM Structure","CSS Design System"],deps:[],desc:"Kiến trúc giao diện 3 cột điện ảnh: Sidebar Input (310px), Main Canvas (flex), Output Console. Responsive Dark & Gold Cinema design với 5200+ dòng CSS."},
+  {id:"N02",tier:"T1",icon:"🎛️",title:"UI Controller",sub:"DOM Rendering & Reactive State",files:["js/uiController.js"],exports:["renderPromptGrid","displayDualResult","refreshResult"],deps:["N03","N04","N05","N09","N10","N11","N12","N14","N19","N21","N22"],desc:"Bộ điều khiển giao diện chính (96KB): render grid prompt, hiển thị kết quả kép (Image/Video), quản lý reactive state."},
+  {id:"N03",tier:"T1",icon:"🗂️",title:"Data Manager",sub:"Prompt Loading & Favorites",files:["js/dataManager.js","public/data/prompts.json"],exports:["loadPrompts","filterPrompts","toggleFavorite","getAIConfig"],deps:[],desc:"Quản lý 414+ kỹ thuật quay, bộ lọc đa chiều, hệ thống yêu thích và cấu hình AI key."},
+  {id:"N04",tier:"T1",icon:"🌐",title:"i18n & Theme",sub:"Song ngữ EN/VI + Dark/Light",files:["js/i18n.js"],exports:["applyLanguage","toggleTheme","t()"],deps:[],desc:"400+ translation keys, chuyển đổi Dark/Light mode liền mạch."},
+  {id:"N05",tier:"T1",icon:"🔊",title:"Sound & Toast",sub:"Audio Feedback & Notifications",files:["js/soundFX.js","js/toast.js"],exports:["soundFX","showToast"],deps:[],desc:"Âm thanh tương tác điện ảnh và toast notification kiểu Hollywood."},
+  {id:"N06",tier:"T1",icon:"🎓",title:"Onboarding Tour",sub:"3-Step Guided Tour",files:["js/tour.js"],exports:["onboardingTour"],deps:["N05"],desc:"Tour hướng dẫn 3 bước với spotlight overlay cho người dùng mới."},
+  {id:"N07",tier:"T1",icon:"🔐",title:"Auth & Identity",sub:"Login, 2FA, Team Roles",files:["js/authController.js","js/authManager.js"],exports:["initAuthUI","authManager"],deps:["N05","N20"],desc:"Xác thực 9 điểm: Login/Signup, OTP, 2FA, Profile, Team Roles."},
+  {id:"N08",tier:"T2",icon:"🧠",title:"App Orchestrator",sub:"Master Init & State Machine",files:["js/app.js"],exports:["init()","refreshResult","initCinePromptSuite"],deps:["N02","N05","N06","N07","N09","N10","N11","N12","N13","N15","N16","N18","N19","N21","N22","N23","N26"],desc:"Bộ não trung tâm (148KB): khởi tạo hệ thống, wiring 50+ events, quản lý 3 chế độ."},
+  {id:"N09",tier:"T2",icon:"🎬",title:"Director Knowledge",sub:"7 Pillars Playbook",files:["js/directorKnowledgeEngine.js","js/promptKnowledgeBase.js"],exports:["sanitizeCinematicPrompt","CAMERA_RIGS_AND_MOTION"],deps:[],desc:"Tri thức đạo diễn: 7 Trụ Cột, 40+ chuyển động camera, Sound & Foley Engine."},
+  {id:"N10",tier:"T2",icon:"🔗",title:"Smart Merge Engine",sub:"Khử trùng lặp & hòa sắc",files:["js/smartMergeEngine.js"],exports:["applySmartMerge","mergeCameraAndColorScience"],deps:[],desc:"Tự động khử trùng lặp camera body, gộp lens & shot, hòa sắc AUTO_TONE_MAP."},
+  {id:"N11",tier:"T2",icon:"🤖",title:"Model Optimizer",sub:"Attention Ordering × 8 models",files:["js/modelOptimizer.js"],exports:["AI_MODELS","reorderPromptByModel"],deps:[],desc:"Sắp xếp prompt theo thứ tự chú ý riêng biệt cho Kling, Sora, Runway, Midjourney, FLUX..."},
+  {id:"N12",tier:"T2",icon:"🎞️",title:"Multi-Shot Timeline",sub:"Sequence Builder",files:["js/multishotEngine.js"],exports:["multishotEngine"],deps:["N13"],desc:"Chuỗi phân cảnh: Timeline, Timecodes, Transitions, khóa nhân vật xuyên suốt."},
+  {id:"N13",tier:"T2",icon:"🎭",title:"Character OS v4.0",sub:"DNA Matrix & Identity Lock",files:["js/characterOS.js"],exports:["characterOS"],deps:["N05"],desc:"Character Bible, Face DNA, Identity Lock Level 0-4 Anti-Drift, 4-Scene Storyboard."},
+  {id:"N14",tier:"T2",icon:"🔬",title:"Optical Linter",sub:"Camera & Composition Check",files:["js/opticalLinter.js"],exports:["OpticalLinter"],deps:[],desc:"Phát hiện xung đột lens vs shot, auto-harmonize focal length."},
+  {id:"N15",tier:"T2",icon:"📊",title:"Scorecard HUD",sub:"S+ Quality Score (0-100)",files:["js/scorecard.js"],exports:["scorePrompt"],deps:[],desc:"Đánh giá prompt theo 5 tiêu chí Hollywood với circular gauge HUD."},
+  {id:"N16",tier:"T2",icon:"🛡️",title:"Guardrails",sub:"Token Limits & Safety",files:["js/guardrails.js"],exports:["sanitizePrompt","enforceTokenLimit"],deps:[],desc:"Giới hạn token theo platform, kiểm tra cấu trúc, lọc nội dung."},
+  {id:"N17",tier:"T2",icon:"🔒",title:"Security Shield",sub:"3-Tier Protection",files:["js/security.js","js/securityShield.js"],exports:["initSecurity"],deps:[],desc:"Anti-Inspect Shield, Build Obfuscation, API Key protection."},
+  {id:"N18",tier:"T2",icon:"🎙️",title:"Voice Director",sub:"TTS & Voice-Over Bank",files:["js/voiceService.js"],exports:["voiceEngine"],deps:["N05"],desc:"Text-to-Speech đa giọng, Voice-Over Bank VN 10 giọng thuyết minh."},
+  {id:"N19",tier:"T3",icon:"🔑",title:"BYOK Live Studio",sub:"Bring Your Own Key",files:["js/byokStudio.js"],exports:["byokStudio"],deps:["N05"],desc:"Nhập API key cá nhân, sinh ảnh/video trực tiếp qua Runway, Luma, Kling."},
+  {id:"N20",tier:"T3",icon:"📝",title:"Memory Manager",sub:"Session & Project Storage",files:["js/memoryManager.js"],exports:["getAllProjects","createProject"],deps:[],desc:"CRUD dự án phim, storyboard, session context → localStorage."},
+  {id:"N21",tier:"T3",icon:"🔄",title:"Workflow Tracker",sub:"Pipeline State Monitor",files:["js/workflowTracker.js"],exports:["workflowTracker"],deps:[],desc:"Theo dõi trạng thái pipeline Input → Processing → Output."},
+  {id:"N22",tier:"T3",icon:"🌍",title:"Translator",sub:"EN↔VI Cinematic Translation",files:["js/translator.js"],exports:["translateCinematicText"],deps:[],desc:"Dịch prompt EN↔VI, bảo toàn 200+ thuật ngữ kỹ thuật."},
+  {id:"N23",tier:"T4",icon:"🧪",title:"AI Service Hub",sub:"Gemini / GPT / Claude Gateway",files:["js/aiService.js"],exports:["enhanceSubjectWithAI","analyzeImageWithAI"],deps:["N09"],desc:"Gateway đa nhà cung cấp AI: enhance prompt, Vision analysis, test key."},
+  {id:"N24",tier:"T4",icon:"☁️",title:"Serverless API",sub:"Vercel Edge & Webhook",files:["api/generate-storyboard.js","vercel.json"],exports:["generateStoryboard"],deps:[],desc:"Edge functions, API proxy, Telegram webhook."},
+  {id:"N25",tier:"T4",icon:"🎥",title:"Video/Image Models",sub:"Runway · Luma · Kling · MJ",files:["(External APIs)"],exports:["BYOK Direct HTTPS"],deps:[],desc:"Kết nối Runway Gen-3, Luma, Kling 2.0, Midjourney, FLUX.1 Pro."},
+  {id:"N26",tier:"T5",icon:"📦",title:"Export Manager",sub:"PDF / CSV / JSON / Clipboard",files:["js/exportManager.js"],exports:["exportToPDF","exportToCSV"],deps:[],desc:"Xuất prompt: PDF Shotlist, CSV, JSON Package, clipboard copy."},
+  {id:"N27",tier:"T5",icon:"🎞️",title:"Campaign & Remotion",sub:"NotebookLM Sources & React",files:["generated_campaign/","public/sources/"],exports:["11 Module Guides"],deps:[],desc:"Remotion React codebase, 11 Modules NotebookLM, campaign templates."},
+  {id:"N28",tier:"T5",icon:"🚀",title:"Build & Deploy",sub:"Vite 7.x → Vercel CI/CD",files:["vite.config.ts","package.json"],exports:["dist/public/"],deps:[],desc:"Vite bundler (6s build), Vercel CI/CD auto-deploy."},
+];
 
-    // ─── TIER 2: CORE ENGINES ───
-    { id:"N08", tier:"T2", icon:"🧠", title:"App Orchestrator",        subtitle:"Master Init, Event Wiring & State Machine", x:40,  y:340, w:210, files:["js/app.js"], exports:["init()","refreshResult","initCinePromptSuite"], desc:"Bộ não trung tâm (148KB): khởi tạo toàn bộ hệ thống, wiring 50+ event listeners, quản lý state machine cho 3 chế độ (Single/FrameMotion/MultiShot), JSON toggle và BYOK integration." },
-    { id:"N09", tier:"T2", icon:"🎬", title:"Director Knowledge Engine",subtitle:"7 Pillars Playbook & Sanitizer",           x:270, y:340, w:210, files:["js/directorKnowledgeEngine.js","js/promptKnowledgeBase.js"], exports:["sanitizeCinematicPrompt","buildCinematicAdScript","CAMERA_RIGS_AND_MOTION","MASTER_LENSES_AND_STOCKS"], desc:"Động cơ tri thức đạo diễn: 7 Trụ Cột AI Film Director Playbook 2026, bảng Camera Rigs & Motion (40+ Dan Kieft movements), Actor Directing System, Sound & Foley Engine, 414+ prompt templates." },
-    { id:"N10", tier:"T2", icon:"🔗", title:"Smart Merge Engine",      subtitle:"Dedup Camera Body, Tone & Color Science",   x:500, y:340, w:200, files:["js/smartMergeEngine.js"], exports:["applySmartMerge","mergeCameraAndColorScience","mergeShotAndMovement"], desc:"Bộ tinh chế thông minh: tự động khử trùng lặp camera body, gộp câu lens & shot composition, bản đồ hòa sắc AUTO_TONE_MAP & AUTO_LIGHTING_MAP." },
-    { id:"N11", tier:"T2", icon:"🤖", title:"Model Optimizer Matrix",  subtitle:"Attention Ordering per AI Model",           x:720, y:340, w:200, files:["js/modelOptimizer.js"], exports:["AI_MODELS","reorderPromptByModel","compileProsePrompt"], desc:"Ma trận trật tự chú ý chuẩn hóa theo từng model AI: Kling 2.0, LTX Video, Sora, Runway Gen-3, MiniMax Hailuo, FLUX.1, Midjourney v6/v8, Grok Imagine — mỗi model có thứ tự prompt riêng biệt." },
-    { id:"N12", tier:"T2", icon:"🎞️", title:"Multi-Shot Timeline",     subtitle:"Sequence Builder & Scene Transitions",      x:940, y:340, w:200, files:["js/multishotEngine.js"], exports:["multishotEngine"], desc:"Bộ xây dựng chuỗi phân cảnh liền mạch: Timeline UI với Shot 1→2→3, Timecodes, Transition types (Cut/Dissolve/Whip), liên kết CharacterOS để khóa nhân vật nhất quán xuyên suốt." },
-    { id:"N13", tier:"T2", icon:"🎭", title:"Character Production OS", subtitle:"DNA Matrix, Identity Lock & Anti-Drift",     x:40,  y:480, w:200, files:["js/characterOS.js"], exports:["characterOS"], desc:"Hệ điều hành sản xuất nhân vật V4.0: Character Bible (Face DNA, Hair, Wardrobe Canon), Identity Lock Level 0-4 Anti-Drift, 4-Scene Storyboard Generator với Mai 2049 preset." },
-    { id:"N14", tier:"T2", icon:"🔬", title:"Optical Linter",          subtitle:"Auto-Harmonize Camera & Composition",       x:260, y:480, w:200, files:["js/opticalLinter.js"], exports:["OpticalLinter"], desc:"Bộ quy chuẩn quang học: tự động phát hiện xung đột giữa lens choice và shot type, gợi ý camera angle phù hợp, auto-harmonize focal length vs composition." },
-    { id:"N15", tier:"T2", icon:"📊", title:"Director Scorecard HUD",  subtitle:"S+ Hollywood Quality Scoring (0-100)",      x:480, y:480, w:200, files:["js/scorecard.js"], exports:["scorePrompt"], desc:"Bảng điểm chất lượng Hollywood S+: đánh giá prompt theo 5 tiêu chí (Specificity, Camera Tech, Lighting, Emotion, Composition) với circular gauge HUD." },
-    { id:"N16", tier:"T2", icon:"🛡️", title:"Guardrails & Sanitizer",  subtitle:"Token Limits, Platform Rules & Safety",     x:700, y:480, w:200, files:["js/guardrails.js"], exports:["sanitizePrompt","countTokens","enforceTokenLimit","validatePromptStructure"], desc:"Hệ thống rào chắn: giới hạn token theo platform (Midjourney 6000, Sora 1000, DALL-E 4000), kiểm tra cấu trúc prompt, lọc nội dung không phù hợp." },
-    { id:"N17", tier:"T2", icon:"🔒", title:"Security Shield",         subtitle:"3-Tier Anti-Inspect & Obfuscation",         x:920, y:480, w:200, files:["js/security.js","js/securityShield.js","js_obf/"], exports:["initSecurity"], desc:"Kiến trúc bảo mật 3 tầng: Anti-Inspect Shield (disable DevTools), Build Obfuscation (js_obf/), API Key rotation bảo vệ." },
-    { id:"N18", tier:"T2", icon:"🎙️", title:"Voice & Audio Director",  subtitle:"TTS Engine & Voice-Over Bank VN",           x:1140,y:480, w:200, files:["js/voiceService.js"], exports:["voiceEngine"], desc:"Bộ đạo diễn âm thanh: Text-to-Speech engine đa giọng (Tiếng Việt + English), Voice-Over Bank 10 giọng thuyết minh, đồng bộ với prompt output." },
+const TIERS = [
+  {id:"T1",name:"Tầng Giao Diện (Presentation)",color:"#ffd700",dotClass:""},
+  {id:"T2",name:"Tầng Xử Lý Lõi (Core Engines)",color:"#38bdf8",dotClass:""},
+  {id:"T3",name:"Tầng Lưu Trữ (Persistence)",color:"#a855f7",dotClass:""},
+  {id:"T4",name:"Tầng AI Cloud (Inference)",color:"#ec4899",dotClass:""},
+  {id:"T5",name:"Tầng Xuất Bản (Export)",color:"#22c55e",dotClass:""},
+];
+const TIER_CSS = {T1:'mc-t1',T2:'mc-t2',T3:'mc-t3',T4:'mc-t4',T5:'mc-t5'};
 
-    // ─── TIER 3: PERSISTENCE ───
-    { id:"N19", tier:"T3", icon:"🔑", title:"BYOK Live Studio",        subtitle:"Bring Your Own Key & Live Generation",      x:40,  y:710, w:210, files:["js/byokStudio.js"], exports:["byokStudio"], desc:"Studio sinh ảnh/video trực tiếp: nhập API key cá nhân (Runway, Luma, Kling, Haiper, FAL.ai), lưu bảo mật ở localStorage, real-time generation modal." },
-    { id:"N20", tier:"T3", icon:"📝", title:"Memory & Project Manager",subtitle:"Session Context, Projects & Storyboard",    x:310, y:710, w:210, files:["js/memoryManager.js"], exports:["saveSessionContext","getAllProjects","createProject","addSceneToProject"], desc:"Quản lý bộ nhớ phiên làm việc, CRUD dự án phim, storyboard phân cảnh, lưu trữ context nhân vật và scene data vào localStorage." },
-    { id:"N21", tier:"T3", icon:"🔄", title:"Workflow Tracker",        subtitle:"Pipeline State & Progress Monitoring",      x:580, y:710, w:200, files:["js/workflowTracker.js"], exports:["workflowTracker"], desc:"Theo dõi trạng thái pipeline xử lý prompt: từ Input → Processing → Output, progress monitoring, retry logic và error recovery." },
-    { id:"N22", tier:"T3", icon:"🌍", title:"Translator Service",      subtitle:"Real-time EN↔VI Cinematic Translation",     x:840, y:710, w:200, files:["js/translator.js"], exports:["translateCinematicText"], desc:"Dịch thuật điện ảnh chuyên ngành: dịch prompt EN↔VI real-time, bảo toàn thuật ngữ kỹ thuật (lens, aperture, f-stop), glossary 200+ cinematic terms." },
+// ═══ VIEW SWITCHING ═══
+const directorView = document.getElementById('director-view');
+const devView = document.getElementById('dev-view');
 
-    // ─── TIER 4: INFERENCE ───
-    { id:"N23", tier:"T4", icon:"🧪", title:"AI Service Hub",          subtitle:"Multi-Provider LLM & Vision API Gateway",   x:40,  y:950, w:230, files:["js/aiService.js"], exports:["enhanceSubjectWithAI","testSingleKey","analyzeImageWithAI"], desc:"Gateway đa nhà cung cấp AI: Google Gemini 2.0, OpenAI GPT-4o, Anthropic Claude — xử lý enhance prompt, phân tích ảnh Vision, test API key connectivity." },
-    { id:"N24", tier:"T4", icon:"☁️", title:"Serverless API Edge",     subtitle:"Vercel Edge Functions & Webhook",           x:330, y:950, w:210, files:["api/generate-storyboard.js","api/prompts.js","vercel.json"], exports:["generateStoryboard","getPrompts"], desc:"API Serverless trên Vercel Edge: endpoint sinh storyboard tự động, proxy bảo mật API keys, Google Apps Script webhook → Telegram lead notification." },
-    { id:"N25", tier:"T4", icon:"🎥", title:"Video/Image Gen Models",  subtitle:"Runway · Luma · Kling · Midjourney · FLUX", x:600, y:950, w:240, files:["(External APIs)"], exports:["BYOK Direct HTTPS"], desc:"Kết nối trực tiếp tới các model sinh video/ảnh SOTA: Runway Gen-3 Alpha, Luma Dream Machine, Kling 2.0, MiniMax Hailuo, Midjourney v6/v8, FLUX.1 Pro — tất cả qua BYOK key rotation." },
-
-    // ─── TIER 5: EXPORT ───
-    { id:"N26", tier:"T5", icon:"📦", title:"Export Manager",          subtitle:"PDF, CSV, JSON Package & Clipboard",        x:40,  y:1160,w:220, files:["js/exportManager.js"], exports:["exportToPDF","exportToCSV","exportToPackage"], desc:"Xuất prompt dưới nhiều định dạng: PDF Production Shotlist, CSV cho spreadsheet, JSON Package cho automation, one-click clipboard copy." },
-    { id:"N27", tier:"T5", icon:"🎞️", title:"Campaign & Remotion",    subtitle:"NotebookLM Sources & React Video Codebase", x:310, y:1160,w:240, files:["generated_campaign/","public/sources/"], exports:["Remotion Dataset","11 Module Filmmaking Guides"], desc:"Kho tài nguyên xuất bản: Remotion React video codebase (TypeScript), 11 Modules NotebookLM Knowledge (Camera, Lighting, Composition, VFX, Motion, Veo3...), TikTok/YouTube campaign templates." },
-    { id:"N28", tier:"T5", icon:"🚀", title:"Build & Deploy Pipeline", subtitle:"Vite 7.x → Vercel CI/CD Auto-Deploy",      x:600, y:1160,w:220, files:["vite.config.ts","package.json","tsconfig.json"], exports:["dist/public/"], desc:"Pipeline build & deploy: Vite 7.x bundler (31 modules, 6s build), Vercel CI/CD tự động trigger từ GitHub push, output tối ưu (gzip ~178KB total)." }
-  ],
-  connections: [
-    // Presentation → Engines
-    {from:"N01",to:"N02",label:"DOM Events"},
-    {from:"N02",to:"N03",label:"loadPrompts()"},
-    {from:"N02",to:"N04",label:"applyLanguage()"},
-    {from:"N02",to:"N05",label:"showToast()"},
-    {from:"N01",to:"N08",label:"DOMContentLoaded"},
-    // App Orchestrator hub
-    {from:"N08",to:"N02",label:"renderGrid"},
-    {from:"N08",to:"N09",label:"sanitize"},
-    {from:"N08",to:"N10",label:"smartMerge"},
-    {from:"N08",to:"N11",label:"reorderByModel"},
-    {from:"N08",to:"N12",label:"multishotEngine"},
-    {from:"N08",to:"N13",label:"characterOS"},
-    {from:"N08",to:"N19",label:"byokStudio"},
-    {from:"N08",to:"N23",label:"enhanceWithAI"},
-    {from:"N08",to:"N15",label:"scorePrompt"},
-    {from:"N08",to:"N16",label:"guardrails"},
-    {from:"N08",to:"N05",label:"soundFX"},
-    {from:"N08",to:"N06",label:"tour"},
-    {from:"N08",to:"N18",label:"voiceEngine"},
-    {from:"N08",to:"N07",label:"initAuthUI"},
-    {from:"N08",to:"N21",label:"workflowTracker"},
-    {from:"N08",to:"N22",label:"translator"},
-    {from:"N08",to:"N26",label:"exportTo*"},
-    // UI Controller dependencies
-    {from:"N02",to:"N09",label:"sanitize"},
-    {from:"N02",to:"N10",label:"applySmartMerge"},
-    {from:"N02",to:"N11",label:"reorderPrompt"},
-    {from:"N02",to:"N12",label:"multishot"},
-    {from:"N02",to:"N14",label:"OpticalLinter"},
-    {from:"N02",to:"N19",label:"byokStudio"},
-    {from:"N02",to:"N21",label:"tracker"},
-    {from:"N02",to:"N22",label:"translate"},
-    // Engine internals
-    {from:"N12",to:"N13",label:"characterOS"},
-    {from:"N23",to:"N09",label:"knowledgeBase"},
-    {from:"N07",to:"N20",label:"authManager → localStorage"},
-    {from:"N13",to:"N05",label:"soundFX"},
-    {from:"N19",to:"N05",label:"showToast"},
-    // Persistence → Inference
-    {from:"N19",to:"N25",label:"BYOK HTTPS"},
-    {from:"N23",to:"N24",label:"Edge Proxy"},
-    {from:"N24",to:"N25",label:"API Relay"},
-    // Export
-    {from:"N08",to:"N27",label:"campaign data"},
-    {from:"N28",to:"N01",label:"dist/public/"},
-    {from:"N09",to:"N27",label:"filmmaking guides"},
-  ]
-};
-
-// ═══════════════════════════════════════════════════════════════
-// RENDERER
-// ═══════════════════════════════════════════════════════════════
-
-const canvas = document.getElementById('canvas');
-const container = document.getElementById('canvas-container');
-const svg = document.getElementById('connections-svg');
-const detailPanel = document.getElementById('detail-panel');
-const dpContent = document.getElementById('dp-content');
-const searchInput = document.getElementById('search-input');
-
-let scale = 0.85, panX = 60, panY = 10;
-let isDragging = false, dragStartX = 0, dragStartY = 0;
-let particlesEnabled = true;
-let selectedNodeId = null;
-const nodeElements = {};
-
-// Draw boundaries
-function renderBoundaries() {
-  const tierColors = {gold:'bnd-gold',cyan:'bnd-cyan',purple:'bnd-purple',rose:'bnd-rose',green:'bnd-green'};
-  SYSTEM_IR.tiers.forEach(tier => {
-    const nodesInTier = SYSTEM_IR.nodes.filter(n => n.tier === tier.id);
-    if (!nodesInTier.length) return;
-    const minX = Math.min(...nodesInTier.map(n => n.x)) - 20;
-    const maxX = Math.max(...nodesInTier.map(n => n.x + (n.w||180))) + 20;
-    const minY = Math.min(...nodesInTier.map(n => n.y)) - 28;
-    const maxY = Math.max(...nodesInTier.map(n => n.y + 120)) + 16;
-    const div = document.createElement('div');
-    div.className = `boundary ${tierColors[tier.color]}`;
-    div.style.cssText = `left:${minX}px;top:${minY}px;width:${maxX-minX}px;height:${maxY-minY}px`;
-    div.innerHTML = `<div class="boundary-label">${tier.name}</div>`;
-    canvas.appendChild(div);
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const view = btn.dataset.view;
+    directorView.style.display = view === 'director' ? 'block' : 'none';
+    devView.style.display = view === 'developer' ? 'block' : 'none';
   });
+});
+
+// ═══ RENDER DEVELOPER VIEW ═══
+function renderDevView() {
+  let html = '';
+  html += `<div class="dev-hint">💡 <strong>Cách đọc:</strong> Mỗi thẻ là 1 module JavaScript. Click để mở xem chi tiết: mô tả, exports, và module nào phụ thuộc vào nó. Đọc từ trên xuống = từ giao diện → xử lý → lưu trữ → cloud → xuất bản.</div>`;
+  html += `<div class="dev-legend">`;
+  TIERS.forEach(t => { html += `<div class="legend-item"><div class="legend-dot" style="background:${t.color}"></div>${t.name}</div>`; });
+  html += `</div>`;
+
+  TIERS.forEach(tier => {
+    const modules = NODES.filter(n => n.tier === tier.id);
+    html += `<div class="tier-section">`;
+    html += `<div class="tier-header"><div class="tier-dot" style="background:${tier.color}"></div><h3 style="color:${tier.color}">${tier.name}</h3><span class="tier-count">${modules.length} modules</span></div>`;
+    html += `<div class="module-grid">`;
+    modules.forEach(mod => {
+      const depCount = mod.deps.length;
+      const usedBy = NODES.filter(n => n.deps.includes(mod.id)).length;
+      html += `<div class="mod-card ${TIER_CSS[mod.tier]}" data-id="${mod.id}" onclick="this.classList.toggle('expanded')">`;
+      html += `<div class="mc-head"><span class="mc-icon">${mod.icon}</span><div><div class="mc-title">${mod.title}</div><div class="mc-sub">${mod.sub}</div></div></div>`;
+      html += `<div class="mc-files">${mod.files.map(f=>`<span class="mc-file">${f}</span>`).join('')}</div>`;
+      html += `<div class="mc-deps">Phụ thuộc: <span>${depCount}</span> · Được dùng bởi: <span>${usedBy}</span></div>`;
+      // Detail
+      html += `<div class="mc-detail">`;
+      html += `<div class="mc-desc">${mod.desc}</div>`;
+      html += `<div style="font-size:0.62rem;font-weight:800;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">📤 Exports</div>`;
+      html += `<div class="mc-export-list">${mod.exports.map(e=>`<span class="mc-exp">${e}</span>`).join('')}</div>`;
+      if (depCount > 0) {
+        html += `<div style="font-size:0.62rem;font-weight:800;color:var(--text3);margin-top:8px;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">🔗 Phụ thuộc vào</div>`;
+        html += `<div class="mc-dep-list">${mod.deps.map(d=>{const dn=NODES.find(n=>n.id===d);return`<span class="mc-dep-tag">${dn?dn.icon+' '+dn.title:d}</span>`;}).join('')}</div>`;
+      }
+      if (usedBy > 0) {
+        const users = NODES.filter(n=>n.deps.includes(mod.id));
+        html += `<div style="font-size:0.62rem;font-weight:800;color:var(--text3);margin-top:8px;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em">⬅️ Được dùng bởi</div>`;
+        html += `<div class="mc-dep-list">${users.map(u=>`<span class="mc-dep-tag">${u.icon} ${u.title}</span>`).join('')}</div>`;
+      }
+      html += `</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  devView.innerHTML = html;
 }
 
-// Draw nodes
-function renderNodes() {
-  const tierClass = {T1:'tier-presentation',T2:'tier-engine',T3:'tier-persist',T4:'tier-inference',T5:'tier-export'};
-  const tierLabel = {T1:'PRESENTATION',T2:'ENGINE',T3:'PERSISTENCE',T4:'INFERENCE',T5:'EXPORT'};
-  SYSTEM_IR.nodes.forEach(node => {
-    const div = document.createElement('div');
-    div.className = `arch-node ${tierClass[node.tier]}`;
-    div.dataset.id = node.id;
-    div.style.cssText = `left:${node.x}px;top:${node.y}px;width:${node.w||180}px`;
-    const filesHtml = (node.files||[]).map(f => `<span class="node-file">${f.split('/').pop()}</span>`).join('');
-    div.innerHTML = `
-      <div class="node-badge">${tierLabel[node.tier]}</div>
-      <div class="node-icon">${node.icon}</div>
-      <div class="node-title">${node.title}</div>
-      <div class="node-subtitle">${node.subtitle}</div>
-      <div class="node-files">${filesHtml}</div>
-    `;
-    div.addEventListener('click', (e) => { e.stopPropagation(); selectNode(node.id); });
-    canvas.appendChild(div);
-    nodeElements[node.id] = div;
-  });
-}
-
-// Draw connections
-function renderConnections() {
-  svg.innerHTML = '';
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  // Arrow markers
-  ['gold','cyan','purple','rose','green'].forEach(c => {
-    const colors = {gold:'#ffd700',cyan:'#38bdf8',purple:'#a855f7',rose:'#ec4899',green:'#22c55e'};
-    const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
-    marker.setAttribute('id',`arrow-${c}`);
-    marker.setAttribute('markerWidth','8');
-    marker.setAttribute('markerHeight','6');
-    marker.setAttribute('refX','8');
-    marker.setAttribute('refY','3');
-    marker.setAttribute('orient','auto');
-    const poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-    poly.setAttribute('points','0 0, 8 3, 0 6');
-    poly.setAttribute('fill', colors[c]);
-    poly.setAttribute('opacity','0.6');
-    marker.appendChild(poly);
-    defs.appendChild(marker);
-  });
-  svg.appendChild(defs);
-
-  const tierColorMap = {};
-  SYSTEM_IR.tiers.forEach(t => { const nodesInTier = SYSTEM_IR.nodes.filter(n=>n.tier===t.id); nodesInTier.forEach(n => tierColorMap[n.id] = t.color); });
-
-  SYSTEM_IR.connections.forEach(conn => {
-    const fromNode = SYSTEM_IR.nodes.find(n => n.id === conn.from);
-    const toNode = SYSTEM_IR.nodes.find(n => n.id === conn.to);
-    if (!fromNode || !toNode) return;
-
-    const fx = fromNode.x + (fromNode.w||180)/2;
-    const fy = fromNode.y + 55;
-    const tx = toNode.x + (toNode.w||180)/2;
-    const ty = toNode.y + 55;
-
-    const color = tierColorMap[conn.from] || 'gold';
-    const colors = {gold:'#ffd700',cyan:'#38bdf8',purple:'#a855f7',rose:'#ec4899',green:'#22c55e'};
-
-    // Curved path
-    const dx = tx - fx, dy = ty - fy;
-    const cx1 = fx + dx*0.2, cy1 = fy + dy*0.5;
-    const cx2 = tx - dx*0.2, cy2 = ty - dy*0.5;
-
-    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', `M${fx},${fy} C${cx1},${cy1} ${cx2},${cy2} ${tx},${ty}`);
-    path.setAttribute('stroke', colors[color]);
-    path.setAttribute('marker-end', `url(#arrow-${color})`);
-    path.className.baseVal = 'conn-line';
-    path.dataset.from = conn.from;
-    path.dataset.to = conn.to;
-    svg.appendChild(path);
-  });
-
-  // Resize SVG
-  const allNodes = SYSTEM_IR.nodes;
-  const maxX = Math.max(...allNodes.map(n => n.x + (n.w||180))) + 100;
-  const maxY = Math.max(...allNodes.map(n => n.y)) + 250;
-  svg.setAttribute('width', maxX);
-  svg.setAttribute('height', maxY);
-  svg.style.width = maxX + 'px';
-  svg.style.height = maxY + 'px';
-
-  document.getElementById('conn-count').textContent = SYSTEM_IR.connections.length;
-}
-
-// Select node
-function selectNode(nodeId) {
-  selectedNodeId = nodeId;
-  const node = SYSTEM_IR.nodes.find(n => n.id === nodeId);
-  if (!node) return;
-
-  // Highlight
-  Object.values(nodeElements).forEach(el => el.classList.remove('highlighted','dimmed'));
-  nodeElements[nodeId]?.classList.add('highlighted');
-
-  // Highlight connected
-  const connectedIds = new Set([nodeId]);
-  SYSTEM_IR.connections.forEach(c => {
-    if (c.from === nodeId) connectedIds.add(c.to);
-    if (c.to === nodeId) connectedIds.add(c.from);
-  });
-  Object.entries(nodeElements).forEach(([id, el]) => {
-    if (!connectedIds.has(id)) el.classList.add('dimmed');
-  });
-
-  // Highlight lines
-  svg.querySelectorAll('.conn-line').forEach(line => {
-    if (line.dataset.from === nodeId || line.dataset.to === nodeId) {
-      line.classList.add('highlight');
-    } else {
-      line.classList.remove('highlight');
-      line.style.opacity = '0.08';
-    }
-  });
-
-  // Deps
-  const inbound = SYSTEM_IR.connections.filter(c => c.to === nodeId).map(c => ({id:c.from, label:c.label, node: SYSTEM_IR.nodes.find(n=>n.id===c.from)}));
-  const outbound = SYSTEM_IR.connections.filter(c => c.from === nodeId).map(c => ({id:c.to, label:c.label, node: SYSTEM_IR.nodes.find(n=>n.id===c.to)}));
-  const tier = SYSTEM_IR.tiers.find(t => t.id === node.tier);
-  const tierColors = {gold:'var(--gold)',cyan:'var(--cyan)',purple:'var(--purple)',rose:'var(--rose)',green:'var(--green)'};
-
-  dpContent.innerHTML = `
-    <div class="dp-icon">${node.icon}</div>
-    <div class="dp-title" style="color:${tierColors[tier.color]}">${node.title}</div>
-    <div class="dp-tier" style="background:${tierColors[tier.color]}22;color:${tierColors[tier.color]};border:1px solid ${tierColors[tier.color]}44">${tier.name}</div>
-    <div class="dp-desc">${node.desc}</div>
-    <div class="dp-section">
-      <div class="dp-section-title">📁 Source Files</div>
-      <div class="dp-file-list">
-        ${(node.files||[]).map(f => `<div class="dp-file"><span class="ficon">📄</span>${f}</div>`).join('')}
-      </div>
-    </div>
-    <div class="dp-section">
-      <div class="dp-section-title">📤 Exports (${(node.exports||[]).length})</div>
-      <div class="dp-exports">
-        ${(node.exports||[]).map(e => `<div class="dp-export">${e}</div>`).join('')}
-      </div>
-    </div>
-    ${inbound.length ? `
-    <div class="dp-section">
-      <div class="dp-section-title">⬅️ Inbound Dependencies (${inbound.length})</div>
-      <div class="dp-file-list">
-        ${inbound.map(d => `<div class="dp-dep" onclick="selectNode('${d.id}')">${d.node?.icon||'📦'} ${d.node?.title||d.id} → ${d.label}</div>`).join('')}
-      </div>
-    </div>` : ''}
-    ${outbound.length ? `
-    <div class="dp-section">
-      <div class="dp-section-title">➡️ Outbound Dependencies (${outbound.length})</div>
-      <div class="dp-file-list">
-        ${outbound.map(d => `<div class="dp-dep" onclick="selectNode('${d.id}')">${d.node?.icon||'📦'} ${d.node?.title||d.id} → ${d.label}</div>`).join('')}
-      </div>
-    </div>` : ''}
-  `;
-  detailPanel.classList.add('open');
-}
-
-function deselectNode() {
-  selectedNodeId = null;
-  Object.values(nodeElements).forEach(el => el.classList.remove('highlighted','dimmed'));
-  svg.querySelectorAll('.conn-line').forEach(line => { line.classList.remove('highlight'); line.style.opacity = ''; });
-  detailPanel.classList.remove('open');
-}
-
-// ─── PAN & ZOOM ───
-function applyTransform() {
-  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-  document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
-  updateMinimap();
-}
-
-container.addEventListener('pointerdown', (e) => {
-  if (e.target.closest('.arch-node')) return;
-  isDragging = true; dragStartX = e.clientX - panX; dragStartY = e.clientY - panY;
-  container.classList.add('dragging');
-  container.setPointerCapture(e.pointerId);
-});
-container.addEventListener('pointermove', (e) => {
-  if (!isDragging) return;
-  panX = e.clientX - dragStartX; panY = e.clientY - dragStartY;
-  applyTransform();
-});
-container.addEventListener('pointerup', () => { isDragging = false; container.classList.remove('dragging'); });
-container.addEventListener('click', (e) => { if (!e.target.closest('.arch-node')) deselectNode(); });
-
-container.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? 0.92 : 1.08;
-  const newScale = Math.min(2.5, Math.max(0.2, scale * delta));
-  const rect = container.getBoundingClientRect();
-  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-  panX = mx - (mx - panX) * (newScale / scale);
-  panY = my - (my - panY) * (newScale / scale);
-  scale = newScale;
-  applyTransform();
-}, {passive:false});
-
-document.getElementById('zoom-in').addEventListener('click', () => { scale = Math.min(2.5, scale * 1.2); applyTransform(); });
-document.getElementById('zoom-out').addEventListener('click', () => { scale = Math.max(0.2, scale * 0.8); applyTransform(); });
-document.getElementById('zoom-fit').addEventListener('click', () => {
-  const allNodes = SYSTEM_IR.nodes;
-  const maxX = Math.max(...allNodes.map(n => n.x + (n.w||180))) + 60;
-  const maxY = Math.max(...allNodes.map(n => n.y)) + 200;
-  const rect = container.getBoundingClientRect();
-  scale = Math.min(rect.width / maxX, (rect.height) / maxY) * 0.9;
-  panX = (rect.width - maxX * scale) / 2;
-  panY = (rect.height - maxY * scale) / 2 + 20;
-  applyTransform();
-});
-
-// ─── SEARCH ───
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase();
-  if (!q) {
-    Object.values(nodeElements).forEach(el => el.classList.remove('dimmed','highlighted'));
-    return;
-  }
-  Object.entries(nodeElements).forEach(([id, el]) => {
-    const node = SYSTEM_IR.nodes.find(n => n.id === id);
-    const match = node && (
-      node.title.toLowerCase().includes(q) ||
-      node.subtitle.toLowerCase().includes(q) ||
-      (node.files||[]).some(f => f.toLowerCase().includes(q)) ||
-      (node.exports||[]).some(e => e.toLowerCase().includes(q))
-    );
-    el.classList.toggle('dimmed', !match);
-    el.classList.toggle('highlighted', !!match);
-  });
-});
-
-// ─── PARTICLES ───
-let particleInterval;
-function spawnParticles() {
-  if (!particlesEnabled) return;
-  const colors = {gold:'#ffd700',cyan:'#38bdf8',purple:'#a855f7',rose:'#ec4899',green:'#22c55e'};
-  const tierColorMap = {};
-  SYSTEM_IR.tiers.forEach(t => SYSTEM_IR.nodes.filter(n=>n.tier===t.id).forEach(n => tierColorMap[n.id] = t.color));
-
-  // Pick random connection
-  const conn = SYSTEM_IR.connections[Math.floor(Math.random() * SYSTEM_IR.connections.length)];
-  const fromNode = SYSTEM_IR.nodes.find(n => n.id === conn.from);
-  const toNode = SYSTEM_IR.nodes.find(n => n.id === conn.to);
-  if (!fromNode || !toNode) return;
-
-  const particle = document.createElement('div');
-  particle.className = 'particle';
-  const color = colors[tierColorMap[conn.from]] || '#ffd700';
-  particle.style.background = color;
-  particle.style.boxShadow = `0 0 6px ${color}`;
-  canvas.appendChild(particle);
-
-  const fx = fromNode.x + (fromNode.w||180)/2;
-  const fy = fromNode.y + 55;
-  const tx = toNode.x + (toNode.w||180)/2;
-  const ty = toNode.y + 55;
-
-  const duration = 1500 + Math.random() * 1000;
-  const start = performance.now();
-
-  function animate(now) {
-    const t = Math.min(1, (now - start) / duration);
-    const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-    particle.style.left = (fx + (tx - fx) * ease) + 'px';
-    particle.style.top = (fy + (ty - fy) * ease) + 'px';
-    if (t < 1) requestAnimationFrame(animate);
-    else particle.remove();
-  }
-  requestAnimationFrame(animate);
-}
-
-function startParticles() { particleInterval = setInterval(spawnParticles, 200); }
-function stopParticles() { clearInterval(particleInterval); canvas.querySelectorAll('.particle').forEach(p => p.remove()); }
-
-document.getElementById('btn-toggle-particles').addEventListener('click', function() {
-  particlesEnabled = !particlesEnabled;
-  if (particlesEnabled) { startParticles(); this.textContent = '✨ Particles'; }
-  else { stopParticles(); this.textContent = '💤 Particles'; }
-});
-
-// ─── THEME ───
-document.getElementById('btn-toggle-theme').addEventListener('click', function() {
-  document.body.classList.toggle('theme-light');
-  this.textContent = document.body.classList.contains('theme-light') ? '☀️ Theme' : '🌙 Theme';
-});
-
-// ─── VIEW TABS ───
-document.querySelectorAll('.vtab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    // Future: switch between Architecture/DataFlow/Sequence views
-  });
-});
-
-// ─── MINIMAP ───
-function updateMinimap() {
-  const mmCanvas = document.getElementById('minimap-canvas');
-  const ctx = mmCanvas.getContext('2d');
-  const mmW = 180, mmH = 120;
-  mmCanvas.width = mmW * 2; mmCanvas.height = mmH * 2;
-  ctx.scale(2, 2);
-  ctx.clearRect(0, 0, mmW, mmH);
-
-  const allNodes = SYSTEM_IR.nodes;
-  const maxX = Math.max(...allNodes.map(n => n.x + (n.w||180))) + 60;
-  const maxY = Math.max(...allNodes.map(n => n.y)) + 200;
-  const scaleX = mmW / maxX, scaleY = mmH / maxY;
-  const s = Math.min(scaleX, scaleY);
-
-  const tierColors = {T1:'#ffd700',T2:'#38bdf8',T3:'#a855f7',T4:'#ec4899',T5:'#22c55e'};
-  allNodes.forEach(node => {
-    ctx.fillStyle = tierColors[node.tier] || '#ffd700';
-    ctx.globalAlpha = 0.6;
-    ctx.fillRect(node.x * s, node.y * s, (node.w||180) * s, 40 * s);
-  });
-  ctx.globalAlpha = 1;
-
-  // Viewport indicator
-  const rect = container.getBoundingClientRect();
-  const vp = document.getElementById('mm-viewport');
-  const vpW = rect.width / scale * s;
-  const vpH = rect.height / scale * s;
-  const vpX = -panX / scale * s;
-  const vpY = (-panY + 52) / scale * s;
-  vp.style.cssText = `left:${vpX}px;top:${vpY}px;width:${vpW}px;height:${vpH}px`;
-}
-
-// ─── EXPORT SVG ───
-document.getElementById('btn-export-svg').addEventListener('click', () => {
-  const svgClone = svg.cloneNode(true);
-  const blob = new Blob([new XMLSerializer().serializeToString(svgClone)], {type:'image/svg+xml'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'cineprompt-architecture.svg';
-  a.click();
-});
-
-// ─── EXPORT PNG ───
-document.getElementById('btn-export-png').addEventListener('click', () => {
-  const allNodes = SYSTEM_IR.nodes;
-  const maxX = Math.max(...allNodes.map(n => n.x + (n.w||180))) + 100;
-  const maxY = Math.max(...allNodes.map(n => n.y)) + 250;
-  
-  const offscreen = document.createElement('canvas');
-  offscreen.width = maxX * 2; offscreen.height = maxY * 2;
-  const ctx = offscreen.getContext('2d');
-  ctx.scale(2, 2);
-  ctx.fillStyle = '#07080d';
-  ctx.fillRect(0, 0, maxX, maxY);
-
-  // Draw boundaries
-  const tierColors2 = {T1:'rgba(255,215,0,0.15)',T2:'rgba(56,189,248,0.15)',T3:'rgba(168,85,247,0.15)',T4:'rgba(236,72,153,0.15)',T5:'rgba(34,197,94,0.15)'};
-  const tierTextColors = {T1:'#ffd700',T2:'#38bdf8',T3:'#a855f7',T4:'#ec4899',T5:'#22c55e'};
-
-  SYSTEM_IR.tiers.forEach(tier => {
-    const nodesInTier = allNodes.filter(n => n.tier === tier.id);
-    if (!nodesInTier.length) return;
-    const minX = Math.min(...nodesInTier.map(n => n.x)) - 20;
-    const mX = Math.max(...nodesInTier.map(n => n.x + (n.w||180))) + 20;
-    const minY = Math.min(...nodesInTier.map(n => n.y)) - 28;
-    const mY = Math.max(...nodesInTier.map(n => n.y + 120)) + 16;
-    ctx.strokeStyle = tierTextColors[tier.id];
-    ctx.globalAlpha = 0.3;
-    ctx.setLineDash([6,4]);
-    ctx.strokeRect(minX, minY, mX-minX, mY-minY);
-    ctx.setLineDash([]);
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = tierTextColors[tier.id];
-    ctx.font = '600 10px Inter, sans-serif';
-    ctx.fillText(tier.name.toUpperCase(), minX + 10, minY - 4);
-  });
-
-  // Draw nodes
-  allNodes.forEach(node => {
-    const tc = tierTextColors[node.tier];
-    ctx.fillStyle = 'rgba(18,20,30,0.9)';
-    ctx.strokeStyle = tc;
-    ctx.globalAlpha = 0.8;
-    ctx.lineWidth = 1.2;
-    const r = 10;
-    const x = node.x, y = node.y, w = node.w||180, h = 90;
-    ctx.beginPath();
-    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-    ctx.closePath();
-    ctx.fill(); ctx.stroke();
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = tc;
-    ctx.font = '800 11px Inter, sans-serif';
-    ctx.fillText(node.icon + ' ' + node.title, x+10, y+24);
-    ctx.fillStyle = '#a1a1aa';
-    ctx.font = '500 9px Inter, sans-serif';
-    ctx.fillText(node.subtitle, x+10, y+40);
-  });
-
-  const a = document.createElement('a');
-  a.href = offscreen.toDataURL('image/png');
-  a.download = 'cineprompt-architecture.png';
-  a.click();
-});
-
-// Close detail panel
-document.getElementById('dp-close').addEventListener('click', deselectNode);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') deselectNode(); });
-
-// ─── INIT ───
-renderBoundaries();
-renderNodes();
-renderConnections();
-applyTransform();
-startParticles();
-
-// Auto fit on load
-setTimeout(() => document.getElementById('zoom-fit').click(), 100);
+renderDevView();
 </script>
 </body>
 </html>
