@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles/main.css?v=86" />
+  <link rel="stylesheet" href="./styles/main.css?v=88" />
 </head>
 <body>
 
@@ -79,17 +79,21 @@
       <!-- 2. Integrated Action Control Toolbar (Spacious & Ergonomic Layout - Zero Overflow) -->
       <div class="action-toolbar-container" style="display:flex; flex-direction:column; gap:6px; padding: 10px; background: rgba(18, 20, 32, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); width: 100%; box-sizing: border-box; flex-shrink: 0;">
 
-        <!-- Row 1: Core Features (3 Spacious Columns) -->
-        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; width:100%; box-sizing: border-box;">
-          <button id="ai-settings-btn" title="Cấu Hình Máy Chủ AI & Gắn API Key (Gemini, OpenAI...)" data-i18n-title="btn-ai-settings" style="height: 32px; background: rgba(234,179,8,0.18); border: 1px solid rgba(234,179,8,0.45); color:#facc15; padding: 0 6px; border-radius: 7px; font-size: 0.73rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s;" aria-label="AI Settings">
+        <!-- Row 1: Core Features (4 Spacious Columns) -->
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:5px; width:100%; box-sizing: border-box;">
+          <button id="ai-settings-btn" title="Cấu Hình Máy Chủ AI & Gắn API Key (Gemini, OpenAI...)" data-i18n-title="btn-ai-settings" style="height: 32px; background: rgba(234,179,8,0.18); border: 1px solid rgba(234,179,8,0.45); color:#facc15; padding: 0 4px; border-radius: 7px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s;" aria-label="AI Settings">
             <span style="overflow:hidden; text-overflow:ellipsis;">⚙️ Key AI</span>
           </button>
 
-          <button id="char-os-btn" title="Hệ Điều Hành Sản Xuất Nhân Vật V4.0 (Character Production OS)" style="height: 32px; background: linear-gradient(135deg, rgba(236,72,153,0.35), rgba(255,215,0,0.25)); border: 1.5px solid #ffd700; color:#ffd700; padding: 0 6px; border-radius: 7px; font-size: 0.73rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s; box-shadow: 0 0 10px rgba(255,215,0,0.35);">
+          <button id="byok-studio-btn" title="Bring Your Own Key: Render video/ảnh trực tiếp qua fal.ai, Luma, Kling" style="height: 32px; background: linear-gradient(135deg, rgba(245,158,11,0.3), rgba(234,88,12,0.3)); border: 1.2px solid #f59e0b; color:#fbbf24; padding: 0 4px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s; box-shadow: 0 0 10px rgba(245,158,11,0.3);">
+            <span style="overflow:hidden; text-overflow:ellipsis;">🔑 BYOK</span>
+          </button>
+
+          <button id="char-os-btn" title="Hệ Điều Hành Sản Xuất Nhân Vật V4.0 (Character Production OS)" style="height: 32px; background: linear-gradient(135deg, rgba(236,72,153,0.35), rgba(255,215,0,0.25)); border: 1.5px solid #ffd700; color:#ffd700; padding: 0 4px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s; box-shadow: 0 0 10px rgba(255,215,0,0.35);">
             <span style="overflow:hidden; text-overflow:ellipsis;">🎭 Nhân Vật</span>
           </button>
 
-          <button id="project-drawer-btn" title="Quản Lý Dự Án & Kịch Bản Phân Cảnh (Storyboard)" style="height: 32px; background: rgba(168,85,247,0.18); border: 1px solid rgba(168,85,247,0.45); color:#c084fc; padding: 0 6px; border-radius: 7px; font-size: 0.73rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s;">
+          <button id="project-drawer-btn" title="Quản Lý Dự Án & Kịch Bản Phân Cảnh (Storyboard)" style="height: 32px; background: rgba(168,85,247,0.18); border: 1px solid rgba(168,85,247,0.45); color:#c084fc; padding: 0 4px; border-radius: 7px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; transition: all 0.2s;">
             <span style="overflow:hidden; text-overflow:ellipsis;">🎬 Dự Án</span>
           </button>
         </div>
@@ -125,10 +129,13 @@
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <label for="subject-input" class="control-label" style="font-weight:bold; color:var(--accent); font-size:0.85rem;" data-i18n="subject-label">🎯 1. Ý tưởng Chủ đề</label>
           <div style="display:flex; gap:6px; align-items:center;">
-            <button id="subject-voice-btn" style="background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.35); color:#38bdf8; font-size:0.72rem; font-weight:600; cursor:pointer; padding:2px 8px; border-radius:6px; display:flex; align-items:center; gap:4px; transition:all 0.2s;" title="Nhập liệu bằng giọng nói (Voice Dictation)">
+            <button id="subject-voice-btn" type="button" style="background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.35); color:#38bdf8; font-size:0.72rem; font-weight:600; cursor:pointer; padding:2px 8px; border-radius:6px; display:flex; align-items:center; gap:4px; transition:all 0.2s;" title="Nhập liệu bằng giọng nói (Voice Dictation)">
               <span id="voice-icon">🎙️</span> <span id="voice-label" data-i18n="btn-voice">Nói</span>
             </button>
-            <button id="subject-clear-btn" style="background:transparent; border:none; color:#71717a; font-size:0.72rem; cursor:pointer; padding:2px 6px;" title="Xóa trắng"><span data-i18n="btn-clear">✕ Xóa</span></button>
+            <button id="subject-expand-btn" type="button" style="background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4); color:#ffd700; font-size:0.72rem; font-weight:600; cursor:pointer; padding:2px 8px; border-radius:6px; display:flex; align-items:center; gap:4px; transition:all 0.2s;" title="Phóng to khung soạn thảo để xem trọn vẹn toàn bộ prompt (Zen Editor)">
+              <span>⛶ Phóng to</span>
+            </button>
+            <button id="subject-clear-btn" type="button" style="background:transparent; border:none; color:#71717a; font-size:0.72rem; cursor:pointer; padding:2px 6px;" title="Xóa trắng"><span data-i18n="btn-clear">✕ Xóa</span></button>
           </div>
         </div>
         <div class="input-wrapper">
@@ -136,23 +143,21 @@
             id="subject-input"
             rows="2"
             class="text-input new-input-field auto-expand-textarea"
-            style="padding:10px 12px; font-size:0.85rem; width:100%; min-height:48px; max-height:200px; resize:none; line-height:1.45; overflow-y:auto;"
+            style="padding:10px 12px; font-size:0.85rem; width:100%; min-height:48px; line-height:1.45;"
+            data-min-height="48"
             placeholder="VD: Một cô gái áo sơ mi trắng ngồi trong quán cà phê mưa Sài Gòn / Lon cà phê sữa đá trên bàn gỗ..." data-i18n="subject-placeholder"
             autocomplete="off"
             spellcheck="false"
           ></textarea>
         </div>
         <div style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <button id="btn-open-ad-architect" type="button" style="background: linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
+            <span>📢 AI Skill: Cinematic Ad Architect (TVC)</span>
+          </button>
           <button id="viral-remake-btn" type="button" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
             <span>🕵️‍♂️ Phân Tích & Re-make Video Viral Đối Thủ</span>
           </button>
         </div>
-        <script>
-            if (enhanceBtn) {
-              enhanceBtn.click();
-            }
-          }
-        </script>
       </div>
 
       <!-- Input 2: Character Lock (Smart Auto-Expanding Textarea) -->
@@ -161,14 +166,20 @@
           <label for="character-input" class="control-label" style="color:var(--accent); font-weight: bold; margin-bottom: 0; font-size: 0.85rem;" data-i18n="char-label">
             👤 2. Khóa Nhân Vật (5 Móc Neo)
           </label>
-          <button id="character-clear-btn" style="background:transparent; border:none; color:#71717a; font-size:0.72rem; cursor:pointer; padding:2px 6px;" title="Xóa trắng"><span data-i18n="btn-clear">✕ Xóa</span></button>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button id="character-expand-btn" type="button" style="background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.4); color:#ffd700; font-size:0.72rem; font-weight:600; cursor:pointer; padding:2px 8px; border-radius:6px; display:flex; align-items:center; gap:4px; transition:all 0.2s;" title="Phóng to khung soạn thảo để xem trọn vẹn toàn bộ prompt (Zen Editor)">
+              <span>⛶ Phóng to</span>
+            </button>
+            <button id="character-clear-btn" type="button" style="background:transparent; border:none; color:#71717a; font-size:0.72rem; cursor:pointer; padding:2px 6px;" title="Xóa trắng"><span data-i18n="btn-clear">✕ Xóa</span></button>
+          </div>
         </div>
         <div class="input-wrapper">
           <textarea
             id="character-input"
             rows="2"
             class="text-input new-input-field auto-expand-textarea"
-            style="padding:10px 12px; font-size:0.85rem; width:100%; min-height:48px; max-height:200px; resize:none; line-height:1.45; overflow-y:auto;"
+            style="padding:10px 12px; font-size:0.85rem; width:100%; min-height:48px; line-height:1.45;"
+            data-min-height="48"
             placeholder="VD: Elena, 25t, tóc ngắn ngang vai, áo sơ mi trắng oversize, nốt ruồi dưới mắt trái..." data-i18n="char-placeholder"
             autocomplete="off"
             spellcheck="false"
@@ -195,8 +206,10 @@
         </script>
       </div>
 
-      <!-- Input 3: Reference Image Upload & Vision AI Module (Checklist UX Pro) -->
-      <div class="control-group control-group--reference-image" style="border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 14px; background: rgba(56, 189, 248, 0.03); margin-bottom: 14px; transition: all 0.25s;">
+      <!-- Input 3: Reference Image Upload & Vision AI Module (Accordion) -->
+      <details class="cinema-accordion cinema-accordion--ref">
+        <summary>📸 3. Ảnh Tham Chiếu (Reference Image / Anchor)</summary>
+        <div class="accordion-body">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
           <label class="control-label" style="color: #38bdf8; font-weight: bold; margin-bottom: 0; font-size: 0.85rem; display:flex; align-items:center; gap:6px;">
             <span data-i18n="ref-label">📸 3. Ảnh Tham Chiếu (Reference Image / Anchor)</span>
@@ -251,10 +264,13 @@
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </details>
 
-      <!-- Input 4: Negative Prompt -->
-      <div class="control-group control-group--negative" style="border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 12px; background: rgba(18, 20, 32, 0.6); margin-bottom: 12px;">
+      <!-- Input 4: Negative Prompt (Accordion) -->
+      <details class="cinema-accordion">
+        <summary>🛡️ 4. Negative Prompt (Bộ Khử Lỗi)</summary>
+        <div class="accordion-body">
         <div style="margin-bottom: 6px;">
           <label for="negative-input" class="control-label" style="color: #ffd700; font-weight: bold; font-size: 0.85rem;" data-i18n="neg-label">
             🛡️ 4. Negative Prompt (Bộ Khử Lỗi)
@@ -332,7 +348,8 @@
             input.dispatchEvent(new Event('input', { bubbles: true }));
           }
         </script>
-      </div>
+        </div>
+      </details>
 
       <!-- Input 4: Aspect Ratio -->
       <div class="control-group" style="border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 12px; background: rgba(18, 20, 32, 0.6);">
@@ -401,8 +418,27 @@
         </div>
       </div>
 
-      <!-- Top Action Bar (The 3 Creative Action Buttons) -->
+      <!-- Top Action Bar (The 3 Creative Action Buttons & Flow Bridge Relay) -->
       <div style="padding: 14px 20px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 10px;">
+        
+        <!-- Flow Bridge Relay Action Bar -->
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 6px 10px; align-items: center; justify-content: space-between;">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 4px;">
+            ⚡ PROMPTAGENT FLOW BRIDGE:
+          </span>
+          <div style="display: flex; gap: 6px;">
+            <button type="button" onclick="window.flowBridge?.dispatchToFlow('flow')" style="background: linear-gradient(135deg, #06b6d4, #3b82f6); border: none; color: #fff; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(6,182,212,0.3);" title="Bắn Prompt đã tạo sang Google Flow Labs">
+              🚀 Google Flow
+            </button>
+            <button type="button" onclick="window.flowBridge?.dispatchToFlow('gemini')" style="background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Bắn Prompt sang Gemini Chat">
+              🤖 Gemini
+            </button>
+            <button type="button" onclick="window.flowBridge?.dispatchToFlow('chatgpt')" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.5); color: #34d399; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="Bắn Prompt sang ChatGPT">
+              💬 ChatGPT
+            </button>
+          </div>
+        </div>
+
         <button id="randomize-btn" class="randomize-btn new-btn-primary" aria-label="Director's Cut" style="padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 8px;">
           <span class="btn-dice" aria-hidden="true">🎬</span>
           <span class="btn-label" data-i18n="btn-director">DIRECTOR'S CUT (PHỐI NGẪU NHIÊN)</span>
@@ -507,6 +543,10 @@
             <span class="pill-icon">💼</span>
             <span class="pill-name">Freelancer Moodboard</span>
           </button>
+          <button class="style-pill" id="btn-open-ad-architect" style="background:linear-gradient(135deg, rgba(234,179,8,0.25), rgba(244,63,94,0.25)); border:1px solid #ffd700; color:#ffd700; font-weight:800;" title="AI Agent Skill: Cinematic Advertising Video Generator (TVC / Quảng Cáo)">
+            <span class="pill-icon">📢</span>
+            <span class="pill-name">Ad Architect TVC</span>
+          </button>
         </div>
         <div class="style-preset-active" id="style-preset-active" style="display:none">
           <span class="preset-active-badge" id="preset-active-name"></span>
@@ -573,7 +613,7 @@
                 <span data-i18n="scb-size-title" style="font-weight: 800; color: #ffd700; font-size: 0.8rem; letter-spacing: 0.04em;">📐 1. CỠ CẢNH (SHOT SIZES) · StudioBinder Standard</span>
                 <span data-i18n="scb-size-sub" style="font-size: 0.68rem; color: #a1a1aa;">Xác định khoảng cách từ ống kính đến chủ thể</span>
               </div>
-              <div id="scb-size-pills" style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <div id="scb-size-pills" role="radiogroup" aria-label="Cỡ cảnh (Shot Sizes)" style="display: flex; flex-wrap: wrap; gap: 6px;">
                 <button class="scb-pill active" data-size="" style="background: linear-gradient(135deg, rgba(201,162,39,0.3), rgba(255,215,0,0.15)); border: 1px solid #ffd700; color: #ffd700; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Mặc định</button>
                 <button class="scb-pill" data-size="Extreme close-up shot (ECU)" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #e4e4e7; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">🔍 ECU (Cực Cận)</button>
                 <button class="scb-pill" data-size="Close-up shot (CU)" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #e4e4e7; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">🎯 CU (Cận Cảnh)</button>
@@ -591,7 +631,7 @@
                 <span data-i18n="scb-angle-title" style="font-weight: 800; color: #38bdf8; font-size: 0.8rem; letter-spacing: 0.04em;">🎥 2. GÓC MÁY (CAMERA ANGLES) · Psychological Impact</span>
                 <span data-i18n="scb-angle-sub" style="font-size: 0.68rem; color: #a1a1aa;">Tạo tâm lý quyền lực, ngỡ ngàng hoặc hồi hộp</span>
               </div>
-              <div id="scb-angle-pills" style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <div id="scb-angle-pills" role="radiogroup" aria-label="Góc máy (Camera Angles)" style="display: flex; flex-wrap: wrap; gap: 6px;">
                 <button class="scb-pill active" data-angle="" style="background: linear-gradient(135deg, rgba(2,132,199,0.3), rgba(56,189,248,0.15)); border: 1px solid #38bdf8; color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Mặc định</button>
                 <button class="scb-pill" data-angle="eye-level shot" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #e4e4e7; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">👀 Eye Level (Ngang Mắt)</button>
                 <button class="scb-pill" data-angle="low-angle shot" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #e4e4e7; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">⬆️ Low Angle (Góc Thấp)</button>
@@ -744,27 +784,33 @@
     <!-- ================================================================ -->
     <!-- CỘT 3: OUTPUT SIDEBAR (ĐẦU RA PROMPT 3-TRONG-1 - PHẢI 420px)      -->
     <!-- ================================================================ -->
-    <aside id="result-box" class="sidebar-output result-box">
+    <aside id="sidebar-inspector" class="sidebar-output">
       
       <!-- Title & Export Header -->
 
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">
-        <div class="result-title-area">
-          <span style="font-weight:bold; color:var(--accent); font-size:1rem;" data-i18n="gen-prompt-title">🌟 PROMPT ĐÃ TẠO</span>
-          <span id="prompt-title" class="prompt-name" style="display:block; font-size:0.8rem; color:#fff;"></span>
+      <div style="display:flex; flex-direction:column; gap:8px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+          <div class="result-title-area">
+            <span style="font-weight:bold; color:var(--accent); font-size:0.95rem;" data-i18n="gen-prompt-title">🌟 PROMPT ĐÃ TẠO</span>
+            <span id="prompt-title" class="prompt-name" style="display:block; font-size:0.78rem; color:#94A3B8;"></span>
+          </div>
         </div>
-        <div style="display:flex; gap:4px; align-items:center;">
-          <button id="save-to-project-btn" class="copy-btn" style="border-color:rgba(168,85,247,0.5); color:#c084fc; padding:4px 8px; font-size:0.75rem;" title="Lưu Prompt này vào Cảnh của Dự Án Storyboard">
+        <!-- Export Action Buttons: Fully wrapped, zero horizontal overflow -->
+        <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap;">
+          <button id="save-to-project-btn" class="copy-btn" style="border-color:rgba(168,85,247,0.5); color:#c084fc; padding:4px 7px; font-size:0.72rem; min-height:28px;" title="Lưu Prompt này vào Cảnh của Dự Án Storyboard">
             <span data-i18n="btn-save-project">📌 +Cảnh</span>
           </button>
-          <button id="export-package-btn" class="copy-btn" style="border-color:rgba(56,189,248,0.5); color:#7dd3fc; padding:4px 8px; font-size:0.75rem;" title="Xuất Gói Trọn Bộ (Full Production Package) cho AI Agent">
+          <button id="export-package-btn" class="copy-btn" style="border-color:rgba(56,189,248,0.5); color:#7dd3fc; padding:4px 7px; font-size:0.72rem; min-height:28px;" title="Xuất Gói Trọn Bộ (Full Production Package) cho AI Agent">
             <span data-i18n="btn-export-package">📦 Package</span>
           </button>
-          <button id="export-pdf-btn" class="copy-btn" style="border-color:rgba(201,162,39,0.5); color:var(--accent); padding:4px 8px; font-size:0.75rem;" title="Xuất PDF Kịch Bản Phân Cảnh Đoàn Phim">
+          <button id="export-pdf-btn" class="copy-btn" style="border-color:rgba(201,162,39,0.5); color:var(--accent); padding:4px 7px; font-size:0.72rem; min-height:28px;" title="Xuất PDF Kịch Bản Phân Cảnh Đoàn Phim">
             <span data-i18n="btn-export-pdf">📄 PDF</span>
           </button>
-          <button id="export-csv-btn" class="copy-btn" style="padding:4px 8px; font-size:0.75rem;" title="Xuất CSV / Excel Chuyên Nghiệp">
+          <button id="export-csv-btn" class="copy-btn" style="padding:4px 7px; font-size:0.72rem; min-height:28px;" title="Xuất CSV / Excel Chuyên Nghiệp">
             <span data-i18n="btn-export-csv">📊 Excel</span>
+          </button>
+          <button id="open-tvc-studio-btn" class="copy-btn" style="border-color:rgba(234,179,8,0.7); color:#ffd700; padding:4px 8px; font-size:0.72rem; min-height:28px; background:linear-gradient(135deg, rgba(234,179,8,0.25), rgba(245,158,11,0.25)); font-weight:800;" title="Mở Studio Kịch Bản TVC & Bắn Sang Google Flow">
+            <span>🎬 TVC Flow</span>
           </button>
         </div>
       </div>
@@ -775,29 +821,28 @@
           <span style="font-size: 1rem;">🛡️</span>
           <div>
             <div id="linter-badge" style="font-size: 0.72rem; font-weight: 800; color: #22c55e; letter-spacing: 0.03em;">OPTICAL INTEGRITY: 100% CLEAN</div>
-            <div id="linter-detail" style="font-size: 0.65rem; color: #a1a1aa;">Không phát hiện xung đột quang học hay nguồn sáng.</div>
+            <div id="linter-detail" style="font-size: 0.65rem; color: #94A3B8;">Không phát hiện xung đột quang học hay nguồn sáng.</div>
           </div>
         </div>
         <button id="linter-autofix-btn" style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; padding: 3px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.2s;">⚡ Cân Chỉnh</button>
       </div>
 
       <!-- ── 2. 🎬 INTERACTIVE DIRECTOR VIEWFINDER PREVIEW (Khung Ngắm Tỷ Lệ Vàng) ── -->
-      <div id="viewfinder-container" style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 10px; margin-bottom: 12px; position: relative;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+      <div id="viewfinder-container" style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 10px; margin-bottom: 10px; position: relative;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
           <span style="font-size: 0.72rem; font-weight: 800; color: #ffd700; display: flex; align-items: center; gap: 4px;">
             <span>🎥</span> DIRECTOR VIEWFINDER
           </span>
-          <!-- Aspect Quick Selector -->
-          <div id="viewfinder-aspect-pills" style="display: flex; gap: 4px;">
-            <button class="vf-aspect-btn active" data-aspect="16:9" style="background: rgba(201,162,39,0.3); border: 1px solid #ffd700; color: #ffd700; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; cursor: pointer;">16:9 Cinema</button>
-            <button class="vf-aspect-btn" data-aspect="2.39:1" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; cursor: pointer;">2.39:1 IMAX</button>
+          <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap;">
+            <button class="vf-aspect-btn active" data-aspect="16:9" style="background: rgba(201,162,39,0.3); border: 1px solid #ffd700; color: #ffd700; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; cursor: pointer;">16:9 Phim</button>
             <button class="vf-aspect-btn" data-aspect="9:16" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; cursor: pointer;">9:16 Reel</button>
-            <button class="vf-aspect-btn" data-aspect="1:1" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; cursor: pointer;">1:1 Square</button>
+            <button class="vf-aspect-btn" data-aspect="1:1" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; cursor: pointer;">1:1 Vuông</button>
+            <button class="vf-aspect-btn" data-aspect="21:9" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e4e4e7; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; cursor: pointer;">2.39:1 Cine</button>
           </div>
         </div>
 
         <!-- The Viewfinder Frame Box with Grid 3x3 -->
-        <div id="viewfinder-box" style="width: 100%; height: 95px; background: #070913; border: 1.5px solid rgba(201,162,39,0.5); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);">
+        <div id="viewfinder-box" style="width: 100%; height: 88px; background: #070913; border: 1.5px solid rgba(201,162,39,0.5); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);">
           <!-- 3x3 Golden Grid Lines -->
           <div style="position: absolute; left: 33.33%; top: 0; bottom: 0; width: 1px; background: rgba(255,215,0,0.18);"></div>
           <div style="position: absolute; left: 66.66%; top: 0; bottom: 0; width: 1px; background: rgba(255,215,0,0.18);"></div>
@@ -812,183 +857,407 @@
         </div>
       </div>
 
-      <!-- ── 3. 🌟 5-TAB HOLLYWOOD MULTI-MODEL SLATE (MIDJOURNEY / NANOBANA / IMAGE GPT / SORA VIDEO / NOTEBOOKLM) ── -->
-      <div class="multi-model-tabs-container" style="margin-bottom: 10px;">
-        <div style="display: flex; gap: 4px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 3px; overflow-x: auto;">
-          <button id="tab-btn-mj" class="model-tab-btn active" data-tab="image" style="flex: 1; padding: 6px 4px; border-radius: 6px; border: none; background: rgba(201,162,39,0.3); color: #ffd700; font-size: 0.7rem; font-weight: 800; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-            🎨 Midjourney v8.2
-          </button>
-          <button id="tab-btn-nano" class="model-tab-btn" data-tab="nanobana" style="flex: 1; padding: 6px 4px; border-radius: 6px; border: none; background: transparent; color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-            🔬 Nanobana 2
-          </button>
-          <button id="tab-btn-gpt" class="model-tab-btn" data-tab="imagegpt" style="flex: 1; padding: 6px 4px; border-radius: 6px; border: none; background: transparent; color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-            📖 Image GPT 2
-          </button>
-          <button id="tab-btn-video" class="model-tab-btn" data-tab="video" style="flex: 1; padding: 6px 4px; border-radius: 6px; border: none; background: transparent; color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-            🎬 Sora/Veo 2026
-          </button>
-          <button id="tab-btn-nlm" class="model-tab-btn" data-tab="notebooklm" style="flex: 1; padding: 6px 4px; border-radius: 6px; border: none; background: transparent; color: #a1a1aa; font-size: 0.7rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-            📓 NotebookLM
-          </button>
-        </div>
-      </div>
+      <!-- ── 🎯 DIRECTOR WORKFLOW & TASK AUDIT TRACKER (Quy Trình & Lịch Sử Tác Vụ Đạo Diễn) ── -->
+      <details id="pipeline-tracker-accordion" class="cinema-accordion cinema-accordion--pipeline" open style="margin-bottom:12px;">
+        <summary style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span>📋</span>
+            <span style="font-weight:800; color:#ffd700; font-size:0.78rem;">QUY TRÌNH & LỊCH SỬ TÁC VỤ</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span id="pipeline-progress-badge" style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:#4ade80; font-size:0.68rem; font-weight:800; padding:1px 6px; border-radius:4px;">0/6 BƯỚC (0%)</span>
+          </div>
+        </summary>
+        <div class="accordion-body" style="padding: 10px 12px; font-size:0.75rem;">
+          
+          <!-- Tab selector: Checklist vs Lịch sử -->
+          <div style="display:flex; gap:4px; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:6px;">
+            <button id="tracker-tab-checklist" class="copy-btn active" style="flex:1; padding:3px 6px; font-size:0.7rem; background:rgba(201,162,39,0.25); border-color:#ffd700; color:#ffd700; font-weight:700;">🎯 6 Bước Chuẩn</button>
+            <button id="tracker-tab-log" class="copy-btn" style="flex:1; padding:3px 6px; font-size:0.7rem; color:#94A3B8;">📜 Nhật Ký Hoạt Động</button>
+          </div>
 
-      <!-- SCORECARD WIDGET (INTEGRATED CIRCULAR HUD - OPTIMIZED SPACE) -->
-      <div id="scorecard-widget" class="scorecard-widget" style="display:none; background: rgba(18, 20, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
-          <!-- Circular Score Dial -->
-          <div class="scorecard-circle" style="position: relative; width: 78px; height: 78px; flex-shrink: 0;">
-            <svg viewBox="0 0 100 100" class="score-svg" style="width: 100%; height: 100%; transform: rotate(-90deg);">
-              <circle cx="50" cy="50" r="40" class="score-ring-bg" style="fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 7;" />
-              <circle cx="50" cy="50" r="40" class="score-ring" style="fill: none; stroke: #22c55e; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 251.33; stroke-dashoffset: 251.33; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);" />
-            </svg>
-            <div class="score-circle-inner" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1;">
-              <span class="score-circle-value" style="font-size: 1.35rem; font-weight: 900; color: #fff; font-family: monospace;">0</span>
-              <span class="score-grade" style="font-size: 0.72rem; font-weight: 800; color: #22c55e; margin-top: 1px;">D</span>
+          <!-- View 1: 6-Step Checklist & Missing Analysis -->
+          <div id="tracker-view-checklist">
+            <!-- Progress bar -->
+            <div style="background:rgba(255,255,255,0.06); border-radius:6px; height:6px; overflow:hidden; margin-bottom:8px;">
+              <div id="pipeline-progress-bar" style="background:linear-gradient(90deg, #ffd700, #22c55e); height:100%; width:0%; transition:width 0.4s ease;"></div>
+            </div>
+
+            <!-- Smart Suggestion -->
+            <div id="pipeline-suggestion" style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); border-radius:6px; padding:6px 8px; margin-bottom:8px; font-size:0.7rem; color:#bae6fd; line-height:1.4;">
+              💡 <b>Gợi ý:</b> Chọn 1 kịch bản mẫu bên dưới hoặc nhập chủ thể để bắt đầu quy trình.
+            </div>
+
+            <!-- 6-Step Grid -->
+            <div id="pipeline-steps-list" style="display:flex; flex-direction:column; gap:4px;">
+              <div class="pipeline-step" data-step="concept" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">1. 🎬 Concept / Kịch bản gốc</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa chọn</span>
+              </div>
+              <div class="pipeline-step" data-step="camera" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">2. 📐 Cỡ cảnh & Góc máy (Studio)</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa thiết lập</span>
+              </div>
+              <div class="pipeline-step" data-step="aspect" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">3. 🖼️ Tỉ lệ khung hình (Aspect Ratio)</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ 16:9 (Mặc định)</span>
+              </div>
+              <div class="pipeline-step" data-step="optical" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">4. 🛡️ Quang học & Ánh sáng</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa quét</span>
+              </div>
+              <div class="pipeline-step" data-step="model" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">5. 🤖 Chọn Model AI đích (Veo/Sora/Wan)</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa xuất</span>
+              </div>
+              <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+                <span style="color:#94A3B8;">6. 🔊 Thiết kế Âm thanh / SFX Foley</span>
+                <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa tạo</span>
+              </div>
             </div>
           </div>
 
-          <!-- 5 Pillars Micro-Grid -->
-          <div class="scorecard-bars" style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.72rem;">
-            <div class="score-bar-row" data-score-key="subject" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <span class="score-bar-label" data-i18n="score-subject" style="color:#e4e4e7;">🎯 Chủ Thể</span>
-              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+          <!-- View 2: Live Activity / Audit Log -->
+          <div id="tracker-view-log" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:0.68rem; color:#94A3B8;">Nhật ký thao tác phiên làm việc:</span>
+              <div style="display:flex; gap:4px;">
+                <button id="tracker-copy-log-btn" class="copy-btn" style="padding:1px 6px; font-size:0.65rem;">📋 Copy</button>
+                <button id="tracker-clear-log-btn" class="copy-btn" style="padding:1px 6px; font-size:0.65rem; color:#f87171;">🗑️ Xóa</button>
+              </div>
             </div>
-            <div class="score-bar-row" data-score-key="lighting" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <span class="score-bar-label" data-i18n="score-lighting" style="color:#e4e4e7;">💡 Ánh Sáng</span>
-              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
-            </div>
-            <div class="score-bar-row" data-score-key="camera" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <span class="score-bar-label" data-i18n="score-camera" style="color:#e4e4e7;">📹 Camera</span>
-              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
-            </div>
-            <div class="score-bar-row" data-score-key="composition" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-              <span class="score-bar-label" data-i18n="score-composition" style="color:#e4e4e7;">📐 Bố Cục</span>
-              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
-            </div>
-            <div class="score-bar-row" data-score-key="filmstock" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; grid-column: span 2;">
-              <span class="score-bar-label" data-i18n="score-filmstock" style="color:#e4e4e7;">🎞️ Film Stock & Màu</span>
-              <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+            <div id="pipeline-log-container" style="max-height:140px; overflow-y:auto; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px; font-family:monospace; font-size:0.68rem; display:flex; flex-direction:column; gap:4px;">
+              <div style="color:#64748B; font-style:italic;">Chưa có hoạt động nào trong phiên làm việc.</div>
             </div>
           </div>
-        </div>
-        <div class="score-suggestions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; font-size: 0.74rem; color: #a1a1aa; line-height: 1.45;"></div>
-      </div>
 
-      <!-- Tab 1 Panel: Midjourney v8.2 -->
-      <div id="panel-tab-image" class="result-panel result-panel--image active-tab-panel" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px;">
-        <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="panel-label" style="font-weight:bold; font-size:0.85rem;" data-i18n="img-prompt">🎨 MIDJOURNEY V8.2 SLATE</span>
-            <span id="count-badge-image" style="font-size:0.68rem; color:#a1a1aa; font-family:monospace; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:1px 6px;">0 từ · 0 ký tự</span>
-          </div>
-          <div style="display:flex; gap:4px;">
-            <button id="translate-btn-image" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
-            <button id="copy-btn-image" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-copy">Sao chép</span></button>
-          </div>
         </div>
-        <p id="result-text-image" class="result-text result-placeholder" style="font-size:0.8rem; font-family:monospace;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-        <p id="result-translation-image" class="result-text" style="display:none; color:#D4AF37; font-size:0.8rem; font-style:italic; margin-top:4px;"></p>
-        <span id="token-counter-image" class="token-counter">0/450 words</span>
-      </div>
-
-      <!-- Tab 2 Panel: Nanobana Pro 2 -->
-      <div id="panel-tab-nanobana" class="result-panel result-panel--nanobana" style="display:none; background:rgba(0,0,0,0.3); border:1px solid rgba(56,189,248,0.25); border-radius:8px; padding:10px;">
-        <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="panel-label" style="font-weight:bold; color:#38bdf8; font-size:0.85rem;">🔬 NANOBANA PRO 2 (LATENT TAGS)</span>
-          </div>
-          <div style="display:flex; gap:4px;">
-            <button id="copy-btn-nanobana" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span>Sao chép</span></button>
-          </div>
-        </div>
-        <p id="result-text-nanobana" class="result-text result-placeholder" style="font-size:0.8rem; font-family:monospace;">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-      </div>
-
-      <!-- Tab 3 Panel: Image GPT 2 -->
-      <div id="panel-tab-imagegpt" class="result-panel result-panel--imagegpt" style="display:none; background:rgba(0,0,0,0.3); border:1px solid rgba(168,85,247,0.25); border-radius:8px; padding:10px;">
-        <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="panel-label" style="font-weight:bold; color:#c084fc; font-size:0.85rem;">📖 IMAGE GPT 2 / DALL-E 4 PROSE</span>
-          </div>
-          <div style="display:flex; gap:4px;">
-            <button id="copy-btn-imagegpt" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span>Sao chép</span></button>
-          </div>
-        </div>
-        <p id="result-text-imagegpt" class="result-text result-placeholder" style="font-size:0.8rem; line-height:1.5;">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-      </div>
-
-      <!-- Tab 4 Panel: Video Prompt -->
-      <div id="panel-tab-video" class="result-panel result-panel--video" style="display:none; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px;">
-        <div class="result-panel-header" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="panel-label" style="font-weight:bold; font-size:0.85rem;" data-i18n="vid-prompt">🎥 SORA 2 & VEO 3.1 SCRIPT</span>
-            <span id="count-badge-video" style="font-size:0.68rem; color:#a1a1aa; font-family:monospace; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:1px 6px;">0 từ · 0 ký tự</span>
-            <!-- FPS Selector Bar -->
-            <div class="fps-selector-bar" style="display:inline-flex; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:6px; padding:2px;">
-              <button class="fps-btn" data-fps="12" style="background:transparent; border:none; color:#a1a1aa; font-size:0.65rem; font-weight:700; padding:2px 4px; border-radius:4px; cursor:pointer; transition:all 0.2s;" title="12fps: Vox / Stop-Motion Style">12fps</button>
-              <button class="fps-btn active" data-fps="24" style="background:rgba(201,162,39,0.3); border:none; color:#ffd700; font-size:0.65rem; font-weight:700; padding:2px 4px; border-radius:4px; cursor:pointer; transition:all 0.2s;" title="24fps: Standard Cinema Motion">24fps</button>
-              <button class="fps-btn" data-fps="60" style="background:transparent; border:none; color:#a1a1aa; font-size:0.65rem; font-weight:700; padding:2px 4px; border-radius:4px; cursor:pointer; transition:all 0.2s;" title="60fps: Smooth High-Speed / Slow-Mo">60fps</button>
-            </div>
-          </div>
-          <div style="display:flex; gap:4px; align-items:center;">
-            <button id="translate-btn-video" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
-            <button id="copy-btn-video" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-copy">Sao chép</span></button>
-          </div>
-        </div>
-        <p id="result-text-video" class="result-text result-placeholder" style="font-size:0.8rem; font-family:monospace;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-        <p id="result-translation-video" class="result-text" style="display:none; color:#D4AF37; font-size:0.8rem; font-style:italic; margin-top:4px;"></p>
-        <span id="token-counter-video" class="token-counter">0/600 words</span>
-      </div>
-
-      <!-- Tab 5 Panel: NotebookLM Directives -->
-      <div id="panel-tab-notebooklm" class="result-panel result-panel--notebooklm" style="display:none; background:rgba(201,162,39,0.04); border:1px solid rgba(201,162,39,0.2); border-radius:8px; padding:10px; flex:1; flex-direction:column;">
-        <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;">
-          <span class="panel-label" style="font-weight:bold; color:var(--accent); font-size:0.85rem;" data-i18n="notebooklm-prompt">📓 PROMPT NOTEBOOKLM</span>
-          <div style="display:flex; gap:4px; flex-wrap:wrap;">
-            <button id="translate-btn-notebooklm" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
-            <button id="copy-btn-notebooklm-chat" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span class="copy-label" data-i18n="btn-copy-chat">💬 1. Chat</span></button>
-            <button id="copy-btn-notebooklm" class="copy-btn" style="border-color:rgba(201,162,39,0.5); color:var(--accent); padding:2px 6px; font-size:0.7rem;"><span class="copy-label" data-i18n="btn-copy-overview">🎬 2. Overview</span></button>
-          </div>
-        </div>
-        <p id="result-text-notebooklm" class="result-text result-placeholder" style="font-size:0.8rem; line-height:1.5; white-space:pre-wrap; flex:1; overflow-y:auto;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-        <p id="result-translation-notebooklm" class="result-text" style="display:none; color:#D4AF37; font-size:0.8rem; font-style:italic; margin-top:4px; white-space:pre-wrap;"></p>
-      </div>
-
-      <!-- Extra Panel: Audio & SFX Prompt -->
-      <div class="result-panel result-panel--audio" style="background:rgba(16,185,129,0.04); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:10px; margin-top:10px;">
-        <div class="result-panel-header" style="margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-          <span class="panel-label" style="font-weight:bold; color:#6ee7b7; font-size:0.85rem;" data-i18n="audio-prompt">🔊 PROMPT ÂM THANH / SFX</span>
-          <div style="display:flex; gap:4px;">
-            <button id="translate-btn-audio" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
-            <button id="copy-btn-audio" class="copy-btn" style="padding:2px 6px; font-size:0.7rem;"><span class="copy-label" data-i18n="btn-copy">Sao chép</span></button>
-          </div>
-        </div>
-        <p id="result-text-audio" class="result-text result-placeholder" style="font-size:0.8rem; font-family:monospace; white-space:pre-wrap;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
-      </div>
-        <p id="result-translation-audio" class="result-text" style="display:none; color:#D4AF37; font-size:0.8rem; font-style:italic; margin-top:4px; white-space:pre-wrap;"></p>
-
-        <!-- 🛠️ 10 Audio Error Auto-Fixer Modifiers -->
-        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(16,185,129,0.2);">
-          <div style="color: #6ee7b7; font-size: 0.72rem; font-weight: 800; margin-bottom: 6px;">🛠️ SỬA LỖI ÂM THANH AUTOMATIC (AUDIO AUTO-FIXERS):</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-            <button class="audio-fix-btn" data-fix="mix_music_low" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🔊 Fix Nhạc Quá To</button>
-            <button class="audio-fix-btn" data-fix="ambience_match" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🍃 Fix Ambience Lệch</button>
-            <button class="audio-fix-btn" data-fix="short_dialogue" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🗣️ Fix Thoại Lệch</button>
-            <button class="audio-fix-btn" data-fix="sfx_sync" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">⚡ Fix SFX Không Trúng</button>
-            <button class="audio-fix-btn" data-fix="clean_sparse" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🔊 Fix Video Quá Ồn</button>
-            <button class="audio-fix-btn" data-fix="realistic_foley" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🎨 Fix Âm Giả Cartoon</button>
-            <button class="audio-fix-btn" data-fix="muffled_crowd" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🤫 Fix Tiếng Người Lạ</button>
-            <button class="audio-fix-btn" data-fix="product_foreground" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">📦 Fix Thiếu Âm Sản Phẩm</button>
-            <button class="audio-fix-btn" data-fix="restrained_trailer" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🎬 Fix Trailer Quá Nặng</button>
-            <button class="audio-fix-btn" data-fix="clean_cta_ending" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #a7f3d0; padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; cursor: pointer;">🎯 Fix CTA Cuối Sạch</button>
-          </div>
-        </div>
-      </div>
+      </details>
 
     </aside>
 
   </div>
+
+  <!-- ================================================================ -->
+  <!-- FULL-WIDTH BOTTOM STUDIO DOCK (BẢNG ĐIỀU KHIỂN ĐÁY TOÀN TRANG)     -->
+  <!-- ================================================================ -->
+  <footer id="bottom-studio-dock" class="bottom-studio-dock">
+    <!-- 1. DOCK HEADER CONTROL STRIP -->
+    <div class="dock-header-bar">
+      <!-- Left: Studio Console Indicator -->
+      <div class="dock-header-left">
+        <span class="dock-live-dot"></span>
+        <span class="dock-title-label">🎬 STUDIO PROMPT SLATE</span>
+        <span id="prompt-title-dock" class="dock-prompt-name"></span>
+      </div>
+
+      <!-- Center: Spacious 7-Model Tabs -->
+      <div class="dock-tabs-group multi-model-tabs-container">
+        <button id="tab-btn-mj" class="model-tab-btn active" data-tab="image">
+          🎨 Midjourney v8.2
+        </button>
+        <button id="tab-btn-imagen" class="model-tab-btn" data-tab="imagen" title="Tạo ảnh tĩnh Google Gemini 3.1 Flash Image (Nano Banana) chuẩn Google Flow & Google Pics">
+          ⚡ Gemini Image (Flow)
+        </button>
+        <button id="tab-btn-gpt" class="model-tab-btn" data-tab="imagegpt" title="OpenAI ChatGPT Images 2.5 (Sunburst / Flare) - Bảo toàn nhân vật & chỉnh sửa đa bước">
+          💬 Images 2.5
+        </button>
+        <button id="tab-btn-wan" class="model-tab-btn" data-tab="wan" title="Alibaba Wan 2.5 AI Video Engine">
+          ⚡ Wan 2.5
+        </button>
+        <button id="tab-btn-video" class="model-tab-btn" data-tab="video" title="Sora 2 & Veo 3.1 Script">
+          🎬 Sora/Veo 2026
+        </button>
+        <button id="tab-btn-nlm" class="model-tab-btn" data-tab="notebooklm" title="NotebookLM Directives">
+          📓 NotebookLM
+        </button>
+        <button id="tab-btn-audio" class="model-tab-btn" data-tab="audio" title="Prompt Âm Thanh & SFX Foley">
+          🔊 SFX Audio
+        </button>
+      </div>
+
+      <!-- Right: Window / Dock Controls & JSON Toggle (Hollywood Gold Style) -->
+      <div class="dock-header-right" style="display:flex; align-items:center; gap:8px;">
+        <div class="output-format-toggle" title="Chuyển đổi kiểu hiển thị Kịch Bản Điện Ảnh hoặc Cấu Trúc JSON" style="display:inline-flex; align-items:center; background:rgba(0,0,0,0.5); border:1px solid rgba(255,215,0,0.35); padding:2px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.4);">
+          <button id="format-toggle-prose" class="format-toggle-btn is-active" type="button" style="background:linear-gradient(135deg, rgba(201,162,39,0.35), rgba(255,215,0,0.25)); border:1px solid #ffd700; color:#ffd700; padding:4px 9px; border-radius:6px; font-size:0.72rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 0 8px rgba(255,215,0,0.3); transition:all 0.2s;">🎬 Kịch Bản</button>
+          <button id="format-toggle-json" class="format-toggle-btn" type="button" style="background:transparent; border:1px solid transparent; color:#a1a1aa; padding:4px 9px; border-radius:6px; font-size:0.72rem; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all 0.2s;">{ } JSON</button>
+        </div>
+        <button id="dock-maximize-btn" class="dock-tool-btn" title="Phóng to bảng điều khiển (Theater Mode)">
+          <span id="dock-maximize-icon">⛶</span>
+          <span class="dock-tool-label">Phóng to</span>
+        </button>
+        <button id="dock-toggle-btn" class="dock-tool-btn" title="Thu gọn / Mở rộng Console">
+          <span id="dock-toggle-icon">▼</span>
+          <span id="dock-toggle-label" class="dock-tool-label">Thu gọn</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. DOCK BODY (ACTIVE SLATE PANELS) -->
+    <div id="dock-body-container" class="dock-body-container">
+      
+      <!-- CINEPROMPT SUITE 2026: MASTER STUDIO MODE TABS (Hollywood Gold Style) -->
+      <div class="studio-mode-tabs" id="studio-mode-tabs" style="display:flex; background:linear-gradient(135deg, rgba(14,16,26,0.95), rgba(8,10,18,0.98)); border:1.2px solid rgba(255,215,0,0.35); border-radius:10px; padding:4px; margin-bottom:12px; gap:5px; box-shadow:0 4px 18px rgba(0,0,0,0.45);">
+        <button type="button" class="studio-mode-tab is-active" data-mode="single" style="flex:1; text-align:center; padding:8px 14px; border-radius:8px; background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-size:0.76rem; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 10px rgba(255,215,0,0.35); transition:all 0.2s;">
+          <span>⚡ SINGLE CINEMA</span>
+        </button>
+        <button type="button" class="studio-mode-tab" data-mode="framemotion" style="flex:1; text-align:center; padding:8px 14px; border-radius:8px; background:transparent; border:none; color:#a1a1aa; font-size:0.76rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+          <span>🎞️ FRAME TO MOTION (img2vid)</span>
+        </button>
+        <button type="button" class="studio-mode-tab" data-mode="multishot" style="flex:1; text-align:center; padding:8px 14px; border-radius:8px; background:transparent; border:none; color:#a1a1aa; font-size:0.76rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+          <span>🎬 MULTI-SHOT SEQUENCE</span>
+        </button>
+      </div>
+
+      <!-- CINEPROMPT SUITE 2026: MODEL OPTIMIZER CONTAINER -->
+      <div id="model-optimizer-container"></div>
+
+      <!-- CINEPROMPT SUITE 2026: MULTI-SHOT TIMELINE CONTAINER (Hidden by default) -->
+      <div id="multishot-timeline-container" style="display:none; margin-bottom:14px;"></div>
+
+      <!-- CINEPROMPT SUITE 2026: FRAME TO MOTION DUAL PANELS (Hidden by default) -->
+      <div id="framemotion-dual-container" style="display:none; margin-bottom:14px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <!-- Frame 1: Starting Keyframe Image -->
+          <div style="background:rgba(18,20,32,0.9); border:1.5px solid rgba(56,189,248,0.4); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:1rem;">🖼️</span>
+                <span style="font-size:0.78rem; font-weight:800; color:#38bdf8;">BƯỚC 1: STARTING KEYFRAME PROMPT</span>
+              </div>
+              <button id="fm-copy-image-btn" type="button" class="copy-btn" style="border-color:#38bdf8; color:#38bdf8; padding:3px 8px; font-size:0.7rem;">📋 Sao chép</button>
+            </div>
+            <p style="font-size:0.68rem; color:#a1a1aa; margin:0;">Chỉ chứa Style, Chủ thể, Ánh sáng, Quang học tĩnh (Đã lọc sạch chuyển động và âm thanh).</p>
+            <div id="fm-image-prompt-box" class="result-text" style="min-height:90px; font-size:0.8rem; background:#070913; border:1px solid rgba(56,189,248,0.2); border-radius:8px; padding:10px; color:#f4f4f5; line-height:1.5;">Đang tổng hợp Keyframe Image Prompt...</div>
+          </div>
+
+          <!-- Frame 2: Motion & Camera Directives -->
+          <div style="background:rgba(18,20,32,0.9); border:1.5px solid rgba(255,215,0,0.4); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:1rem;">🎥</span>
+                <span style="font-size:0.78rem; font-weight:800; color:#ffd700;">BƯỚC 2: MOTION & ACTION PROMPT</span>
+              </div>
+              <button id="fm-copy-motion-btn" type="button" class="copy-btn btn-primary" style="padding:3px 8px; font-size:0.7rem;">📋 Sao chép</button>
+            </div>
+            <p style="font-size:0.68rem; color:#a1a1aa; margin:0;">Chuyên biệt điều khiển máy quay, vận tốc, hành động vật lý và âm thanh kịch bản.</p>
+            <div id="fm-motion-prompt-box" class="result-text" style="min-height:90px; font-size:0.8rem; background:#070913; border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:10px; color:#ffd700; line-height:1.5;">Đang tổng hợp Motion & Camera Prompt...</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="result-box" class="result-box-inner">
+        <!-- SCORECARD WIDGET (INTEGRATED CIRCULAR HUD - OPTIMIZED SPACE) -->
+        <div id="scorecard-widget" class="scorecard-widget" style="display:none; background: rgba(18, 20, 32, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+            <!-- Circular Score Dial -->
+            <div class="scorecard-circle" style="position: relative; width: 78px; height: 78px; flex-shrink: 0;">
+              <svg viewBox="0 0 100 100" class="score-svg" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                <circle cx="50" cy="50" r="40" class="score-ring-bg" style="fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 7;" />
+                <circle cx="50" cy="50" r="40" class="score-ring" style="fill: none; stroke: #22c55e; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 251.33; stroke-dashoffset: 251.33; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);" />
+              </svg>
+              <div class="score-circle-inner" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1;">
+                <span class="score-circle-value" style="font-size: 1.35rem; font-weight: 900; color: #fff; font-family: monospace;">0</span>
+                <span class="score-grade" style="font-size: 0.72rem; font-weight: 800; color: #22c55e; margin-top: 1px;">D</span>
+              </div>
+            </div>
+
+            <!-- 5 Pillars Micro-Grid -->
+            <div class="scorecard-breakdown" style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.72rem;">
+              <div class="score-bar-row" data-score-key="subject" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="score-bar-label" data-i18n="score-subject" style="color:#e4e4e7;">🎯 Chủ Thể</span>
+                <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+              </div>
+              <div class="score-bar-row" data-score-key="lighting" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="score-bar-label" data-i18n="score-lighting" style="color:#e4e4e7;">💡 Ánh Sáng</span>
+                <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+              </div>
+              <div class="score-bar-row" data-score-key="camera" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="score-bar-label" data-i18n="score-camera" style="color:#e4e4e7;">📹 Camera</span>
+                <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+              </div>
+              <div class="score-bar-row" data-score-key="composition" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <span class="score-bar-label" data-i18n="score-composition" style="color:#e4e4e7;">📐 Bố Cục</span>
+                <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+              </div>
+              <div class="score-bar-row" data-score-key="filmstock" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; grid-column: span 2;">
+                <span class="score-bar-label" data-i18n="score-filmstock" style="color:#e4e4e7;">🎞️ Film Stock & Màu</span>
+                <span class="score-bar-value" style="font-weight:700; color:#ffd700; font-family:monospace;">0/20</span>
+              </div>
+            </div>
+          </div>
+          <div class="score-suggestions" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; font-size: 0.74rem; color: #a1a1aa; line-height: 1.45;"></div>
+        </div>
+
+        <!-- Tab 1 Panel: Midjourney v8.2 -->
+        <div id="panel-tab-image" class="result-panel result-panel--image active-tab-panel">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label" data-i18n="img-prompt">🎨 MIDJOURNEY V8.2 SLATE</span>
+              <span id="count-badge-image" class="dock-badge-counter">0 từ · 0 ký tự</span>
+              <span id="token-counter-image" class="token-counter">0/450 words</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="mj-hd-toggle-btn" class="copy-btn btn-hd" title="Bật/Tắt chế độ Native 2K (--hd)"><span>--hd (2K)</span></button>
+              <button id="translate-btn-image" class="copy-btn"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
+              <button id="copy-btn-image" class="copy-btn btn-primary"><span data-i18n="btn-copy">📋 Sao chép</span></button>
+              <button id="relay-gpt-btn-image" class="copy-btn btn-relay" title="Gửi prompt sang ChatGPT qua Extension"><span>💬 GPT</span></button>
+            </div>
+          </div>
+          <p id="result-text-image" class="result-text result-placeholder" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <p id="result-translation-image" class="result-text result-translation" style="display:none;"></p>
+        </div>
+
+        <!-- Tab Wan 2.5 Panel: Alibaba Wan 2.5 Video Engine (Official Formula) -->
+        <div id="panel-tab-wan" class="result-panel result-panel--wan" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label label-wan">⚡ WAN 2.5 AI VIDEO ENGINE</span>
+              <span id="count-badge-wan" class="dock-badge-counter">0 từ · 0 ký tự</span>
+              <!-- Mode Switcher Pill (T2V vs I2V) -->
+              <div class="wan-mode-switcher">
+                <button id="wan-mode-t2v" class="wan-mode-btn active" title="Text-to-Video: Cấu trúc 80-100 từ chuẩn Alibaba">T2V (Text)</button>
+                <button id="wan-mode-i2v" class="wan-mode-btn" title="Image-to-Video: Chỉ điều khiển Camera & Motion, không tả lại mặt">I2V (Image)</button>
+              </div>
+            </div>
+            <div class="panel-header-actions">
+              <button id="translate-btn-wan" class="copy-btn"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
+              <button id="copy-btn-wan" class="copy-btn btn-primary-wan"><span>📋 Sao chép</span></button>
+              <button id="copy-btn-wan-comfy" class="copy-btn" title="Sao chép prompt thuần for ComfyUI KSampler"><span>ComfyUI</span></button>
+              <button id="relay-flow-btn-wan" class="copy-btn btn-flow" title="Bắn sang Google Flow qua Extension"><span>⚡ Flow</span></button>
+              <button id="relay-gpt-btn-wan" class="copy-btn btn-relay" title="Gửi sang ChatGPT"><span>💬 GPT</span></button>
+            </div>
+          </div>
+
+          <p id="result-text-wan" class="result-text result-placeholder">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <p id="result-translation-wan" class="result-text result-translation" style="display:none;"></p>
+
+          <!-- Official Wan Negative Prompt Bar & Formula Badges -->
+          <div class="wan-footer-bar">
+            <div class="wan-neg-bar">
+              <span class="neg-label">NEGATIVE:</span>
+              <span id="wan-neg-preview" class="neg-preview">blurry details, static, motion artifacts, distorted limbs, extra fingers, low resolution, jitter, flicker</span>
+              <button id="copy-btn-wan-neg" class="copy-btn btn-copy-neg"><span>Copy Negative</span></button>
+            </div>
+            <div class="wan-badges-group">
+              <span class="wan-badge gold">Alibaba Formula: Camera + Subject + Motion + Scene</span>
+              <span class="wan-badge gray">Optimal: 80-100 Words</span>
+              <span class="wan-badge blue">UMT5-XXL Tokenizer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2 Panel: Google Gemini 3.1 Flash Image ("Nano Banana" / Flow Engine) -->
+        <div id="panel-tab-imagen" class="result-panel result-panel--imagen" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label label-gemini">⚡ GEMINI 3.1 FLASH IMAGE ("NANO BANANA" / FLOW)</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="copy-btn-imagen" class="copy-btn btn-primary-gemini"><span>📋 Sao chép</span></button>
+              <button id="relay-flow-btn-imagen" class="copy-btn btn-flow" title="Bắn ảnh tĩnh sang Google Flow làm Keyframe Anchor"><span>⚡ Flow</span></button>
+            </div>
+          </div>
+          <p id="result-text-imagen" class="result-text result-placeholder">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <div class="model-note note-gemini">
+            ✓ Chuẩn Gemini 3.1 Flash Image (Google Nano Banana / Flow): Tối ưu hóa cho Google Flow / Veo & Google Pics, rendering typography chính xác tuyệt đối trong ngoặc kép "".
+          </div>
+        </div>
+
+        <!-- Tab 3 Panel: ChatGPT Images 2.5 (OpenAI Sunburst & Flare Architecture) -->
+        <div id="panel-tab-imagegpt" class="result-panel result-panel--imagegpt" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label label-gpt">💬 CHATGPT IMAGES 2.5 (SUNBURST / FLARE)</span>
+              <!-- Images 2.5 Mode Switcher -->
+              <div class="gpt-mode-switcher">
+                <button id="gpt25-mode-sunburst" class="gpt25-mode-btn active" title="Sunburst Model: Độ chính xác cực cao, giữ nhân vật đồng nhất xuyên suốt, hỗ trợ comment-edit">Sunburst (Consistency)</button>
+                <button id="gpt25-mode-flare" class="gpt25-mode-btn" title="Flare Model: Tối ưu tốc độ tạo ảnh nhanh hơn 50%">Flare (Fast)</button>
+              </div>
+            </div>
+            <div class="panel-header-actions">
+              <button id="copy-btn-imagegpt" class="copy-btn btn-primary-gpt"><span>📋 Sao chép</span></button>
+              <button id="relay-gpt-btn-imagegpt" class="copy-btn btn-relay" title="Gửi sang ChatGPT với chuẩn Images 2.5"><span>💬 GPT</span></button>
+            </div>
+          </div>
+          <p id="result-text-imagegpt" class="result-text result-placeholder">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <div class="model-note note-gpt">
+            ✓ Chuẩn OpenAI ChatGPT Images 2.5 (Mới nhất 08/09/2026): Bảo toàn thực thể & nhân vật (Subject Consistency) qua nhiều lượt chỉnh sửa, hỗ trợ sketch phác thảo & comment edit.
+          </div>
+        </div>
+
+        <!-- Tab 4 Panel: Video Prompt -->
+        <div id="panel-tab-video" class="result-panel result-panel--video" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label" data-i18n="vid-prompt">🎥 SORA 2 & VEO 3.1 SCRIPT</span>
+              <span id="count-badge-video" class="dock-badge-counter">0 từ · 0 ký tự</span>
+              <!-- FPS Selector Bar -->
+              <div class="fps-selector-bar">
+                <button class="fps-btn" data-fps="12" title="12fps: Vox / Stop-Motion Style">12fps</button>
+                <button class="fps-btn active" data-fps="24" title="24fps: Standard Cinema Motion">24fps</button>
+                <button class="fps-btn" data-fps="60" title="60fps: Smooth High-Speed / Slow-Mo">60fps</button>
+              </div>
+              <span id="token-counter-video" class="token-counter">0/600 words</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="translate-btn-video" class="copy-btn"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
+              <button id="copy-btn-video" class="copy-btn btn-primary"><span data-i18n="btn-copy">📋 Sao chép</span></button>
+              <button id="relay-flow-btn-video" class="copy-btn btn-flow" title="Bắn kịch bản trực tiếp vào Google Flow qua Extension"><span>⚡ Flow</span></button>
+              <button id="relay-gpt-btn-video" class="copy-btn btn-relay" title="Gửi sang ChatGPT"><span>💬 GPT</span></button>
+            </div>
+          </div>
+          <p id="result-text-video" class="result-text result-placeholder" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <p id="result-translation-video" class="result-text result-translation" style="display:none;"></p>
+        </div>
+
+        <!-- Tab 5 Panel: NotebookLM Directives -->
+        <div id="panel-tab-notebooklm" class="result-panel result-panel--notebooklm" style="display:none;">
+          <div class="result-panel-header">
+            <span class="panel-label label-nlm" data-i18n="notebooklm-prompt">📓 PROMPT NOTEBOOKLM</span>
+            <div class="panel-header-actions">
+              <button id="translate-btn-notebooklm" class="copy-btn"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
+              <button id="copy-btn-notebooklm-chat" class="copy-btn"><span class="copy-label" data-i18n="btn-copy-chat">💬 1. Chat</span></button>
+              <button id="copy-btn-notebooklm" class="copy-btn btn-primary"><span class="copy-label" data-i18n="btn-copy-overview">🎬 2. Overview</span></button>
+            </div>
+          </div>
+          <p id="result-text-notebooklm" class="result-text result-placeholder" style="white-space:pre-wrap;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <p id="result-translation-notebooklm" class="result-text result-translation" style="display:none; white-space:pre-wrap;"></p>
+        </div>
+
+        <!-- Tab 6 Panel: Audio & SFX Prompt -->
+        <div id="panel-tab-audio" class="result-panel result-panel--audio" style="display:none;">
+          <div class="result-panel-header">
+            <span class="panel-label label-audio" data-i18n="audio-prompt">🔊 PROMPT ÂM THANH / SFX</span>
+            <div class="panel-header-actions">
+              <button id="translate-btn-audio" class="copy-btn"><span data-i18n="btn-translate">🇻🇳 Dịch</span></button>
+              <button id="copy-btn-audio" class="copy-btn btn-primary-audio"><span class="copy-label" data-i18n="btn-copy">📋 Sao chép</span></button>
+            </div>
+          </div>
+          <p id="result-text-audio" class="result-text result-placeholder" style="white-space:pre-wrap;" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
+          <p id="result-translation-audio" class="result-text result-translation" style="display:none; white-space:pre-wrap;"></p>
+
+          <!-- 🛠️ 10 Audio Error Auto-Fixer Modifiers -->
+          <div class="audio-fixers-wrapper">
+            <div class="audio-fixers-title">🛠️ SỬA LỖI ÂM THANH TỰ ĐỘNG (10 AUDIO AUTO-FIXERS):</div>
+            <div class="audio-fixers-grid">
+              <button class="audio-fix-btn" data-fix="mix_music_low">🔊 Fix Nhạc Quá To</button>
+              <button class="audio-fix-btn" data-fix="ambience_match">🍃 Fix Ambience Lệch</button>
+              <button class="audio-fix-btn" data-fix="short_dialogue">🗣️ Fix Thoại Lệch</button>
+              <button class="audio-fix-btn" data-fix="sfx_sync">⚡ Fix SFX Không Trúng</button>
+              <button class="audio-fix-btn" data-fix="clean_sparse">🔊 Fix Video Quá Ồn</button>
+              <button class="audio-fix-btn" data-fix="realistic_foley">🎨 Fix Âm Giả Cartoon</button>
+              <button class="audio-fix-btn" data-fix="muffled_crowd">🤫 Fix Tiếng Người Lạ</button>
+              <button class="audio-fix-btn" data-fix="product_foreground">📦 Fix Thiếu Âm Sản Phẩm</button>
+              <button class="audio-fix-btn" data-fix="restrained_trailer">🎬 Fix Trailer Quá Nặng</button>
+              <button class="audio-fix-btn" data-fix="clean_cta_ending">🎯 Fix CTA Cuối Sạch</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer>
 
   <!-- ─── DETAILS MODAL ───────────────────────────────────── -->
   <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -2688,7 +2957,7 @@
           <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; display: block; margin-bottom: 6px;">
             📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
           </label>
-          <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh đổ lon nước bọt tung tóe, sau đó bạn nam phỏng vấn cô gái về giá tiền..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff; resize: none;"></textarea>
+          <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh đổ lon nước bọt tung tóe, sau đó bạn nam phỏng vấn cô gái về giá tiền..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff;" data-min-height="48"></textarea>
         </div>
 
         <div>
@@ -2701,6 +2970,686 @@
         <button id="viral-execute-btn" onclick="executeViralRemake()" style="margin-top: 10px; background: linear-gradient(135deg, #9333ea, #06b6d4); border: none; color: #fff; font-weight: 800; padding: 12px 18px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 0 20px rgba(168,85,247,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
           🚀 CHẠY AI PHÂN TÍCH LINK & TẠO KỊCH BẢN MỚI
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Viral Video Remake Modal Controller Script -->
+  <script>
+    (function() {
+      function initViralRemakeFeature() {
+        const btn = document.getElementById('viral-remake-btn');
+        const modal = document.getElementById('viral-analyzer-modal-overlay');
+        const closeBtn = document.getElementById('viral-modal-close');
+        const execBtn = document.getElementById('viral-execute-btn');
+
+        if (btn) {
+          btn.addEventListener('click', function(e) {
+            if (e) e.preventDefault();
+            if (modal) {
+              modal.style.setProperty('display', 'flex', 'important');
+              modal.style.setProperty('z-index', '99999', 'important');
+            }
+          });
+        }
+
+        if (closeBtn && modal) {
+          closeBtn.addEventListener('click', function(e) {
+            if (e) e.preventDefault();
+            modal.style.display = 'none';
+          });
+        }
+
+        if (modal) {
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) modal.style.display = 'none';
+          });
+        }
+
+        if (execBtn) {
+          execBtn.addEventListener('click', function(e) {
+            if (e) e.preventDefault();
+            const url = document.getElementById('viral-video-url')?.value.trim() || '';
+            const script = document.getElementById('viral-video-script')?.value.trim() || '';
+            const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
+            
+            const input = document.getElementById('subject-input');
+            if (input) {
+              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
+              input.focus();
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            if (modal) modal.style.display = 'none';
+            const enhanceBtn = document.getElementById('ai-enhance-btn');
+            if (enhanceBtn) enhanceBtn.click();
+          });
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initViralRemakeFeature);
+      } else {
+        initViralRemakeFeature();
+      }
+    })();
+  </script>
+
+  <!-- ─── 🎬 AI AGENT SKILL: CINEMATIC AD PROMPT ARCHITECT MODAL ─── -->
+  <div id="ad-architect-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-content" style="background:linear-gradient(135deg, #181824, #101018); border:1px solid rgba(255,215,0,0.35); border-radius:16px; width:100%; max-width:860px; max-height:90vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.9), 0 0 35px rgba(255,215,0,0.2); padding:24px; color:#f4f4f5; position:relative;">
+      
+      <button id="ad-architect-close-btn" class="modal-close" style="position:absolute; top:18px; right:18px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; border-bottom:1px solid rgba(255,215,0,0.2); padding-bottom:14px;">
+        <div style="font-size:1.8rem; background:rgba(255,215,0,0.15); border:1px solid #ffd700; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">📢</div>
+        <div>
+          <div style="font-size:0.7rem; font-weight:800; color:#ffd700; letter-spacing:0.08em; text-transform:uppercase;">AI AGENT SKILL · V1.0 PRODUCTION READY</div>
+          <h2 style="margin:2px 0 0; color:#fff; font-size:1.2rem; font-weight:800;">Cinematic Ad Prompt Architect (TVC / Quảng Cáo)</h2>
+        </div>
+      </div>
+
+      <p style="font-size:0.8rem; color:#a1a1aa; margin-bottom:18px; line-height:1.5;">
+        Biến ý tưởng sản phẩm & mục tiêu tiếp thị thành chuỗi phân cảnh video điện ảnh phân khúc chuyên nghiệp (Hook 0-3s, Problem 3-6s, Solution 6-10s, CTA 10-15s) tối ưu cho <b>Wan 2.5, Sora 2, DeepMind Veo 3.1, Runway Gen-3</b>.
+      </p>
+
+      <!-- Input Form Grid -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px;">
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:#ffd700; display:block; margin-bottom:4px;">1. Tên Sản Phẩm / Thương Hiệu (product_name):</label>
+          <input type="text" id="ad-product-name" class="new-input-field" placeholder="VD: Nike Air Max 2026, Sony FX9, Nước hoa Noir" value="Sony Alpha FX9 Cinema Camera" style="width:100%; padding:8px 12px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-size:0.82rem;" />
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:4px;">2. Khách Hàng Mục Tiêu (target_audience):</label>
+          <input type="text" id="ad-target-audience" class="new-input-field" placeholder="VD: Gen Z, Nhà làm phim độc lập, Doanh nhân" value="Các nhà làm phim & Đạo diễn hình ảnh độc lập" style="width:100%; padding:8px 12px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-size:0.82rem;" />
+        </div>
+
+        <div style="grid-column: span 2;">
+          <label style="font-size:0.75rem; font-weight:700; color:#e4e4e7; display:block; margin-bottom:4px;">3. Thông Điệp Bán Hàng Cốt Lõi (core_message):</label>
+          <input type="text" id="ad-core-message" class="new-input-field" placeholder="VD: Đột phá tầm nhìn điện ảnh, cảm xúc không giới hạn" value="Giải phóng tầm nhìn điện ảnh trong mọi điều kiện ánh sáng cực đoan" style="width:100%; padding:8px 12px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#fff; font-size:0.82rem;" />
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:#c084fc; display:block; margin-bottom:4px;">4. Phong Cách & Thẩm Mỹ (style_vibe):</label>
+          <select id="ad-style-vibe" style="width:100%; padding:8px 12px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:0.82rem; font-weight:600;">
+            <option value="minimalist">Minimalist Apple Tech Glow (Titanium, Trắng studio, Ánh sáng mịn)</option>
+            <option value="cyberpunk" selected>Cyberpunk Kinetic Neon (Neon cyan/magenta, Mưa ướt, Hơi nước)</option>
+            <option value="korean_mv">Korean MV Ethereal Glamour (Pastel, Glow mờ ảo, Đẹp lung linh)</option>
+            <option value="luxury_heritage">Vintage Heritage Luxury (Da cognac, Đồng thau cổ, Chiaroscuro ấm)</option>
+            <option value="high_octane">High-Octane Sport Energy (Góc rộng 16mm, Tốc độ cao, Năng lượng bùng nổ)</option>
+            <option value="apple_studio">Apple Studio Minimalist — Táo Khuyết (Titanium, Softbox, Khoảng trắng vô tận)</option>
+            <option value="ugc_authentic">Authentic UGC Lifestyle — Shot on iPhone (Quán cà phê, Nắng tự nhiên, Chân thực)</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:#f43f5e; display:block; margin-bottom:4px;">5. Thời Lượng & Tỷ Lệ (duration & aspect_ratio):</label>
+          <div style="display:flex; gap:8px;">
+            <select id="ad-duration" style="flex:1; padding:8px 10px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:0.82rem; font-weight:600;">
+              <option value="15" selected>15 giây (4 Cảnh chuẩn TVC: Hook 0-3s, Problem 3-6s, Solution 6-10s, CTA 10-15s)</option>
+              <option value="30">30 giây (Mở rộng chi tiết cảm xúc)</option>
+            </select>
+            <select id="ad-aspect-ratio" style="flex:1; padding:8px 10px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:0.82rem; font-weight:600;">
+              <option value="16:9" selected>16:9 (Widescreen TVC / YouTube)</option>
+              <option value="9:16">9:16 (TikTok / Reels / Shorts)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generator CTA Button -->
+      <button id="ad-architect-generate-btn" style="width:100%; padding:12px; background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; border-radius:10px; color:#000; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(255,215,0,0.35); display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:18px;">
+        <span>🚀 TẠO CHUỖI KỊCH BẢN QUẢNG CÁO ĐIỆN ẢNH (1-CLICK ARCHITECT)</span>
+      </button>
+
+      <!-- Result Box: AGI TVC Studio & Flow Orchestrator -->
+      <div id="ad-architect-result-container" style="display:none; background:rgba(10,12,20,0.85); border:1px solid rgba(255,215,0,0.4); border-radius:14px; padding:18px; margin-top:14px; box-shadow:0 10px 30px rgba(0,0,0,0.7);">
+
+        <!-- Top Actions Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.1rem;">🎬</span>
+            <div>
+              <span style="font-size:0.9rem; font-weight:800; color:#ffd700; display:block;">KỊCH BẢN TVC 4 HỒI & FLOW AGI PIPELINE</span>
+              <span style="font-size:0.7rem; color:#a1a1aa;">Đồng bộ nhịp 0-3s, 3-6s, 6-10s, 10-15s · Lồng tiếng & Foley</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button id="ad-copy-all-btn" class="copy-btn" style="padding:5px 10px; font-size:0.75rem; background:rgba(255,215,0,0.18); border-color:#ffd700; color:#ffd700; font-weight:700;"><span>📋 Sao Chép</span></button>
+            <button id="ad-load-subject-btn" class="copy-btn" style="padding:5px 10px; font-size:0.75rem; background:rgba(56,189,248,0.18); border-color:#38bdf8; color:#38bdf8; font-weight:700;"><span>🎯 Nạp Vào Bàn Máy</span></button>
+            <button id="ad-export-flow-package-btn" class="copy-btn" style="padding:5px 12px; font-size:0.75rem; background:linear-gradient(135deg, rgba(234,179,8,0.3), rgba(34,197,94,0.3)); border:1.5px solid #22c55e; color:#86efac; font-weight:800; box-shadow:0 0 10px rgba(34,197,94,0.35);" title="Xuất Trọn Gói TVC Package (.txt) chuẩn hóa từng cảnh độc lập để dán tay trực tiếp vào Google Flow mà không cần cài extension"><span>📦 Xuất Gói TVC (Flow Dán Tay)</span></button>
+            <button id="ad-export-remotion-btn" class="copy-btn" style="padding:5px 12px; font-size:0.75rem; background:linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border-color:#c084fc; color:#fff; font-weight:800; box-shadow:0 0 10px rgba(168,85,247,0.4);" title="Xuất Code Remotion React (.tsx) tự động render MP4 không cần dựng thủ công"><span>⚛️ Xuất Code Remotion (.tsx)</span></button>
+          </div>
+        </div>
+
+        <!-- ── 1. ⚡ GOOGLE FLOW MULTI-SCENE AGI DISPATCHER ── -->
+        <div style="background:rgba(56,189,248,0.06); border:1px solid rgba(56,189,248,0.25); border-radius:12px; padding:12px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:0.8rem; font-weight:800; color:#38bdf8; display:flex; align-items:center; gap:6px;">
+              <span>⚡ GOOGLE FLOW AGI DISPATCHER</span>
+              <span style="font-size:0.68rem; font-weight:600; color:#a1a1aa; background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">1-Click Relay</span>
+            </span>
+            <span style="font-size:0.7rem; color:#71717a;">Bắn trực tiếp vào Extension / Google Flow Node</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr) 1.5fr; gap:6px;">
+            <button id="ad-relay-s1-btn" class="copy-btn" style="padding:7px 8px; font-size:0.72rem; background:rgba(234,179,8,0.15); border-color:#eab308; color:#facc15; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="Bắn Cảnh 1: Visual Hook (0-3s) sang Flow">
+              <span>⚡ Cảnh 1 (Hook)</span>
+            </button>
+            <button id="ad-relay-s2-btn" class="copy-btn" style="padding:7px 8px; font-size:0.72rem; background:rgba(56,189,248,0.15); border-color:#38bdf8; color:#7dd3fc; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="Bắn Cảnh 2: Context / Tension (3-6s) sang Flow">
+              <span>⚡ Cảnh 2 (Tension)</span>
+            </button>
+            <button id="ad-relay-s3-btn" class="copy-btn" style="padding:7px 8px; font-size:0.72rem; background:rgba(168,85,247,0.15); border-color:#a855f7; color:#d8b4fe; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="Bắn Cảnh 3: Hero Reveal (6-10s) sang Flow">
+              <span>⚡ Cảnh 3 (Reveal)</span>
+            </button>
+            <button id="ad-relay-s4-btn" class="copy-btn" style="padding:7px 8px; font-size:0.72rem; background:rgba(34,197,94,0.15); border-color:#22c55e; color:#86efac; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="Bắn Cảnh 4: CTA & End Card (10-15s) sang Flow">
+              <span>⚡ Cảnh 4 (End Card)</span>
+            </button>
+            <button id="ad-relay-flow-btn" class="copy-btn" style="padding:7px 12px; font-size:0.75rem; background:linear-gradient(135deg, #ffd700, #38bdf8); border:none; color:#000; font-weight:900; box-shadow:0 0 15px rgba(255,215,0,0.4); text-transform:uppercase; letter-spacing:0.03em;" title="Bắn trọn bộ 4 cảnh cùng lúc sang Extension Bridge">
+              <span>🚀 BẮN TRỌN BỘ 4 CẢNH</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ── 2. 🎬 INTERACTIVE TVC STORYBOARD & TIMELINE SIMULATOR ── -->
+        <div style="background:rgba(0,0,0,0.6); border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:14px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.8rem; font-weight:800; color:#ffd700;">📺 MÔ PHỎNG TIMELINE TVC TRỰC QUAN (REALTIME SIMULATOR)</span>
+              <span id="tvc-sim-active-badge" style="background:#ffd700; color:#000; font-size:0.65rem; font-weight:800; padding:2px 6px; border-radius:4px;">CẢNH 1: HOOK (0-3s)</span>
+            </div>
+            <div id="tvc-sim-timecode" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; font-weight:800; color:#38bdf8; background:rgba(0,0,0,0.5); padding:3px 8px; border-radius:6px; border:1px solid rgba(56,189,248,0.3);">
+              00:00.0s / 15.0s
+            </div>
+          </div>
+
+          <!-- Video Viewport Screen Preview -->
+          <div id="tvc-viewport" style="position:relative; width:100%; height:190px; border-radius:10px; overflow:hidden; background:radial-gradient(ellipse at center, #1e1b4b, #09090b); border:1.5px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; justify-content:space-between; padding:14px; box-sizing:border-box;">
+            
+            <!-- Viewport Top HUD -->
+            <div style="display:flex; justify-content:space-between; align-items:center; z-index:2;">
+              <div id="tvc-viewport-motion" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(6px); border:1px solid rgba(255,215,0,0.4); color:#ffd700; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:6px;">
+                🎥 Dynamic rapid push-in (ECU)
+              </div>
+              <div style="color:#ef4444; font-size:0.7rem; font-weight:800; display:flex; align-items:center; gap:4px;">
+                <span style="width:7px; height:7px; border-radius:50%; background:#ef4444; display:inline-block; box-shadow:0 0 6px #ef4444;"></span>
+                <span>REC 24FPS</span>
+              </div>
+            </div>
+
+            <!-- Viewport Center Visual Indicator -->
+            <div style="text-align:center; z-index:2;">
+              <div id="tvc-viewport-title" style="font-size:1.1rem; font-weight:900; color:#ffffff; text-shadow:0 2px 10px rgba(0,0,0,0.9); letter-spacing:0.02em;">
+                The Visual Disruption Hook
+              </div>
+              <div id="tvc-viewport-prompt-preview" style="font-size:0.72rem; color:#d4d4d8; max-width:80%; margin:4px auto 0; text-shadow:0 1px 4px rgba(0,0,0,0.9); line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                Extreme macro close-up, tactile textures and pristine edges...
+              </div>
+            </div>
+
+            <!-- Viewport Bottom Subtitle & Voiceover Overlays -->
+            <div style="z-index:2; text-align:center;">
+              <div id="tvc-viewport-text-overlay" style="display:inline-block; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); border:1px solid rgba(255,215,0,0.5); padding:6px 16px; border-radius:8px; color:#ffffff; font-size:0.82rem; font-weight:800; text-shadow:0 2px 8px rgba(0,0,0,0.8); margin-bottom:4px;">
+                "Thế hệ tiếp theo"
+              </div>
+              <div id="tvc-viewport-vo" style="font-size:0.72rem; color:#ffd700; font-style:italic; text-shadow:0 1px 4px rgba(0,0,0,0.9);">
+                🎙️ VO: "Tương lai không chờ đợi ai..."
+              </div>
+            </div>
+
+            <!-- Background dynamic ambient glow -->
+            <div id="tvc-ambient-glow" style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(234,179,8,0.15), rgba(168,85,247,0.15)); opacity:0.6; pointer-events:none; transition:all 0.4s;"></div>
+          </div>
+
+          <!-- Playback Controls & 4-Act Timeline Scrubber -->
+          <div style="margin-top:12px;">
+            <!-- Segmented Progress Bar -->
+            <div id="tvc-progress-track" style="position:relative; width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; cursor:pointer; margin-bottom:10px;">
+              <div id="tvc-progress-fill" style="width:0%; height:100%; background:linear-gradient(90deg, #ffd700, #38bdf8, #a855f7); border-radius:4px; transition:width 0.1s linear;"></div>
+            </div>
+
+            <!-- Act Markers -->
+            <div style="display:grid; grid-template-columns:3fr 3fr 4fr 5fr; gap:4px; margin-bottom:10px; font-size:0.68rem; text-align:center;">
+              <div id="act-tab-1" style="background:rgba(234,179,8,0.15); border:1px solid rgba(234,179,8,0.4); color:#ffd700; padding:4px; border-radius:6px; font-weight:700; cursor:pointer;">0-3s: Hook</div>
+              <div id="act-tab-2" style="background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); color:#7dd3fc; padding:4px; border-radius:6px; font-weight:600; cursor:pointer;">3-6s: Tension</div>
+              <div id="act-tab-3" style="background:rgba(168,85,247,0.1); border:1px solid rgba(168,85,247,0.3); color:#d8b4fe; padding:4px; border-radius:6px; font-weight:600; cursor:pointer;">6-10s: Solution</div>
+              <div id="act-tab-4" style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#86efac; padding:4px; border-radius:6px; font-weight:600; cursor:pointer;">10-15s: CTA</div>
+            </div>
+
+            <!-- Play / Pause / Replay Buttons -->
+            <div style="display:flex; justify-content:center; gap:8px;">
+              <button id="tvc-play-btn" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#000; font-weight:800; font-size:0.75rem; padding:6px 16px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                <span>▶ Phát Thử TVC (15s)</span>
+              </button>
+              <button id="tvc-pause-btn" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:0.75rem; padding:6px 12px; border-radius:6px; cursor:pointer;">
+                <span>⏸ Tạm Dừng</span>
+              </button>
+              <button id="tvc-reset-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.15); color:#a1a1aa; font-size:0.75rem; padding:6px 12px; border-radius:6px; cursor:pointer;">
+                <span>🔄 Xem Lại Từ Đầu</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. FULL PRODUCTION SCRIPT MARKDOWN ── -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:0.75rem; font-weight:700; color:#a1a1aa;">VĂN BẢN KỊCH BẢN CHI TIẾT (COPY-READY):</span>
+        </div>
+        <pre id="ad-result-text" style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; line-height:1.55; color:#e4e4e7; white-space:pre-wrap; max-height:300px; overflow-y:auto; padding:12px; background:rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.08); border-radius:8px;"></pre>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    import { buildCinematicAdScript, parseCinematicAdScenes, generateRemotionTVCCode } from './js/directorKnowledgeEngine.js';
+    import { generateCinematicAd } from './js/aiService.js';
+    import { exportTVCFlowPackage } from './js/exportManager.js';
+    import { showToast } from './js/toast.js';
+
+    function initAdArchitectUI() {
+      const openBtn = document.getElementById('btn-open-ad-architect');
+      const headerOpenBtn = document.getElementById('open-tvc-studio-btn');
+      const modal = document.getElementById('ad-architect-modal-overlay');
+      const closeBtn = document.getElementById('ad-architect-close-btn');
+      const generateBtn = document.getElementById('ad-architect-generate-btn');
+      const copyAllBtn = document.getElementById('ad-copy-all-btn');
+      const loadSubjectBtn = document.getElementById('ad-load-subject-btn');
+      const exportFlowPackageBtn = document.getElementById('ad-export-flow-package-btn');
+      const exportRemotionBtn = document.getElementById('ad-export-remotion-btn');
+      const resultContainer = document.getElementById('ad-architect-result-container');
+      const resultText = document.getElementById('ad-result-text');
+
+      // Flow Relay Buttons
+      const relayFlowBtn = document.getElementById('ad-relay-flow-btn');
+      const relayS1Btn = document.getElementById('ad-relay-s1-btn');
+      const relayS2Btn = document.getElementById('ad-relay-s2-btn');
+      const relayS3Btn = document.getElementById('ad-relay-s3-btn');
+      const relayS4Btn = document.getElementById('ad-relay-s4-btn');
+
+      // Player Simulator Elements
+      const playBtn = document.getElementById('tvc-play-btn');
+      const pauseBtn = document.getElementById('tvc-pause-btn');
+      const resetBtn = document.getElementById('tvc-reset-btn');
+      const progressFill = document.getElementById('tvc-progress-fill');
+      const progressTrack = document.getElementById('tvc-progress-track');
+      const timecodeEl = document.getElementById('tvc-sim-timecode');
+      const activeBadge = document.getElementById('tvc-sim-active-badge');
+      const motionEl = document.getElementById('tvc-viewport-motion');
+      const titleEl = document.getElementById('tvc-viewport-title');
+      const promptPreviewEl = document.getElementById('tvc-viewport-prompt-preview');
+      const textOverlayEl = document.getElementById('tvc-viewport-text-overlay');
+      const voEl = document.getElementById('tvc-viewport-vo');
+
+      let parsedScenes = [];
+      let currentBrief = {};
+      let playbackTimer = null;
+      let currentPlaybackSec = 0;
+      let isPlaying = false;
+      const totalDurationSec = 15;
+
+      function openModal() {
+        if (modal) modal.style.setProperty('display', 'flex', 'important');
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (headerOpenBtn) headerOpenBtn.addEventListener('click', openModal);
+
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+          stopPlayback();
+          modal.style.display = 'none';
+        });
+      }
+
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            stopPlayback();
+            modal.style.display = 'none';
+          }
+        });
+      }
+
+      // --- Timeline Simulator Engine ---
+      function updateSimulatorFrame(sec) {
+        currentPlaybackSec = Math.max(0, Math.min(sec, totalDurationSec));
+        const pct = (currentPlaybackSec / totalDurationSec) * 100;
+        if (progressFill) progressFill.style.width = pct + '%';
+        if (timecodeEl) timecodeEl.textContent = `00:${currentPlaybackSec < 10 ? '0' : ''}${currentPlaybackSec.toFixed(1)}s / ${totalDurationSec}.0s`;
+
+        // Find active scene based on timecode
+        let activeScene = parsedScenes.find(s => currentPlaybackSec >= s.startSec && currentPlaybackSec < s.endSec);
+        if (!activeScene && parsedScenes.length > 0) {
+          activeScene = currentPlaybackSec >= totalDurationSec ? parsedScenes[parsedScenes.length - 1] : parsedScenes[0];
+        }
+
+        if (activeScene) {
+          if (activeBadge) activeBadge.textContent = `CẢNH ${activeScene.sceneNum}: ${activeScene.title.toUpperCase()}`;
+          if (titleEl) titleEl.textContent = activeScene.title;
+          if (motionEl) motionEl.textContent = `🎥 ${activeScene.cameraMotion}`;
+          if (promptPreviewEl) promptPreviewEl.textContent = activeScene.prompt;
+          if (textOverlayEl) textOverlayEl.textContent = `"${activeScene.textOverlay || 'TVC Highlight'}"`;
+          if (voEl) voEl.textContent = activeScene.voiceoverVI ? `🎙️ VO: "${activeScene.voiceoverVI}"` : '';
+
+          // Update Act Tabs highlight
+          for (let i = 1; i <= 4; i++) {
+            const tab = document.getElementById(`act-tab-${i}`);
+            if (tab) {
+              if (i === activeScene.sceneNum) {
+                tab.style.boxShadow = '0 0 10px rgba(255,215,0,0.5)';
+                tab.style.transform = 'scale(1.02)';
+              } else {
+                tab.style.boxShadow = 'none';
+                tab.style.transform = 'scale(1)';
+              }
+            }
+          }
+        }
+      }
+
+      function startPlayback() {
+        if (isPlaying) return;
+        isPlaying = true;
+        if (currentPlaybackSec >= totalDurationSec) currentPlaybackSec = 0;
+        if (playBtn) playBtn.innerHTML = '<span>▶ Đang Phát...</span>';
+
+        const intervalMs = 100;
+        const stepSec = intervalMs / 1000;
+
+        playbackTimer = setInterval(() => {
+          currentPlaybackSec += stepSec;
+          if (currentPlaybackSec >= totalDurationSec) {
+            updateSimulatorFrame(totalDurationSec);
+            stopPlayback();
+            return;
+          }
+          updateSimulatorFrame(currentPlaybackSec);
+        }, intervalMs);
+      }
+
+      function stopPlayback() {
+        isPlaying = false;
+        if (playbackTimer) clearInterval(playbackTimer);
+        playbackTimer = null;
+        if (playBtn) playBtn.innerHTML = '<span>▶ Phát Thử TVC (15s)</span>';
+      }
+
+      if (playBtn) playBtn.addEventListener('click', startPlayback);
+      if (pauseBtn) pauseBtn.addEventListener('click', stopPlayback);
+      if (resetBtn) resetBtn.addEventListener('click', () => {
+        stopPlayback();
+        updateSimulatorFrame(0);
+      });
+
+      if (progressTrack) {
+        progressTrack.addEventListener('click', (e) => {
+          const rect = progressTrack.getBoundingClientRect();
+          const clickPos = (e.clientX - rect.left) / rect.width;
+          updateSimulatorFrame(clickPos * totalDurationSec);
+        });
+      }
+
+      // Click act tabs to seek
+      for (let i = 1; i <= 4; i++) {
+        const tab = document.getElementById(`act-tab-${i}`);
+        if (tab) {
+          tab.addEventListener('click', () => {
+            const starts = [0, 3, 6, 10];
+            updateSimulatorFrame(starts[i - 1]);
+          });
+        }
+      }
+
+      // --- Flow Relay Helper ---
+      function sendSceneToFlow(sceneIndex, customPrompt = '') {
+        const targetScene = parsedScenes.find(s => s.sceneNum === sceneIndex) || parsedScenes[0];
+        const promptToSend = customPrompt || targetScene?.prompt || resultText?.textContent?.slice(0, 300) || '';
+        
+        const relayMessage = {
+          type: 'PROMPT_AGENT_RELAY',
+          target: 'flow',
+          source: 'cineprompt_pro',
+          payload: {
+            version: 1,
+            source: 'cineprompt_pro',
+            mediaType: 'video',
+            prompt: promptToSend,
+            negativePrompt: 'blurry details, static, motion artifacts, distorted limbs, low resolution, flicker, watermark',
+            sceneIndex: String(sceneIndex),
+            sceneTitle: targetScene?.title || `Scene ${sceneIndex}`,
+            cameraMotion: targetScene?.cameraMotion || '',
+            parameters: {
+              aspectRatio: document.getElementById('ad-aspect-ratio')?.value || '16:9',
+              fps: 24,
+              mode: 't2v'
+            }
+          },
+          prompt: promptToSend,
+          timestamp: Date.now()
+        };
+
+        // Window postMessage for Chrome extension content script
+        window.postMessage(relayMessage, '*');
+
+        // Direct Chrome runtime messaging
+        if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
+          try { chrome.runtime.sendMessage(relayMessage); } catch {}
+        }
+
+        // Copy scene prompt to clipboard as convenient fallback
+        navigator.clipboard.writeText(promptToSend).catch(() => {});
+        showToast(`⚡ Đã bắn Cảnh ${sceneIndex} sang Google Flow!`, 'success');
+      }
+
+      // Relay Handlers
+      if (relayS1Btn) relayS1Btn.addEventListener('click', () => sendSceneToFlow(1));
+      if (relayS2Btn) relayS2Btn.addEventListener('click', () => sendSceneToFlow(2));
+      if (relayS3Btn) relayS3Btn.addEventListener('click', () => sendSceneToFlow(3));
+      if (relayS4Btn) relayS4Btn.addEventListener('click', () => sendSceneToFlow(4));
+
+      // Batch Relay All 4 Scenes
+      if (relayFlowBtn) {
+        relayFlowBtn.addEventListener('click', () => {
+          if (!parsedScenes || parsedScenes.length === 0) {
+            showToast('⚠️ Vui lòng bấm tạo kịch bản trước khi bắn sang Flow!', 'warning');
+            return;
+          }
+
+          // Build batch payload
+          const batchMessage = {
+            type: 'PROMPT_AGENT_RELAY_BATCH',
+            target: 'flow',
+            source: 'cineprompt_pro',
+            payload: {
+              version: 1,
+              scenes: parsedScenes.map(s => ({
+                sceneIndex: s.sceneNum,
+                title: s.title,
+                timeRange: s.timeRange,
+                prompt: s.prompt,
+                cameraMotion: s.cameraMotion,
+                textOverlay: s.textOverlay,
+                voiceover: s.voiceoverVI
+              })),
+              parameters: {
+                aspectRatio: document.getElementById('ad-aspect-ratio')?.value || '16:9',
+                fps: 24
+              }
+            },
+            timestamp: Date.now()
+          };
+
+          window.postMessage(batchMessage, '*');
+          if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
+            try { chrome.runtime.sendMessage(batchMessage); } catch {}
+          }
+
+          // Also copy all 4 scenes clearly separated to clipboard
+          const clipboardText = parsedScenes.map(s => 
+            `=== SCENE ${s.sceneNum}: ${s.title.toUpperCase()} (${s.timeRange}) ===\n[PROMPT]: ${s.prompt}\n[CAMERA]: ${s.cameraMotion}\n[TEXT]: ${s.textOverlay}\n[VOICEOVER]: ${s.voiceoverVI || ''}`
+          ).join('\n\n');
+
+          navigator.clipboard.writeText(clipboardText).catch(() => {});
+          showToast('🚀 ĐÃ BẮN TRỌN BỘ 4 CẢNH SANG GOOGLE FLOW & LƯU CLIPBOARD!', 'success');
+        });
+      }
+
+      // Generate Ad Script
+      if (generateBtn) {
+        generateBtn.addEventListener('click', async () => {
+          currentBrief = {
+            productName: document.getElementById('ad-product-name')?.value.trim() || 'Product',
+            targetAudience: document.getElementById('ad-target-audience')?.value.trim() || 'Audience',
+            coreMessage: document.getElementById('ad-core-message')?.value.trim() || 'Core Message',
+            styleVibe: document.getElementById('ad-style-vibe')?.value || 'minimalist',
+            duration: Number(document.getElementById('ad-duration')?.value) || 15,
+            aspectRatio: document.getElementById('ad-aspect-ratio')?.value || '16:9'
+          };
+
+          generateBtn.disabled = true;
+          generateBtn.innerHTML = '<span>⏳ ĐANG BIÊN KỊCH CHUẨN ĐIỆN ẢNH...</span>';
+
+          try {
+            const result = await generateCinematicAd(currentBrief);
+            if (resultContainer && resultText) {
+              resultText.textContent = result;
+              parsedScenes = parseCinematicAdScenes(result);
+              resultContainer.style.display = 'block';
+              updateSimulatorFrame(0);
+              resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            showToast('✨ Đã tạo kịch bản TVC phân cảnh điện ảnh thành công!', 'success');
+          } catch (err) {
+            const fallback = buildCinematicAdScript(currentBrief);
+            if (resultContainer && resultText) {
+              resultText.textContent = fallback;
+              parsedScenes = parseCinematicAdScenes(fallback);
+              resultContainer.style.display = 'block';
+              updateSimulatorFrame(0);
+            }
+            showToast('✨ Đã tạo kịch bản bằng Bộ Máy Hollywood Tích Hợp!', 'success');
+          } finally {
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '<span>🚀 TẠO LẠI CHUỖI KỊCH BẢN QUẢNG CÁO (1-CLICK ARCHITECT)</span>';
+          }
+        });
+      }
+
+      if (copyAllBtn && resultText) {
+        copyAllBtn.addEventListener('click', async () => {
+          const text = resultText.textContent;
+          if (!text) return;
+          await navigator.clipboard.writeText(text);
+          showToast('📋 Đã sao chép toàn bộ kịch bản TVC!', 'success');
+        });
+      }
+
+      if (loadSubjectBtn && resultText) {
+        loadSubjectBtn.addEventListener('click', () => {
+          const s1 = parsedScenes.find(s => s.sceneNum === 1);
+          const prompt = s1 ? s1.prompt : resultText.textContent.slice(0, 300);
+          const subjectInput = document.getElementById('subject-input');
+          if (subjectInput) {
+            subjectInput.value = prompt;
+            subjectInput.dispatchEvent(new Event('input', { bubbles: true }));
+            subjectInput.focus();
+            if (modal) modal.style.display = 'none';
+            showToast('🎬 Đã nạp kịch bản Scene 1 vào Bàn Đạo Diễn!', 'success');
+          }
+        });
+      }
+
+      // Export Remotion (.tsx) Code
+      if (exportRemotionBtn) {
+        exportRemotionBtn.addEventListener('click', async () => {
+          const remotionCode = generateRemotionTVCCode({
+            productName: currentBrief.productName || 'Sony Alpha FX9 Cinema Camera',
+            scenes: parsedScenes,
+            duration: currentBrief.duration || 15,
+            aspectRatio: currentBrief.aspectRatio || '16:9',
+            styleVibe: currentBrief.styleVibe || 'minimalist'
+          });
+
+          // Create downloadable file CineTVC.tsx
+          const blob = new Blob([remotionCode], { type: 'text/typescript' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'CineTVC_Remotion.tsx';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+
+          // Copy to clipboard
+          await navigator.clipboard.writeText(remotionCode);
+          showToast('⚛️ ĐÃ TẢI XUỐNG CineTVC_Remotion.tsx & SAO CHÉP CODE VÀO CLIPBOARD!', 'success');
+        });
+      }
+
+      // Export Flow TVC Package (.txt) for Manual Pasting (Zero-Extension Mode)
+      if (exportFlowPackageBtn) {
+        exportFlowPackageBtn.addEventListener('click', () => {
+          if (!resultText?.textContent) {
+            showToast('⚠️ Vui lòng bấm tạo kịch bản trước khi xuất gói!', 'warning');
+            return;
+          }
+
+          exportTVCFlowPackage({
+            productName: currentBrief.productName || 'Product',
+            coreMessage: currentBrief.coreMessage || 'Core Selling Message',
+            scenes: parsedScenes,
+            scriptText: resultText.textContent,
+            styleVibe: currentBrief.styleVibe || 'minimalist',
+            duration: currentBrief.duration || 15,
+            aspectRatio: currentBrief.aspectRatio || '16:9'
+          });
+
+          showToast('📦 ĐÃ XUẤT GÓI TVC PACKAGE (.TXT) CHO GOOGLE FLOW!', 'success');
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAdArchitectUI);
+    } else {
+      initAdArchitectUI();
+    }
+  </script>
+
+  <!-- Zen Modal Editor (Phóng to khung soạn thảo xem toàn bộ prompt) -->
+  <div id="zen-editor-modal" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); z-index:999999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#11131f; border:1.5px solid rgba(255,215,0,0.45); border-radius:14px; width:95%; max-width:860px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 0 40px rgba(255,215,0,0.25); overflow:hidden;">
+      <!-- Header -->
+      <div style="padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:1.2rem;">⛶</span>
+          <div>
+            <h3 id="zen-editor-title" style="margin:0; font-size:0.95rem; font-weight:800; color:#ffd700; letter-spacing:0.5px;">Phóng To Khung Soạn Thảo Prompt</h3>
+            <span id="zen-editor-subtitle" style="font-size:0.75rem; color:#a1a1aa;">Chế độ toàn cảnh — Soạn thảo và quan sát trọn vẹn kịch bản dài</span>
+          </div>
+        </div>
+        <button id="zen-editor-close-btn" type="button" style="background:transparent; border:none; color:#a1a1aa; font-size:1.4rem; cursor:pointer; line-height:1; padding:4px 8px; border-radius:6px; transition:color 0.2s;" onmouseover="this.style.color='#fff';" onmouseout="this.style.color='#a1a1aa';">✕</button>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:16px 20px; flex:1; display:flex; flex-direction:column; gap:10px; overflow:hidden;">
+        <textarea id="zen-editor-textarea" style="flex:1; width:100%; min-height:360px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#f4f4f5; font-size:0.95rem; line-height:1.6; padding:14px 16px; font-family:inherit; resize:none; outline:none; box-sizing:border-box;" placeholder="Dán hoặc gõ kịch bản prompt chi tiết tại đây..."></textarea>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#71717a;">
+          <div id="zen-editor-stats">Ký tự: 0 | Từ: 0</div>
+          <div style="display:flex; gap:8px;">
+            <button id="zen-editor-copy-btn" type="button" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#e4e4e7; padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600;">📋 Sao chép</button>
+            <button id="zen-editor-clear-btn" type="button" style="background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.35); color:#f87171; padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:600;">🗑️ Xóa</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="padding:12px 20px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:flex-end; gap:10px; background:rgba(0,0,0,0.25);">
+        <button id="zen-editor-cancel-btn" type="button" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#a1a1aa; padding:8px 16px; border-radius:8px; font-size:0.8rem; font-weight:600; cursor:pointer;">Đóng</button>
+        <button id="zen-editor-apply-btn" type="button" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; padding:8px 20px; border-radius:8px; font-size:0.82rem; font-weight:800; cursor:pointer; box-shadow:0 0 12px rgba(255,215,0,0.4);">💾 Áp Dụng Ngay</button>
       </div>
     </div>
   </div>
