@@ -20,14 +20,95 @@ export const AI_MODELS = {
     type: 'video',
     description: 'Cấu trúc kịch bản toàn năng, tương thích hoàn hảo với mọi model.'
   },
-  kling: {
-    id: 'kling',
-    name: 'Kling AI v1.6',
-    badge: 'Pro Video',
+  flux2: {
+    id: 'flux2',
+    name: 'FLUX 2 Pro',
+    badge: '4K Photoreal',
+    provider: 'Black Forest Labs',
+    order: ['CINEMATOGRAPHY', 'SUBJECT', 'ACTIONS', 'ENVIRONMENT', 'STYLE', 'PALETTE'],
+    type: 'image',
+    description: 'FLUX 2 (2026): Quang học điện ảnh chuẩn xác, phân giải 4K, chi tiết kết cấu da và ánh sáng chân thực.'
+  },
+  midjourney8: {
+    id: 'midjourney8',
+    name: 'Midjourney v8.2',
+    badge: 'v8.2 Ultra',
+    provider: 'Midjourney',
+    order: ['SUBJECT', 'ACTIONS', 'STYLE', 'ENVIRONMENT', 'PALETTE', 'CINEMATOGRAPHY'],
+    type: 'image',
+    description: 'Midjourney v8.2: Bố cục quang học đỉnh cao, kết cấu da siêu thực và tỷ lệ khung hình chuẩn cinema.'
+  },
+  google_flow: {
+    id: 'google_flow',
+    name: 'Google Flow (Veo)',
+    badge: 'Google Veo Flow',
+    provider: 'Google DeepMind',
+    order: ['STYLE', 'CINEMATOGRAPHY', 'SUBJECT', 'ACTIONS', 'ENVIRONMENT', 'PALETTE', 'SOUND'],
+    type: 'video',
+    description: 'Google Flow (Veo Engine): Tối ưu chuyển động mượt mà, dynamic camera pans và ánh sáng điện ảnh 4K.'
+  },
+  notebooklm: {
+    id: 'notebooklm',
+    name: 'NotebookLM Studio',
+    badge: 'Knowledge Visuals',
+    provider: 'Google Labs',
+    order: ['SUBJECT', 'STYLE', 'ENVIRONMENT', 'CINEMATOGRAPHY', 'ACTIONS', 'SOUND'],
+    type: 'multimodal',
+    description: 'NotebookLM: Tạo visual slides, infographic tài liệu và deep-dive video trực quan.'
+  },
+  luma_ray2: {
+    id: 'luma_ray2',
+    name: 'Luma Ray 2',
+    badge: 'Physics Motion',
+    provider: 'Luma Dream Machine',
+    order: ['CINEMATOGRAPHY', 'ACTIONS', 'SUBJECT', 'ENVIRONMENT', 'STYLE', 'PALETTE', 'SOUND'],
+    type: 'video',
+    description: 'Luma Ray 2 (2026): Mô phỏng vật lý chuyển động máy quay và ánh sáng thực nghiệm mượt mà.'
+  },
+  runway_gen4: {
+    id: 'runway_gen4',
+    name: 'Runway Gen-4',
+    badge: 'Director Act-Two',
+    provider: 'RunwayML',
+    order: ['STYLE', 'SUBJECT', 'ACTIONS', 'CINEMATOGRAPHY', 'PALETTE', 'ENVIRONMENT', 'SOUND'],
+    type: 'video',
+    description: 'Runway Gen-4 Act-Two: Kiểm soát quỹ đạo camera chuyên sâu và tính nhất quán nhân vật.'
+  },
+  kling2: {
+    id: 'kling2',
+    name: 'Kling v2.0 Pro',
+    badge: 'Dynamic Motion',
     provider: 'Kuaishou',
     order: ['ENVIRONMENT', 'SUBJECT', 'ACTIONS', 'CINEMATOGRAPHY', 'STYLE', 'PALETTE', 'DIALOGUE', 'SOUND'],
     type: 'video',
-    description: 'Khóa không gian bối cảnh đầu câu, chống biến dạng chi tiết nền.'
+    description: 'Kling 2.0: Khóa chặt phối cảnh môi trường, hỗ trợ biên độ hành động phức tạp không biến dạng.'
+  },
+  haiper2: {
+    id: 'haiper2',
+    name: 'Haiper 2.0',
+    badge: 'VFX Fluid',
+    provider: 'Haiper AI',
+    order: ['ACTIONS', 'SUBJECT', 'CINEMATOGRAPHY', 'ENVIRONMENT', 'STYLE', 'PALETTE'],
+    type: 'video',
+    description: 'Haiper 2.0: Chuyên biệt mô phỏng chuyển động vật lý chất lỏng, khói bụi và vải vóc chân thực.'
+  },
+  sora: {
+    id: 'sora',
+    name: 'OpenAI Sora',
+    badge: 'Photoreal Video',
+    provider: 'OpenAI',
+    order: ['STYLE', 'SUBJECT', 'ACTIONS', 'CINEMATOGRAPHY', 'PALETTE', 'ENVIRONMENT', 'DIALOGUE', 'SOUND'],
+    type: 'video',
+    description: 'Phong cách điện ảnh và hành động nhân vật được ưu tiên hàng đầu.'
+  },
+  elevenlabs_foley: {
+    id: 'elevenlabs_foley',
+    name: 'ElevenLabs Audio',
+    badge: 'Foley & Sound FX',
+    provider: 'ElevenLabs',
+    order: ['SOUND', 'DIALOGUE', 'ACTIONS', 'ENVIRONMENT', 'STYLE'],
+    type: 'audio',
+    description: 'Đặc chế cho hiệu ứng âm thanh điện ảnh Foley, lời thoại diễn cảm và nhạc nền đa lớp.'
   },
   ltx: {
     id: 'ltx',
@@ -46,58 +127,13 @@ export const AI_MODELS = {
     order: ['SUBJECT', 'ENVIRONMENT', 'ACTIONS', 'STYLE', 'CINEMATOGRAPHY', 'PALETTE', 'DIALOGUE', 'SOUND'],
     type: 'video',
     description: 'Tập trung vào biểu cảm diễn viên và không gian bối cảnh sống động.'
-  },
-  sora: {
-    id: 'sora',
-    name: 'OpenAI Sora',
-    badge: 'Photoreal',
-    provider: 'OpenAI',
-    order: ['STYLE', 'SUBJECT', 'ACTIONS', 'CINEMATOGRAPHY', 'PALETTE', 'ENVIRONMENT', 'DIALOGUE', 'SOUND'],
-    type: 'video',
-    description: 'Phong cách điện ảnh và hành động nhân vật được ưu tiên hàng đầu.'
-  },
-  runway: {
-    id: 'runway',
-    name: 'Runway Gen-3 Alpha',
-    badge: 'Director Mode',
-    provider: 'RunwayML',
-    order: ['STYLE', 'SUBJECT', 'ACTIONS', 'CINEMATOGRAPHY', 'PALETTE', 'ENVIRONMENT', 'DIALOGUE', 'SOUND'],
-    type: 'video',
-    description: 'Nhận diện tốt chỉ thị máy quay chuyên nghiệp và lighting cao cấp.'
-  },
-  grok: {
-    id: 'grok',
-    name: 'Grok Imagine Video',
-    badge: 'xAI',
-    provider: 'xAI',
-    order: ['SUBJECT', 'ACTIONS', 'ENVIRONMENT', 'CINEMATOGRAPHY', 'STYLE', 'PALETTE', 'SOUND', 'DIALOGUE'],
-    type: 'video',
-    description: 'Tập trung vào tính nhất quán của hành động và âm thanh đối thoại.'
-  },
-  flux: {
-    id: 'flux',
-    name: 'FLUX.1 Pro / Schnell',
-    badge: 'Keyframe Hero',
-    provider: 'Black Forest Labs',
-    order: ['CINEMATOGRAPHY', 'SUBJECT', 'ACTIONS', 'ENVIRONMENT', 'STYLE', 'PALETTE'],
-    type: 'image',
-    description: 'Chuyên tạo ảnh Keyframe sắc nét, kiểm soát bố cục quang học tối ưu.'
-  },
-  midjourney: {
-    id: 'midjourney',
-    name: 'Midjourney v6.1',
-    badge: 'Aesthetic',
-    provider: 'Midjourney',
-    order: ['SUBJECT', 'ACTIONS', 'STYLE', 'ENVIRONMENT', 'PALETTE', 'CINEMATOGRAPHY'],
-    type: 'image',
-    description: 'Tối ưu cho ảnh tĩnh giàu tính nghệ thuật và chất liệu da thực.'
   }
 };
 
 /**
  * Re-order an array or map of prompt segments based on the target AI Model.
  * @param {Object} sections - Object containing section contents: { STYLE, SUBJECT, ACTIONS, ... }
- * @param {string} modelKey - Key from AI_MODELS (e.g. 'kling', 'ltx', 'sora')
+ * @param {string} modelKey - Key from AI_MODELS (e.g. 'kling2', 'ltx', 'sora')
  * @returns {Array<{ section: string, text: string }>} ordered array of segments
  */
 export function reorderPromptByModel(sections = {}, modelKey = 'universal') {
