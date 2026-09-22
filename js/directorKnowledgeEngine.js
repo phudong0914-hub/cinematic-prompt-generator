@@ -991,6 +991,300 @@ export function injectVisualLawsIntoPrompt(promptText, lawIds = []) {
  */
 export const PHOTOGRAPHY_MASTER_COURSE_URL = "https://photography-course-master.vercel.app/";
 
+// ── 9. COMMERCIAL PRODUCTION PRESETS (10 Kịch Bản Thương Mại Đỉnh Cao) ──
+export const COMMERCIAL_PRODUCTION_PRESETS = [
+  {
+    id: "comm_flashback",
+    title: "1. Kể chuyện & Hồi tưởng (Flashback Story)",
+    category: "Story & Cinema",
+    aspectRatio: "16:9",
+    shotSize: "Medium Close-up",
+    angle: "Eye-level",
+    movement: "Slow smooth dolly in toward subject",
+    lighting: "Soft window light with floating dust particles",
+    color: "Muted warm palette with lifted blacks",
+    mood: "Nostalgic and melancholic",
+    optics: "Shallow depth of field, 35mm film grain, f/1.8",
+    fullPrompt: "Medium close-up, eye-level, an elderly Vietnamese woman with silver hair in a faded brown áo bà ba sits by a wooden window, slowly turning the pages of an old photo album, soft window light with dust particles floating in the air, slow dolly in, cinematic, muted warm palette with lifted blacks, nostalgic and melancholic mood, shallow depth of field, 35mm film grain, 16:9",
+    rationale: "Dolly in chậm cuốn khán giả vào dòng hồi tưởng; ánh sáng cửa sổ khuếch tán kết hợp lifted blacks tái hiện chất thơ điện ảnh hoài niệm."
+  },
+  {
+    id: "comm_horror",
+    title: "2. Kinh dị & Huyền bí Pháp cổ (French Colonial Horror)",
+    category: "Mystery & Horror",
+    aspectRatio: "2.35:1",
+    shotSize: "Low angle, Dutch tilt",
+    angle: "Canted / Dutch tilt",
+    movement: "Handheld camera with slight shake, slow push in",
+    lighting: "Light from a single candle held at chest level",
+    color: "Cool desaturated palette with deep pitch shadows",
+    mood: "Eerie and ominous suspense",
+    optics: "High contrast, ground fog creeping, wide lens",
+    fullPrompt: "Low angle, Dutch tilt, a lone figure in a white dress stands at the end of a long corridor in an abandoned French colonial house, ground fog creeping along the floor, light from a single candle held at chest level, handheld camera with slight shake, slow push in, film noir, cool desaturated palette with deep shadows, eerie and ominous mood, high contrast, 2.35:1",
+    rationale: "Góc Dutch tilt tạo cảm giác bất an; một nguồn sáng nến duy nhất đẩy tương phản sáng-tối lên cực hạn; máy cầm tay mô phỏng góc nhìn nhân chứng."
+  },
+  {
+    id: "comm_wuxia",
+    title: "3. Cổ trang & Tu tiên (Wuxia / Cultivation Fantasy)",
+    category: "Fantasy & Epic",
+    aspectRatio: "21:9",
+    shotSize: "Extreme wide establishing shot",
+    angle: "Low horizon, high altitude",
+    movement: "Crane shot rising slowly to reveal distant peaks",
+    lighting: "Volumetric God rays breaking through morning mist",
+    color: "Ethereal golden hues, ink wash painting tones",
+    mood: "Majestic and serene awe",
+    optics: "Volumetric lighting, sharp panoramic depth, 8K",
+    fullPrompt: "Extreme wide establishing shot, low horizon, a young cultivator in flowing white hanfu stands on a cliff edge above a sea of clouds at sunrise, God rays breaking through the mist, crane shot rising slowly to reveal distant mountain peaks, cinematic fantasy art with ink wash painting influence, ethereal golden hues, majestic and serene mood, volumetric lighting, 8K, 21:9",
+    rationale: "Cú nâng cẩu (crane up) kết hợp viễn cảnh bao la thu nhỏ con người trước thiên nhiên kỳ vĩ; thẩm mỹ thủy mặc nâng tầm chất tiên hiệp."
+  },
+  {
+    id: "comm_ecommerce_suite",
+    title: "4. Thương mại Điện tử 2-Clip (E-Commerce Product Suite)",
+    category: "E-Commerce",
+    aspectRatio: "1:1",
+    shotSize: "Product shot + Macro detail",
+    angle: "Eye-level transitioning to Extreme Close-up",
+    movement: "Slow 360-degree orbit followed by slow pan across texture",
+    lighting: "Studio softbox lighting with subtle rim light and specular highlights",
+    color: "Clean high-key look, neutral balanced palette",
+    mood: "Calm, premium luxury",
+    optics: "100mm macro lens, pristine commercial grade",
+    fullPrompt: "Clip 1: Product shot, eye-level, a matte black ceramic coffee mug on a clean light-grey stone surface, softbox studio lighting with subtle rim light, slow 360-degree orbit around the product, photorealistic, clean high-key look, neutral color palette, calm and premium mood, 8K, 1:1.\nClip 2: Extreme close-up, macro angle, the matte black ceramic surface of the same mug, fine speckled texture visible, soft directional light raking across the surface, slow pan right, photorealistic, neutral palette, premium mood, hyperdetailed.",
+    rationale: "Cấu trúc 2-clip vàng của quảng cáo: Clip 1 định hình phom dáng sản phẩm 360 độ -> Clip 2 zoom macro thuyết phục về chất liệu cao cấp."
+  },
+  {
+    id: "comm_food",
+    title: "5. Ẩm thực Nghệ thuật (Gourmet Food & Steaming Cuisine)",
+    category: "Food & Beverage",
+    aspectRatio: "9:16",
+    shotSize: "Overhead flat lay transitioning to 45-degree angle",
+    angle: "Top-down / 45-degree",
+    movement: "Slow smooth push in toward steam",
+    lighting: "Warm directional window light from the left, backlit steam",
+    color: "Warm appetizing palette with rich reds and fresh greens",
+    mood: "Cozy, comforting and appetizing",
+    optics: "Shallow depth of field, 50mm f/2.0, macro food detail",
+    fullPrompt: "Overhead flat lay transitioning to 45-degree angle, a steaming bowl of phở with fresh herbs, lime and chili on a rustic wooden table, warm window light from the left, steam rising visibly, slow push in, food photography style, warm palette with rich reds and greens, cozy and appetizing mood, shallow depth of field, 9:16 vertical",
+    rationale: "Ánh sáng ngược làm nổi hạt hơi nước bốc khói nghi ngút; chuyển góc máy từ flat-lay sang 45 độ kích thích giác quan thèm ăn tối đa."
+  },
+  {
+    id: "comm_corporate",
+    title: "6. Đào tạo & Chuyên gia (Executive Corporate Talking Head)",
+    category: "Corporate & Education",
+    aspectRatio: "16:9",
+    shotSize: "Medium shot",
+    angle: "Eye-level neutral stance",
+    movement: "Static locked-off camera with subtle optical zoom",
+    lighting: "Two-point softbox key and gentle hair rim light",
+    color: "Neutral clean color balance, soft professional tone",
+    mood: "Calm, confident and authoritative",
+    optics: "85mm portrait prime, soft background bokeh",
+    fullPrompt: "Medium shot, eye-level, a professional in a navy blazer speaks to camera in a modern office with soft bokeh background, two-point softbox lighting with gentle rim light, static locked-off camera, clean corporate look, neutral color balance, calm and confident mood, sharp focus on face, 16:9",
+    rationale: "Máy cố định triệt tiêu xao nhãng; tiêu cự 85mm tách chủ thể khỏi văn phòng tạo vị thế chuyên gia đáng tin cậy."
+  },
+  {
+    id: "comm_neon_noir",
+    title: "7. Phố Đêm Mưa Neon (Neon Noir Rain Street)",
+    category: "Cinematic Urban",
+    aspectRatio: "2.35:1",
+    shotSize: "Low angle, medium shot",
+    angle: "Low angle street view",
+    movement: "Side tracking shot moving parallel with subject",
+    lighting: "Neon signs reflecting on wet asphalt, practical rim light",
+    color: "Neon noir aesthetic, teal and magenta palette",
+    mood: "Confident, moody and mysterious",
+    optics: "35mm anamorphic lens, horizontal flare streaks",
+    fullPrompt: "Low angle, medium shot, a man in a black leather jacket walks through a rain-soaked Hanoi street at night, neon signs reflecting on wet asphalt, rim lighting from city lights, side tracking shot, neon noir aesthetic, teal and magenta palette, confident and mysterious mood, anamorphic lens flare, 35mm, 2.35:1",
+    rationale: "Mặt đường ướt mưa biến thành tấm gương phản chiếu neon; góc thấp và vệt sáng anamorphic tạo chất điện ảnh Wong Kar-wai & Blade Runner."
+  },
+  {
+    id: "comm_travel_drone",
+    title: "8. Du lịch & Thiên nhiên FPV (Travel Landscape FPV Drone)",
+    category: "Travel & Nature",
+    aspectRatio: "16:9",
+    shotSize: "Aerial establishing shot",
+    angle: "High aerial drone perspective",
+    movement: "FPV drone flying low then soaring crane up",
+    lighting: "Golden hour sunlight with long dramatic terrain shadows",
+    color: "Vibrant HDR with warm golden ochre and lush emerald greens",
+    mood: "Awe, grandeur and breathtaking majesty",
+    optics: "Wide panoramic deep focus, hyperfocal sharp horizon",
+    fullPrompt: "Aerial establishing shot, FPV drone flying low over terraced rice fields in Mu Cang Chai at golden hour, sun-kissed slopes with long shadows, fast smooth flyover then slow crane up to reveal the valley, cinematic, vibrant HDR with warm golden hues, awe and majestic mood, sharp deep focus, 16:9",
+    rationale: "Cú lướt máy FPV từ sát mặt đất hất vút lên trời cao tạo cảm giác bay tự do; sắc vàng hoàng hôn tôn vinh cảnh sắc non sông Việt Nam."
+  },
+  {
+    id: "comm_action",
+    title: "9. Hành động & Tốc độ Cao (High-Octane Action & Sports)",
+    category: "Action & Sports",
+    aspectRatio: "16:9",
+    shotSize: "Wide shot cutting to dynamic close-up",
+    angle: "Low canted angle",
+    movement: "Fast tracking shot with whip pan kinetic transition",
+    lighting: "Hard direct sunlight with razor-sharp shadow cuts",
+    color: "Teal and orange blockbuster grade",
+    mood: "Intense, urgent and adrenaline-fueled",
+    optics: "Shutter angle 180 degrees, controlled motion blur, 24mm",
+    fullPrompt: "Wide shot cutting to close-up, low angle, a motorbike racer leans hard into a corner on a mountain road, hard midday sunlight with high contrast, fast tracking shot with slight motion blur, cinematic action color grade, teal and orange, intense and urgent mood, shutter angle 180 degrees, 16:9",
+    rationale: "Góc máy sát mặt đường khi xe ôm cua tạo lực ly tâm dữ dội; shutter 180 độ giữ độ nhòe chuyển động chuẩn phim hành động Hollywood."
+  },
+  {
+    id: "comm_tiktok_ugc",
+    title: "10. Reels & TikTok Chân thực (Authentic Mobile UGC)",
+    category: "Social Media UGC",
+    aspectRatio: "9:16",
+    shotSize: "Eye-level casual framing",
+    angle: "Direct eye-level mobile perspective",
+    movement: "Handheld with subtle organic micro-shake",
+    lighting: "Natural soft kitchen window light",
+    color: "Vibrant but un-retouched natural authentic tones",
+    mood: "Playful, cheerful and candid",
+    optics: "Shot on iPhone 15 Pro, natural mobile lens feel",
+    fullPrompt: "9:16 vertical, eye-level, a young woman unboxes a skincare package at a bright kitchen table, natural window light, handheld with slight shake, authentic mobile phone photography style, vibrant but natural colors, playful and cheerful mood, candid feel",
+    rationale: "Độ rung cầm tay tự nhiên và ánh sáng phòng đời thường đánh trúng tâm lý tin cậy của khách hàng TikTok/Reels, tăng tỷ lệ chuyển đổi đơn hàng."
+  }
+];
 
+// ── 10. EMOTION-TO-SHOT DIRECTOR MATRIX (Ma Trận Cảm Xúc -> Kỹ Thuật Đạo Diễn) ──
+export const EMOTION_TO_SHOT_MATRIX = {
+  melancholic: {
+    id: "melancholic",
+    emotionVi: "Buồn bã, Cô đơn & Lạc lõng",
+    icon: "🌧️",
+    shotSize: "High angle, Wide establishing",
+    lighting: "Overcast, Blue hour, Lifted blacks",
+    movement: "Slow dolly out (Pull back to reveal isolation)",
+    palette: "Cool, desaturated, slate blues and grey",
+    optics: "35mm film grain, muted contrast, shallow focus",
+    recommendedMood: "melancholic, lonely isolation, solemn"
+  },
+  empowered: {
+    id: "empowered",
+    emotionVi: "Quyền lực, Uy nghiêm & Hùng tráng",
+    icon: "👑",
+    shotSize: "Low angle, Hero shot, Worm's-eye view",
+    lighting: "Rim lighting from city lights, hard key light",
+    movement: "Slow dolly in OR 360-degree orbit",
+    palette: "High contrast, gold and deep carbon blacks",
+    optics: "ARRI Master Prime, sharp central focal plane",
+    recommendedMood: "triumphant, majestic, commanding quiet authority"
+  },
+  nostalgic: {
+    id: "nostalgic",
+    emotionVi: "Ấm áp, Hoài niệm & Ký ức",
+    icon: "🍂",
+    shotSize: "Medium shot, Eye-level",
+    lighting: "Golden hour, Dappled light through leaves",
+    movement: "Static locked-off OR slow gentle pan",
+    palette: "Warm earthy tones, vintage Kodachrome amber",
+    optics: "Kodak Portra 400 emulation, soft edge halation",
+    recommendedMood: "nostalgic, intimate, serene warmth"
+  },
+  mysterious_eerie: {
+    id: "mysterious_eerie",
+    emotionVi: "Bí ẩn, Căng thẳng & Rùng rợn",
+    icon: "🕯️",
+    shotSize: "Dutch tilt, Low angle",
+    lighting: "Low-key chiaroscuro, single candle, under-lighting",
+    movement: "Handheld camera with slight shake, slow push-in",
+    palette: "Deep shadows, cool desaturated greenish-cyan",
+    optics: "Anamorphic horizontal streak flares, ground fog",
+    recommendedMood: "eerie, ominous, high psychological suspense"
+  },
+  majestic_awe: {
+    id: "majestic_awe",
+    emotionVi: "Kỳ vĩ, Choáng ngợp & Linh thiêng",
+    icon: "⛰️",
+    shotSize: "Worm's-eye view, Extreme wide shot",
+    lighting: "Volumetric God rays, crepuscular beams, rim light",
+    movement: "Crane shot rising up, FPV aerial flyover",
+    palette: "Vibrant HDR, golden hour hues, deep celestial azure",
+    optics: "70mm IMAX 15-perf format, pristine deep focus",
+    recommendedMood: "awe, majestic grandeur, spiritual reverie"
+  },
+  intimate_romantic: {
+    id: "intimate_romantic",
+    emotionVi: "Thân mật, Lãng mạn & Tình cảm",
+    icon: "🌹",
+    shotSize: "Close-up, Over-the-shoulder, MCU",
+    lighting: "Soft diffuse window light, warm candle glow",
+    movement: "Slow smooth dolly in toward subject",
+    palette: "Warm pastel, creamy peach, soft rose gold",
+    optics: "Cooke S4/i 85mm 'Cooke Look', creamy oval bokeh",
+    recommendedMood: "romantic, tender, gentle intimacy"
+  },
+  intense_urgent: {
+    id: "intense_urgent",
+    emotionVi: "Hành động, Cấp bách & Nghẹt thở",
+    icon: "⚡",
+    shotSize: "Eye-level fast framing, Canted angle",
+    lighting: "Hard directional sunlight, harsh cast shadows",
+    movement: "Fast tracking shot, whip pan, crash zoom",
+    palette: "Teal and orange blockbuster grade, saturated",
+    optics: "Shutter angle 180 degrees, realistic kinetic blur",
+    recommendedMood: "intense, adrenaline-fueled, urgent"
+  },
+  dreamy_surreal: {
+    id: "dreamy_surreal",
+    emotionVi: "Mơ màng, Siêu thực & Huyền ảo",
+    icon: "✨",
+    shotSize: "Floating camera angle, Three-quarter turn",
+    lighting: "Backlit with lens flare, soft haze glow",
+    movement: "Underwater drift, floating camera slow sway",
+    palette: "Dreamy iridescent pastel, lavender and cyan",
+    optics: "Black Pro Mist filter, double exposure, bloom halation",
+    recommendedMood: "dreamy, ethereal, surreal whimsical"
+  }
+};
 
+/**
+ * Tạo cặp prompt 2-clip liền mạch phục vụ sản phẩm hoặc nhân vật
+ */
+export function generateTwoClipSequence(subject, style = "cinematic", emotionKey = "empowered") {
+  const emotion = EMOTION_TO_SHOT_MATRIX[emotionKey] || EMOTION_TO_SHOT_MATRIX.empowered;
+  
+  const clip1 = `Clip 1 (Wide Establishing & Movement): Wide establishing shot, ${emotion.shotSize.split(',')[0]}, ${subject}, ${emotion.lighting}, ${emotion.movement}, ${style}, ${emotion.palette}, ${emotion.recommendedMood}, 16:9`;
+  
+  const clip2 = `Clip 2 (Macro Detail & Texture): Extreme close-up, macro texture focus, detailed surface features of the same ${subject.split(',')[0]}, subtle directional lighting raking across surface, slow smooth pan, matching ${style} aesthetic, ${emotion.palette}, hyperdetailed tactile depth`;
 
+  return {
+    clip1,
+    clip2,
+    directorNotes: "Giữ nguyên mô tả chủ thể, bảng màu và phong cách giữa 2 clip để duy trì tính nhất quán quang học (Visual Continuity)."
+  };
+}
+
+/**
+ * Xuất toàn bộ kiến thức Cine Prompt Pro thành tài liệu AI Skill chuẩn (SKILL.md)
+ */
+export function exportSkillMarkdown() {
+  return `---
+name: cine-prompt-pro
+description: Siêu trợ lý Đạo diễn & Kỹ thuật viên Quay phim AI (Cine Prompt Pro Master Studio). Tự động kiến tạo prompt video/hình ảnh chuẩn điện ảnh quốc tế, hỗ trợ Wan 2.5, Veo 3/Google Flow, Midjourney v8.2, Kling 2.0, Runway Gen-4 với 19 Định luật Thị giác & Linter quang học.
+---
+
+# Cine Prompt Pro — Master Cinematic AI Director Skill
+
+Skill này cung cấp toàn bộ tri thức quang học, góc máy, ánh sáng, bố cục và thang chấm điểm 4 trụ cột để điều hướng AI sinh hình ảnh & video chất lượng điện ảnh Hollywood.
+
+## 1. Công thức Đạo diễn Vàng (The Master Prompt Formula)
+
+\`\`\`
+[Shot Size + Camera Angle], [Subject + Physical Identity], [Kinetic Action Beat], [Environment + Atmosphere + Weather], [Master Lighting Setup], [Camera Movement Rig], [Art Style + Film Stock Emulation], [Emotional Mood], [Optical Specs: Focal Length, Aperture, Aspect Ratio]
+\`\`\`
+
+## 2. Thang Chấm Điểm 4 Trụ Cột Đạo Diễn (4-Pillar Critique HUD)
+1. **Bố Cục (Composition - 25đ)**: Kiểm tra Tỷ lệ vàng, Điểm tựa mắt, Leading lines, Negative space.
+2. **Ánh Sáng (Lighting - 25đ)**: Tỷ lệ tương phản key/fill (4:1 hoặc 8:1), Hướng sáng vật lý, Rim light.
+3. **Màu Sắc (Color Harmony - 25đ)**: Phối màu 60-30-10, Teal & Orange, Nhiệt độ màu Kelvin chuẩn xác.
+4. **Chất Liệu & Quang Học (Texture & Optics - 25đ)**: Độ sâu trường ảnh DOF, Tiêu cự ống kính, Subsurface scattering.
+
+## 3. Checklist Linter Quang Học (Optical Physics Guardrails)
+- [ ] Không kết hợp góc siêu rộng (<16mm) với khẩu độ xóa phông cực đại (f/1.2).
+- [ ] Không kết hợp bối cảnh đêm khuya với ánh sáng Golden Hour / Direct Midday Sun.
+- [ ] Mỗi clip video 5-10 giây chỉ chứa tối đa 1 chuyển động camera chính và 1 hành động hạt nhân.
+- [ ] Nhân vật xuyên suốt các cảnh phải khóa các dấu ấn nhận diện: trang phục, nếp tóc, phụ kiện.
+
+Được trích xuất từ hệ sinh thái Cine Prompt Pro Studio: https://cine-prompt-pro.vercel.app/
+`;
+}
