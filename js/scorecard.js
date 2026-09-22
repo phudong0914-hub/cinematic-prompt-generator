@@ -257,7 +257,7 @@ function getGrade(total, lang = 'vi') {
  * }}
  */
 export function scorePrompt(promptText) {
-  const lang = localStorage.getItem("cine_lang") || "vi";
+  const lang = typeof localStorage !== 'undefined' ? (localStorage.getItem("cine_lang") || "vi") : "vi";
 
   if (!promptText || promptText.trim().length < 5) {
     return {
@@ -331,11 +331,120 @@ export function scorePrompt(promptText) {
     }
   }
 
+  // Calculate 4-Pillars Visual Mastery Score (from photography-course-master.vercel.app)
+  const fourPillars = calculate4Pillars(lowerText, lang);
+
   return {
     total,
     grade: getGrade(total, lang),
     breakdown,
     suggestions,
+    fourPillars,
     isEmpty: false,
   };
 }
+
+/* ── 4 PILLARS OF VISUAL CRITIQUE (photography-course-master.vercel.app) ── */
+
+/**
+ * Evaluates a prompt against the 4 fundamental pillars of visual mastery:
+ * 1. Bố cục (Composition & Camera - 5 sub-laws: Bố cục, Góc chụp, Tiêu điểm, Tỷ lệ, Nhịp điệu)
+ * 2. Ánh sáng (Lighting & Space - 3 sub-laws: Ánh sáng, Không gian, Cân bằng)
+ * 3. Màu sắc (Color & Contrast - 3 sub-laws: Màu sắc, Tương phản, Film Look)
+ * 4. Chất liệu & Thống nhất (Texture & Unity - 8 sub-laws: Chất liệu/Raking light, Khí quyển, Phân cấp, Thống nhất...)
+ * 
+ * @param {string} lowerText 
+ * @param {'vi'|'en'} lang 
+ * @returns {object}
+ */
+export function calculate4Pillars(lowerText, lang = 'vi') {
+  if (!lowerText || lowerText.length < 5) {
+    return {
+      bocuc: { score: 0, label: lang === 'vi' ? 'Bố Cục' : 'Composition', color: '#7c8aff' },
+      anhsang: { score: 0, label: lang === 'vi' ? 'Ánh Sáng' : 'Lighting', color: '#ffcb6b' },
+      mausac: { score: 0, label: lang === 'vi' ? 'Màu Sắc' : 'Color', color: '#f07178' },
+      chatlieu: { score: 0, label: lang === 'vi' ? 'Chất Liệu & Thống Nhất' : 'Texture & Unity', color: '#c3e88d' },
+      averageScore: 0,
+      strengths: [],
+      improvements: []
+    };
+  }
+
+  // 1. Pillar: Bố Cục (Composition)
+  const bocucKeywords = [
+    'rule of thirds', 'golden ratio', 'fibonacci', 'leading lines', 'frame in frame',
+    'frame within frame', 'vanishing point', 'symmetry', 'symmetrical', 'bilateral',
+    'low angle', 'high angle', 'eye level', 'worm eye', 'dutch angle', 'depth of field',
+    'shallow depth', 'deep focus', 'anamorphic', 'scale contrast', 'rhythm', 'geometric'
+  ];
+  const bocucMatches = bocucKeywords.filter(k => lowerText.includes(k)).length;
+  const bocucScore = Math.min(100, Math.max(30, bocucMatches * 20 + 20));
+
+  // 2. Pillar: Ánh Sáng (Lighting & Space)
+  const anhsangKeywords = [
+    'chiaroscuro', 'rembrandt', 'volumetric', 'rim light', 'negative space',
+    'breathing room', 'anti-horror-vacui', 'motivated light', 'key light', 'bounce light',
+    'directional light', 'softbox', 'golden hour', 'blue hour', 'balance', 'shadow sculpting'
+  ];
+  const anhsangMatches = anhsangKeywords.filter(k => lowerText.includes(k)).length;
+  const anhsangScore = Math.min(100, Math.max(30, anhsangMatches * 22 + 15));
+
+  // 3. Pillar: Màu Sắc (Color & Contrast)
+  const mausacKeywords = [
+    'color harmony', 'dominant color', 'dominant palette', '80% dominant', 'monochromatic',
+    'tonal contrast', 'warm-cool', 'teal and orange', 'teal-orange', 'kodak', 'portra',
+    'cinestill', 'fuji', 'aces', 'color grade', 'lut', 'high contrast', 'chromatic'
+  ];
+  const mausacMatches = mausacKeywords.filter(k => lowerText.includes(k)).length;
+  const mausacScore = Math.min(100, Math.max(30, mausacMatches * 22 + 15));
+
+  // 4. Pillar: Chất Liệu & Thống Nhất (Texture & Unity)
+  const chatlieuKeywords = [
+    'texture', 'raking light', 'somatosensory', 'micro-relief', 'tactile',
+    'volumetric haze', 'atmosphere', 'visual hierarchy', 'anchor point', 'unity',
+    'gestalt', 'subconscious', 'skin pore', 'fabric weave', 'palpable', 'cohesion'
+  ];
+  const chatlieuMatches = chatlieuKeywords.filter(k => lowerText.includes(k)).length;
+  const chatlieuScore = Math.min(100, Math.max(30, chatlieuMatches * 22 + 15));
+
+  const averageScore = Math.round((bocucScore + anhsangScore + mausacScore + chatlieuScore) / 4);
+
+  // Strengths and improvements
+  const strengths = [];
+  const improvements = [];
+
+  if (bocucScore >= 80) {
+    strengths.push(lang === 'vi' ? 'Bố cục hình học và phối cảnh lớp không gian chặt chẽ.' : 'Strong geometric composition and spatial layering.');
+  } else {
+    improvements.push(lang === 'vi' ? 'Cần bổ sung đường dẫn (leading lines) hoặc tỷ lệ vàng để dẫn dắt mắt nhìn.' : 'Add leading lines or golden ratio to guide viewer eye-path.');
+  }
+
+  if (anhsangScore >= 80) {
+    strengths.push(lang === 'vi' ? 'Ánh sáng có chủ đích cao, tương phản sáng tối Chiaroscuro chuẩn điện ảnh.' : 'Motivated directional lighting with cinematic chiaroscuro depth.');
+  } else {
+    improvements.push(lang === 'vi' ? 'Bổ sung khoảng trống âm (negative space) và nguồn sáng xiên có động cơ.' : 'Incorporate deliberate negative space and motivated raking light.');
+  }
+
+  if (mausacScore >= 80) {
+    strengths.push(lang === 'vi' ? 'Hệ màu chủ đạo 80% nhất quán, kiểm soát nhiệt độ màu xuất sắc.' : 'Disciplined 80% dominant palette with controlled chromatic harmony.');
+  } else {
+    improvements.push(lang === 'vi' ? 'Khóa chặt 1 bảng màu chủ đạo (dominant palette) tránh nhiễu loạn màu.' : 'Lock an 80% dominant color palette to prevent chromatic noise.');
+  }
+
+  if (chatlieuScore >= 80) {
+    strengths.push(lang === 'vi' ? 'Kích hoạt xúc giác thị giác (Somatosensory) và bầu không khí thể tích chân thực.' : 'Tactile somatosensory micro-textures and dense volumetric atmosphere.');
+  } else {
+    improvements.push(lang === 'vi' ? 'Ứng dụng ánh sáng xiên 10-20° (raking light) để lột tả chi tiết bề mặt da/vải.' : 'Use 10-20° raking light to activate tactile surface micro-textures.');
+  }
+
+  return {
+    bocuc: { score: bocucScore, label: lang === 'vi' ? 'Bố Cục (Composition)' : 'Composition', color: '#7c8aff' },
+    anhsang: { score: anhsangScore, label: lang === 'vi' ? 'Ánh Sáng (Lighting)' : 'Lighting', color: '#ffcb6b' },
+    mausac: { score: mausacScore, label: lang === 'vi' ? 'Màu Sắc (Color)' : 'Color', color: '#f07178' },
+    chatlieu: { score: chatlieuScore, label: lang === 'vi' ? 'Chất Liệu & Thống Nhất' : 'Texture & Unity', color: '#c3e88d' },
+    averageScore,
+    strengths,
+    improvements
+  };
+}
+

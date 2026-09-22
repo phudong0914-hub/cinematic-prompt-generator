@@ -696,5 +696,301 @@ export function build5LayerCommercialPrompt({
 [ENGINE PARAMETERS]: ${engineParams[engine] || engineParams.midjourney}`;
 }
 
+// ── 8. 19 VISUAL LAWS MASTERY ENGINE (from photography-course-master.vercel.app) ──
+/**
+ * 19 Chuẩn mực Ngôn ngữ Thị giác & Quang học Điện ảnh thực chiến
+ * Chuyển hóa toàn diện từ giáo trình Masterclass 19 bài học sang tham số Prompt quang học.
+ */
+export const VISUAL_LANGUAGE_MASTERY_19_LAWS = [
+  // ── MODULE 1: BẢN CHẤT & MỤC ĐÍCH ──
+  {
+    id: "sucManh",
+    lesson: 1,
+    module: "Module 1: Bản Chất & Ý Niệm",
+    nameVi: "Sức Mạnh Hình Ảnh & Ý Niệm Thị Giác",
+    nameEn: "Visual Intent & Subconscious Impact",
+    desc: "Hình ảnh tác động trực tiếp lên hệ thần kinh thị giác và hạch hạnh nhân (amygdala) trước khi vỏ não kịp phân tích ngôn từ. Xác lập cảm xúc chủ đạo tối thượng trước khi khởi tạo.",
+    promptSnippet: "deliberate visual intent, intense subconscious emotional resonance, evocative atmospheric depth, haunting visual memory, commanding visceral impact",
+    opticalParams: "High visual conviction, motivated key luminance, zero decorative visual noise",
+    trap: "Tạo hình vô hồn, chắp vá các từ khóa ngẫu nhiên không có cảm xúc cốt lõi",
+    antidote: "Khóa chặt một trạng thái cảm xúc duy nhất (Awe, Solitude, Melancholy, Triumph)"
+  },
+  {
+    id: "mucDich",
+    lesson: 2,
+    module: "Module 1: Bản Chất & Ý Niệm",
+    nameVi: "Mục Đích Nhiếp Ảnh & Lập Trường Thị Giác",
+    nameEn: "Photographic Purpose & Stance",
+    desc: "Định vị vai trò khung hình: Ghi nhận hiện thực (Documentary), Thuyết phục thương mại (Commercial), Khơi gợi mỹ cảm (Fine-Art), hay Thử nghiệm thị giác (Avant-Garde).",
+    promptSnippet: "purpose-driven photographic stance, candid documentary authenticity, uncompromised artistic conviction, naturalistic observation, genuine human intimacy",
+    opticalParams: "Authentic ambient motivated lighting, unposed candid geometry, naturalistic sensor response",
+    trap: "Hỗn loạn giữa phong cách thương mại bóng bẩy và tư liệu mộc mạc",
+    antidote: "Nhất quán thể loại và khoảng cách tiếp cận giữa máy quay và chủ thể"
+  },
+  {
+    id: "bieuTuong",
+    lesson: 3,
+    module: "Module 1: Bản Chất & Ý Niệm",
+    nameVi: "Ngôn Ngữ Biểu Tượng & Đạo Đức Khung Hình",
+    nameEn: "Symbolism & Ethical Framing",
+    desc: "Giải mã biểu tượng văn hóa đa tầng. Triệt để chống 3 bẫy thị giác rập khuôn: Exoticization (lạ mắt hóa), Single Story (phiến diện), Savior Framing (hạ thấp chủ thể).",
+    promptSnippet: "layered cultural symbolism, authentic human dignity, profound metaphorical subtext, nuanced respectful framing, dignified sovereign presence, rich cultural semiotics",
+    opticalParams: "Eye-level camera alignment, respectful distance, unexoticized indigenous context",
+    trap: "Exoticization (biến văn hóa thành vật trang trí kỳ dị), Savior Framing (định khung cứu thế)",
+    antidote: "Trao quyền tự chủ cho nhân vật qua góc máy ngang tầm mắt và bối cảnh sinh hoạt tự nhiên"
+  },
+
+  // ── MODULE 2: TỪ VỰNG THỊ GIÁC SƠ KHỞI ──
+  {
+    id: "duongNet",
+    lesson: 4,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Đường Nét Dẫn Hướng (Line & Vectors)",
+    nameEn: "Leading Lines & Implied Eye-Vectors",
+    desc: "Dẫn dắt mắt người xem qua các đường dẫn (leading lines), đường chéo căng thẳng, đường cong S-curve mềm mại và đường nét ngầm (implied gaze vectors).",
+    promptSnippet: "dynamic leading lines guiding viewer eye-path, sweeping S-curve geometric flow, subtle implied eye-line vectors, vanishing point convergence, linear spatial momentum",
+    opticalParams: "24mm or 28mm wide prime lens for enhanced perspective converging vectors",
+    trap: "Các đường nét lộn xộn chỉ ra ngoài khung hình làm mắt người xem bị văng ra ngoài",
+    antidote: "Tập trung mọi đường nét hội tụ chính xác vào điểm neo thị giác (Visual Anchor)"
+  },
+  {
+    id: "hinhKhoi",
+    lesson: 5,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Hình Dạng & Thể Tích 3D (Shape & Form)",
+    nameEn: "Shape, 3D Form & Volumetric Mass",
+    desc: "Chuyển hóa từ hình phẳng 2D (Shape) sang thể tích 3D (Form) nhờ bóng đổ chuyển tiếp mịn màng. Ứng dụng hình tròn (hài hòa), vuông (vững chãi), tam giác (động lực).",
+    promptSnippet: "geometric volumetric form, sculpted 3D volume through delicate shadow gradation, triangular dynamic stability, tonal chiaroscuro defining mass and tactile contour",
+    opticalParams: "45-degree directional key light with gentle wrap-around fill for volume modeling",
+    trap: "Ánh sáng chiếu thẳng trực diện (flat flash) làm dẹt phẳng mọi khối hình học",
+    antidote: "Dùng nguồn sáng xiên chếch 45 độ để tạo dải bóng đổ chuyển tiếp tôn vinh khối 3D"
+  },
+  {
+    id: "khongGian",
+    lesson: 6,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Khoảng Trống Âm & Chống Horror Vacui (Space)",
+    nameEn: "Negative Space & Anti-Horror Vacui",
+    desc: "Thiết lập mối quan hệ giữa chủ thể (Positive Space) và khoảng trống (Negative Space). Chữa trị 'bệnh sợ chân không' (Horror Vacui) nhồi nhét chi tiết làm ngạt thở khung hình.",
+    promptSnippet: "deliberate expansive negative space, anti-horror-vacui breathing room, poetic spatial minimalism, powerful visual pause, unencumbered subject isolation, elegant spatial silence",
+    opticalParams: "Wide open compositional negative space with single sharp isolated subject",
+    trap: "Horror Vacui: Nhồi nhét quá nhiều vật thể phụ làm phân tán hoàn toàn điểm nhìn",
+    antidote: "Dành tối thiểu 50-70% diện tích cho khoảng trống âm yên tĩnh để mắt người xem được thở"
+  },
+  {
+    id: "anhSang",
+    lesson: 7,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Nghệ Thuật Điêu Khắc Ánh Sáng (Light)",
+    nameEn: "Directional Light & Shadow Sculpting",
+    desc: "Điêu khắc khối, tạo kịch tính và chiều sâu không gian. Nắm vững tỷ lệ sáng tối Key:Fill:Rim, ánh sáng tạo động cơ (motivated light) và bóng tối Chiaroscuro.",
+    promptSnippet: "sculptural directional lighting, motivated single-source key light, nuanced chiaroscuro shadow sculpting, luminous rim light separation, gentle fill bounce, cinematic luminous physics",
+    opticalParams: "4:1 to 8:1 key-to-fill lighting ratio, motivated window or tungsten illumination",
+    trap: "Ánh sáng đều khắp khung hình không có bóng đổ, triệt tiêu tính kịch tính điện ảnh",
+    antidote: "Luôn xác định rõ vị trí nguồn sáng thực tế (cửa sổ, ngọn đèn) và duy trì vùng bóng tối có chủ đích"
+  },
+  {
+    id: "mauSac",
+    lesson: 8,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Màu Sắc & Quy Luật 80% Hệ Màu Chủ Đạo (Color)",
+    nameEn: "Color Harmony & 80% Dominant Palette",
+    desc: "Áp dụng bánh xe màu sắc và quy luật 80% hệ màu chủ đạo (Dominant Palette) phối hợp với 20% màu điểm xuyết tương hỗ, khơi gợi trạng thái tâm lý lập tức.",
+    promptSnippet: "curated 80% dominant color harmony, disciplined monochromatic undertones with calculated complementary chromatic accents, emotional color psychology, harmonious graded palette",
+    opticalParams: "Consistent color temperature (3200K warm vs 5600K cool ambient balance)",
+    trap: "Quá nhiều màu bão hòa cao tranh chấp nhau khiến não bộ mệt mỏi",
+    antidote: "Chọn 1 gam màu chủ đạo chiếm 80% diện tích khung hình, chỉ dùng màu đối lập ở điểm nhấn"
+  },
+  {
+    id: "tuongPhan",
+    lesson: 9,
+    module: "Module 2: Từ Vựng Thị Giác Sơ Khởi",
+    nameVi: "Tương Phản Đa Tầng (Contrast)",
+    nameEn: "Multi-Tier Contrast Dynamics",
+    desc: "Tạo lực kéo thị giác cực mạnh thông qua tương phản sắc độ (Tonal: Sáng vs Tối), tương phản nhiệt độ (Nóng vs Lạnh), và tương phản bề mặt (Mịn vs Thô).",
+    promptSnippet: "multi-layered tonal contrast, striking chiaroscuro luminance disparity, warm-cool color temperature juxtaposition, deep rich blacks against piercing highlights, visual dramatic tension",
+    opticalParams: "High dynamic range sensor curve, deep inky shadow retention with pristine highlight roll-off",
+    trap: "Độ tương phản phẳng lì (muddy grey midtones) thiếu điểm sáng nhất và tối nhất",
+    antidote: "Cân chỉnh phân bổ ánh sáng sao cho chủ thể nổi bật trên nền tối hoặc ngược lại"
+  },
+
+  // ── MODULE 3: CẢM GIÁC VẬT CHẤT & KHÍ QUYỂN ──
+  {
+    id: "chatLieu",
+    lesson: 10,
+    module: "Module 3: Cảm Giác Vật Chất",
+    nameVi: "Chất Liệu & Ánh Sáng Xiên Raking Light (Texture)",
+    nameEn: "Texture, Raking Light & Somatosensory Activation",
+    desc: "Kích hoạt vỏ não xúc giác (Somatosensory Cortex) liên kết với hạch hạnh nhân qua nguồn sáng quét góc cực thấp 10–20° (Raking Light) lột tả vi kết cấu bề mặt.",
+    promptSnippet: "10-20 degree low-angle raking light grazing across tactile surfaces, somatosensory cortex micro-texture activation, palpable fabric weaves and skin pore fidelity, hyper-detailed tactile relief",
+    opticalParams: "Extreme grazing raking cross-light at 15 degrees, macro probe lens or 85mm T1.5 prime",
+    trap: "Dùng ánh sáng khuếch tán diện rộng làm biến mất toàn bộ độ nhám, nếp nhăn và kết cấu",
+    antidote: "Đặt nguồn sáng song song sát mép bề mặt để tạo các vệt bóng đổ siêu nhỏ sau từng hạt chất liệu"
+  },
+  {
+    id: "kichThuoc",
+    lesson: 11,
+    module: "Module 3: Cảm Giác Vật Chất",
+    nameVi: "Tỷ Lệ & Kích Thước Quyền Lực (Scale)",
+    nameEn: "Scale, Proportion & Spatial Monumentality",
+    desc: "So sánh kích thước đối chiếu giữa các vật thể (Con người đối lập Kiến trúc khổng lồ / Thiên nhiên vĩ đại) để nhấn mạnh sự nhỏ bé hay vĩ đại, điều khiển cảm giác choáng ngợp.",
+    promptSnippet: "epic cinematic scale contrast, diminutive human figure juxtaposed against monumental monolithic architecture, overwhelming sense of scale and spatial grandeur, dwarfed perspective",
+    opticalParams: "Ultra-wide 18mm or 21mm lens with deep depth of field, establishing master shot",
+    trap: "Khung hình không có vật thể đối chiếu làm mất đi cảm nhận về độ lớn thực tế",
+    antidote: "Luôn đặt một yếu tố quen thuộc (hình bóng con người, cánh cửa) để người xem có hệ quy chiếu"
+  },
+  {
+    id: "khongKy",
+    lesson: 12,
+    module: "Module 3: Cảm Giác Vật Chất",
+    nameVi: "Bầu Không Khí Khí Quyển (Atmosphere)",
+    nameEn: "Atmosphere & Volumetric Environment",
+    desc: "Tổng hòa sương mù thể tích (Volumetric Haze), khói ẩm, mưa đêm phản quang và hạt bụi bắt sáng để tạo nên môi trường cảm xúc điện ảnh đậm đặc có thể chạm thấy được.",
+    promptSnippet: "dense volumetric atmosphere, crepuscular light rays piercing through suspension haze, airborne dust motes catching rim luminescence, moody atmospheric condensation, palpable damp air",
+    opticalParams: "Backlit atmospheric particulate suspension, subtle Promist 1/4 halation filter",
+    trap: "Không khí vô trùng, trong suốt tuyệt đối khiến khung hình trông giống mô hình 3D giả lập",
+    antidote: "Thêm các phần tử thể tích lơ lửng (sương mù nhẹ, hơi nước, luồng khói mờ) phản xạ ánh sáng"
+  },
+
+  // ── MODULE 4: CẤU TRÚC CÂU CHUYỆN & ĐẠO DIỄN ──
+  {
+    id: "bocuc",
+    lesson: 13,
+    module: "Module 4: Cấu Trúc Câu Chuyện",
+    nameVi: "Kiến Trúc Bố Cục Chuẩn Mực (Composition)",
+    nameEn: "Composition Architecture & Geometric Harmony",
+    desc: "Sắp xếp trật tự các vật thể trong khung hình: Tỷ lệ vàng (Fibonacci spiral), 1/3 (Rule of Thirds), Đối xứng trục (Bilateral Symmetry), và Khung trong khung (Frame-in-Frame).",
+    promptSnippet: "golden ratio composition, precise Fibonacci spiral layout, dynamic rule of thirds alignment, elegant architectural frame-within-frame, deliberate bilateral symmetry",
+    opticalParams: "Calibrated camera grid alignment, centered horizon or 1/3 division lines",
+    trap: "Đặt chủ thể ở vị trí lưng chừng vô định, không thuộc điểm mạnh của bất kỳ lưới bố cục nào",
+    antidote: "Căn chỉnh mắt chủ thể vào giao điểm 1/3 hoặc áp dụng bố cục đối xứng trục tuyệt đối"
+  },
+  {
+    id: "gocChup",
+    lesson: 14,
+    module: "Module 4: Cấu Trúc Câu Chuyện",
+    nameVi: "Góc Máy & Quyền Lực Tâm Lý (Camera Angle)",
+    nameEn: "Camera Angle & Psychological Power Dynamics",
+    desc: "Điều khiển tâm lý người xem: Góc thấp (Low-angle: Quyền lực, áp đảo), Ngang mắt (Eye-level: Bình đẳng, đồng cảm), Góc cao (High-angle: Yếu thế, cô đơn), Dutch Angle (Bất an).",
+    promptSnippet: "psychological camera angle, authoritative low-angle perspective commanding narrative power, dignified subject stance, towering visual authority, deliberate optical elevation",
+    opticalParams: "Worm's eye or low camera height tilted upward 20 degrees, solid tripod ground anchor",
+    trap: "Sử dụng góc chụp tiện tay ngang ngực thiếu chủ đích, làm cảnh quay tẻ nhạt",
+    antidote: "Mọi góc máy phải phục vụ địa vị quyền lực hoặc trạng thái cảm xúc của nhân vật trong cảnh"
+  },
+  {
+    id: "tieuDiem",
+    lesson: 15,
+    module: "Module 4: Cấu Trúc Câu Chuyện",
+    nameVi: "Tiêu Điểm & Phân Tầng Trường Ảnh (Depth of Field)",
+    nameEn: "Focus, Depth of Field & Spatial Layering",
+    desc: "Điều phối độ nông sâu trường ảnh: Khẩu lớn T1.2-T1.8 xóa phông cô lập tâm lý vs Khẩu hẹp T8-T11 Deep Focus kể câu chuyện đa tầng (Tiền cảnh - Trung cảnh - Hậu cảnh).",
+    promptSnippet: "three-dimensional depth layering, sharp razor focus on primary anchor, silky organic background bokeh, distinct foreground midground background narrative tiers, selective optical depth",
+    opticalParams: "Large aperture prime lens wide open at T1.3 or deep focus stopped down to T8",
+    trap: "Hậu cảnh bị xóa nhòe hoàn toàn làm mất sạch ngữ cảnh bối cảnh và câu chuyện xung quanh",
+    antidote: "Chủ động thiết lập 3 lớp không gian rõ rệt: chi tiết mờ ở tiền cảnh, chủ thể ở trung cảnh, bối cảnh phía sau"
+  },
+
+  // ── MODULE 5: HỆ THỐNG VẬN HÀNH & THỐNG NHẤT ──
+  {
+    id: "nhipDieu",
+    lesson: 16,
+    module: "Module 5: Hệ Thống Vận Hành",
+    nameVi: "Nhịp Điệu Thị Giác (Rhythm & Cadence)",
+    nameEn: "Visual Rhythm & Spatial Cadence",
+    desc: "Lặp đi lặp lại các yếu tố thị giác có chu kỳ (hàng cột, cửa sổ, nhịp bóng đổ) để tạo nên giai điệu hình ảnh sống động và dòng chảy thời gian tựa như bản nhạc giao hưởng.",
+    promptSnippet: "hypnotic visual rhythm, repeating architectural cadence, rhythmic alternating pattern of light and shadow, melodic geometric recurrence, dynamic temporal pulse",
+    opticalParams: "Long focal length lens (100mm+) compressing spatial intervals between repeating elements",
+    trap: "Sự lặp lại máy móc, đơn điệu không có biến tấu nhịp phách",
+    antidote: "Tạo ra sự lặp lại nhịp nhàng nhưng có một điểm phá vỡ nhịp (Syncopation) tại vị trí chủ thể"
+  },
+  {
+    id: "canBang",
+    lesson: 17,
+    module: "Module 5: Hệ Thống Vận Hành",
+    nameVi: "Cân Bằng Tĩnh & Cân Bằng Động (Balance)",
+    nameEn: "Static vs. Dynamic Balance Equilibrium",
+    desc: "Phân bổ trọng lượng thị giác: Cân bằng đối xứng tạo cảm giác trang nghiêm, tĩnh lặng; Cân bằng bất đối xứng (Dynamic Tension) tạo lực căng ngầm và năng lượng dịch chuyển.",
+    promptSnippet: "masterful asymmetric visual balance, dynamic visual weight equilibrium, calculated off-center tension held in perfect suspension, sophisticated compositional counterweight",
+    opticalParams: "Carefully calibrated visual mass distribution across frame coordinates",
+    trap: "Khung hình bị lệch trọng lượng nghiêm trọng khiến cảnh quay có cảm giác đổ nhào ngoài ý muốn",
+    antidote: "Cân bằng một mảng tối lớn ở một bên bằng một đốm sáng nhỏ hoặc màu sắc rực rỡ ở phía đối diện"
+  },
+  {
+    id: "phamCap",
+    lesson: 18,
+    module: "Module 5: Hệ Thống Vận Hành",
+    nameVi: "Phân Cấp Thị Giác 3 Tầng (Visual Hierarchy)",
+    nameEn: "3-Tier Visual Hierarchy & Eye-Path Guidance",
+    desc: "Thiết lập tuyến đọc ảnh mạch lạc dẫn dắt ánh mắt: Điểm neo số 1 (Anchor - tương phản cao nhất) → Điểm bổ trợ số 2 (Secondary details) → Bối cảnh thứ cấp (Contextual background).",
+    promptSnippet: "strict three-tier visual hierarchy, primary high-contrast anchor commanding immediate gaze, secondary supporting narrative elements, softly subdued atmospheric context, unambiguous eye-flow",
+    opticalParams: "Graduated luminance and contrast hierarchy routing viewer attention in deliberate sequence",
+    trap: "Mọi chi tiết đều sáng chói và sắc nét ngang nhau khiến người xem không biết nhìn vào đâu trước",
+    antidote: "Chỉ cho phép duy nhất một điểm có độ tương phản và độ sáng cao nhất trong toàn bộ khung hình"
+  },
+  {
+    id: "tinhThong",
+    lesson: 19,
+    module: "Module 5: Hệ Thống Vận Hành",
+    nameVi: "Tính Thống Nhất Toàn Vẹn Tác Phẩm (Unity)",
+    nameEn: "Holistic Cinematic Unity & Gestalt Cohesion",
+    desc: "Tổng hợp toàn bộ ngôn ngữ thị giác thành một tác phẩm hoàn chỉnh: Ánh sáng, màu sắc, bố cục, nhịp điệu và chất liệu đều đồng thanh phục vụ cho một linh hồn thông điệp duy nhất.",
+    promptSnippet: "consummate artistic unity, holistic cinematic cohesion, every optical element harmonized to a singular emotional core, seamless Gestalt integrity, zero superfluous visual noise",
+    opticalParams: "Unified cinema film emulation, harmonious color grading LUT, flawless production design",
+    trap: "Râu ông nọ cắm cằm bà kia: Bố cục một đằng, ánh sáng một nẻo, màu sắc không ăn nhập với tâm lý",
+    antidote: "Kiểm tra toàn diện: Nếu bỏ bớt bất kỳ chi tiết nào trong khung mà cảm xúc không suy suyển, hãy loại bỏ nó ngay"
+  }
+];
+
+/**
+ * Bộ lọc Đạo đức Thị giác (Ethical Framing & Anti-Tropes) từ Bài học 3 của Khóa học
+ */
+export const ETHICAL_FRAMING_GUARDRAILS = {
+  exoticization: {
+    rule: "Anti-Exoticization (Chống Cảnh Lạ Mắt Hóa)",
+    violation: "Biến cộng đồng hoặc văn hóa thành vật trang trí lạ mắt chỉ để kích thích sự hiếu kỳ của người ngoài.",
+    remedy: "Nhấn mạnh điểm tương đồng nhân bản. Đặt chủ thể trong sinh hoạt đời sống tự nhiên.",
+    promptInjection: "authentic human dignity, respectful cultural context, unposed organic daily life"
+  },
+  singleStory: {
+    rule: "Anti-Single Story (Chống Câu Chuyện Phiến Diện)",
+    violation: "Dùng một khuôn mẫu dễ dãi để đại diện cho cả một cộng đồng phức tạp.",
+    remedy: "Khắc họa đa tầng cảm xúc: lao động, suy tư, niềm vui, sự tự chủ.",
+    promptInjection: "nuanced emotional complexity, multifaceted human experience, sovereign interiority"
+  },
+  saviorFraming: {
+    rule: "Anti-Savior Framing (Chống Định Khung Cứu Thế)",
+    violation: "Đặt chủ thể vào vị trí thụ động, yếu thế chờ đợi được thương hại hoặc cứu giúp.",
+    remedy: "Trao quyền cho chủ thể thông qua góc máy ngang tầm mắt hoặc góc thấp nhẹ.",
+    promptInjection: "dignified eye-level camera stance, self-reliant personal agency, commanding quiet dignity"
+  }
+};
+
+/**
+ * Áp dụng một hoặc nhiều quy luật thị giác vào prompt hiện tại
+ * @param {string} promptText
+ * @param {string[]} lawIds - Danh sách mã quy luật (e.g. ['chatLieu', 'khongGian'])
+ * @returns {string} Prompt đã được tiêm các tham số quang học tương ứng
+ */
+export function injectVisualLawsIntoPrompt(promptText, lawIds = []) {
+  if (!lawIds || lawIds.length === 0) return promptText;
+
+  const injections = [];
+  for (const id of lawIds) {
+    const law = VISUAL_LANGUAGE_MASTERY_19_LAWS.find(l => l.id === id);
+    if (law && !promptText.toLowerCase().includes(law.promptSnippet.slice(0, 20).toLowerCase())) {
+      injections.push(law.promptSnippet);
+    }
+  }
+
+  if (injections.length === 0) return promptText;
+  return `${promptText}, ${injections.join(", ")}`;
+}
+
+/**
+ * Đường dẫn tham chiếu trực tiếp đến Khóa Học Ngôn Ngữ Thị Giác
+ */
+export const PHOTOGRAPHY_MASTER_COURSE_URL = "https://photography-course-master.vercel.app/";
+
+
 
 

@@ -62,6 +62,52 @@ export class OpticalLinter {
       });
     }
 
+    // 5. Visual Law: Horror Vacui (Bệnh sợ khoảng trống) - Bài 6
+    const hasClutter = text.includes('cluttered') || text.includes('overcrowded') || text.includes('packed with countless') || text.includes('too many objects') || text.includes('crammed');
+    const hasNegativeSpace = text.includes('negative space') || text.includes('breathing room') || text.includes('anti-horror-vacui') || text.includes('minimalist');
+    if (hasClutter && !hasNegativeSpace) {
+      conflicts.push({
+        type: 'HORROR_VACUI_OVERCROWDING',
+        severity: 'MEDIUM',
+        message: 'Hội chứng Horror Vacui (Bài 6): Khung hình bị nhồi nhét quá nhiều vật thể phụ, triệt tiêu nhịp thở và làm nghẹt thở điểm neo thị giác.',
+        fix: 'Bổ sung "deliberate expansive negative space, anti-horror-vacui breathing room, poetic spatial minimalism".'
+      });
+    }
+
+    // 6. Visual Law: Texture without Raking Light (Xúc giác thị giác thiếu ánh sáng xiên) - Bài 10
+    const hasTextureNeed = text.includes('skin pore') || text.includes('fabric weave') || text.includes('micro-texture') || text.includes('tactile surface') || text.includes('somatosensory') || text.includes('rough stone');
+    const hasRakingLight = text.includes('raking light') || text.includes('grazing light') || text.includes('cross light') || text.includes('side light') || text.includes('low-angle light');
+    if (hasTextureNeed && !hasRakingLight) {
+      suggestions.push({
+        type: 'MISSING_RAKING_LIGHT_TEXTURE',
+        message: 'Chất liệu thiếu ánh sáng xiên (Bài 10): Muốn kích hoạt vỏ não xúc giác (Somatosensory Cortex), bắt buộc phải có nguồn sáng quét góc cực thấp 10-20° để tạo bóng đổ vi mô.',
+        fix: 'Thêm "10-20 degree low-angle raking light grazing across tactile micro-textures".'
+      });
+    }
+
+    // 7. Visual Law: Chromatic Chaos (Mất cân bằng hệ màu chủ đạo 80%) - Bài 8
+    const saturatedColorHits = ['neon green', 'vivid purple', 'bright yellow', 'saturated cyan', 'fiery red', 'electric pink'].filter(c => text.includes(c));
+    const hasDominantPalette = text.includes('dominant color') || text.includes('dominant palette') || text.includes('monochromatic') || text.includes('harmonious palette') || text.includes('color harmony');
+    if (saturatedColorHits.length >= 3 && !hasDominantPalette) {
+      conflicts.push({
+        type: 'CHROMATIC_CHAOS_CONFLICT',
+        severity: 'MEDIUM',
+        message: 'Nhiễu loạn sắc độ (Bài 8): Có quá nhiều màu bão hòa cao tranh chấp nhau, thiếu quy luật 80% hệ màu chủ đạo dẫn dắt cảm xúc.',
+        fix: 'Áp dụng "curated 80% dominant color harmony with calculated complementary chromatic accents".'
+      });
+    }
+
+    // 8. Visual Law: Ethical Framing Filter (Đạo đức khung hình & chống định kiến) - Bài 3
+    if (text.includes('exotic tribe') || text.includes('primitive people') || text.includes('savior helping poor') || text.includes('pity victim')) {
+      conflicts.push({
+        type: 'ETHICAL_FRAMING_CONFLICT',
+        severity: 'HIGH',
+        message: 'Cảnh báo Đạo đức thị giác (Bài 3): Khung hình có dấu hiệu Exoticization (lạ mắt hóa) hoặc Savior Framing (hạ thấp quyền tự chủ của chủ thể).',
+        fix: 'Chuyển sang "authentic human dignity, dignified sovereign presence, eye-level respectful camera stance".'
+      });
+    }
+
+
     // Calculate Integrity Score (100 is perfect)
     const score = Math.max(70, 100 - (conflicts.length * 12) - (suggestions.length * 4));
 

@@ -71,6 +71,8 @@ import {
   updateStudioCameraBadges,
   renderModelOptimizerBar,
   renderMultiShotTimelineUI,
+  initVisualLawsUI,
+  getActiveVisualLaws,
 } from './uiController.js';
 
 import { applySmartMerge } from './smartMergeEngine.js';
@@ -221,6 +223,7 @@ function refreshResult() {
     characterAnchor: getCharacterValue(),
     fpsValue:        getActiveFPS(),
     studioCamera:    studioCameraState,
+    visualLaws:      getActiveVisualLaws(),
   });
 
   const imageText = document.getElementById('result-text-image')?.textContent || '';
@@ -368,6 +371,31 @@ function updateScorecardUI(score) {
       } else {
         val.style.color = '#f87171'; // Red
       }
+    }
+  }
+
+  // Update 4 Pillars Visual Critique (from photography-course-master)
+  if (score.fourPillars) {
+    const p = score.fourPillars;
+    const pBocuc = widget.querySelector('[data-pillar="bocuc"] .pillar-value');
+    const pAnhsang = widget.querySelector('[data-pillar="anhsang"] .pillar-value');
+    const pMausac = widget.querySelector('[data-pillar="mausac"] .pillar-value');
+    const pChatlieu = widget.querySelector('[data-pillar="chatlieu"] .pillar-value');
+    if (pBocuc) {
+      pBocuc.textContent = `${p.bocuc.score}/100`;
+      pBocuc.style.color = p.bocuc.score >= 80 ? '#34d399' : p.bocuc.score >= 60 ? '#ffd700' : '#f87171';
+    }
+    if (pAnhsang) {
+      pAnhsang.textContent = `${p.anhsang.score}/100`;
+      pAnhsang.style.color = p.anhsang.score >= 80 ? '#34d399' : p.anhsang.score >= 60 ? '#ffd700' : '#f87171';
+    }
+    if (pMausac) {
+      pMausac.textContent = `${p.mausac.score}/100`;
+      pMausac.style.color = p.mausac.score >= 80 ? '#34d399' : p.mausac.score >= 60 ? '#ffd700' : '#f87171';
+    }
+    if (pChatlieu) {
+      pChatlieu.textContent = `${p.chatlieu.score}/100`;
+      pChatlieu.style.color = p.chatlieu.score >= 80 ? '#34d399' : p.chatlieu.score >= 60 ? '#ffd700' : '#f87171';
     }
   }
 
@@ -3616,6 +3644,9 @@ function applyJsonViewToPanels() {
 }
 
 function initCinePromptSuite() {
+  // 0. Visual Laws Master Engine (19 Laws from photography-course-master)
+  initVisualLawsUI(refreshResult);
+
   // 1. Model Optimizer Bar
   renderModelOptimizerBar('model-optimizer-container', window.currentAiModel, (selectedModel) => {
     window.currentAiModel = selectedModel;

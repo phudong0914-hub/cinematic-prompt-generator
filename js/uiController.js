@@ -8,7 +8,7 @@
 import { isFavorite } from './dataManager.js';
 import { translateCinematicText } from './translator.js';
 import { OpticalLinter } from './opticalLinter.js';
-import { sanitizeCinematicPrompt } from './directorKnowledgeEngine.js';
+import { sanitizeCinematicPrompt, VISUAL_LANGUAGE_MASTERY_19_LAWS, PHOTOGRAPHY_MASTER_COURSE_URL, injectVisualLawsIntoPrompt } from './directorKnowledgeEngine.js';
 import { workflowTracker } from './workflowTracker.js';
 import { applySmartMerge, mergeCameraAndColorScience, mergeShotAndMovement } from './smartMergeEngine.js';
 import { AI_MODELS, reorderPromptByModel, compileProsePrompt } from './modelOptimizer.js';
@@ -708,6 +708,7 @@ export function displayDualResult(basePrompt, title, options = {}) {
     characterAnchor = '',
     fpsValue        = '24fps',
     studioCamera    = null,
+    visualLaws      = [],
   } = options;
 
   const resultBox       = document.getElementById('result-box');
@@ -757,6 +758,12 @@ export function displayDualResult(basePrompt, title, options = {}) {
       .replace(/Native audio:[^\.]*\./gi, '')
       .replace(/Timeline:\s*/gi, '')
       .trim();
+  }
+
+  // ── Inject Active 19 Visual Laws from Photography Mastercourse ──
+  const effectiveVisualLaws = visualLaws && visualLaws.length > 0 ? visualLaws : getActiveVisualLaws();
+  if (effectiveVisualLaws.length > 0) {
+    cleanImageBase = injectVisualLawsIntoPrompt(cleanImageBase, effectiveVisualLaws);
   }
 
   // ── 1. Midjourney V8.2 Slate (Official Docs Compliant) ────────
@@ -1881,4 +1888,108 @@ export function renderMultiShotTimelineUI(container, onPromptRefresh) {
     });
   });
 }
+
+// ── 19 VISUAL LAWS CONTROLLER (Master Optical Engine) ────────
+export const activeVisualLaws = new Set();
+
+export function getActiveVisualLaws() {
+  return Array.from(activeVisualLaws);
+}
+
+export function initVisualLawsUI(onToggle) {
+  const container = document.getElementById('visual-laws-pills-grid');
+  const tabsContainer = document.getElementById('visual-laws-tabs');
+  const infoCard = document.getElementById('visual-law-active-info');
+  if (!container) return;
+
+  function renderPills(filter = 'all') {
+    container.innerHTML = '';
+    const filteredLaws = VISUAL_LANGUAGE_MASTERY_19_LAWS.filter(law => {
+      if (filter === 'all') return true;
+      if (filter === 'mod1') return law.lesson >= 1 && law.lesson <= 3;
+      if (filter === 'mod2') return law.lesson >= 4 && law.lesson <= 9;
+      if (filter === 'mod3') return law.lesson >= 10 && law.lesson <= 12;
+      if (filter === 'mod4') return law.lesson >= 13 && law.lesson <= 15;
+      if (filter === 'mod5') return law.lesson >= 16 && law.lesson <= 19;
+      return true;
+    });
+
+    filteredLaws.forEach(law => {
+      const isSelected = activeVisualLaws.has(law.id);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `vl-pill ${isSelected ? 'is-active' : ''}`;
+      btn.dataset.lawId = law.id;
+      btn.style.cssText = `
+        background: ${isSelected ? 'linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.25))' : 'rgba(255,255,255,0.05)'};
+        border: 1px solid ${isSelected ? '#ffd700' : 'rgba(255,255,255,0.12)'};
+        color: ${isSelected ? '#ffd700' : '#e4e4e7'};
+        font-size: 0.70rem;
+        font-weight: ${isSelected ? '800' : '500'};
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+        box-shadow: ${isSelected ? '0 0 10px rgba(255,215,0,0.25)' : 'none'};
+      `;
+      btn.innerHTML = `<span>${isSelected ? '✓' : '+'}</span> <span>B${law.lesson}: ${law.nameVi.split('(')[0].trim()}</span>`;
+
+      btn.addEventListener('click', () => {
+        if (activeVisualLaws.has(law.id)) {
+          activeVisualLaws.delete(law.id);
+        } else {
+          activeVisualLaws.add(law.id);
+        }
+        renderPills(filter);
+        updateActiveInfo(law);
+        if (onToggle) onToggle();
+      });
+
+      btn.addEventListener('mouseenter', () => {
+        updateActiveInfo(law);
+      });
+
+      container.appendChild(btn);
+    });
+  }
+
+  function updateActiveInfo(law) {
+    if (!infoCard) return;
+    infoCard.style.display = 'block';
+    infoCard.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+        <strong style="color:#ffd700;">Bài ${law.lesson}: ${law.nameVi}</strong>
+        <span style="font-size:0.65rem; color:#38bdf8;">${law.module}</span>
+      </div>
+      <div style="color:#cbd5e1; margin-bottom:4px;">${law.desc}</div>
+      <div style="font-size:0.66rem; color:#f87171;">⚠️ Bẫy: ${law.trap}</div>
+      <div style="font-size:0.66rem; color:#34d399;">💡 Khắc phục DP: ${law.antidote}</div>
+    `;
+  }
+
+  // Handle Tab clicks
+  if (tabsContainer) {
+    tabsContainer.querySelectorAll('.vl-tab-btn').forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabsContainer.querySelectorAll('.vl-tab-btn').forEach(t => {
+          t.classList.remove('active');
+          t.style.background = 'rgba(255,255,255,0.06)';
+          t.style.color = '#a1a1aa';
+          t.style.fontWeight = '600';
+        });
+        tab.classList.add('active');
+        tab.style.background = '#ffd700';
+        tab.style.color = '#000';
+        tab.style.fontWeight = '800';
+        renderPills(tab.dataset.mod);
+      });
+    });
+  }
+
+  renderPills('all');
+}
+
 
