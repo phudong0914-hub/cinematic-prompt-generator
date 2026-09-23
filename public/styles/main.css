@@ -2451,7 +2451,7 @@ body {
   min-width: 290px;
   max-width: 330px;
   flex: none;
-  padding: 18px 16px 120px;
+  padding: 18px 16px;
   background-color: var(--bg-deep);
   border-right: 1px solid var(--border-subtle);
   display: flex;
@@ -2467,24 +2467,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
   background-color: var(--bg-void);
   border-right: 1px solid var(--border-subtle);
-}
-
-.main-process::-webkit-scrollbar {
-  width: 8px;
-}
-.main-process::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
-}
-.main-process::-webkit-scrollbar-thumb {
-  background: rgba(201, 162, 39, 0.35);
-  border-radius: 4px;
-}
-.main-process::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 215, 0, 0.7);
 }
 
 /* CỘT 3: OUTPUT SIDEBAR (ĐẦU RA PROMPT 3-TRONG-1 - PHẢI 420px) */
@@ -2493,7 +2477,7 @@ body {
   min-width: 380px;
   max-width: 450px;
   flex: none;
-  padding: 18px 16px 280px !important;
+  padding: 18px 16px;
   background-color: var(--bg-deep);
   display: flex;
   flex-direction: column;
@@ -2504,17 +2488,11 @@ body {
 }
 
 .top-filters {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  padding: 14px 18px;
-  background: rgba(18, 20, 32, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 215, 0, 0.25);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  padding: 16px 20px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex; 
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   flex-wrap: wrap; 
 }
@@ -2529,10 +2507,11 @@ body {
   min-width: 150px;
 }
 
+
 .card-scroll-area {
   flex: 1;
-  padding: 20px 20px 280px;
-  overflow: visible;
+  padding: 20px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -4384,96 +4363,6 @@ button.style-pill:hover,
   border-color: #38bdf8;
   color: #0f172a;
   font-weight: 700;
-}
-
-/* ── STUDIO ENGINE TABS & PANES ── */
-.scb-tab-bar {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 4px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.scb-tab-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #a1a1aa;
-  padding: 5px 12px;
-  border-radius: 7px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.scb-tab-btn:hover {
-  background: rgba(255, 215, 0, 0.12);
-  border-color: rgba(255, 215, 0, 0.4);
-  color: #ffd700;
-  transform: translateY(-1px);
-}
-
-.scb-tab-btn.active {
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.35), rgba(255, 215, 0, 0.2)) !important;
-  border-color: #ffd700 !important;
-  color: #ffd700 !important;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.25);
-}
-
-#scb-panes-wrapper::-webkit-scrollbar {
-  width: 6px;
-}
-
-#scb-panes-wrapper::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-#scb-panes-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(201, 162, 39, 0.4);
-  border-radius: 4px;
-}
-
-#scb-panes-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 215, 0, 0.8);
-}
-
-#scb-active-badges span {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-#scb-active-badges span:hover {
-  filter: brightness(1.25);
-  transform: translateY(-1px);
-  box-shadow: 0 0 8px currentColor;
-}
-
-/* Light mode overrides for SCB tabs and badges */
-[data-theme="light"] .scb-tab-bar {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
-
-[data-theme="light"] .scb-tab-btn {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #475569;
-}
-
-[data-theme="light"] .scb-tab-btn.active {
-  background: #0f172a !important;
-  border-color: #0f172a !important;
-  color: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
 }
 
 /* ── SMART ELASTIC AUTO-EXPAND TEXTAREA ── */
