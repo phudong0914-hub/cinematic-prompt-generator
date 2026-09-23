@@ -4520,7 +4520,13 @@ details.cinema-accordion[open] > summary::after {
   transform: rotate(90deg);
 }
 details.cinema-accordion > .accordion-body {
-  padding: 0 12px 12px;
+  padding: 0 12px 20px;
+}
+#pipeline-tracker-accordion .accordion-body {
+  padding: 10px 12px 22px !important;
+}
+#pipeline-steps-list {
+  padding-bottom: 8px;
 }
 /* Specific accordion border overrides */
 details.cinema-accordion--ref {

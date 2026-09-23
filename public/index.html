@@ -903,7 +903,7 @@
     <!-- ================================================================ -->
     <!-- CỘT 3: OUTPUT SIDEBAR (ĐẦU RA PROMPT 3-TRONG-1 - PHẢI 420px)      -->
     <!-- ================================================================ -->
-    <aside id="sidebar-inspector" class="sidebar-output">
+    <aside id="sidebar-inspector" class="sidebar-output" style="padding-bottom: 80px;">
       
       <!-- Title & Export Header -->
 
@@ -987,7 +987,7 @@
             <span id="pipeline-progress-badge" style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:#4ade80; font-size:0.68rem; font-weight:800; padding:1px 6px; border-radius:4px;">0/6 BƯỚC (0%)</span>
           </div>
         </summary>
-        <div class="accordion-body" style="padding: 10px 12px; font-size:0.75rem;">
+        <div class="accordion-body" style="padding: 10px 12px 20px; font-size:0.75rem;">
           
           <!-- Tab selector: Checklist vs Lịch sử -->
           <div style="display:flex; gap:4px; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:6px;">
@@ -1008,28 +1008,28 @@
             </div>
 
             <!-- 6-Step Grid -->
-            <div id="pipeline-steps-list" style="display:flex; flex-direction:column; gap:4px;">
-              <div class="pipeline-step" data-step="concept" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+            <div id="pipeline-steps-list" style="display:flex; flex-direction:column; gap:5px; padding-bottom:8px;">
+              <div class="pipeline-step" data-step="concept" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">1. 🎬 Concept / Kịch bản gốc</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa chọn</span>
               </div>
-              <div class="pipeline-step" data-step="camera" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+              <div class="pipeline-step" data-step="camera" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">2. 📐 Cỡ cảnh & Góc máy (Studio)</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa thiết lập</span>
               </div>
-              <div class="pipeline-step" data-step="aspect" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+              <div class="pipeline-step" data-step="aspect" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">3. 🖼️ Tỉ lệ khung hình (Aspect Ratio)</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ 16:9 (Mặc định)</span>
               </div>
-              <div class="pipeline-step" data-step="optical" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+              <div class="pipeline-step" data-step="optical" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">4. 🛡️ Quang học & Ánh sáng</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa quét</span>
               </div>
-              <div class="pipeline-step" data-step="model" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+              <div class="pipeline-step" data-step="model" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">5. 🤖 Chọn Model AI đích (Veo/Sora/Wan)</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa xuất</span>
               </div>
-              <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:3px 6px; border-radius:4px; background:rgba(255,255,255,0.02);">
+              <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
                 <span style="color:#94A3B8;">6. 🔊 Thiết kế Âm thanh / SFX Foley</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa tạo</span>
               </div>
