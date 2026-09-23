@@ -5241,3 +5241,14 @@ details.cinema-accordion--ref > summary {
   box-shadow: 0 0 16px rgba(255, 215, 0, 0.5);
 }
 
+/* 5. Ergonomic Sidebar Clearance for Fixed Bottom Studio Dock */
+.sidebar-input,
+.sidebar-output,
+#sidebar-inspector {
+  padding-bottom: 280px !important;
+}
+
+.action-toolbar-container button {
+  text-overflow: clip !important;
+}
+
