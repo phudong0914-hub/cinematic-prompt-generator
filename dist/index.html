@@ -9,8 +9,47 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <script type="module" crossorigin src="/assets/index-BeKU_6gu.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-COgMNd6h.css">
+  <script type="module" crossorigin src="/assets/index-BeKU_6gu.js?v=2.2.0"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-COgMNd6h.css?v=2.2.0">
+  <link rel="stylesheet" href="/styles/main.css?v=2.2.0">
+  <style>
+    /* Direct layout overrides for Pipeline Accordion to prevent step 6 text clipping */
+    #pipeline-tracker-accordion,
+    details#pipeline-tracker-accordion,
+    details.cinema-accordion--pipeline {
+      overflow: visible !important;
+      height: auto !important;
+      max-height: none !important;
+      border: 1.2px solid rgba(255, 215, 0, 0.35) !important;
+      border-radius: 10px !important;
+      background: rgba(18, 20, 32, 0.75) !important;
+      margin-bottom: 16px !important;
+    }
+    #pipeline-tracker-accordion .accordion-body {
+      padding: 10px 12px 32px !important;
+      overflow: visible !important;
+      height: auto !important;
+      max-height: none !important;
+      display: block !important;
+    }
+    #tracker-view-checklist {
+      padding-bottom: 16px !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+    #pipeline-steps-list {
+      padding-bottom: 14px !important;
+      margin-bottom: 8px !important;
+      overflow: visible !important;
+      height: auto !important;
+      gap: 6px !important;
+    }
+    .pipeline-step[data-step="audio"] {
+      margin-bottom: 12px !important;
+      padding: 6px 8px !important;
+      min-height: 28px !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -1040,11 +1079,13 @@
                 <span style="color:#94A3B8;">5. 🤖 Chọn Model AI đích (Veo/Sora/Wan)</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa xuất</span>
               </div>
-              <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:5px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:26px; margin-bottom:4px;">
-                <span style="color:#94A3B8;">6. 🔊 Thiết kế Âm thanh / SFX Foley</span>
+              <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:28px; margin-bottom:0;">
+                <span style="color:#94A3B8; font-weight:600; line-height:1.4;">6. 🔊 Thiết kế Âm thanh / SFX Foley</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa tạo</span>
               </div>
             </div>
+            <!-- Bottom clearance spacer to guarantee Step 6 never clips -->
+            <div style="height:12px; width:100%;" aria-hidden="true"></div>
           </div>
 
           <!-- View 2: Live Activity / Audit Log -->

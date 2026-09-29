@@ -4525,15 +4525,21 @@ details.cinema-accordion > .accordion-body {
 #pipeline-tracker-accordion {
   overflow: visible !important;
   height: auto !important;
+  max-height: none !important;
 }
 #pipeline-tracker-accordion .accordion-body {
-  padding: 10px 12px 28px !important;
+  padding: 10px 12px 32px !important;
   overflow: visible !important;
   height: auto !important;
+  max-height: none !important;
 }
 #pipeline-steps-list {
-  padding-bottom: 12px !important;
-  margin-bottom: 6px !important;
+  padding-bottom: 14px !important;
+  margin-bottom: 8px !important;
+}
+.pipeline-step[data-step="audio"] {
+  min-height: 28px !important;
+  padding: 6px 10px !important;
 }
 /* Specific accordion border overrides */
 details.cinema-accordion--ref {
