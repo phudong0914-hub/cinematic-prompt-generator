@@ -2471,6 +2471,19 @@ body {
   border-right: 1px solid var(--border-subtle);
 }
 
+/* Controls panel: all tools above the card grid, scrollable if too tall */
+.main-controls-panel {
+  flex-shrink: 0;         /* don't squeeze card grid */
+  max-height: 55vh;       /* cap at 55% viewport so card grid always has 45%+ */
+  overflow-y: auto;       /* scroll internally if controls overflow */
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,162,39,0.3) transparent;
+}
+.main-controls-panel::-webkit-scrollbar { width: 5px; }
+.main-controls-panel::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 3px; }
+
+
 /* CỘT 3: OUTPUT SIDEBAR (ĐẦU RA PROMPT 3-TRONG-1 - PHẢI 420px) */
 .sidebar-output {
   width: 420px;
@@ -2509,8 +2522,8 @@ body {
 
 
 .card-scroll-area {
-  flex: 1;
-  min-height: 0; /* critical: allows flex child to shrink below its content height */
+  flex: 1 1 300px;  /* flex-basis 300px = guaranteed minimum height even when sections above are tall */
+  min-height: 300px; /* absolute floor so grid is always visible */
   padding: 20px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -3506,6 +3519,11 @@ button.neg-pill:hover, .neg-pill:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-shrink: 0; /* don't let it squeeze card grid */
+  max-height: 180px; /* cap height so it doesn't take over the column */
+  overflow-y: auto; /* scroll internally if content overflows */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,162,39,0.3) transparent;
 }
 
 .style-presets-label {
@@ -3646,6 +3664,7 @@ button.style-pill:hover,
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding: 14px 20px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  flex-shrink: 0; /* fixed height, don't squeeze */
 }
 
 .pipeline-header {
@@ -4049,8 +4068,9 @@ button.style-pill:hover,
   border-radius: 16px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 30px rgba(201, 162, 39, 0.15);
   margin-bottom: 16px;
-  overflow: visible;
+  overflow: hidden; /* prevent it from blowing out the flex column */
   transition: all 0.3s ease;
+  flex-shrink: 0; /* don't compress the card grid area */
 }
 
 .studio-camera-dashboard:hover {
