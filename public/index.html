@@ -100,15 +100,23 @@
           </button>
         </div>
 
-        <!-- Tier 2: Knowledge & Skills (2-Column Grid) -->
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; width:100%; box-sizing: border-box;">
-          <button id="glossary-modal-btn" title="Từ Điển Điện Ảnh & Thị Giác Song Ngữ (720+ Thuật Ngữ)" style="height: 32px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(168,85,247,0.2)); border: 1.2px solid #38bdf8; color:#7dd3fc; padding: 0 8px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; box-sizing: border-box; transition: all 0.2s; box-shadow: 0 0 8px rgba(56,189,248,0.2);">
-            <span>📚</span><span>Từ Điển 720+</span>
+        <!-- Tier 2: Architecture & Knowledge (4-Column Grid) -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:5px; width:100%; box-sizing: border-box;">
+          <button id="glossary-modal-btn" title="Từ Điển Điện Ảnh & Thị Giác Song Ngữ (720+ Thuật Ngữ)" style="height: 32px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(168,85,247,0.2)); border: 1.2px solid #38bdf8; color:#7dd3fc; padding: 0 4px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; box-sizing: border-box; transition: all 0.2s; box-shadow: 0 0 8px rgba(56,189,248,0.2);">
+            <span>📚</span><span>Từ Điển</span>
           </button>
 
-          <button id="skill-export-btn" title="Xuất Bộ Kỹ Năng Đạo Diễn Chuẩn AI (SKILL.md cho Claude/Cursor)" style="height: 32px; background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(255,215,0,0.2)); border: 1.2px solid #ffd700; color:#ffd700; padding: 0 8px; border-radius: 7px; font-size: 0.72rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; box-sizing: border-box; transition: all 0.2s;">
-            <span>📥</span><span>Xuất SKILL</span>
+          <button id="skill-export-btn" title="Xuất Bộ Kỹ Năng Đạo Diễn Chuẩn AI (SKILL.md cho Claude/Cursor)" style="height: 32px; background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(255,215,0,0.2)); border: 1.2px solid #ffd700; color:#ffd700; padding: 0 4px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; box-sizing: border-box; transition: all 0.2s;">
+            <span>📥</span><span>SKILL</span>
           </button>
+
+          <a href="/workflow.html" target="_blank" id="archify-btn" title="Sơ đồ kiến trúc luồng sản xuất vĩ mô bằng Archify" style="height: 32px; background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(139,92,246,0.25)); border: 1.2px solid #a855f7; color:#d8b4fe; padding: 0 4px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; box-sizing: border-box; text-decoration: none; transition: all 0.2s; box-shadow: 0 0 8px rgba(168,85,247,0.2);">
+            <span>📐</span><span>Archify</span>
+          </a>
+
+          <a href="/codeflow.html" target="_blank" id="codeflow-btn" title="Soi bản đồ quan hệ mã nguồn & Blast Radius vi mô bằng CodeFlow" style="height: 32px; background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(6,182,212,0.25)); border: 1.2px solid #10b981; color:#6ee7b7; padding: 0 4px; border-radius: 7px; font-size: 0.68rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; box-sizing: border-box; text-decoration: none; transition: all 0.2s; box-shadow: 0 0 8px rgba(16,185,129,0.2);">
+            <span>🗺️</span><span>CodeFlow</span>
+          </a>
         </div>
 
         <!-- Tier 3: Quick Utilities (4 Compact Items in 1 Clean Row) -->
@@ -3161,12 +3169,15 @@
           execBtn.addEventListener('click', function(e) {
             if (e) e.preventDefault();
             const url = document.getElementById('viral-video-url')?.value.trim() || '';
-            const script = document.getElementById('viral-video-script')?.value.trim() || '';
+            const script = (document.getElementById('viral-video-script')?.value.trim() || '')
+              .replace(/<\/?(?:user_creative_pitch|competitor_transcript|system|prompt)[^>]*>/gi, '')
+              .replace(/\[SYSTEM[^\]]*\]/gi, '[SANITIZED]')
+              .replace(/!\[.*?\]\((?:https?:|\/\/)[^\s)]+\)/gi, '[SANITIZED_MEDIA_LINK]');
             const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
             
             const input = document.getElementById('subject-input');
             if (input) {
-              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
+              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ:\n<competitor_transcript>\n${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
               input.focus();
               input.dispatchEvent(new Event('input', { bubbles: true }));
             }

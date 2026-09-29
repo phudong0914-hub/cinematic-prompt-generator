@@ -38,7 +38,7 @@ import { initAuthUI } from './authController.js';
 import { workflowTracker } from './workflowTracker.js';
 
 // Phase 1 & 2: New modules
-import { sanitizePrompt, countTokens, enforceTokenLimit } from './guardrails.js';
+import { sanitizePrompt, sanitizeCompetitorScript, countTokens, enforceTokenLimit } from './guardrails.js';
 import { scorePrompt } from './scorecard.js';
 import {
   saveSessionContext,
@@ -3435,12 +3435,18 @@ async function init() {
     };
     window.executeViralRemake = function() {
       const url = document.getElementById('viral-video-url')?.value.trim() || '';
-      const script = document.getElementById('viral-video-script')?.value.trim() || '';
+      const rawScript = document.getElementById('viral-video-script')?.value.trim() || '';
       const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
       
+      const { safeTranscript, isSuspicious, threats } = sanitizeCompetitorScript(rawScript || 'Review / Kịch bản triệu view trên TikTok/Shorts');
+      if (isSuspicious) {
+        showToast(`🛡️ Đã trung hòa rủi ro Prompt Injection trong kịch bản đối thủ!`, 'warning');
+        console.warn('🛡️ [DEFENSE] Neutralized indirect prompt injection in competitor transcript:', threats);
+      }
+
       const input = document.getElementById('subject-input');
       if (input) {
-        input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ: ${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
+        input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ:\n<competitor_transcript>\n${safeTranscript}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
         input.focus();
         input.dispatchEvent(new Event('input', { bubbles: true }));
       }

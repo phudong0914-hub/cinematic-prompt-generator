@@ -22,6 +22,7 @@ targetDirs.forEach(dir => {
 
 const filesToCopy = [
   'index.html',
+  'codeflow.html',
   'favicon.svg',
   'logo.jpg',
   'robots.txt',

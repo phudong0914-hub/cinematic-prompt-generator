@@ -1,0 +1,10 @@
+{
+  "hooks": [
+    {
+      "name": "pipeline-verify",
+      "description": "Tự động chạy chuỗi kiểm tra 5 bước (Data -> Security -> Index -> Build -> Dist) trước khi deploy hoặc commit.",
+      "command": "node .agents/hooks/pipeline-verify.mjs",
+      "trigger": "pre-deploy"
+    }
+  ]
+}

@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.js",
-    "start": "node scripts/build.js"
+    "start": "node scripts/build.js",
+    "security-test": "node scripts/security_fuzzer.mjs",
+    "standup": "node scripts/run_standup.mjs",
+    "guard": "node scripts/pre_commit_guard.mjs"
   }
 }

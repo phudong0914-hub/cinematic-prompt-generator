@@ -1,0 +1,4 @@
+#!/bin/sh
+# Git Pre-Commit Security Guard
+# Automatically blocks commits with leaked API keys or failing security fuzzer.
+node scripts/pre_commit_guard.mjs

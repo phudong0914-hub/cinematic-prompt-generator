@@ -68,6 +68,17 @@ const BANNED_PATTERNS = [
 
   // Platform-specific bans (Midjourney)
   { pattern: /\b(realistic\s+child(?:ren)?)\b/gi, replacement: 'young character (illustrated)', severity: 'warn' },
+
+  // Prompt Injection & Jailbreak Defense (Inspired by Prompt-Injection-in-the-Wild)
+  { pattern: /\b(ignore\s+(?:all\s+)?(?:previous|prior|above)\s+(?:instructions?|directives?|rules?|prompts?))\b/gi, replacement: '[sanitized instruction override]', severity: 'block' },
+  { pattern: /\b(disregard\s+(?:all\s+)?(?:previous|prior|above)\s+(?:instructions?|prompts?))\b/gi, replacement: '[sanitized override]', severity: 'block' },
+  { pattern: /\b(you\s+are\s+now\s+(?:unrestricted|dan|jailbreak|an\s+evil|freed))\b/gi, replacement: 'cinematic director', severity: 'block' },
+  { pattern: /\b(system\s*(?:prompt|directive|message|reset)\s*:?)/gi, replacement: 'scene directive:', severity: 'block' },
+  { pattern: /\b(reveal\s+(?:your\s+)?(?:system\s+prompt|initial\s+instructions?|hidden\s+rules?))\b/gi, replacement: 'describe visual style', severity: 'block' },
+  { pattern: /\b(print\s+(?:the\s+)?(?:system\s+prompt|raw\s+instructions?))\b/gi, replacement: 'render cinema prompt', severity: 'block' },
+  { pattern: /<script[\s\S]*?>[\s\S]*?<\/script>/gi, replacement: '', severity: 'block' },
+  { pattern: /javascript\s*:/gi, replacement: '', severity: 'block' },
+  { pattern: /[\u200B-\u200D\uFEFF]/g, replacement: '', severity: 'warn' }, // Strip invisible zero-width unicode
 ];
 
 /**
@@ -325,3 +336,69 @@ export function validatePromptStructure(promptText) {
     autoFill,
   };
 }
+
+/* ── 4. INDIRECT PROMPT INJECTION DEFENSE (COMPETITOR TRANSCRIPT) ── */
+
+/**
+ * Sanitizes external competitor video transcripts to neutralize Indirect Prompt Injections.
+ * Defends against delimiter escapes, instruction overrides, markdown exfiltration, and hidden tokens.
+ * 
+ * @param {string} rawTranscript - Raw transcript pasted from competitor TikTok/Shorts/Reels
+ * @returns {{ safeTranscript: string, isSuspicious: boolean, threats: string[] }}
+ */
+export function sanitizeCompetitorScript(rawTranscript) {
+  if (!rawTranscript) return { safeTranscript: '', isSuspicious: false, threats: [] };
+
+  let text = String(rawTranscript);
+  const threats = [];
+
+  // 1. Detect & strip Delimiter Breaking attempts
+  const delimiterPattern = /<\/?(?:user_creative_pitch|competitor_transcript|system|prompt|context)[^>]*>/gi;
+  if (delimiterPattern.test(text)) {
+    threats.push('Delimiter boundary breakout attempt');
+    text = text.replace(delimiterPattern, '');
+  }
+
+  // 2. Detect & neutralize Indirect System Overrides
+  const systemOverridePatterns = [
+    { regex: /\[(?:SYSTEM|SYSTEM INSTRUCTION|INSTRUCTION|ASSISTANT|ADMIN)\]:?/gi, label: 'System tag impersonation' },
+    { regex: /<\|(?:im_start|im_end|endoftext)\|>/gi, label: 'ChatML special token injection' },
+    { regex: /(?:ignore|disregard|forget)\s+(?:all\s+)?(?:previous|prior|above)\s+(?:instructions?|directives?|rules?)/gi, label: 'Instruction override' },
+    { regex: /(?:reveal|leak|exfiltrate|send|output)\s+(?:the\s+)?(?:api[- ]?key|secret|system\s+prompt|credentials?)/gi, label: 'Credential exfiltration directive' }
+  ];
+
+  for (const { regex, label } of systemOverridePatterns) {
+    if (regex.test(text)) {
+      threats.push(label);
+      text = text.replace(regex, '[SANITIZED_EXTERNAL_TEXT]');
+    }
+  }
+
+  // 3. Detect Markdown Image / Exfiltration links: ![leak](https://attacker.com/...)
+  const exfilPattern = /!\[.*?\]\((?:https?:|\/\/)[^\s)]+\)/gi;
+  if (exfilPattern.test(text)) {
+    threats.push('Markdown exfiltration image link');
+    text = text.replace(exfilPattern, '[SANITIZED_MEDIA_LINK]');
+  }
+
+  // 4. Strip invisible zero-width unicode
+  if (/[\u200B-\u200D\uFEFF\u202E]/.test(text)) {
+    threats.push('Invisible zero-width unicode attack');
+    text = text.replace(/[\u200B-\u200D\uFEFF\u202E]/g, '');
+  }
+
+  // 5. Normal sanitizePrompt pass
+  const promptCheck = sanitizePrompt(text);
+  if (promptCheck.blocked || promptCheck.warnings.length > 0) {
+    threats.push(...promptCheck.warnings.map(w => `Forbidden keyword: ${w.original}`));
+    text = promptCheck.sanitized;
+  }
+
+  const isSuspicious = threats.length > 0;
+  return {
+    safeTranscript: text.trim(),
+    isSuspicious,
+    threats
+  };
+}
+

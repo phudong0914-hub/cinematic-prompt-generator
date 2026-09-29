@@ -107,6 +107,27 @@ export class OpticalLinter {
       });
     }
 
+    // 9. Security Law: Prompt Injection & Jailbreak Defense (Prompt-Injection-in-the-Wild)
+    const injectionTriggers = [
+      'ignore previous instructions',
+      'ignore all prior directives',
+      'disregard earlier prompts',
+      'system prompt leak',
+      'reveal system prompt',
+      'you are now dan',
+      'you are now unrestricted',
+      'system prompt reset'
+    ];
+    const detectedInjection = injectionTriggers.find(trigger => text.includes(trigger));
+    if (detectedInjection) {
+      conflicts.push({
+        type: 'PROMPT_INJECTION_DETECTED',
+        severity: 'CRITICAL',
+        message: `🛡️ Phát hiện mã độc Prompt Injection: Cụm từ "${detectedInjection}" cố tình thao túng chỉ thị hệ thống.`,
+        fix: 'Loại bỏ ngay các chỉ thị can thiệp hệ thống và chỉ tập trung vào mô tả quang học / bối cảnh điện ảnh.'
+      });
+    }
+
 
     // Calculate Integrity Score (100 is perfect)
     const score = Math.max(70, 100 - (conflicts.length * 12) - (suggestions.length * 4));
