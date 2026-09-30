@@ -34,7 +34,8 @@ const filesToCopy = [
 // prompts.json now lives only in api/_brain/data/ (server-side)
 const foldersToCopy = [
   'assets',
-  'styles'
+  'styles',
+  'js'
 ];
 
 function copyFolderSync(from, to) {
