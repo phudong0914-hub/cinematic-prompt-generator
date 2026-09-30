@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-preset="signal-flow">
+<html lang="en" data-theme="dark" data-preset="signal-flow" data-motion="still">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +28,7 @@
           theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
         }
         document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-motion', 'still');
       } catch (_) {}
     })();
   </script>
@@ -40,6 +41,37 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   </noscript>
   <style>
+    /* ==========================================================
+       ANTI-FLICKER & GPU PERFORMANCE OVERRIDE (Fix Screen Strobe)
+       Disables continuous GPU layer repaint loops & heavy SVG filter strobes
+       ========================================================== */
+    html, body, svg {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    html[data-preset="signal-flow"] .diagram-container::before {
+      display: none !important;
+      animation: none !important;
+    }
+    .pulse-dot,
+    [data-animate],
+    .t-node,
+    .t-edge,
+    [data-node-id],
+    svg [data-animate],
+    .t-pulse,
+    .overview-map-live,
+    .guided-view-progress span,
+    .share-chapter-cue,
+    .diagram-stage path,
+    .diagram-stage line,
+    .diagram-stage circle {
+      animation: none !important;
+      filter: none !important;
+      stroke-dashoffset: 0 !important;
+      will-change: auto !important;
+    }
+
     /* ==========================================================
        THEME VARIABLES — switch by toggling [data-theme] on <html>
        ========================================================== */

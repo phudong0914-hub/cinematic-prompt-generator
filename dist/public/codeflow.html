@@ -17,23 +17,20 @@
     <meta name="twitter:description" content="Turn any GitHub repo into an interactive architecture map in seconds. Zero setup, privacy-first.">
     <meta name="twitter:image" content="codeflow-social.png">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300ff9d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2 4 14h6l-1 8 9-12h-6l1-8z'/></svg>">
-    <script src="./vendor/react/react.production.min.js"></script>
-    <script src="./vendor/react-dom/react-dom.production.min.js"></script>
-    <script src="./vendor/babel/babel.min.js"></script>
-    <script src="./vendor/d3/d3.min.js"></script>
-    <script src="./vendor/d3-sankey/d3-sankey.min.js"></script>
-    <script src="./vendor/acorn/acorn.min.js"></script>
-    <script src="./vendor/jsrsasign/jsrsasign-all-min.js"></script>
-    <script src="./vendor/jszip/jszip.min.js"></script>
-    <script src="./vendor/tree-sitter/tree-sitter.js"></script>
-    <script src="./vendor/jspdf/jspdf.umd.min.js"></script>
-    <script src="./vendor/mermaid/mermaid.min.js"></script>
-    <script src="./vendor/3d-force-graph/3d-force-graph.min.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/acorn/8.11.3/acorn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/11.0.0/jsrsasign-all-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+    <script src="https://unpkg.com/3d-force-graph@1.73.1/dist/3d-force-graph.min.js" defer></script>
     <style>
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url('./vendor/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2') format('woff2')}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:500;font-display:swap;src:url('./vendor/jetbrains-mono/jetbrains-mono-latin-500-normal.woff2') format('woff2')}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:600;font-display:swap;src:url('./vendor/jetbrains-mono/jetbrains-mono-latin-600-normal.woff2') format('woff2')}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:700;font-display:swap;src:url('./vendor/jetbrains-mono/jetbrains-mono-latin-700-normal.woff2') format('woff2')}
 :root{--bg0:#0a0a0c;--bg1:#0f0f12;--bg2:#161619;--bg3:#1c1c21;--bg4:#252529;--hover:#2a2a30;--border:#2d2d35;--border2:#222228;--t0:#f0f0f2;--t1:#c8c8cd;--t2:#8b8b95;--t3:#5c5c66;--acc:#00ff9d;--acc2:#00cc7d;--accbg:rgba(0,255,157,0.08);--blue:#4d9fff;--purple:#a78bfa;--orange:#ff9f43;--red:#ff5f5f;--cyan:#22d3ee;--pink:#ec4899;--green:#22c55e}
 .light{--bg0:#fff;--bg1:#f8f9fa;--bg2:#f1f3f4;--bg3:#e8eaed;--bg4:#dadce0;--hover:#e2e4e8;--border:#dadce0;--border2:#e8eaed;--t0:#1a1a1a;--t1:#3c3c3c;--t2:#6c6c6c;--t3:#9c9c9c;--acc:#00a86b;--acc2:#008f5b;--accbg:rgba(0,168,107,0.08)}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -785,7 +782,7 @@ body{height:100dvh;min-height:100dvh}
   </div>
 </div>
 <div id="root"></div>
-<script type="text/babel">
+<script>
 /*
  * CodeFlow keeps its application code in one HTML entry point and ships its
  * pinned browser runtime alongside it for cold offline use.
