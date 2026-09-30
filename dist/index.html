@@ -477,9 +477,15 @@
       
       <!-- ── PRODUCTION PIPELINE TRACKER ───────────────────────── -->
       <div class="pipeline-tracker-box">
-        <div class="pipeline-header">
-          <span class="pipeline-title" data-i18n="pipeline-header">⚡ PRODUCTION PIPELINE (QUY TRÌNH SẢN XUẤT VIDEO AI)</span>
-          <span class="pipeline-status-tag" id="pipeline-status-text">Step 1/4: Prompt Ready</span>
+        <div class="pipeline-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="pipeline-title" data-i18n="pipeline-header">⚡ PRODUCTION PIPELINE (QUY TRÌNH SẢN XUẤT VIDEO AI)</span>
+            <span class="pipeline-status-tag" id="pipeline-status-text">Step 1/4: Prompt Ready</span>
+          </div>
+          <a href="/workflow.html" target="_blank" rel="noopener noreferrer" id="btn-view-archify-workflow" title="Xem Sơ Đồ Quy Trình Sản Xuất Điện Ảnh Khép Kín (Archify Architecture Map)" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; text-decoration: none; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; transition: all 0.2s; box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);">
+            <span>📐 Sơ Đồ Archify</span>
+            <span style="font-size: 0.65rem; opacity: 0.8;">↗</span>
+          </a>
         </div>
         <div class="pipeline-steps">
           <div class="pipeline-step active" id="p-step-1" title="Khởi tạo ý tưởng & prompt điện ảnh">
