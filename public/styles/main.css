@@ -2462,13 +2462,71 @@ body {
 }
 
 /* CỘT 2: PROCESS CANVAS (XỬ LÝ SÁNG TẠO & THƯ VIỆN THẺ - GIỮA FLEX 1) */
+/* CỘT 2: PROCESS CANVAS (XỬ LÝ SÁNG TẠO & THƯ VIỆN THẺ - GIỮA FLEX 1) */
 .main-process {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden; /* Must be hidden so flex children are bounded; card-scroll-area handles the card scroll */
   background-color: var(--bg-void);
   border-right: 1px solid var(--border-subtle);
+  position: relative;
+  height: 100vh;
+}
+
+/* Controls panel: all tools above the prompt library, compact & scrollable if screen is low */
+.main-controls-panel {
+  flex-shrink: 0;
+  max-height: 48vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.45) rgba(18, 20, 32, 0.6);
+}
+.main-controls-panel::-webkit-scrollbar { width: 7px; }
+.main-controls-panel::-webkit-scrollbar-track { background: rgba(18, 20, 32, 0.6); border-radius: 4px; }
+.main-controls-panel::-webkit-scrollbar-thumb { 
+  background: linear-gradient(180deg, #ffd700 0%, #d97706 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+}
+.main-controls-panel::-webkit-scrollbar-thumb:hover { 
+  background: linear-gradient(180deg, #fef08a 0%, #f59e0b 100%);
+}
+
+/* ── 👑 KHO 415 PROMPT TINH HOA ĐIỆN ẢNH (MASTER PROMPT ARCHIVE DECK) ── */
+.prompt-library-control-deck {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(20, 24, 38, 0.98) 0%, rgba(14, 16, 26, 0.98) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1.2px solid rgba(255, 215, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 18px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 5;
+}
+
+/* Category Pills Horizontal Scrollbar */
+.custom-horizontal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.4) transparent;
+}
+.custom-horizontal-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+.custom-horizontal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+}
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #ffd700, #f59e0b);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+}
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #fef08a;
 }
 
 /* CỘT 3: OUTPUT SIDEBAR (ĐẦU RA PROMPT 3-TRONG-1 - PHẢI 420px) */
@@ -2507,15 +2565,42 @@ body {
   min-width: 150px;
 }
 
-
+/* ═══════════════════════════════════════════════════════════
+   HOLLYWOOD GOLD MASTER SCROLLBAR — 415 PROMPTS CATALOG
+   ═══════════════════════════════════════════════════════════ */
 .card-scroll-area {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 420px;
+  padding: 16px 20px 280px !important;
+  overflow-y: scroll !important; /* Force visible scrollbar at all times */
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #ffd700 rgba(18, 20, 32, 0.95);
 }
+
+.card-scroll-area::-webkit-scrollbar { 
+  width: 10px !important; 
+}
+.card-scroll-area::-webkit-scrollbar-track { 
+  background: rgba(18, 20, 32, 0.95) !important; 
+  border-radius: 8px !important; 
+  border: 1px solid rgba(255, 215, 0, 0.2) !important;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.7) !important;
+}
+.card-scroll-area::-webkit-scrollbar-thumb { 
+  background: linear-gradient(180deg, #ffd700 0%, #f59e0b 50%, #b45309 100%) !important; 
+  border-radius: 8px !important; 
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.55) !important;
+}
+.card-scroll-area::-webkit-scrollbar-thumb:hover { 
+  background: linear-gradient(180deg, #fef08a 0%, #ffd700 50%, #f59e0b 100%) !important; 
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.9) !important;
+}
+
 
 /* --- TỐI ƯU HÓA NÚT BẤM (BUTTONS) --- */
 .action-group {
@@ -3497,6 +3582,11 @@ button.neg-pill:hover, .neg-pill:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-shrink: 0; /* don't let it squeeze card grid */
+  max-height: 180px; /* cap height so it doesn't take over the column */
+  overflow-y: auto; /* scroll internally if content overflows */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,162,39,0.3) transparent;
 }
 
 .style-presets-label {
@@ -3637,6 +3727,7 @@ button.style-pill:hover,
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   padding: 14px 20px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  flex-shrink: 0; /* fixed height, don't squeeze */
 }
 
 .pipeline-header {
@@ -4040,8 +4131,9 @@ button.style-pill:hover,
   border-radius: 16px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 30px rgba(201, 162, 39, 0.15);
   margin-bottom: 16px;
-  overflow: visible;
+  overflow: hidden; /* prevent it from blowing out the flex column */
   transition: all 0.3s ease;
+  flex-shrink: 0; /* don't compress the card grid area */
 }
 
 .studio-camera-dashboard:hover {

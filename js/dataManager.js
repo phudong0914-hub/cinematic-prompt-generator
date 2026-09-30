@@ -15,14 +15,24 @@ let allPrompts = [];
  * @returns {Promise<import('../types').Prompt[]>} The full list of prompts.
  */
 export async function loadPrompts() {
+  try {
+    const response = await fetch('/api/catalog');
+    if (response.ok) {
+      const data = await response.json();
+      allPrompts = data.prompts || data;
+      return allPrompts;
+    }
+  } catch (err) {
+    console.warn('API catalog fetch failed, attempting fallback...', err);
+  }
+
+  // Fallback to legacy path if in static dev mode
   const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL) || '/';
   const url = base.replace(/\/$/, '') + '/data/prompts.json';
-
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to load prompts: ${response.status} ${response.statusText}`);
   }
-
   allPrompts = await response.json();
   return allPrompts;
 }

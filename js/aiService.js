@@ -470,3 +470,134 @@ Aspect Ratio: ${briefData.aspectRatio || '16:9'}.`;
   return buildCinematicAdScript(briefData);
 }
 
+/* ── ATOMIC MODEL ROUTER (JEV SYSTEM 1 ENGINE) ────────────────── */
+
+/**
+ * Automatically classifies and routes a prompt to the optimal AI model:
+ * - Midjourney v8: High aesthetic stills, fine textures, painterly master styles, editorial photography
+ * - DeepMind Veo 3 / Google Flow: Spatial depth layering, precise typography in quotes, keyframe anchor
+ * - OpenAI Sora 2: Complex physical motion, speed ramps, kinetic stunts, timeline beats, foley sync
+ * - Wan 2.5: Open-source DiT continuous natural language video
+ * 
+ * Uses atomic attribute evaluations and returns a calibrated Jev Choice & probability distribution.
+ * 
+ * @param {string} promptText - The user prompt or draft
+ * @param {Object} [context={}] - Optional context (lens, lighting, motion, duration, format)
+ * @returns {{
+ *   targetModel: 'midjourney' | 'veo' | 'sora' | 'wan',
+ *   modelDisplayName: string,
+ *   confidence: number,
+ *   probabilities: { midjourney: number, veo: number, sora: number, wan: number },
+ *   reasoning: string,
+ *   attributes: Record<string, number>
+ * }}
+ */
+export function routePromptToOptimalModel(promptText, context = {}) {
+  const text = (promptText || '').toLowerCase();
+  const fullContext = `${text} ${JSON.stringify(context).toLowerCase()}`;
+
+  // 1. Atomic Noul Probability Evaluations
+  const hasTimeline = /\b(\d+s|\d+\s*seconds?|timeline|beat|0\.0s|clip duration|pacing)\b/i.test(fullContext) ? 0.90 : 0.10;
+  const hasCameraRigMotion = /\b(fpv|technocrane|russian arm|dolly[- ]?zoom|whip pan|steadicam|orbit|tracking shot|camera moves?|speed ramp)\b/i.test(fullContext) ? 0.95 : 0.05;
+  const hasKineticAction = /\b(running|explosion|crash|chase|flying|shatter|water splash|kinetic|fight|stunt)\b/i.test(fullContext) ? 0.88 : 0.12;
+  const hasExactText = /"[^"]{2,}"|text\s+overlay|logo|brand\s+name|typography|billboard/i.test(fullContext) ? 0.92 : 0.08;
+  const hasSpatialLayering = /\b(foreground anchor|midground|depth layer|background depth|spatial strata)\b/i.test(fullContext) ? 0.94 : 0.10;
+  const hasPainterlyStyle = /\b(caravaggio|rembrandt|monet|oil painting|ukiyo-e|art nouveau|impasto|watercolor|charcoal|masterpiece)\b/i.test(fullContext) ? 0.95 : 0.05;
+  const hasStillPhotoFlags = /\b(--ar|--v 8|--style raw|editorial portrait|35mm photo|kodak portra|high-res still)\b/i.test(fullContext) ? 0.90 : 0.15;
+  const isVideoExplicit = context.format === 'video' || /\b(video|generate video|motion clip|cinematic shot)\b/i.test(fullContext);
+
+  // 2. Compute Raw Weight Scores for Each Engine
+  let midjourneyScore = 1.0;
+  let veoScore = 1.0;
+  let soraScore = 1.0;
+  let wanScore = 0.8;
+
+  // Midjourney affinity: Heavy on painterly, still photo, static optics
+  midjourneyScore += hasPainterlyStyle * 4.5;
+  midjourneyScore += hasStillPhotoFlags * 3.5;
+  if (!isVideoExplicit && !hasTimeline && !hasCameraRigMotion) {
+    midjourneyScore += 3.0;
+  }
+  if (hasCameraRigMotion > 0.5 || hasTimeline > 0.5) {
+    midjourneyScore *= 0.25; // Penalize stills model for heavy motion asks
+  }
+
+  // Veo 3 / Google Flow affinity: Spatial depth layering, typography, clean keyframes
+  veoScore += hasSpatialLayering * 4.0;
+  veoScore += hasExactText * 3.8;
+  veoScore += hasCameraRigMotion * 2.0;
+  if (isVideoExplicit) veoScore += 1.5;
+
+  // Sora 2 affinity: High-energy kinetic stunts, speed ramps, timeline beats, physics
+  soraScore += hasKineticAction * 4.0;
+  soraScore += hasCameraRigMotion * 3.5;
+  soraScore += hasTimeline * 3.0;
+  if (isVideoExplicit) soraScore += 2.0;
+  if (hasPainterlyStyle > 0.5 && !hasKineticAction) soraScore *= 0.6;
+
+  // Wan 2.5 affinity: Open-source DiT natural text video
+  wanScore += (hasCameraRigMotion + hasTimeline) * 1.5;
+  if (isVideoExplicit) wanScore += 1.2;
+
+  // 3. Softmax / Probability Calibration (sum = 1.0)
+  const total = midjourneyScore + veoScore + soraScore + wanScore;
+  const probs = {
+    midjourney: parseFloat((midjourneyScore / total).toFixed(3)),
+    veo: parseFloat((veoScore / total).toFixed(3)),
+    sora: parseFloat((soraScore / total).toFixed(3)),
+    wan: parseFloat((wanScore / total).toFixed(3))
+  };
+
+  // 4. Categorical Choice Determination
+  let targetModel = 'midjourney';
+  let maxP = probs.midjourney;
+
+  if (probs.veo > maxP) {
+    targetModel = 'veo';
+    maxP = probs.veo;
+  }
+  if (probs.sora > maxP) {
+    targetModel = 'sora';
+    maxP = probs.sora;
+  }
+  if (probs.wan > maxP) {
+    targetModel = 'wan';
+    maxP = probs.wan;
+  }
+
+  const modelLabels = {
+    midjourney: 'Midjourney V8.2 (Hollywood Optics & Master Textures)',
+    veo: 'DeepMind Veo 3 / Google Flow (Spatial Strata & Keyframe Anchor)',
+    sora: 'OpenAI Sora 2 (Kinetic Physics & Multi-beat Timeline)',
+    wan: 'Wan 2.5 (T5-XXL Cinematic DiT Video)'
+  };
+
+  let reasoning = '';
+  if (targetModel === 'midjourney') {
+    reasoning = 'Prompt tập trung vào tính thẩm mỹ tĩnh cao cấp, chất liệu bề mặt và ánh sáng nghệ thuật.';
+  } else if (targetModel === 'veo') {
+    reasoning = 'Prompt có cấu trúc phân tầng không gian 3 lớp hoặc yêu cầu kiểm soát typography/keyframe chính xác.';
+  } else if (targetModel === 'sora') {
+    reasoning = 'Prompt đòi hỏi chuyển động camera phức tạp, phân cảnh theo mốc thời gian và mô phỏng vật lý động.';
+  } else {
+    reasoning = 'Prompt phù hợp nhất với mô hình sinh video DiT mã nguồn mở Wan 2.5.';
+  }
+
+  return {
+    targetModel, // Jev Choice Primitive
+    modelDisplayName: modelLabels[targetModel],
+    confidence: maxP, // Calibrated Confidence
+    probabilities: probs, // Probability distribution
+    reasoning,
+    attributes: {
+      hasTimeline,
+      hasCameraRigMotion,
+      hasKineticAction,
+      hasExactText,
+      hasSpatialLayering,
+      hasPainterlyStyle,
+      hasStillPhotoFlags
+    }
+  };
+}
+

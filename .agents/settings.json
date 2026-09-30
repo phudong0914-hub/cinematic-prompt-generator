@@ -1,0 +1,33 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "model": "claude-3-7-sonnet-20250219",
+  "fastMode": true,
+  "permissionMode": "auto",
+  "allowedTools": [
+    "view_file",
+    "replace_file_content",
+    "write_to_file",
+    "run_command",
+    "list_dir",
+    "grep_search"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "action": "check_command_safety"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "replace_file_content",
+        "action": "validate_syntax"
+      }
+    ]
+  },
+  "statusLine": {
+    "showModel": true,
+    "showBranch": true,
+    "showContextUsage": true
+  }
+}

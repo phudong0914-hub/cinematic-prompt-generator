@@ -6,47 +6,40 @@
 ---
 
 ## 🟢 1. Trạng Thái Hiện Tại (Current Status)
-- **Phiên bản**: v2.1.0-alpha
+- **Phiên bản**: v2.2.0-system1
 - **Runtime**: Local HTTP Server active on `http://localhost:5173`
-- **Hệ thống điều hành Agent**: Đủ 6 Trụ Cột (`.claude/` và `.agents/`)
+- **Hệ thống điều hành Agent**: Chuẩn hóa toàn diện theo `claude-code-best-practice` (Command → Subagent → Skill → Hooks)
+- **Kiến trúc thẩm định & Routing**: Chuẩn hóa theo `awesome-jev` (Jev System 1 Primitives: Choice, Score, Noul)
 - **Độ sẵn sàng Vercel**: Đạt chuẩn (đã cấu hình headers CSP, HSTS, X-Frame-Options)
 
 ---
 
 ## ✅ 2. Hạng Mục Đã Hoàn Thành (Completed Milestones)
 - [x] **Khởi động lại dự án local**: Khởi chạy Python HTTP server trên cổng 5173.
-- [x] **Audit bảo mật OWASP/Deployment Checklist**:
-  - Không rò rỉ API Key (0 hardcoded keys).
-  - BYOK mã hóa tại `localStorage`.
-  - Cấu hình bảo mật toàn diện trong `vercel.json`.
-- [x] **Cập nhật bộ lọc Security**:
-  - Tích hợp phát hiện Prompt Injection (jailbreak, system override, zero-width unicode) trong `guardrails.js`.
-  - Bổ sung `PROMPT_INJECTION_DETECTED` trong `opticalLinter.js`.
-  - Delimiter Sandboxing `<user_creative_pitch>` trong `aiService.js`.
-- [x] **Tích hợp CodeFlow & Archify 3 Chiều**:
-  - Tải và nhúng bản full `codeflow.html` (15,502 dòng) hỗ trợ AST map & blast radius.
-  - Tích hợp thanh điều hướng 3 chiều trên cả `index.html`, `workflow.html`, `codeflow.html`.
-  - Nút bấm `📐 Archify` và `🗺️ CodeFlow` đặt song song tại Tier 2 toolbar Studio.
-- [x] **Client-Side Mini-RAG** (`js/miniRagEngine.js`):
-  - Tìm kiếm theo thuật toán BM25 trên 720+ thuật ngữ từ điển điện ảnh, nạp chính xác top 3-5 thuật ngữ vào ngữ cảnh AI.
-- [x] **AI Staff & 60-Second Standup** (`scripts/run_standup.mjs` & `/standup`):
-  - Kích hoạt đủ 3 nhân sự AI: GTM Engineer, SEO & AEO Employee, Social Media Employee.
-  - Lệnh `/standup` tổng hợp tiến độ và phát hành biên bản `STANDUP_LATEST.md`.
-- [x] **Chống Indirect Prompt Injection cho Kịch Bản Đối Thủ**:
-  - Xây dựng `sanitizeCompetitorScript()` trong `guardrails.js`.
-  - Đóng gói transcript đối thủ vào thẻ sandbox `<competitor_transcript>` an toàn tuyệt đối.
-- [x] **Git Pre-Commit Guard** (`scripts/pre_commit_guard.mjs` & `.git/hooks/pre-commit`):
-  - Tự động chặn commit nếu phát hiện rò rỉ API key (OpenAI, Gemini, Anthropic, AWS, GitHub).
-  - Tự động chạy Red Team Fuzzer (`security_fuzzer.mjs`) kiểm tra 8/8 kịch bản tấn công trước khi cho phép commit.
-- [x] **Cài đặt 10 Tiện ích / Môi trường phát triển**:
-  - Claude Code CLI v2.1.284, Dracula Theme, GitLens, Git History, Markdown Mermaid, Remote-SSH, VSCode Icons (tắt Compact Folder), Database Client đa năng, Docker.
+- [x] **Kiểm soát quang học (`opticalLinter.js`) theo Jev System 1**:
+  - Loại bỏ hoàn toàn sự phụ thuộc vào prompt LLM tự do.
+  - Xây dựng **Atomic Optical Criteria Matrix** với 8 gut-checks độc lập trả về xác suất Noul $P \in [0.0, 1.0]$.
+  - Tự động tính toán điểm toàn vẹn vật lý quang học (Jev Score: 0..100) và cấp độ chất lượng (Jev Choice: `HOLLYWOOD GRADE` | `CINEMATIC PASS` | `NEEDS TUNING` | `CRITICAL ATTENTION`).
+- [x] **Chống Prompt Injection & An toàn hệ thống (`guardrails.js`)**:
+  - Tích hợp `evaluateAtomicSafetyCriteria()` phân rã rủi ro thành 7 atomic Noul evaluations.
+  - Tính toán Jev Threat Score (0..100) và phân loại hành vi Jev Choice: `ALLOW` | `SANITIZE` | `BLOCK`.
+- [x] **Định tuyến mô hình tự động (`aiService.js`)**:
+  - Triển khai `routePromptToOptimalModel()` phân tích vector thuộc tính (Lens, Lighting, Motion, Timeline, Typography).
+  - Tự động điều hướng và tính toán phân phối xác suất calibrated giữa **Midjourney v8.2**, **DeepMind Veo 3 / Google Flow**, **OpenAI Sora 2**, và **Wan 2.5**.
+- [x] **Nâng cấp cấu trúc `.claude/` và `.agents/` theo `claude-code-best-practice`**:
+  - Bổ sung **Subagents** độc lập ngữ cảnh (`context: fork`): `optical-auditor.md`, `model-router-agent.md`, `pipeline-deployer.md`.
+  - Chuẩn hóa **YAML Frontmatter** cho toàn bộ skills (`allowed-tools`, `context: fork`, `argument-hint`).
+  - Bổ sung lệnh chủ động `/route-model` trong `commands/`.
+  - Bổ sung quy tắc bất khả xâm phạm trong `rules/`: `atomic-criteria.md` & `model-routing-matrix.md`.
+  - Cấu hình chuẩn `settings.json` (auto mode, permissionMode, hooks) và `.mcp.json` (Chrome DevTools, Filesystem).
+- [x] **Bộ Unit Test độc lập (`test_system1_engine.mjs`)**:
+  - 5/5 bài test cho Optical Linter, Safety Classifier, và Model Routing (Midjourney, Veo, Sora) vượt qua 100%.
+- [x] **Xác thực toàn vẹn Pipeline 5 bước**:
+  - `npm run build` và `node .agents/hooks/pipeline-verify.mjs` vượt qua 100% (8/8 Red Team attack vectors bị chặn đứng).
 
 ---
 
 ## 🟢 3. Trạng Thái Vận Hành Hiện Tại (Operational Status)
-- **Tất cả 4 cụm tinh hoa đã được tích hợp 100%**.
-- **Không xảy ra xung đột giữa Archify và CodeFlow**.
-- **Harness Engineering**: Đạt 5/5 tiêu chuẩn (100%).
-- **Red Team Security**: Đạt 8/8 bài kiểm tra (100%).
+- **Tất cả các tiêu chí nâng cấp đã được nghiệm thu 100%**.
+- **Không có xung đột giữa Archify, CodeFlow, và System 1 Engine**.
 - **Live Local Server**: Đang hoạt động trên `http://localhost:5173`.
-

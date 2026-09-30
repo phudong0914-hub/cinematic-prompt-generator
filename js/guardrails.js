@@ -402,3 +402,85 @@ export function sanitizeCompetitorScript(rawTranscript) {
   };
 }
 
+/* ── 5. ATOMIC SAFETY & ANTI-INJECTION EVALUATION (SYSTEM 1 / JEV PRIMITIVES) ── */
+
+/**
+ * Evaluates text against discrete, atomic safety criteria.
+ * Each judgment is isolated and returns a calibrated Noul probability P in [0.0, 1.0].
+ * 
+ * @param {string} rawInput - Text to evaluate
+ * @returns {{
+ *   threatScore: number,
+ *   actionChoice: 'ALLOW' | 'SANITIZE' | 'BLOCK',
+ *   atomicJudgments: Record<string, { noul: number, triggered: boolean, description: string }>,
+ *   reasons: string[]
+ * }}
+ */
+export function evaluateAtomicSafetyCriteria(rawInput) {
+  const text = String(rawInput || '');
+  const reasons = [];
+
+  // Atomic Noul Criteria Definitions
+  const judgments = {
+    instruction_override: {
+      noul: /(?:ignore|disregard|forget)\s+(?:all\s+)?(?:previous|prior|above)\s+(?:instructions?|directives?|rules?|prompts?)/i.test(text) ? 0.98 : 0.0,
+      description: 'Cố tình ghi đè hoặc vô hiệu hóa chỉ thị hệ thống'
+    },
+    credential_leak: {
+      noul: /(?:reveal|leak|output|print|show)\s+(?:the\s+)?(?:system\s+prompt|api[- ]?key|secret|hidden\s+directive)/i.test(text) ? 0.96 : 0.0,
+      description: 'Truy vấn trích xuất dữ liệu nhạy cảm hoặc system prompt'
+    },
+    jailbreak_persona: {
+      noul: /\b(you\s+are\s+now\s+(?:unrestricted|dan|jailbreak|an\s+evil|freed)|developer\s+mode\s+enabled)\b/i.test(text) ? 0.95 : 0.0,
+      description: 'Giả lập persona hoặc ép mô hình vào chế độ Jailbreak'
+    },
+    delimiter_tampering: {
+      noul: /<\/?(?:user_creative_pitch|competitor_transcript|system|prompt|context)[^>]*>/i.test(text) ? 0.90 : 0.0,
+      description: 'Phá vỡ ranh giới thẻ phân cách (Delimiter escape)'
+    },
+    invisible_unicode: {
+      noul: /[\u200B-\u200D\uFEFF\u202E]/.test(text) ? 0.85 : 0.0,
+      description: 'Chứa ký tự ẩn Unicode Zero-Width đánh lừa tokenization'
+    },
+    markdown_exfil: {
+      noul: /!\[.*?\]\((?:https?:|\/\/)[^\s)]+\)/i.test(text) ? 0.92 : 0.0,
+      description: 'Chèn link Markdown Image nhằm đánh cắp dữ liệu ra ngoài'
+    },
+    policy_violation: {
+      noul: BANNED_PATTERNS.some(p => p.pattern.test(text)) ? 0.80 : 0.0,
+      description: 'Chứa từ khóa vi phạm tiêu chuẩn cộng đồng hoặc chính sách nền tảng'
+    }
+  };
+
+  // Compute triggered list & reasons
+  let maxNoul = 0.0;
+  let totalWeightedNoul = 0.0;
+
+  for (const [key, item] of Object.entries(judgments)) {
+    item.triggered = item.noul >= 0.5;
+    if (item.triggered) {
+      reasons.push(item.description);
+    }
+    if (item.noul > maxNoul) maxNoul = item.noul;
+    totalWeightedNoul += item.noul;
+  }
+
+  // Jev Score Primitive (0 to 100 Threat Index)
+  const threatScore = Math.min(100, Math.round(maxNoul * 80 + (totalWeightedNoul / 7) * 20));
+
+  // Jev Choice Primitive: Categorical decision mapping
+  let actionChoice = 'ALLOW';
+  if (threatScore >= 75) {
+    actionChoice = 'BLOCK';
+  } else if (threatScore >= 30) {
+    actionChoice = 'SANITIZE';
+  }
+
+  return {
+    threatScore, // Score primitive [0..100]
+    actionChoice, // Choice primitive ('ALLOW' | 'SANITIZE' | 'BLOCK')
+    atomicJudgments: judgments,
+    reasons
+  };
+}
+
