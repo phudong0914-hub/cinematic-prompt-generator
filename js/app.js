@@ -6,6 +6,7 @@
  */
 
 import '../styles/main.css';
+import { initPerfBoost, withViewTransition, observeCards, throttle, debounce } from './perfBoost.js';
 import './i18n.js';
 import './securityShield.js';
 import './bridgeConnector.js';
@@ -124,17 +125,19 @@ function autoResizeTextarea(el) {
 }
 window.autoResizeTextarea = autoResizeTextarea;
 
-// ── Global Smart Auto-Expand for ALL textareas (input, paste) ──
+// ── Global Smart Auto-Expand for ALL textareas (passive + throttled) ──
+const _throttledResize = throttle((el) => autoResizeTextarea(el), 32);
 document.addEventListener('input', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
-    autoResizeTextarea(e.target);
+    _throttledResize(e.target);
   }
-});
+}, { passive: true });
 document.addEventListener('paste', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
-    setTimeout(() => autoResizeTextarea(e.target), 10);
+    // Allow paste to complete then resize
+    requestAnimationFrame(() => autoResizeTextarea(e.target));
   }
-});
+}, { passive: true });
 
 /**
  * Studio Engine (StudioBinder & AICameraMovements) State
@@ -3809,6 +3812,9 @@ function initCinePromptSuite() {
       }
     });
   } catch (_) {}
+
+  // ── PERF BOOST: init all modern UX techniques after app is ready ──
+  initPerfBoost();
 }
 
 if (document.readyState === 'loading') {
@@ -3816,3 +3822,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// ── Export withViewTransition for use in uiController ──
+export { withViewTransition, observeCards };

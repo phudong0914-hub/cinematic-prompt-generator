@@ -5537,3 +5537,180 @@ details.cinema-accordion--ref > summary {
 }
 .atb-util-pair .atb-btn { flex: 1; }
 .atb-util-pair .atb-btn--sfx { flex: 0 0 28px; }
+
+
+/* =========================================================
+   PERF BOOST CSS — Modern 2025 Techniques Layer
+   - prefers-reduced-motion safety net
+   - @starting-style enter animations (Chrome 117+)
+   - content-visibility hints
+   - contain for layout isolation
+   - GPU-only transitions (transform/opacity)
+   - Scroll-reveal: .will-reveal / .is-visible
+   - Pointer-press feedback
+   - Overscroll control
+   - touch-action optimization
+   ========================================================= */
+
+/* 1. MOTION SAFETY — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .will-reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* 2. SCROLL REVEAL — IntersectionObserver companion */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1)),
+              transform 0.35s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1));
+  will-change: opacity, transform;
+}
+.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;  /* release GPU layer after animation */
+}
+
+/* 3. @STARTING-STYLE — enter animation for modals/toasts (Chrome 117+) */
+@supports (selector(:has(*))) {
+  .modal-overlay, .glass-toast {
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition: opacity 0.25s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1)),
+                transform 0.25s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1));
+  }
+}
+
+/* 4. BUTTON PRESS FEEDBACK — data-pressing attribute via JS */
+[data-pressing] {
+  transform: scale(0.96) !important;
+  opacity: 0.82 !important;
+  transition-duration: 0.08s !important;
+}
+
+/* 5. CONTAIN — isolate layout paint for heavy panels */
+.sidebar-input,
+.sidebar-output,
+.main-process {
+  contain: layout style;
+}
+
+.card {
+  contain: layout style paint;
+}
+
+/* 6. OVERSCROLL — prevent rubber-band on modal/scrollable panels */
+.card-scroll-area,
+.glossary-list,
+.sidebar-output,
+.modal-body {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 7. TOUCH-ACTION — hint touch events to compositor */
+.atb-btn,
+.btn-primary,
+.randomize-btn,
+.pill-btn,
+.copy-btn,
+.card {
+  touch-action: manipulation;  /* disables double-tap zoom, 300ms delay gone */
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+/* 8. VIEW TRANSITIONS — fade for panel switches (Chrome 111+) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Named view transition for card grid refreshes */
+.card-scroll-area {
+  view-transition-name: card-grid;
+}
+::view-transition-old(card-grid) {
+  animation: vt-fade-out 0.18s ease forwards;
+}
+::view-transition-new(card-grid) {
+  animation: vt-fade-in 0.22s ease forwards;
+}
+
+@keyframes vt-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 9. FONT RENDERING — subpixel for crisp UI text */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 10. SMOOTH FOCUS RINGS — keyboard nav (no outline on mouse) */
+:focus-visible {
+  outline: 2px solid rgba(201, 162, 39, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* 11. LOADING SKELETON — pulse animation for async content */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* 12. SCROLLBAR STYLING — premium thin dark scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 39, 0.28);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 162, 39, 0.5);
+}
+* { scrollbar-width: thin; scrollbar-color: rgba(201,162,39,0.3) transparent; }
+
+/* 13. SELECT HIGHLIGHT color */
+::selection {
+  background: rgba(201, 162, 39, 0.3);
+  color: #fff;
+}
+
+/* 14. CURSOR — pointer for all interactive elements */
+button, [role="button"], a, label[for], select, input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* 15. IMAGE — prevent layout shift */
+img { display: block; max-width: 100%; }

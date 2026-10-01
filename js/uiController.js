@@ -15,6 +15,18 @@ import { AI_MODELS, reorderPromptByModel, compileProsePrompt } from './modelOpti
 import { multishotEngine } from './multishotEngine.js';
 import { byokStudio } from './byokStudio.js';
 
+// Lazy-import perf utils to avoid circular deps (app.js exports these after init)
+let _withViewTransition = null;
+let _observeCards = null;
+async function getPerf() {
+  if (!_withViewTransition) {
+    const m = await import('./perfBoost.js');
+    _withViewTransition = m.withViewTransition;
+    _observeCards = m.observeCards;
+  }
+  return { withViewTransition: _withViewTransition, observeCards: _observeCards };
+}
+
 /* ── Video suffix (base, without dynamic parts) ───────────── */
 
 /** Core video quality suffix; dynamic parts (motion, AR) are appended by displayDualResult. */
@@ -554,7 +566,7 @@ function escapeHTML(str) {
  * @param {(prompt: import('../types').Prompt) => void} onCardClick - Callback when a card is activated.
  * @param {(id: string, e: Event) => void} onFavClick - Callback when fav button is clicked.
  */
-export function renderGrid(prompts, onCardClick, onFavClick) {
+export async function renderGrid(prompts, onCardClick, onFavClick) {
   const grid  = document.getElementById('prompt-grid');
   const count = document.getElementById('result-count');
 
@@ -596,7 +608,20 @@ export function renderGrid(prompts, onCardClick, onFavClick) {
     return;
   }
 
-  grid.innerHTML = prompts.map((p, i) => buildCardHTML(p, i)).join('');
+  // Use View Transitions API for smooth card grid refresh (Chrome 111+)
+  const { withViewTransition: vt, observeCards: oc } = await getPerf();
+
+  await vt(() => {
+    grid.innerHTML = prompts.map((p, i) => buildCardHTML(p, i)).join('');
+  });
+
+  // Scroll-reveal: IntersectionObserver for newly rendered cards
+  if (oc) {
+    requestAnimationFrame(() => {
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      oc(cards);
+    });
+  }
 
   grid.querySelectorAll('.card').forEach((cardEl) => {
     const idx = parseInt(cardEl.dataset.index, 10);
