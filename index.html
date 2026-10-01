@@ -1125,6 +1125,9 @@
           <button id="open-tvc-studio-btn" class="copy-btn" style="border-color:rgba(234,179,8,0.7); color:#ffd700; padding:4px 8px; font-size:0.72rem; min-height:28px; background:linear-gradient(135deg, rgba(234,179,8,0.25), rgba(245,158,11,0.25)); font-weight:800;" title="Mở Studio Kịch Bản TVC & Bắn Sang Google Flow">
             <span>🎬 TVC Flow</span>
           </button>
+          <button id="one-touch-flow-capcut-btn" class="copy-btn" style="border:1.2px solid #ffd700; color:#000; background:linear-gradient(135deg, #ffd700, #f59e0b); padding:4px 9px; font-size:0.72rem; min-height:28px; font-weight:800; box-shadow:0 0 10px rgba(255,215,0,0.35);" title="1-Chạm: Tự động gom 4 cảnh tạo Flow Prompt liên tục + Tải file Phụ đề .SRT chuẩn CapCut">
+            <span>⚡ 1-Chạm: Flow ➔ CapCut</span>
+          </button>
         </div>
       </div>
 
@@ -3464,6 +3467,7 @@
           <div style="display:flex; gap:6px; flex-wrap:wrap;">
             <button id="ad-copy-all-btn" class="copy-btn" style="padding:5px 10px; font-size:0.75rem; background:rgba(255,215,0,0.18); border-color:#ffd700; color:#ffd700; font-weight:700;"><span>📋 Sao Chép</span></button>
             <button id="ad-load-subject-btn" class="copy-btn" style="padding:5px 10px; font-size:0.75rem; background:rgba(56,189,248,0.18); border-color:#38bdf8; color:#38bdf8; font-weight:700;"><span>🎯 Nạp Vào Bàn Máy</span></button>
+            <button id="ad-export-flow-capcut-btn" class="copy-btn" style="padding:5px 12px; font-size:0.75rem; background:linear-gradient(135deg, #ffd700, #f59e0b); border:1.5px solid #ffd700; color:#000; font-weight:900; box-shadow:0 0 12px rgba(255,215,0,0.4);" title="1-Chạm: Tự động gom 4 cảnh tạo Flow Prompt liên tục + Tải file Phụ đề .SRT chuẩn CapCut"><span>⚡ 1-Chạm: Flow ➔ CapCut</span></button>
             <button id="ad-export-flow-package-btn" class="copy-btn" style="padding:5px 12px; font-size:0.75rem; background:linear-gradient(135deg, rgba(234,179,8,0.3), rgba(34,197,94,0.3)); border:1.5px solid #22c55e; color:#86efac; font-weight:800; box-shadow:0 0 10px rgba(34,197,94,0.35);" title="Xuất Trọn Gói TVC Package (.txt) chuẩn hóa từng cảnh độc lập để dán tay trực tiếp vào Google Flow mà không cần cài extension"><span>📦 Xuất Gói TVC (Flow Dán Tay)</span></button>
             <button id="ad-export-remotion-btn" class="copy-btn" style="padding:5px 12px; font-size:0.75rem; background:linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border-color:#c084fc; color:#fff; font-weight:800; box-shadow:0 0 10px rgba(168,85,247,0.4);" title="Xuất Code Remotion React (.tsx) tự động render MP4 không cần dựng thủ công"><span>⚛️ Xuất Code Remotion (.tsx)</span></button>
           </div>
@@ -3712,6 +3716,151 @@
 
     </div>
   </div>
+
+  <!-- ================================================================ -->
+  <!-- ⚡ 1-CHẠM: GOOGLE FLOW (HỢP NHẤT) ➔ CAPCUT (PHỤ ĐỀ & HẬU KỲ)      -->
+  <!-- ================================================================ -->
+  <script>
+    (function() {
+      async function runOneTouchFlowCapCut(source) {
+        let title = document.getElementById('prompt-title')?.textContent?.trim() || 'TVC_Quang_Cao_Dien_Anh';
+        let subject = document.getElementById('subject-input')?.value?.trim() || '';
+        let character = document.getElementById('character-input')?.value?.trim() || '';
+        let videoPrompt = document.getElementById('result-text-video')?.textContent?.trim() || '';
+        let imagePrompt = document.getElementById('result-text-image')?.textContent?.trim() || '';
+        
+        const adProduct = document.getElementById('ad-product-name')?.value?.trim() || '';
+        const adCore = document.getElementById('ad-core-message')?.value?.trim() || '';
+        
+        if (adProduct) title = `TVC_${adProduct.replace(/\s+/g, '_')}`;
+        if (!subject && adProduct) subject = `${adProduct} - ${adCore}`;
+        
+        const cleanTitle = (title || 'TVC_Sieu_Pham').replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
+        const subj = subject || 'Siêu phẩm thương hiệu chuẩn Hollywood';
+        const charDesc = character || 'Nhân vật đại diện phong cách điện ảnh cao cấp';
+        const basePrompt = videoPrompt || imagePrompt || 'Cinematic masterpiece, commercial lighting, 24fps 4k';
+
+        // 1. Compile Google Flow Unified Seamless Trajectory Script
+        const flowScript = 
+`================================================================================
+🎬 GOOGLE FLOW MASTER STITCHED SCRIPT — 1-CLICK UNIFIED VIDEO (12s | 24fps)
+Dự án: ${title} | Đạo diễn: Trungvt (0836.384.168 · trungvtco@gmail.com)
+================================================================================
+💡 HƯỚNG DẪN 1 BƯỚC: Dán toàn bộ khối lệnh bên dưới vào Google Flow (hoặc ô chat Gemini).
+Flow sẽ tự động dùng kỹ thuật Last-Frame Continuation để nối 4 cảnh thành 1 VIDEO DUY NHẤT!
+================================================================================
+
+[SCENE 1: 00:00 - 00:03 | THE HOOK & ESTABLISHING]
+Camera Motion: Slow smooth dolly in push past foreground atmospheric mist and lights.
+Framing: Wide establishing shot.
+Action: ${charDesc} in ${subj}.
+Visual Style: ${basePrompt}.
+Lighting: Volumetric rim lighting, commercial studio color grade, 24fps --ar 16:9.
+
+[TRANSITION: SEAMLESS CAMERA MOMENTUM CONTINUATION — NO CUT]
+
+[SCENE 2: 00:03 - 00:06 | THE HERO & EMOTIONAL REVEAL]
+Camera Motion: Continue forward momentum from previous position, settling into smooth medium close-up tracking.
+Framing: Medium close-up, macro 100mm f/2.8 shallow depth of field, anamorphic oval bokeh.
+Action: Intense, focused gaze interacting with camera lens, micro details and textures.
+Lighting: Chiaroscuro high-contrast commercial lighting, warm golden rim accents, authentic skin/material texture.
+
+[TRANSITION: SEAMLESS SPEED RAMP ACCELERATION — DYNAMIC SWEEP]
+
+[SCENE 3: 00:06 - 00:09 | THE CLIMAX & PEAK ACTION]
+Camera Motion: Fast dynamic whip pan right following sudden high-speed momentum.
+Framing: Dynamic action hero angle, dramatic motion blur on edges.
+Action: High-energy climax moment, powerful impactful product demonstration.
+Lighting: High-contrast strobe & neon reflections, cinematic blockbuster grading.
+
+[TRANSITION: SEAMLESS CRANE ELEVATION & RETREAT]
+
+[SCENE 4: 00:09 - 00:12 | THE RESOLUTION & BRAND SIGNATURE]
+Camera Motion: Smooth crane up and expansive dolly out pull back into wide twilight sky.
+Framing: Epic wide outro composition with balanced centered silhouette.
+Action: Lingering resolution, memorable final posture and luxury brand logo reveal.
+Audio Cue: Foley fade-out into resonant cello and 808 deep bass drop.
+End Card: ${cleanTitle} by Đạo Diễn Trungvt.
+
+================================================================================
+END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
+================================================================================`;
+
+        // 2. Compile CapCut .SRT Subtitle File
+        const srtContent = 
+`1
+00:00:00,000 --> 00:00:03,000
+${subj.slice(0, 50)}
+
+2
+00:00:03,000 --> 00:00:06,000
+Chi tiết sắc nét - Chuẩn phong cách điện ảnh Hollywood
+
+3
+00:00:06,000 --> 00:00:09,000
+Đột phá công nghệ - Trải nghiệm hình ảnh siêu thực
+
+4
+00:00:09,000 --> 00:00:12,000
+Khẳng định vị thế thương hiệu | Đạo Diễn Trungvt
+`;
+
+        // 3. Copy Flow Script to Clipboard
+        try {
+          await navigator.clipboard.writeText(flowScript);
+        } catch (_) {
+          const ta = document.createElement('textarea');
+          ta.value = flowScript;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+
+        // 4. Download CapCut .SRT File
+        const srtBlob = new Blob([srtContent], { type: 'text/plain;charset=utf-8;' });
+        const srtUrl = URL.createObjectURL(srtBlob);
+        const srtLink = document.createElement('a');
+        srtLink.setAttribute('href', srtUrl);
+        srtLink.setAttribute('download', `CapCut_PhuDe_${cleanTitle}.srt`);
+        document.body.appendChild(srtLink);
+        srtLink.click();
+        document.body.removeChild(srtLink);
+        URL.revokeObjectURL(srtUrl);
+
+        // 5. Notify User with Toast
+        if (typeof window.showToast === 'function') {
+          window.showToast('⚡ 1-CHẠM THÀNH CÔNG: Đã copy kịch bản nối cảnh Google Flow & Tải phụ đề .SRT cho CapCut! Hãy dán vào Flow tạo 1 Video hợp nhất, rồi nhập .SRT vào CapCut!', 'success', 8000);
+        } else {
+          alert('⚡ 1-CHẠM THÀNH CÔNG:\n1. Đã copy kịch bản nối liền 4 cảnh sang clipboard (dán vào Google Flow để tạo 1 video liền mạch).\n2. Đã tải file CapCut_PhuDe.srt về máy (kéo thả vào CapCut để có phụ đề tự động)!');
+        }
+      }
+
+      function bindOneTouchButtons() {
+        const btn1 = document.getElementById('one-touch-flow-capcut-btn');
+        if (btn1 && !btn1.dataset.bound) {
+          btn1.dataset.bound = 'true';
+          btn1.addEventListener('click', () => runOneTouchFlowCapCut('toolbar'));
+        }
+
+        const btn2 = document.getElementById('ad-export-flow-capcut-btn');
+        if (btn2 && !btn2.dataset.bound) {
+          btn2.dataset.bound = 'true';
+          btn2.addEventListener('click', () => runOneTouchFlowCapCut('modal'));
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindOneTouchButtons);
+      } else {
+        bindOneTouchButtons();
+      }
+      setTimeout(bindOneTouchButtons, 1000);
+    })();
+  </script>
 
 </body>
 </html>

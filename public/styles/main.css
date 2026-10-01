@@ -5391,3 +5391,326 @@ details.cinema-accordion--ref > summary {
   text-overflow: clip !important;
 }
 
+
+
+/* =========================================================
+   ACTION TOOLBAR v3 — .atb component
+   Zero overflow · GPU-accelerated transitions · Premium feel
+   ========================================================= */
+
+/* Container */
+.atb {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(13, 15, 26, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* Grid rows */
+.atb-grid {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.atb-grid--2 { grid-template-columns: 1fr 1fr; }
+.atb-grid--4 { grid-template-columns: 1fr 1fr 1fr auto; gap: 5px; }
+
+/* Base button */
+.atb-btn {
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 9px;
+  border: 1.2px solid transparent;
+  font-size: 0.73rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  /* prevent overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  /* smooth GPU-accelerated transitions */
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  will-change: transform;
+}
+.atb-btn:hover  { transform: translateY(-1px) scale(1.015); opacity: 0.92; }
+.atb-btn:active { transform: translateY(0)    scale(0.985); }
+
+.atb-icon { flex-shrink: 0; font-size: 0.9rem; line-height: 1; }
+.atb-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Color variants */
+.atb-btn--gold {
+  background: rgba(234,179,8,0.14);
+  border-color: rgba(234,179,8,0.45);
+  color: #facc15;
+}
+.atb-btn--gold:hover { box-shadow: 0 0 14px rgba(234,179,8,0.35); }
+
+.atb-btn--amber {
+  background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(234,88,12,0.18));
+  border-color: #f59e0b;
+  color: #fbbf24;
+  box-shadow: 0 0 8px rgba(245,158,11,0.18);
+}
+.atb-btn--amber:hover { box-shadow: 0 0 18px rgba(245,158,11,0.45); }
+
+.atb-btn--pink {
+  background: linear-gradient(135deg, rgba(236,72,153,0.22), rgba(255,215,0,0.14));
+  border-color: rgba(255,215,0,0.6);
+  color: #ffd700;
+  box-shadow: 0 0 8px rgba(255,215,0,0.18);
+}
+.atb-btn--pink:hover { box-shadow: 0 0 18px rgba(255,215,0,0.38); }
+
+.atb-btn--purple {
+  background: rgba(168,85,247,0.16);
+  border-color: rgba(168,85,247,0.45);
+  color: #c084fc;
+}
+.atb-btn--purple:hover { box-shadow: 0 0 14px rgba(168,85,247,0.35); }
+
+.atb-btn--cyan {
+  background: linear-gradient(135deg, rgba(56,189,248,0.16), rgba(168,85,247,0.14));
+  border-color: rgba(56,189,248,0.5);
+  color: #7dd3fc;
+  box-shadow: 0 0 8px rgba(56,189,248,0.15);
+}
+.atb-btn--cyan:hover { box-shadow: 0 0 18px rgba(56,189,248,0.38); }
+
+.atb-btn--gold-glow {
+  background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(255,215,0,0.18));
+  border-color: rgba(255,215,0,0.6);
+  color: #ffd700;
+  box-shadow: 0 0 8px rgba(255,215,0,0.18);
+}
+.atb-btn--gold-glow:hover { box-shadow: 0 0 20px rgba(255,215,0,0.42); }
+
+/* XS compact buttons (Tier 3) */
+.atb-btn--xs {
+  height: 28px;
+  padding: 0 6px;
+  font-size: 0.67rem;
+  border-radius: 7px;
+  gap: 3px;
+}
+
+.atb-btn--cyan-xs {
+  background: rgba(56,189,248,0.10);
+  border-color: rgba(56,189,248,0.3);
+  color: #38bdf8;
+}
+.atb-btn--gold-xs {
+  background: rgba(201,162,39,0.12);
+  border-color: rgba(201,162,39,0.32);
+  color: #ffd700;
+}
+.atb-btn--ghost {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.16);
+  color: #ffd700;
+}
+.atb-btn--lang { flex: 1; font-size: 0.7rem; font-weight: 800; }
+.atb-btn--sfx  { width: 28px; font-size: 0.72rem; color: #e4e4e7; }
+
+/* Utility pair (lang + sfx) */
+.atb-util-pair {
+  display: flex;
+  gap: 3px;
+  min-width: 0;
+}
+.atb-util-pair .atb-btn { flex: 1; }
+.atb-util-pair .atb-btn--sfx { flex: 0 0 28px; }
+
+
+/* =========================================================
+   PERF BOOST CSS — Modern 2026 Techniques Layer
+   - prefers-reduced-motion safety net
+   - @starting-style enter animations (Chrome 117+)
+   - content-visibility hints
+   - contain for layout isolation
+   - GPU-only transitions (transform/opacity)
+   - Scroll-reveal: .will-reveal / .is-visible
+   - Pointer-press feedback
+   - Overscroll control
+   - touch-action optimization
+   ========================================================= */
+
+/* 1. MOTION SAFETY — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .will-reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* 2. SCROLL REVEAL — IntersectionObserver companion */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1)),
+              transform 0.35s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1));
+  will-change: opacity, transform;
+}
+.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;  /* release GPU layer after animation */
+}
+
+/* 3. @STARTING-STYLE — enter animation for modals/toasts (Chrome 117+) */
+@supports (selector(:has(*))) {
+  .modal-overlay, .glass-toast {
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.96) translateY(8px);
+    }
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition: opacity 0.25s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1)),
+                transform 0.25s var(--ease-snappy, cubic-bezier(0.22,1,0.36,1));
+  }
+}
+
+/* 4. BUTTON PRESS FEEDBACK — data-pressing attribute via JS */
+[data-pressing] {
+  transform: scale(0.96) !important;
+  opacity: 0.82 !important;
+  transition-duration: 0.08s !important;
+}
+
+/* 5. CONTAIN — isolate layout paint for heavy panels */
+.sidebar-input,
+.sidebar-output,
+.main-process {
+  contain: layout style;
+}
+
+.card {
+  contain: layout style paint;
+}
+
+/* 6. OVERSCROLL — prevent rubber-band on modal/scrollable panels */
+.card-scroll-area,
+.glossary-list,
+.sidebar-output,
+.modal-body {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 7. TOUCH-ACTION — hint touch events to compositor */
+.atb-btn,
+.btn-primary,
+.randomize-btn,
+.pill-btn,
+.copy-btn,
+.card {
+  touch-action: manipulation;  /* disables double-tap zoom, 300ms delay gone */
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+/* 8. VIEW TRANSITIONS — fade for panel switches (Chrome 111+) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Named view transition for card grid refreshes */
+.card-scroll-area {
+  view-transition-name: card-grid;
+}
+::view-transition-old(card-grid) {
+  animation: vt-fade-out 0.18s ease forwards;
+}
+::view-transition-new(card-grid) {
+  animation: vt-fade-in 0.22s ease forwards;
+}
+
+@keyframes vt-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 9. FONT RENDERING — subpixel for crisp UI text */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 10. SMOOTH FOCUS RINGS — keyboard nav (no outline on mouse) */
+:focus-visible {
+  outline: 2px solid rgba(201, 162, 39, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* 11. LOADING SKELETON — pulse animation for async content */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* 12. SCROLLBAR STYLING — premium thin dark scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 39, 0.28);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 162, 39, 0.5);
+}
+* { scrollbar-width: thin; scrollbar-color: rgba(201,162,39,0.3) transparent; }
+
+/* 13. SELECT HIGHLIGHT color */
+::selection {
+  background: rgba(201, 162, 39, 0.3);
+  color: #fff;
+}
+
+/* 14. CURSOR — pointer for all interactive elements */
+button, [role="button"], a, label[for], select, input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* 15. IMAGE — prevent layout shift */
+img { display: block; max-width: 100%; }

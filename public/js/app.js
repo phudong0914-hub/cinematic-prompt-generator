@@ -6,6 +6,7 @@
  */
 
 import '../styles/main.css';
+import { initPerfBoost, withViewTransition, observeCards, throttle, debounce } from './perfBoost.js';
 import './i18n.js';
 import './securityShield.js';
 import './bridgeConnector.js';
@@ -28,7 +29,7 @@ import {
 } from './dataManager.js';
 
 import { enhanceSubjectWithAI, testSingleKey, analyzeImageWithAI } from './aiService.js';
-import { exportToPDF, exportToCSV, exportToPackage } from './exportManager.js';
+import { exportToPDF, exportToCSV, exportToPackage, exportOneTouchFlowCapCut } from './exportManager.js';
 import { soundFX } from './soundFX.js';
 import { showToast } from './toast.js';
 import { onboardingTour } from './tour.js';
@@ -124,17 +125,19 @@ function autoResizeTextarea(el) {
 }
 window.autoResizeTextarea = autoResizeTextarea;
 
-// ── Global Smart Auto-Expand for ALL textareas (input, paste) ──
+// ── Global Smart Auto-Expand for ALL textareas (passive + throttled) ──
+const _throttledResize = throttle((el) => autoResizeTextarea(el), 32);
 document.addEventListener('input', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
-    autoResizeTextarea(e.target);
+    _throttledResize(e.target);
   }
-});
+}, { passive: true });
 document.addEventListener('paste', (e) => {
   if (e.target && e.target.tagName === 'TEXTAREA') {
-    setTimeout(() => autoResizeTextarea(e.target), 10);
+    // Allow paste to complete then resize
+    requestAnimationFrame(() => autoResizeTextarea(e.target));
   }
-});
+}, { passive: true });
 
 /**
  * Studio Engine (StudioBinder & AICameraMovements) State
@@ -2913,6 +2916,22 @@ async function init() {
       });
 
     document
+      .getElementById('one-touch-flow-capcut-btn')
+      ?.addEventListener('click', async () => {
+        await exportOneTouchFlowCapCut({
+          title: currentTitle,
+          subject: getSubjectValue(),
+          character: getCharacterValue(),
+          imagePrompt: document.getElementById('result-text-image')?.textContent || '',
+          videoPrompt: document.getElementById('result-text-video')?.textContent || '',
+          notebooklmPrompt: document.getElementById('result-text-notebooklm')?.textContent || ''
+        });
+        soundFX?.playPop?.();
+        showToast('⚡ 1-CHẠM THÀNH CÔNG: Đã copy kịch bản nối cảnh Google Flow & Tải phụ đề .SRT cho CapCut!', 'success', 6000);
+        workflowTracker.logAction('1-Chạm Flow ➔ CapCut', '⚡', currentTitle || '1-Touch Pipeline');
+      });
+
+    document
       .getElementById('negative-input')
       ?.addEventListener('input', refreshResult);
 
@@ -3809,6 +3828,9 @@ function initCinePromptSuite() {
       }
     });
   } catch (_) {}
+
+  // ── PERF BOOST: init all modern UX techniques after app is ready ──
+  initPerfBoost();
 }
 
 if (document.readyState === 'loading') {
@@ -3816,3 +3838,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// ── Export withViewTransition for use in uiController ──
+export { withViewTransition, observeCards };

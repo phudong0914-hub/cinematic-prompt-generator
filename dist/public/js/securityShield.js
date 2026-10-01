@@ -21,11 +21,13 @@ class SecurityShield {
 
     // ── 1. Disable Right Click ──
     document.addEventListener('contextmenu', (e) => {
+      // Allow right-click ONLY on textareas and text inputs so user can paste
+      if (['TEXTAREA', 'INPUT'].includes(e.target.tagName)) return true;
       e.preventDefault();
       return false;
     }, { capture: true });
 
-    // ── 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S) ──
+    // ── 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Mac Cmd+Opt+I/J/C/U) ──
     document.addEventListener('keydown', (e) => {
       // F12
       if (e.key === 'F12' || e.keyCode === 123) {
@@ -34,27 +36,37 @@ class SecurityShield {
         return false;
       }
 
-      // Ctrl + Shift + I (Inspect) or J (Console) or C (Elements)
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) {
+      // Windows/Linux Ctrl + Shift + I/J/C/K or Mac Cmd + Alt/Option + I/J/C/U
+      const isCmdOrCtrl = e.ctrlKey || e.metaKey;
+      const isShiftOrAlt = e.shiftKey || e.altKey;
+      const inspectKeys = ['i', 'j', 'c', 'k', 'u', 's'];
+
+      if (isCmdOrCtrl && isShiftOrAlt && inspectKeys.includes(e.key.toLowerCase())) {
         e.preventDefault();
         e.stopPropagation();
         return false;
       }
 
-      // Ctrl + U (View Source)
-      if ((e.ctrlKey || e.metaKey) && ['U', 'u', 'S', 's'].includes(e.key)) {
+      // Ctrl + U (View Source) or Ctrl + S (Save Page)
+      if (isCmdOrCtrl && ['u', 's'].includes(e.key.toLowerCase())) {
         e.preventDefault();
         e.stopPropagation();
         return false;
       }
     }, { capture: true });
 
-    // ── 3. Console Protection on Production ──
+    // ── 3. Console Protection & Copyright Seal on Production ──
     try {
-      console.log = () => {};
-      console.info = () => {};
-      console.warn = () => {};
-      console.debug = () => {};
+      const banner = () => {
+        console.clear();
+        console.log(
+          '%c🎬 CINE PROMPT PRO v2.0\n%c© 2026 Đạo Diễn Trungvt. All Rights Reserved.\nFounder & Director: Trungvt (0836.384.168 · trungvtco@gmail.com)\nProprietary Cinematography & Multi-shot AI Engine.\nTampering with or copying source code is strictly prohibited.',
+          'color: #ffd700; font-size: 16px; font-weight: 800; font-family: sans-serif;',
+          'color: #38bdf8; font-size: 12px; font-weight: 500;'
+        );
+      };
+      banner();
+      setInterval(banner, 10000);
     } catch (_) {}
   }
 }

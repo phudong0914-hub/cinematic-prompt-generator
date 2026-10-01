@@ -29,7 +29,7 @@ import {
 } from './dataManager.js';
 
 import { enhanceSubjectWithAI, testSingleKey, analyzeImageWithAI } from './aiService.js';
-import { exportToPDF, exportToCSV, exportToPackage } from './exportManager.js';
+import { exportToPDF, exportToCSV, exportToPackage, exportOneTouchFlowCapCut } from './exportManager.js';
 import { soundFX } from './soundFX.js';
 import { showToast } from './toast.js';
 import { onboardingTour } from './tour.js';
@@ -2913,6 +2913,22 @@ async function init() {
             notebooklmPrompt: document.getElementById('result-text-notebooklm')?.textContent || ''
           }], `Shotlist_${new Date().toISOString().slice(0,10)}.csv`);
         }
+      });
+
+    document
+      .getElementById('one-touch-flow-capcut-btn')
+      ?.addEventListener('click', async () => {
+        await exportOneTouchFlowCapCut({
+          title: currentTitle,
+          subject: getSubjectValue(),
+          character: getCharacterValue(),
+          imagePrompt: document.getElementById('result-text-image')?.textContent || '',
+          videoPrompt: document.getElementById('result-text-video')?.textContent || '',
+          notebooklmPrompt: document.getElementById('result-text-notebooklm')?.textContent || ''
+        });
+        soundFX?.playPop?.();
+        showToast('⚡ 1-CHẠM THÀNH CÔNG: Đã copy kịch bản nối cảnh Google Flow & Tải phụ đề .SRT cho CapCut!', 'success', 6000);
+        workflowTracker.logAction('1-Chạm Flow ➔ CapCut', '⚡', currentTitle || '1-Touch Pipeline');
       });
 
     document

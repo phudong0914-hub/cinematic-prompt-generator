@@ -398,7 +398,18 @@ export const translations = {
   }
 };
 
-let currentLang = localStorage.getItem("cine_lang") || "vi";
+function detectInitialLang() {
+  try {
+    const saved = localStorage.getItem("cine_lang");
+    if (saved && (saved === "vi" || saved === "en")) return saved;
+    const browserLang = (typeof navigator !== "undefined" && (navigator.language || navigator.userLanguage) || "").toLowerCase();
+    return browserLang.startsWith("vi") ? "vi" : "en";
+  } catch {
+    return "en";
+  }
+}
+
+let currentLang = detectInitialLang();
 let currentTheme = localStorage.getItem("cine_theme") || "dark";
 
 export function getCurrentLang() {

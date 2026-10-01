@@ -266,3 +266,120 @@ Remotion component hoặc bất kỳ trình biên tập video nào.
   document.body.removeChild(link);
 }
 
+/**
+ * 1-Touch Unified Pipeline: Google Flow (Merged Video) ➔ CapCut (Instant Post-Production)
+ * Human-Centered One-Click Action:
+ * 1. Auto-compiles seamless continuous trajectory prompt for Google Flow and copies to clipboard.
+ * 2. Auto-generates and downloads CapCut Subtitle file (.srt) with millisecond-accurate timecodes.
+ * 3. Returns success state for UI feedback.
+ */
+export async function exportOneTouchFlowCapCut(currentData = {}) {
+  const {
+    title = 'Phim_Ngan_TVC',
+    subject = '',
+    character = '',
+    videoPrompt = '',
+    imagePrompt = '',
+    notebooklmPrompt = ''
+  } = currentData;
+
+  const cleanTitle = (title || 'Cinematic_Sequence').replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
+  const subj = subject || 'Khám phá câu chuyện điện ảnh';
+  const charDesc = character || 'Nhân vật chính phong cách Hollywood';
+  const basePrompt = videoPrompt || imagePrompt || 'Cinematic masterpiece, Hollywood lighting, 24fps';
+
+  // 1. Compile Google Flow Unified Seamless Script (Ghép 1 Video Hợp Nhất)
+  const flowUnifiedScript = 
+`================================================================================
+🎬 GOOGLE FLOW MASTER STITCHED SCRIPT — 1-CLICK UNIFIED VIDEO (12s | 24fps)
+Dự án: ${title} | Đạo diễn: Trungvt (0836.384.168 · trungvtco@gmail.com)
+================================================================================
+💡 HƯỚNG DẪN 1 BƯỚC: Dán toàn bộ khối lệnh bên dưới vào Google Flow (hoặc ô chat Gemini).
+Flow sẽ tự động dùng kỹ thuật Last-Frame Continuation để nối 4 cảnh thành 1 VIDEO DUY NHẤT!
+================================================================================
+
+[SCENE 1: 00:00 - 00:03 | THE HOOK & ESTABLISHING]
+Camera Motion: Slow smooth dolly in push past foreground atmospheric mist and lights.
+Framing: Wide establishing shot.
+Action: ${charDesc} in ${subj}.
+Visual Style: ${basePrompt}.
+Lighting: Volumetric rim lighting, cinematic color grade, 24fps --ar 16:9.
+
+[TRANSITION: SEAMLESS CAMERA MOMENTUM CONTINUATION — NO CUT]
+
+[SCENE 2: 00:03 - 00:06 | THE HERO & EMOTIONAL REVEAL]
+Camera Motion: Continue forward momentum from previous position, settling into smooth medium close-up tracking.
+Framing: Medium close-up, shallow depth of field, anamorphic oval bokeh.
+Action: Intense, focused gaze interacting with camera lens, micro facial expressions.
+Lighting: Chiaroscuro high-contrast side lighting, warm golden accents, authentic skin texture.
+
+[TRANSITION: SEAMLESS SPEED RAMP ACCELERATION — DYNAMIC SWEEP]
+
+[SCENE 3: 00:06 - 00:09 | THE CLIMAX & PEAK ACTION]
+Camera Motion: Fast dynamic whip pan right following sudden high-speed movement.
+Framing: Dynamic action hero angle, dramatic motion blur on edges.
+Action: High-energy climax moment, powerful impactful motion.
+Lighting: High-contrast strobe & neon reflections, cinematic blockbuster grading.
+
+[TRANSITION: SEAMLESS CRANE ELEVATION & RETREAT]
+
+[SCENE 4: 00:09 - 00:12 | THE RESOLUTION & BRAND SIGNATURE]
+Camera Motion: Smooth crane up and expansive dolly out pull back into wide twilight sky.
+Framing: Epic wide outro composition with balanced centered silhouette.
+Action: Lingering resolution, memorable final posture against expansive horizon.
+Audio Cue: Foley fade-out into resonant cello and 808 deep bass drop.
+End Card: ${cleanTitle} by Trungvt.
+
+================================================================================
+END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
+================================================================================`;
+
+  // 2. Compile CapCut .SRT Subtitle File
+  const srtContent = 
+`1
+00:00:00,000 --> 00:00:03,000
+${subj.slice(0, 45)}...
+
+2
+00:00:03,000 --> 00:00:06,000
+Chi tiết sắc nét - Chuẩn phong cách điện ảnh Hollywood
+
+3
+00:00:06,000 --> 00:00:09,000
+Đột phá hành động - Trải nghiệm chuyển động siêu mượt mà
+
+4
+00:00:09,000 --> 00:00:12,000
+Định hình đẳng cấp thương hiệu | Đạo Diễn Trungvt
+`;
+
+  // 3. Copy Flow Script to Clipboard
+  try {
+    await navigator.clipboard.writeText(flowUnifiedScript);
+  } catch (_) {
+    const ta = document.createElement('textarea');
+    ta.value = flowUnifiedScript;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+
+  // 4. Download CapCut .SRT File
+  const srtBlob = new Blob([srtContent], { type: 'text/plain;charset=utf-8;' });
+  const srtUrl = URL.createObjectURL(srtBlob);
+  const srtLink = document.createElement('a');
+  srtLink.setAttribute('href', srtUrl);
+  srtLink.setAttribute('download', `CapCut_PhuDe_${cleanTitle}.srt`);
+  document.body.appendChild(srtLink);
+  srtLink.click();
+  document.body.removeChild(srtLink);
+  URL.revokeObjectURL(srtUrl);
+
+  return true;
+}
+
+
