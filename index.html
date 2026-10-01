@@ -3793,7 +3793,8 @@ END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
         const adResultText = document.getElementById('ad-result-text')?.textContent || '';
         if (adResultText) {
           const voMatches = [...adResultText.matchAll(/\[VOICEOVER\]:\s*([^
-]+)/gi)];
+
+]+)/gi)];
           if (voMatches.length >= 1) vo1 = voMatches[0][1].trim();
           if (voMatches.length >= 2) vo2 = voMatches[1][1].trim();
           if (voMatches.length >= 3) vo3 = voMatches[2][1].trim();
@@ -3815,23 +3816,40 @@ END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
         if (!vo3) vo3 = 'Đột phá công nghệ — Trải nghiệm bùng nổ mọi giác quan';
         if (!vo4) vo4 = `Định hình đẳng cấp thương hiệu | Đạo Diễn Trungvt`;
 
-        // 2. Compile CapCut .SRT Subtitle File (Khớp 100% Lời Thoại Tiếng Việt theo từng giây)
+        // Trích xuất Lời thoại Tiếng Anh (English Commercial Voiceover)
+        let en1 = '', en2 = '', en3 = '', en4 = '';
+        if (adResultText) {
+          const enMatches = [...adResultText.matchAll(/\[EN\]\s*"(.*?)"/gi)];
+          if (enMatches.length >= 1) en1 = enMatches[0][1].trim();
+          if (enMatches.length >= 2) en2 = enMatches[1][1].trim();
+          if (enMatches.length >= 3) en3 = enMatches[2][1].trim();
+          if (enMatches.length >= 4) en4 = enMatches[3][1].trim();
+        }
+        if (!en1) en1 = 'The future waits for no one.';
+        if (!en2) en2 = 'Feel the absolute precision in every detail.';
+        if (!en3) en3 = 'Redefining luxury. Crafted beyond perfection.';
+        if (!en4) en4 = `Step into the next era today | Director Trungvt.`;
+
+        const isEnMode = (localStorage.getItem('cine_lang') === 'en');
+        const activeSubLines = isEnMode ? [en1, en2, en3, en4] : [vo1, vo2, vo3, vo4];
+
+        // 2. Compile CapCut .SRT Subtitle File (Khớp chuẩn 100% Song Ngữ Anh / Việt)
         const srtContent = 
 `1
 00:00:00,000 --> 00:00:03,000
-${vo1}
+${activeSubLines[0]}
 
 2
 00:00:03,000 --> 00:00:06,000
-${vo2}
+${activeSubLines[1]}
 
 3
 00:00:06,000 --> 00:00:09,000
-${vo3}
+${activeSubLines[2]}
 
 4
 00:00:09,000 --> 00:00:12,000
-${vo4}
+${activeSubLines[3]}
 `;
 
         // 3. Copy Flow Script to Clipboard

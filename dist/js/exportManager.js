@@ -303,11 +303,32 @@ export async function exportOneTouchFlowCapCut(currentData = {}) {
     vo4 = scenes[3].voiceoverVI || scenes[3].textOverlay || vo4;
   }
 
+  // Lời Thoại Tiếng Anh (English Commercial Voiceover - Hollywood Standard)
+  let en1 = (currentData.voiceoversEN && currentData.voiceoversEN[0]) || '';
+  let en2 = (currentData.voiceoversEN && currentData.voiceoversEN[1]) || '';
+  let en3 = (currentData.voiceoversEN && currentData.voiceoversEN[2]) || '';
+  let en4 = (currentData.voiceoversEN && currentData.voiceoversEN[3]) || '';
+
+  if (scenes && scenes.length >= 4) {
+    en1 = scenes[0].voiceoverEN || en1;
+    en2 = scenes[1].voiceoverEN || en2;
+    en3 = scenes[2].voiceoverEN || en3;
+    en4 = scenes[3].voiceoverEN || en4;
+  }
+
+  if (!en1) en1 = 'The future waits for no one.';
+  if (!en2) en2 = 'Feel the absolute precision in every detail.';
+  if (!en3) en3 = `Redefining luxury. Crafted beyond perfection.`;
+  if (!en4) en4 = `Step into the next era today | Director Trungvt.`;
+
   // Tự động sinh lời thoại thương mại Tiếng Việt sắc bén nếu chưa có
   if (!vo1) vo1 = subj.length > 5 ? `${subj.slice(0, 45)}...` : 'Tương lai không chờ đợi ai...';
   if (!vo2) vo2 = 'Đột phá chi tiết — Chuẩn đẳng cấp điện ảnh.';
   if (!vo3) vo3 = 'Trải nghiệm đỉnh cao — Thổi bùng mọi giác quan.';
   if (!vo4) vo4 = `Khẳng định vị thế cùng ${cleanTitle} | Đạo Diễn Trungvt`;
+
+  const isEnMode = (typeof localStorage !== 'undefined' && localStorage.getItem('cine_lang') === 'en');
+  const activeSrtLines = isEnMode ? [en1, en2, en3, en4] : [vo1, vo2, vo3, vo4];
 
   // 1. Compile Google Flow Unified Seamless Script (Ghép 1 Video Hợp Nhất)
   const flowUnifiedScript = 
@@ -355,23 +376,23 @@ End Card: ${cleanTitle} by Trungvt.
 END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
 ================================================================================`;
 
-  // 2. Compile CapCut .SRT Subtitle File (Khớp chuẩn 100% Lời Thoại Tiếng Việt theo từng giây)
+  // 2. Compile CapCut .SRT Subtitle File (Khớp chuẩn 100% Song Ngữ Anh / Việt)
   const srtContent = 
 `1
 00:00:00,000 --> 00:00:03,000
-${vo1}
+${activeSrtLines[0]}
 
 2
 00:00:03,000 --> 00:00:06,000
-${vo2}
+${activeSrtLines[1]}
 
 3
 00:00:06,000 --> 00:00:09,000
-${vo3}
+${activeSrtLines[2]}
 
 4
 00:00:09,000 --> 00:00:12,000
-${vo4}
+${activeSrtLines[3]}
 `;
 
   // 3. Copy Flow Script to Clipboard
