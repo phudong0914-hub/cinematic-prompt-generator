@@ -280,13 +280,34 @@ export async function exportOneTouchFlowCapCut(currentData = {}) {
     character = '',
     videoPrompt = '',
     imagePrompt = '',
-    notebooklmPrompt = ''
+    notebooklmPrompt = '',
+    scenes = [],
+    voiceovers = []
   } = currentData;
 
   const cleanTitle = (title || 'Cinematic_Sequence').replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1E00-\u1EFF]/g, '_');
   const subj = subject || 'Khám phá câu chuyện điện ảnh';
   const charDesc = character || 'Nhân vật chính phong cách Hollywood';
   const basePrompt = videoPrompt || imagePrompt || 'Cinematic masterpiece, Hollywood lighting, 24fps';
+
+  // Trích xuất hoặc khởi tạo Lời Thoại Tiếng Việt cho 4 Cảnh TVC
+  let vo1 = (voiceovers && voiceovers[0]) || '';
+  let vo2 = (voiceovers && voiceovers[1]) || '';
+  let vo3 = (voiceovers && voiceovers[2]) || '';
+  let vo4 = (voiceovers && voiceovers[3]) || '';
+
+  if (scenes && scenes.length >= 4) {
+    vo1 = scenes[0].voiceoverVI || scenes[0].textOverlay || vo1;
+    vo2 = scenes[1].voiceoverVI || scenes[1].textOverlay || vo2;
+    vo3 = scenes[2].voiceoverVI || scenes[2].textOverlay || vo3;
+    vo4 = scenes[3].voiceoverVI || scenes[3].textOverlay || vo4;
+  }
+
+  // Tự động sinh lời thoại thương mại Tiếng Việt sắc bén nếu chưa có
+  if (!vo1) vo1 = subj.length > 5 ? `${subj.slice(0, 45)}...` : 'Tương lai không chờ đợi ai...';
+  if (!vo2) vo2 = 'Đột phá chi tiết — Chuẩn đẳng cấp điện ảnh.';
+  if (!vo3) vo3 = 'Trải nghiệm đỉnh cao — Thổi bùng mọi giác quan.';
+  if (!vo4) vo4 = `Khẳng định vị thế cùng ${cleanTitle} | Đạo Diễn Trungvt`;
 
   // 1. Compile Google Flow Unified Seamless Script (Ghép 1 Video Hợp Nhất)
   const flowUnifiedScript = 
@@ -334,23 +355,23 @@ End Card: ${cleanTitle} by Trungvt.
 END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
 ================================================================================`;
 
-  // 2. Compile CapCut .SRT Subtitle File
+  // 2. Compile CapCut .SRT Subtitle File (Khớp chuẩn 100% Lời Thoại Tiếng Việt theo từng giây)
   const srtContent = 
 `1
 00:00:00,000 --> 00:00:03,000
-${subj.slice(0, 45)}...
+${vo1}
 
 2
 00:00:03,000 --> 00:00:06,000
-Chi tiết sắc nét - Chuẩn phong cách điện ảnh Hollywood
+${vo2}
 
 3
 00:00:06,000 --> 00:00:09,000
-Đột phá hành động - Trải nghiệm chuyển động siêu mượt mà
+${vo3}
 
 4
 00:00:09,000 --> 00:00:12,000
-Định hình đẳng cấp thương hiệu | Đạo Diễn Trungvt
+${vo4}
 `;
 
   // 3. Copy Flow Script to Clipboard
