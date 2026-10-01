@@ -60,7 +60,7 @@ class SecurityShield {
       const banner = () => {
         console.clear();
         console.log(
-          '%c🎬 CINE PROMPT PRO v2.0\n%c© 2026 Đạo Diễn Trung. All Rights Reserved.\nProprietary Cinematography & Multi-shot AI Engine.\nTampering with or copying source code is strictly prohibited.',
+          '%c🎬 CINE PROMPT PRO v2.0\n%c© 2026 Đạo Diễn Trungvt. All Rights Reserved.\nFounder & Director: Trungvt (0836.384.168 · trungvtco@gmail.com)\nProprietary Cinematography & Multi-shot AI Engine.\nTampering with or copying source code is strictly prohibited.',
           'color: #ffd700; font-size: 16px; font-weight: 800; font-family: sans-serif;',
           'color: #38bdf8; font-size: 12px; font-weight: 500;'
         );

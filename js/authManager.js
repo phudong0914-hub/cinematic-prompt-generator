@@ -36,7 +36,15 @@ class AuthManager {
       const savedUsers = localStorage.getItem('cinematique_users_db');
       const savedInvites = localStorage.getItem('cinematique_pending_invites');
 
-      if (savedUser) this.currentUser = JSON.parse(savedUser);
+      if (savedUser) {
+        this.currentUser = JSON.parse(savedUser);
+        if (this.currentUser && (this.currentUser.role === 'Admin' || this.currentUser.id === 'USR_ADMIN_01')) {
+          this.currentUser.displayName = 'Đạo Diễn Trungvt';
+          this.currentUser.email = 'trungvtco@gmail.com';
+          this.currentUser.phone = '0836.384.168';
+          this.currentUser.accountName = 'trungvt_director_master';
+        }
+      }
       if (savedUsers) this.users = JSON.parse(savedUsers);
       if (savedInvites) this.pendingInvites = JSON.parse(savedInvites);
     } catch (e) {
@@ -63,12 +71,12 @@ class AuthManager {
       this.users = [
         {
           id: 'USR_ADMIN_01',
-          email: 'director@cineprompt.pro',
+          email: 'trungvtco@gmail.com',
           password: 'Password@123',
-          displayName: 'Đạo Diễn Trung',
-          accountName: 'trung_director_master',
+          displayName: 'Đạo Diễn Trungvt',
+          accountName: 'trungvt_director_master',
           jobTitle: 'Executive AI Film Producer',
-          phone: '+84 988 776 655',
+          phone: '0836.384.168',
           avatarUrl: null,
           role: 'Admin',
           status: 'Active',
@@ -129,7 +137,7 @@ class AuthManager {
           email: 'vfx.specialist@studio.ai',
           role: 'Member',
           invitedAt: 'Hôm qua',
-          invitedBy: 'Đạo Diễn Trung'
+          invitedBy: 'Đạo Diễn Trungvt'
         }
       ];
       this.saveToStorage();
