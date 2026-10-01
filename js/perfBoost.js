@@ -1,5 +1,5 @@
 /**
- * perfBoost.js — Modern Web Performance & UX Layer (2025)
+ * perfBoost.js — Modern Web Performance & UX Layer (2026)
  * ─────────────────────────────────────────────────────────
  * Techniques applied:
  *  1. Passive event listeners (scroll, touch, wheel) → no jank
