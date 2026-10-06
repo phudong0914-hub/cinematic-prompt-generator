@@ -23,6 +23,21 @@
   <link rel="stylesheet" crossorigin href="/assets/index-COgMNd6h.css?v=2.2.0">
   <link rel="stylesheet" href="/styles/main.css?v=2.2.0">
   <style>
+    /* Modal safety: Closed modals MUST be completely hidden and never dim/blackout the screen */
+    .modal-overlay:not(.is-open):not(.active) {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+    .modal-overlay.is-open,
+    .modal-overlay.active {
+      display: flex !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      visibility: visible !important;
+    }
+
     /* Direct layout overrides for Pipeline Accordion to prevent step 6 text clipping */
     #pipeline-tracker-accordion,
     details#pipeline-tracker-accordion,
@@ -1008,7 +1023,7 @@
                 <span>KHO 415 PROMPT TINH HOA ĐIỆN ẢNH</span>
               </h2>
             </div>
-            <span id="result-count" class="result-count-badge" data-i18n="loading" style="font-size: 0.72rem; font-weight: 800; color: #000; background: linear-gradient(135deg, #ffd700, #f59e0b); border: 1px solid #ffe57f; padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); margin-left: 6px;">Đang tải prompts…</span>
+            <span id="result-count" class="result-count-badge" style="font-size: 0.72rem; font-weight: 800; color: #000; background: linear-gradient(135deg, #ffd700, #f59e0b); border: 1px solid #ffe57f; padding: 3px 10px; border-radius: 20px; box-shadow: 0 0 12px rgba(255, 215, 0, 0.4); margin-left: 6px;">415 thẻ kịch bản</span>
           </div>
 
           <div style="display: flex; align-items: center; gap: 6px; font-size: 0.74rem; color: #a1a1aa;">

@@ -2174,7 +2174,7 @@ body::before {
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  display: flex;
+  display: none; /* Safely hidden when inactive */
   align-items: flex-start;
   justify-content: center;
   padding: 40px var(--page-gutter);
@@ -2187,6 +2187,7 @@ body::before {
 
 .modal-overlay.is-open,
 .modal-overlay.active {
+  display: flex !important;
   opacity: 1;
   pointer-events: all;
 }
@@ -5579,7 +5580,7 @@ details.cinema-accordion--ref > summary {
 
 /* 3. @STARTING-STYLE — enter animation for modals/toasts (Chrome 117+) */
 @supports (selector(:has(*))) {
-  .modal-overlay, .glass-toast {
+  .modal-overlay.is-open, .modal-overlay.active, .glass-toast.is-open, .glass-toast.active {
     @starting-style {
       opacity: 0;
       transform: scale(0.96) translateY(8px);
