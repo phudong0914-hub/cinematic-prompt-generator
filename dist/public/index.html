@@ -31,7 +31,11 @@
       visibility: hidden !important;
     }
     .modal-overlay.is-open,
-    .modal-overlay.active {
+    .modal-overlay.active,
+    #viral-analyzer-modal-overlay.is-open,
+    #viral-analyzer-modal-overlay.active,
+    #ad-architect-modal-overlay.is-open,
+    #ad-architect-modal-overlay.active {
       display: flex !important;
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -258,7 +262,7 @@
           <button id="btn-open-ad-architect" type="button" style="background: linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
             <span>📢 AI Skill: Cinematic Ad Architect (TVC)</span>
           </button>
-          <button id="viral-remake-btn" type="button" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
+          <button id="viral-remake-btn" type="button" onclick="openViralModal()" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
             <span>📤 Tải Lên Video & Bóc Tách Đối Thủ (Upload / Link)</span>
           </button>
         </div>
@@ -3708,13 +3712,13 @@
         if (closeBtn && modal) {
           closeBtn.addEventListener('click', function(e) {
             if (e) e.preventDefault();
-            modal.style.display = 'none';
+            window.closeViralModal();
           });
         }
 
         if (modal) {
           modal.addEventListener('click', function(e) {
-            if (e.target === modal) modal.style.display = 'none';
+            if (e.target === modal) window.closeViralModal();
           });
         }
 
@@ -3747,7 +3751,7 @@
               // Trigger auto-expand if function exists
               if (typeof autoResizeTextarea === 'function') autoResizeTextarea(input);
             }
-            if (modal) modal.style.display = 'none';
+            if (modal) window.closeViralModal();
 
             // Auto-trigger generation
             const quickBtn = document.getElementById('quick-generate-btn');
