@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -237,6 +237,9 @@
           ></textarea>
         </div>
         <div style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <button id="quick-generate-btn" type="button" style="width: 100%; background: linear-gradient(135deg, #ffd700, #f59e0b); border: none; color: #0f172a; font-weight: 800; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 0 16px rgba(255,215,0,0.45); transition: all 0.2s;">
+            <span>⚡ TẠO PROMPT HOLLYWOOD NGAY (BẤM ĐÂY HOẶC ENTER)</span>
+          </button>
           <button id="btn-open-ad-architect" type="button" style="background: linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
             <span>📢 AI Skill: Cinematic Ad Architect (TVC)</span>
           </button>
@@ -3289,33 +3292,79 @@
         🕵️‍♂️ AI Phân Tích & Re-Make Video Viral Nền Tảng
       </h2>
       <p class="modal-definition" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 20px; line-height: 1.45;">
-        Dán link video <strong>TikTok, YouTube Shorts, Facebook Reels, Douyin</strong> của đối thủ. Lõi AI Đạo Diễn sẽ tự bóc tách công thức triệu view và tự động tạo <strong>Kịch bản MỚI 100%</strong> cho thương hiệu của bạn!
+        Dán link video <strong>TikTok, YouTube Shorts, Reels, Douyin</strong> hoặc <strong>TẢI TRỰC TIẾP TỆP VIDEO TỪ MÁY</strong>. Lõi AI Đạo Diễn sẽ tự bóc tách công thức triệu view và tự động tạo <strong>Kịch bản MỚI 100%</strong> cho thương hiệu của bạn!
       </p>
 
       <div style="display:flex; flex-direction:column; gap:14px;">
-        <div>
+        <!-- Input Mode Switcher: Link vs Upload File -->
+        <div style="display:flex; background:rgba(0,0,0,0.4); padding:3px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);">
+          <button id="viral-mode-tab-link" type="button" style="flex:1; padding:7px 12px; border-radius:6px; border:none; background:rgba(56,189,248,0.2); color:#38bdf8; font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+            <span>🔗 1. Dán Link Video</span>
+          </button>
+          <button id="viral-mode-tab-upload" type="button" style="flex:1; padding:7px 12px; border-radius:6px; border:none; background:transparent; color:#94a3b8; font-weight:600; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+            <span>📤 2. Tải Tệp Video Từ Máy</span>
+          </button>
+        </div>
+
+        <!-- Section A: Paste URL -->
+        <div id="viral-panel-link">
           <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
-            🔗 1. Link Video Đối Thủ (TikTok / Shorts / Reels / Douyin)
+            🔗 Link Video Đối Thủ (TikTok / Shorts / Reels / Douyin)
           </label>
           <input type="text" id="viral-video-url" class="text-input new-input-field" placeholder="https://www.tiktok.com/@user/video/123456789... hoặc https://youtube.com/shorts/..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff;" />
+        </div>
+
+        <!-- Section B: Direct Video File Upload -->
+        <div id="viral-panel-upload" style="display:none;">
+          <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
+            📁 Tải Lên Tệp Video Đối Thủ (.MP4, .MOV, .WebM)
+          </label>
+          
+          <input type="file" id="viral-file-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display:none;" />
+          
+          <!-- Dropzone Container -->
+          <div id="viral-dropzone" style="border: 2px dashed rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 22px 16px; text-align: center; background: rgba(56, 189, 248, 0.04); cursor: pointer; transition: all 0.2s;">
+            <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
+            <div style="font-weight: 700; color: #f8fafc; font-size: 0.86rem; margin-bottom: 4px;">
+              Kéo thả tệp video vào đây hoặc <span style="color:#38bdf8; text-decoration:underline;">Click để chọn từ máy</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #94a3b8;">
+              Hỗ trợ MP4, MOV, WebM · Tối đa 200MB · Phát và soi khung hình tức thì
+            </div>
+          </div>
+
+          <!-- Video Preview Container (hidden until video is selected) -->
+          <div id="viral-preview-container" style="display:none; margin-top: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(56,189,248,0.3); border-radius: 10px; padding: 10px;">
+            <video id="viral-video-player" controls playsinline style="width: 100%; max-height: 200px; border-radius: 6px; background: #000; display: block;"></video>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px; font-size: 0.74rem; color: #cbd5e1; flex-wrap: wrap; gap: 6px;">
+              <div id="viral-file-meta" style="display:flex; align-items:center; gap:6px;">
+                <span id="viral-file-name" style="color:#38bdf8; font-weight:700;"></span>
+                <span id="viral-file-specs" style="color:#94a3b8;"></span>
+              </div>
+              <button id="viral-remove-file-btn" type="button" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35); color: #f87171; padding: 3px 8px; border-radius: 5px; cursor: pointer; font-size: 0.72rem; font-weight: 600;">
+                ✕ Đổi Video Khác
+              </button>
+            </div>
+          </div>
         </div>
 
         <div>
           <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; display: block; margin-bottom: 6px;">
             📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
           </label>
-          <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh đổ lon nước bọt tung tóe, sau đó bạn nam phỏng vấn cô gái về giá tiền..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff;" data-min-height="48"></textarea>
+          <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh cô gái mặc đầm ngủ bước từ giường ra ban công đón nắng sớm, sau đó quay cận chất vải lụa satin..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff;" data-min-height="48"></textarea>
         </div>
 
         <div>
           <label style="font-weight: 700; color: #ffd700; font-size: 0.82rem; display: block; margin-bottom: 6px;">
             🎯 3. Sản Phẩm / Thương Hiệu MỚI Của Bạn (Để Re-Make)
           </label>
-          <input type="text" id="viral-my-product" class="text-input new-input-field" placeholder="Ví dụ: Lon Cà Phê Sữa Đá Thương Hiệu X / Mỹ phẩm Skincare Y / Áo dài Tết..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.4); border-radius: 8px; color: #fff;" />
+          <input type="text" id="viral-my-product" class="text-input new-input-field" placeholder="Ví dụ: Đầm ngủ lụa hồng pastel cao cấp / Váy ngủ thời trang thương hiệu X..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.4); border-radius: 8px; color: #fff;" />
         </div>
 
-        <button id="viral-execute-btn" onclick="executeViralRemake()" style="margin-top: 10px; background: linear-gradient(135deg, #9333ea, #06b6d4); border: none; color: #fff; font-weight: 800; padding: 12px 18px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 0 20px rgba(168,85,247,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
-          🚀 CHẠY AI PHÂN TÍCH LINK & TẠO KỊCH BẢN MỚI
+        <button id="viral-execute-btn" style="margin-top: 10px; background: linear-gradient(135deg, #9333ea, #06b6d4); border: none; color: #fff; font-weight: 800; padding: 12px 18px; border-radius: 10px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 0 20px rgba(168,85,247,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+          🚀 CHẠY AI PHÂN TÍCH & TẠO KỊCH BẢN MỚI
         </button>
       </div>
     </div>
@@ -3324,11 +3373,132 @@
   <!-- Viral Video Remake Modal Controller Script -->
   <script>
     (function() {
+      let currentViralMode = 'link'; // 'link' | 'upload'
+      let uploadedVideoData = null; // { name, size, duration, width, height, url }
+
       function initViralRemakeFeature() {
         const btn = document.getElementById('viral-remake-btn');
         const modal = document.getElementById('viral-analyzer-modal-overlay');
         const closeBtn = document.getElementById('viral-modal-close');
         const execBtn = document.getElementById('viral-execute-btn');
+
+        // Mode tabs
+        const tabLink = document.getElementById('viral-mode-tab-link');
+        const tabUpload = document.getElementById('viral-mode-tab-upload');
+        const panelLink = document.getElementById('viral-panel-link');
+        const panelUpload = document.getElementById('viral-panel-upload');
+
+        // File upload elements
+        const fileInput = document.getElementById('viral-file-input');
+        const dropzone = document.getElementById('viral-dropzone');
+        const previewContainer = document.getElementById('viral-preview-container');
+        const videoPlayer = document.getElementById('viral-video-player');
+        const fileNameEl = document.getElementById('viral-file-name');
+        const fileSpecsEl = document.getElementById('viral-file-specs');
+        const removeFileBtn = document.getElementById('viral-remove-file-btn');
+
+        function switchMode(mode) {
+          currentViralMode = mode;
+          if (mode === 'link') {
+            tabLink.style.background = 'rgba(56,189,248,0.2)';
+            tabLink.style.color = '#38bdf8';
+            tabLink.style.fontWeight = '700';
+            tabUpload.style.background = 'transparent';
+            tabUpload.style.color = '#94a3b8';
+            tabUpload.style.fontWeight = '600';
+            if (panelLink) panelLink.style.display = 'block';
+            if (panelUpload) panelUpload.style.display = 'none';
+          } else {
+            tabUpload.style.background = 'rgba(56,189,248,0.2)';
+            tabUpload.style.color = '#38bdf8';
+            tabUpload.style.fontWeight = '700';
+            tabLink.style.background = 'transparent';
+            tabLink.style.color = '#94a3b8';
+            tabLink.style.fontWeight = '600';
+            if (panelLink) panelLink.style.display = 'none';
+            if (panelUpload) panelUpload.style.display = 'block';
+          }
+        }
+
+        tabLink?.addEventListener('click', () => switchMode('link'));
+        tabUpload?.addEventListener('click', () => switchMode('upload'));
+
+        // Drag & Drop handlers
+        if (dropzone) {
+          dropzone.addEventListener('click', () => fileInput?.click());
+          dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = '#38bdf8';
+            dropzone.style.background = 'rgba(56,189,248,0.12)';
+          });
+          dropzone.addEventListener('dragleave', () => {
+            dropzone.style.borderColor = 'rgba(56, 189, 248, 0.45)';
+            dropzone.style.background = 'rgba(56, 189, 248, 0.04)';
+          });
+          dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = 'rgba(56, 189, 248, 0.45)';
+            dropzone.style.background = 'rgba(56, 189, 248, 0.04)';
+            const file = e.dataTransfer?.files?.[0];
+            if (file && file.type.startsWith('video/')) {
+              handleSelectedVideoFile(file);
+            }
+          });
+        }
+
+        fileInput?.addEventListener('change', (e) => {
+          const file = e.target.files?.[0];
+          if (file) handleSelectedVideoFile(file);
+        });
+
+        function handleSelectedVideoFile(file) {
+          const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+          const blobUrl = URL.createObjectURL(file);
+          
+          if (videoPlayer) {
+            videoPlayer.src = blobUrl;
+            videoPlayer.onloadedmetadata = () => {
+              const durSec = Math.round(videoPlayer.duration || 0);
+              const mins = Math.floor(durSec / 60);
+              const secs = (durSec % 60).toString().padStart(2, '0');
+              const durFormatted = `${mins}:${secs}`;
+              const resStr = `${videoPlayer.videoWidth}x${videoPlayer.videoHeight}`;
+              
+              uploadedVideoData = {
+                name: file.name,
+                size: `${sizeMB} MB`,
+                duration: `${durFormatted} (${durSec}s)`,
+                resolution: resStr,
+                blobUrl: blobUrl
+              };
+
+              if (fileNameEl) fileNameEl.textContent = file.name;
+              if (fileSpecsEl) fileSpecsEl.textContent = `· ${sizeMB} MB · ${durFormatted} · ${resStr}`;
+            };
+          }
+
+          if (dropzone) dropzone.style.display = 'none';
+          if (previewContainer) previewContainer.style.display = 'block';
+
+          // Auto-fill product field if empty based on file name
+          const productInput = document.getElementById('viral-my-product');
+          if (productInput && !productInput.value.trim()) {
+            const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+            productInput.placeholder = `VD: Sản phẩm lấy cảm hứng từ ${cleanName}`;
+          }
+        }
+
+        removeFileBtn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (videoPlayer) {
+            videoPlayer.pause();
+            videoPlayer.src = '';
+          }
+          uploadedVideoData = null;
+          if (fileInput) fileInput.value = '';
+          if (previewContainer) previewContainer.style.display = 'none';
+          if (dropzone) dropzone.style.display = 'block';
+        });
 
         if (btn) {
           btn.addEventListener('click', function(e) {
@@ -3363,15 +3533,32 @@
               .replace(/!\[.*?\]\((?:https?:|\/\/)[^\s)]+\)/gi, '[SANITIZED_MEDIA_LINK]');
             const myProduct = document.getElementById('viral-my-product')?.value.trim() || 'Sản phẩm / Thương hiệu mới của tôi';
             
+            let videoSourceInfo = '';
+            if (currentViralMode === 'upload' && uploadedVideoData) {
+              videoSourceInfo = `- Tệp Video Đối Thủ Tải Lên: ${uploadedVideoData.name} (Thời lượng: ${uploadedVideoData.duration}, Kích thước: ${uploadedVideoData.size}, Độ phân giải: ${uploadedVideoData.resolution})`;
+            } else {
+              videoSourceInfo = `- Link Video Đối Thủ: ${url || 'N/A'}`;
+            }
+
             const input = document.getElementById('subject-input');
             if (input) {
-              input.value = `[VIRAL REMAKE MODE]:\n- Link Video Đối Thủ: ${url || 'N/A'}\n- Lời thoại Đối Thủ:\n<competitor_transcript>\n${script || 'Review / Kịch bản triệu view trên TikTok/Shorts'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Phân tích 3s Viral Hook và Công thức tâm lý triệu view của video đối thủ này.\n2. Giữ nguyên bộ khung thành công nhưng VIẾT LẠI 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video NotebookLM/Veo3 4K, Prompt Ảnh Bìa Midjourney và Lời thoại Thuyết minh Tiếng Việt đồng bộ.`;
+              input.value = `[VIRAL REMAKE MODE]:\n${videoSourceInfo}\n- Lời thoại / Điểm nhấn Video Đối Thủ:\n<competitor_transcript>\n${script || 'Video review triệu view sản phẩm cùng ngành'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Bóc tách 3s Viral Hook và Công thức tâm lý chuyển đổi người xem của video đối thủ này.\n2. Giữ nguyên công thức thành công nhưng SÁNG TẠO 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video Google Veo 3 / Sora 2 4K, Prompt Ảnh Bìa Midjourney V8 và Lời thoại Thuyết minh Tiếng Việt đồng bộ CapCut.`;
               input.focus();
               input.dispatchEvent(new Event('input', { bubbles: true }));
+              
+              // Trigger auto-expand if function exists
+              if (typeof autoResizeTextarea === 'function') autoResizeTextarea(input);
             }
             if (modal) modal.style.display = 'none';
-            const enhanceBtn = document.getElementById('ai-enhance-btn');
-            if (enhanceBtn) enhanceBtn.click();
+
+            // Auto-trigger generation
+            const quickBtn = document.getElementById('quick-generate-btn');
+            if (quickBtn) {
+              quickBtn.click();
+            } else {
+              const enhanceBtn = document.getElementById('ai-enhance-btn');
+              if (enhanceBtn) enhanceBtn.click();
+            }
           });
         }
       }
@@ -3381,7 +3568,6 @@
       } else {
         initViralRemakeFeature();
       }
-    })();
   </script>
 
   <!-- ─── 🎬 AI AGENT SKILL: CINEMATIC AD PROMPT ARCHITECT MODAL ─── -->

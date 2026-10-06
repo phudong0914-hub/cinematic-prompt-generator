@@ -1865,6 +1865,42 @@ function initReferenceImageModule() {
   document.getElementById('character-input')?.addEventListener('input', (e) => {
     autoResizeTextarea(e.target);
   });
+
+  // ── Quick Prompt Generator (Enter or 1-Click Button) ──
+  function triggerQuickGeneration() {
+    const subject = getSubjectValue().trim();
+    if (!subject) {
+      showToast('⚠️ Vui lòng nhập ý tưởng chủ đề trước khi tạo prompt!', 'warning', 3000);
+      document.getElementById('subject-input')?.focus();
+      return;
+    }
+    soundFX.playClick();
+    if (!currentTemplate) {
+      // Find an optimal default cinematic prompt (e.g. Masterpiece or Close-up)
+      const defaultPrompt = allPrompts.find(p => p.id === 'cinematic-masterpiece' || p.id === 'close-up' || p.category === 'Camera Shots') || allPrompts[0];
+      if (defaultPrompt) {
+        handleCardClick(defaultPrompt);
+      } else {
+        currentTemplate = '[Subject], photorealistic masterpiece still, 8k resolution, shot on ARRI Alexa 65, cinematic lighting --ar 16:9';
+        currentTitle = 'Hollywood Cinematic';
+        refreshResult();
+      }
+    } else {
+      refreshResult();
+    }
+    showToast('✨ Đã tạo kịch bản Hollywood thành công! Hãy xem kết quả ở Cột 3 bên phải.', 'success', 3500);
+    const resultBox = document.getElementById('result-box') || document.querySelector('.panel-output');
+    resultBox?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('quick-generate-btn')?.addEventListener('click', triggerQuickGeneration);
+
+  document.getElementById('subject-input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      triggerQuickGeneration();
+    }
+  });
 }
 
 /**
