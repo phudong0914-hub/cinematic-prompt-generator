@@ -3336,6 +3336,14 @@
           <!-- Video Preview Container (hidden until video is selected) -->
           <div id="viral-preview-container" style="display:none; margin-top: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(56,189,248,0.3); border-radius: 10px; padding: 10px;">
             <video id="viral-video-player" controls playsinline style="width: 100%; max-height: 200px; border-radius: 6px; background: #000; display: block;"></video>
+            <div id="viral-visual-panel" style="margin-top:8px; padding:8px; border-radius:8px; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.3);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:0.72rem; font-weight:800; color:#c084fc;">
+                <span>👁️ AI NHÌN VIDEO (Keyframe Vision)</span>
+                <span id="viral-ar-badge" style="background:rgba(56,189,248,0.2); color:#38bdf8; padding:2px 7px; border-radius:5px;">AR: —</span>
+              </div>
+              <div id="viral-keyframes" style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px;"></div>
+              <div id="viral-visual-summary" style="margin-top:6px; font-size:0.7rem; color:#cbd5e1; line-height:1.4;">Đang phân tích khung hình...</div>
+            </div>
             
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px; font-size: 0.74rem; color: #cbd5e1; flex-wrap: wrap; gap: 6px;">
               <div id="viral-file-meta" style="display:flex; align-items:center; gap:6px;">
@@ -3350,9 +3358,14 @@
         </div>
 
         <div>
-          <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; display: block; margin-bottom: 6px;">
-            📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
-          </label>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; margin: 0;">
+              📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
+            </label>
+            <button id="viral-mic-btn" type="button" style="background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.45); color: #c084fc; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;" title="Bấm để nói trực tiếp lời thoại qua micro">
+              <span id="viral-mic-icon">🎙️</span> <span id="viral-mic-text">Nói Lời Thoại (Mic)</span>
+            </button>
+          </div>
           <textarea id="viral-video-script" rows="2" class="text-input new-input-field" placeholder="Ví dụ: Video mở đầu bằng cảnh cô gái mặc đầm ngủ bước từ giường ra ban công đón nắng sớm, sau đó quay cận chất vải lụa satin..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(168,85,247,0.4); border-radius: 8px; color: #fff;" data-min-height="48"></textarea>
         </div>
 
@@ -3396,6 +3409,76 @@
         const fileNameEl = document.getElementById('viral-file-name');
         const fileSpecsEl = document.getElementById('viral-file-specs');
         const removeFileBtn = document.getElementById('viral-remove-file-btn');
+        const micBtn = document.getElementById('viral-mic-btn');
+        const micIcon = document.getElementById('viral-mic-icon');
+        const micText = document.getElementById('viral-mic-text');
+        const scriptInput = document.getElementById('viral-video-script');
+
+        // Speech-to-text recognition controller
+        let speechRecognition = null;
+        let isRecordingSpeech = false;
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (micBtn && SpeechRec) {
+          speechRecognition = new SpeechRec();
+          speechRecognition.continuous = true;
+          speechRecognition.interimResults = true;
+          speechRecognition.lang = (localStorage.getItem('cine_lang') === 'en') ? 'en-US' : 'vi-VN';
+
+          speechRecognition.onresult = (event) => {
+            let finalTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+              if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript + ' ';
+              }
+            }
+            if (finalTranscript && scriptInput) {
+              scriptInput.value = (scriptInput.value ? scriptInput.value + ' ' : '') + finalTranscript.trim();
+              if (typeof autoResizeTextarea === 'function') autoResizeTextarea(scriptInput);
+            }
+          };
+
+          speechRecognition.onerror = (e) => {
+            console.warn('[ViralMic] Speech recognition error:', e.error);
+            stopSpeechRecognition();
+          };
+
+          speechRecognition.onend = () => {
+            stopSpeechRecognition();
+          };
+
+          function stopSpeechRecognition() {
+            isRecordingSpeech = false;
+            if (micBtn) {
+              micBtn.style.background = 'rgba(168,85,247,0.2)';
+              micBtn.style.borderColor = 'rgba(168,85,247,0.45)';
+            }
+            if (micIcon) micIcon.textContent = '🎙️';
+            if (micText) micText.textContent = 'Nói Lời Thoại (Mic)';
+          }
+
+          micBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isRecordingSpeech) {
+              try {
+                speechRecognition.lang = (localStorage.getItem('cine_lang') === 'en') ? 'en-US' : 'vi-VN';
+                speechRecognition.start();
+                isRecordingSpeech = true;
+                micBtn.style.background = 'rgba(239,68,68,0.35)';
+                micBtn.style.borderColor = '#ef4444';
+                if (micIcon) micIcon.textContent = '🔴';
+                if (micText) micText.textContent = 'Đang nghe...';
+              } catch (err) {
+                console.warn('[ViralMic] start error:', err);
+              }
+            } else {
+              speechRecognition.stop();
+              stopSpeechRecognition();
+            }
+          });
+        } else if (micBtn) {
+          micBtn.title = 'Trình duyệt không hỗ trợ Web Speech API trực tiếp';
+        }
 
         function switchMode(mode) {
           currentViralMode = mode;
@@ -3451,6 +3534,77 @@
           if (file) handleSelectedVideoFile(file);
         });
 
+        /** Phân tích thị giác thật: lấy 4 keyframe, tính độ sáng, tương phản, nhiệt màu, màu chủ đạo. */
+        function analyzeVideoVisuals(blobUrl, durSec, vw, vh) {
+          const grid = document.getElementById('viral-keyframes');
+          const summaryEl = document.getElementById('viral-visual-summary');
+          const arBadge = document.getElementById('viral-ar-badge');
+          if (grid) grid.innerHTML = '';
+          window.__viralVisual = null;
+
+          // 1. Nhận diện tỷ lệ khung hình
+          const ratio = vw / (vh || 1);
+          let ar = '16:9';
+          if (ratio < 0.7) ar = '9:16';
+          else if (ratio < 0.9) ar = '4:5';
+          else if (ratio < 1.15) ar = '1:1';
+          else if (ratio < 1.5) ar = '4:3';
+          else if (ratio > 2.1) ar = '21:9';
+          if (arBadge) arBadge.textContent = 'AR: ' + ar;
+
+          // 2. Lấy mẫu keyframe bằng video ẩn + canvas
+          const probe = document.createElement('video');
+          probe.muted = true; probe.preload = 'auto'; probe.src = blobUrl;
+          const canvas = document.createElement('canvas');
+          const cw = 96, ch = Math.max(54, Math.round(96 / (ratio || 1.78)));
+          canvas.width = cw; canvas.height = ch;
+          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          const points = [0.08, 0.35, 0.62, 0.88].map(p => Math.max(0.1, +(p * (durSec || 1)).toFixed(2)));
+          const stats = [];
+          let idx = 0;
+
+          const finish = () => {
+            if (!stats.length) { if (summaryEl) summaryEl.textContent = 'Không đọc được khung hình (codec không hỗ trợ).'; return; }
+            const avg = k => stats.reduce((s, x) => s + x[k], 0) / stats.length;
+            const lum = avg('lum'), con = avg('con'), r = avg('r'), g = avg('g'), b = avg('b');
+            const light = lum < 70 ? 'low-key dramatic lighting' : (lum > 160 ? 'high-key bright lighting' : 'balanced natural lighting');
+            const contrast = con > 60 ? 'high contrast' : (con < 30 ? 'soft low contrast' : 'medium contrast');
+            const temp = r - b > 18 ? 'warm golden palette' : (b - r > 18 ? 'cool teal-blue palette' : 'neutral palette');
+            const hex = '#' + [r, g, b].map(v => Math.round(v).toString(16).padStart(2, '0')).join('');
+            const text = `${light}, ${contrast}, ${temp} (màu chủ đạo ${hex}), khung ${ar}`;
+            window.__viralVisual = { ar, text, hex };
+            if (summaryEl) summaryEl.textContent = '🎨 ' + text;
+          };
+
+          const capture = () => {
+            try {
+              ctx.drawImage(probe, 0, 0, cw, ch);
+              const data = ctx.getImageData(0, 0, cw, ch).data;
+              let r = 0, g = 0, b = 0, n = 0, lums = [];
+              for (let i = 0; i < data.length; i += 4) {
+                r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+                lums.push(0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]);
+              }
+              const lum = lums.reduce((s, x) => s + x, 0) / n;
+              const con = Math.sqrt(lums.reduce((s, x) => s + (x - lum) * (x - lum), 0) / n);
+              stats.push({ lum, con, r: r / n, g: g / n, b: b / n });
+              if (grid) {
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/jpeg', 0.7);
+                img.alt = 'Keyframe ' + (stats.length);
+                img.style.cssText = 'width:100%; border-radius:4px; border:1px solid rgba(255,255,255,0.15);';
+                grid.appendChild(img);
+              }
+            } catch (e) { /* tainted/unsupported frame: skip */ }
+            idx++;
+            if (idx < points.length) probe.currentTime = points[idx]; else finish();
+          };
+
+          probe.addEventListener('seeked', capture);
+          probe.addEventListener('error', finish);
+          probe.addEventListener('loadeddata', () => { probe.currentTime = points[0]; });
+        }
+
         function handleSelectedVideoFile(file) {
           const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
           const blobUrl = URL.createObjectURL(file);
@@ -3473,6 +3627,7 @@
               };
 
               if (fileNameEl) fileNameEl.textContent = file.name;
+              analyzeVideoVisuals(blobUrl, durSec, videoPlayer.videoWidth, videoPlayer.videoHeight);
               if (fileSpecsEl) fileSpecsEl.textContent = `· ${sizeMB} MB · ${durFormatted} · ${resStr}`;
             };
           }
@@ -3496,6 +3651,7 @@
           }
           uploadedVideoData = null;
           if (fileInput) fileInput.value = '';
+          window.__viralVisual = null;
           if (previewContainer) previewContainer.style.display = 'none';
           if (dropzone) dropzone.style.display = 'block';
         });
@@ -3540,9 +3696,12 @@
               videoSourceInfo = `- Link Video Đối Thủ: ${url || 'N/A'}`;
             }
 
+            const activeCharacter = document.getElementById('character-input')?.value.trim() || '';
+            const charPromptLine = activeCharacter ? `\n- Diễn viên / Nhân vật cố định: ${activeCharacter} (Cố định trang phục & nhận diện khuôn mặt qua mọi cảnh)` : '';
+
             const input = document.getElementById('subject-input');
             if (input) {
-              input.value = `[VIRAL REMAKE MODE]:\n${videoSourceInfo}\n- Lời thoại / Điểm nhấn Video Đối Thủ:\n<competitor_transcript>\n${script || 'Video review triệu view sản phẩm cùng ngành'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Bóc tách 3s Viral Hook và Công thức tâm lý chuyển đổi người xem của video đối thủ này.\n2. Giữ nguyên công thức thành công nhưng SÁNG TẠO 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video Google Veo 3 / Sora 2 4K, Prompt Ảnh Bìa Midjourney V8 và Lời thoại Thuyết minh Tiếng Việt đồng bộ CapCut.`;
+              input.value = `[VIRAL REMAKE MODE]:\n${videoSourceInfo}${window.__viralVisual ? '\n- Phân tích thị giác thực tế từ keyframe (CLONE PHONG CÁCH NÀY): ' + window.__viralVisual.text + ' → dùng --ar ' + window.__viralVisual.ar : ''}\n- Lời thoại / Điểm nhấn Video Đối Thủ:\n<competitor_transcript>\n${script || 'Video review triệu view sản phẩm cùng ngành'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}${charPromptLine}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Bóc tách 3s Viral Hook và Công thức tâm lý chuyển đổi người xem của video đối thủ này.\n2. Giữ nguyên công thức thành công nhưng SÁNG TẠO 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video Google Veo 3 / Sora 2 4K, Prompt Ảnh Bìa Midjourney V8 và Lời thoại Thuyết minh Tiếng Việt đồng bộ CapCut.`;
               input.focus();
               input.dispatchEvent(new Event('input', { bubbles: true }));
               
@@ -3568,6 +3727,7 @@
       } else {
         initViralRemakeFeature();
       }
+    })();
   </script>
 
   <!-- ─── 🎬 AI AGENT SKILL: CINEMATIC AD PROMPT ARCHITECT MODAL ─── -->
@@ -3978,9 +4138,7 @@ END OF FLOW SCRIPT — READY FOR CAPCUT POST-PRODUCTION
         // Cách 1: Lấy từ kết quả TVC Studio nếu đã tạo
         const adResultText = document.getElementById('ad-result-text')?.textContent || '';
         if (adResultText) {
-          const voMatches = [...adResultText.matchAll(/\[VOICEOVER\]:\s*([^
-
-]+)/gi)];
+          const voMatches = [...adResultText.matchAll(/\[VOICEOVER\]:\s*([^\r\n]+)/gi)];
           if (voMatches.length >= 1) vo1 = voMatches[0][1].trim();
           if (voMatches.length >= 2) vo2 = voMatches[1][1].trim();
           if (voMatches.length >= 3) vo3 = voMatches[2][1].trim();
