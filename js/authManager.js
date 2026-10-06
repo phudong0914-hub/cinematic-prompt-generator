@@ -38,9 +38,9 @@ class AuthManager {
 
       if (savedUser) {
         this.currentUser = JSON.parse(savedUser);
-        if (this.currentUser && (this.currentUser.role === 'Admin' || this.currentUser.id === 'USR_ADMIN_01')) {
+                if (this.currentUser && (this.currentUser.role === 'Admin' || this.currentUser.id === 'USR_ADMIN_01')) {
           this.currentUser.displayName = 'Đạo Diễn Trungvt';
-          this.currentUser.email = 'trungvtco@gmail.com';
+          this.currentUser.email = 'cinemaprompt@gmail.com';
           this.currentUser.phone = '0836.384.168';
           this.currentUser.accountName = 'trungvt_director_master';
         }
@@ -71,7 +71,7 @@ class AuthManager {
       this.users = [
         {
           id: 'USR_ADMIN_01',
-          email: 'trungvtco@gmail.com',
+          email: 'cinemaprompt@gmail.com',
           password: 'Password@123',
           displayName: 'Đạo Diễn Trungvt',
           accountName: 'trungvt_director_master',

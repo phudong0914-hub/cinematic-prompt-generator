@@ -419,9 +419,17 @@ export function initAuthUI() {
 
   // Sub-tabs Switching (Profile, Storage & CMS Admin)
   function switchAccountTab(tabName) {
+    const user = authManager.currentUser;
+    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemaprompt@gmail.com' || user.email === 'trungvtco@gmail.com' || user.email === 'director@cineprompt.pro');
+
+    if (tabName === 'cms' && !isAdmin) {
+      tabName = 'profile';
+      showToast('⚠️ Chỉ Quản trị viên (Admin) mới có quyền truy cập bảng CMS.', 'warning');
+    }
+
     const isProfile = tabName === 'profile';
     const isStorage = tabName === 'storage';
-    const isCms = tabName === 'cms';
+    const isCms = tabName === 'cms' && isAdmin;
 
     if (viewProfile) viewProfile.style.display = isProfile ? 'block' : 'none';
     if (viewStorage) viewStorage.style.display = isStorage ? 'block' : 'none';
@@ -490,6 +498,15 @@ export function initAuthUI() {
     // Email readonly display
     const profEmailDisplay = document.getElementById('prof-email-display');
     if (profEmailDisplay) profEmailDisplay.value = user.email || '';
+
+    // Only Admin can see CMS tab button
+    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemaprompt@gmail.com' || user.email === 'trungvtco@gmail.com' || user.email === 'director@cineprompt.pro');
+    if (tabCmsBtn) {
+      tabCmsBtn.style.display = isAdmin ? 'block' : 'none';
+    }
+    if (viewCms && !isAdmin) {
+      viewCms.style.display = 'none';
+    }
 
     disableSaveBtn();
   }
