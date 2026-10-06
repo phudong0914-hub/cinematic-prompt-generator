@@ -113,7 +113,7 @@ export function exportToPDF(currentData) {
   <div class="prompt-card">${notebooklmPrompt || '—'}</div>
 
   <div class="footer">
-    ${isEn ? 'Exported from Cine Prompt Pro v2.0 • Designed by Mr. Trungvt' : 'Xuất từ Cine Prompt Pro v2.0 • Được thiết kế bởi Mr. Trungvt (Zalo: 08.36.384.168)'}
+    ${isEn ? 'Exported from Cine Prompt Pro v2.0 • Executive Director: Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemaprompt@gmail.com)' : 'Xuất từ Cine Prompt Pro v2.0 • Đạo Diễn Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemaprompt@gmail.com)'}
   </div>
 </body>
 </html>
@@ -144,6 +144,7 @@ export function exportToPackage(currentData) {
   const packageContent = 
 `================================================================================
 🎬 CINE PROMPT PRO v2.0 — 1-CLICK PRODUCTION PACKAGE FOR AI AGENT (KIM & HOLA)
+${isEn ? 'DIRECTOR & SCRIPT CONSULTANT: Trungvt (Hotline/Zalo: 0836.384.168)' : 'ĐẠO DIỄN & CỐ VẤN KỊCH BẢN: Trungvt (Hotline/Zalo: 0836.384.168 · cinemaprompt@gmail.com)'}
 ================================================================================
 ${isEn ? 'EXPORT DATE:' : 'NGÀY XUẤT:'} ${dateStr}
 ${isEn ? 'STYLE / TECHNIQUE:' : 'PHONG CÁCH / KỸ THUẬT:'} ${title || 'Default'}
@@ -167,6 +168,7 @@ ${notebooklmPrompt || 'No NotebookLM script generated'}
 
 ================================================================================
 END OF PRODUCTION PACKAGE — DEPLOY TO REMOTION / HYPERFRAME
+${isEn ? 'Contact Director Trungvt: 0836.384.168 (Zalo) • https://cine-prompt-pro.vercel.app/' : 'Tư vấn kịch bản & sản xuất TVC AI: Đạo Diễn Trungvt (Hotline/Zalo: 0836.384.168) • https://cine-prompt-pro.vercel.app/'}
 ================================================================================`;
 
   const blob = new Blob([packageContent], { type: 'text/plain;charset=utf-8;' });
@@ -223,6 +225,7 @@ ${s.cameraMotion}
   const packageContent = 
 `================================================================================
 🎬 CINE PROMPT PRO v2.0 — GOOGLE FLOW & SORA COMMERCIAL PRODUCTION PACKAGE
+ĐẠO DIỄN & CỐ VẤN TVC: Trungvt (Hotline/Zalo: 0836.384.168 · cinemaprompt@gmail.com)
 ================================================================================
 THỜI GIAN XUẤT   : ${dateStr}
 SẢN PHẨM / BRIEF : ${productName}

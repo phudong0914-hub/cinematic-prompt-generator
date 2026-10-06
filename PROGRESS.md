@@ -36,10 +36,17 @@
   - 5/5 bài test cho Optical Linter, Safety Classifier, và Model Routing (Midjourney, Veo, Sora) vượt qua 100%.
 - [x] **Xác thực toàn vẹn Pipeline 5 bước**:
   - `npm run build` và `node .agents/hooks/pipeline-verify.mjs` vượt qua 100% (8/8 Red Team attack vectors bị chặn đứng).
+- [x] **Tích hợp điểm chạm liên hệ VIP Đạo Diễn Trungvt (`0836.384.168`)**:
+  - **Header Brand Top & Identity Slate**: Badge hotline Zalo tinh tế, 1-chạm kết nối.
+  - **Hồ Sơ Cá Nhân (Profile Modal)**: VIP Card "Hợp tác sản xuất cùng Đạo Diễn Trungvt", hotline `0836.384.168`, email `cinemaprompt@gmail.com`.
+  - **Chân dock điều khiển kết quả**: Banner cố vấn kịch bản điện ảnh & TVC độc quyền.
+  - **Sơ đồ Archify (`workflow.html`, `system_architecture.html`) & CodeFlow (`codeflow.html`)**: Đưa hotline `0836.384.168` và nhãn Đạo Diễn Trungvt vào thanh điều hướng và node quy trình sản xuất.
+  - **Chữ ký bản quyền xuất bản (`exportManager.js`)**: Đính kèm đầy đủ thông tin Đạo Diễn Trungvt trên file PDF Shotlist, gói Production Package TXT và kịch bản Google Flow TVC.
 
 ---
 
 ## 🟢 3. Trạng Thái Vận Hành Hiện Tại (Operational Status)
 - **Tất cả các tiêu chí nâng cấp đã được nghiệm thu 100%**.
 - **Không có xung đột giữa Archify, CodeFlow, và System 1 Engine**.
+- **Điểm chạm liên hệ Đạo Diễn Trungvt (0836.384.168) đã đồng bộ toàn diện trên Studio, Sơ đồ Archify và các gói xuất bản**.
 - **Live Local Server**: Đang hoạt động trên `http://localhost:5173`.
