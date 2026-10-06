@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <script type="module" crossorigin src="/assets/index-BeKU_6gu.js?v=2.2.0"></script>
+  <script type="module" crossorigin src="/assets/index-v23.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-COgMNd6h.css?v=2.2.0">
   <link rel="stylesheet" href="/styles/main.css?v=2.2.0">
   <style>
@@ -107,6 +107,56 @@
       } catch (_) {}
     });
   </script>
+
+  <script>
+    window.openViralModal = function() {
+      var m = document.getElementById('viral-analyzer-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    window.closeViralModal = function() {
+      var m = document.getElementById('viral-analyzer-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
+    window.openAdArchitectModal = function() {
+      var m = document.getElementById('ad-architect-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    window.closeAdArchitectModal = function() {
+      var m = document.getElementById('ad-architect-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
+  </script>
+
 </head>
 <body>
 
@@ -259,7 +309,7 @@
           <button id="quick-generate-btn" type="button" style="width: 100%; background: linear-gradient(135deg, #ffd700, #f59e0b); border: none; color: #0f172a; font-weight: 800; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 0 16px rgba(255,215,0,0.45); transition: all 0.2s;">
             <span>⚡ TẠO PROMPT HOLLYWOOD NGAY (BẤM ĐÂY HOẶC ENTER)</span>
           </button>
-          <button id="btn-open-ad-architect" type="button" style="background: linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
+          <button id="btn-open-ad-architect" type="button" onclick="openAdArchitectModal()" style="background: linear-gradient(135deg, rgba(255,215,0,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
             <span>📢 AI Skill: Cinematic Ad Architect (TVC)</span>
           </button>
           <button id="viral-remake-btn" type="button" onclick="openViralModal()" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
@@ -3777,7 +3827,7 @@
   <div id="ad-architect-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
     <div class="modal-content" style="background:linear-gradient(135deg, #181824, #101018); border:1px solid rgba(255,215,0,0.35); border-radius:16px; width:100%; max-width:860px; max-height:90vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.9), 0 0 35px rgba(255,215,0,0.2); padding:24px; color:#f4f4f5; position:relative;">
       
-      <button id="ad-architect-close-btn" class="modal-close" style="position:absolute; top:18px; right:18px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+      <button id="ad-architect-close-btn" class="modal-close" onclick="closeAdArchitectModal()" style="position:absolute; top:18px; right:18px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
 
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; border-bottom:1px solid rgba(255,215,0,0.2); padding-bottom:14px;">
         <div style="font-size:1.8rem; background:rgba(255,215,0,0.15); border:1px solid #ffd700; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">📢</div>
