@@ -259,7 +259,7 @@
             <span>📢 AI Skill: Cinematic Ad Architect (TVC)</span>
           </button>
           <button id="viral-remake-btn" type="button" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
-            <span>🕵️‍♂️ Phân Tích & Re-make Video Viral Đối Thủ</span>
+            <span>📤 Tải Lên Video & Bóc Tách Đối Thủ (Upload / Link)</span>
           </button>
         </div>
       </div>
@@ -3311,40 +3311,36 @@
       </p>
 
       <div style="display:flex; flex-direction:column; gap:14px;">
-        <!-- Input Mode Switcher: Link vs Upload File -->
-        <div style="display:flex; background:rgba(0,0,0,0.4); padding:3px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);">
-          <button id="viral-mode-tab-link" type="button" style="flex:1; padding:7px 12px; border-radius:6px; border:none; background:rgba(56,189,248,0.2); color:#38bdf8; font-weight:700; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-            <span>🔗 1. Dán Link Video</span>
+                <!-- Input Mode Switcher: Upload File (Default) vs Link -->
+        <div style="display:flex; background:rgba(0,0,0,0.5); padding:4px; border-radius:10px; border:1px solid rgba(168,85,247,0.3); gap:6px;">
+          <button id="viral-mode-tab-upload" type="button" style="flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid #38bdf8; background:linear-gradient(135deg, rgba(168,85,247,0.3), rgba(56,189,248,0.3)); color:#38bdf8; font-weight:800; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s; box-shadow:0 0 12px rgba(56,189,248,0.25);">
+            <span>📤 1. Tải Tệp Video Từ Máy (.MP4, .MOV) ⭐ KHUYÊN DÙNG</span>
           </button>
-          <button id="viral-mode-tab-upload" type="button" style="flex:1; padding:7px 12px; border-radius:6px; border:none; background:transparent; color:#94a3b8; font-weight:600; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
-            <span>📤 2. Tải Tệp Video Từ Máy</span>
+          <button id="viral-mode-tab-link" type="button" style="flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid transparent; background:transparent; color:#94a3b8; font-weight:600; font-size:0.82rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+            <span>🔗 2. Hoặc Dán Link Video Mạng Xã Hội</span>
           </button>
         </div>
 
-        <!-- Section A: Paste URL -->
-        <div id="viral-panel-link">
-          <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
-            🔗 Link Video Đối Thủ (TikTok / Shorts / Reels / Douyin)
-          </label>
-          <input type="text" id="viral-video-url" class="text-input new-input-field" placeholder="https://www.tiktok.com/@user/video/123456789... hoặc https://youtube.com/shorts/..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff;" />
-        </div>
-
-        <!-- Section B: Direct Video File Upload -->
-        <div id="viral-panel-upload" style="display:none;">
-          <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
-            📁 Tải Lên Tệp Video Đối Thủ (.MP4, .MOV, .WebM)
+        <!-- Section A: Direct Video File Upload (Default Visible) -->
+        <div id="viral-panel-upload" style="display:block;">
+          <label style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span>📁 Kéo Thả Hoặc Chọn Tệp Video Đối Thủ (.MP4, .MOV, .WebM)</span>
+            <span style="font-size:0.72rem; color:#c084fc; font-weight:600;">✨ Tự soi 4 Keyframe + Ánh sáng</span>
           </label>
           
           <input type="file" id="viral-file-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display:none;" />
           
           <!-- Dropzone Container -->
-          <div id="viral-dropzone" style="border: 2px dashed rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 22px 16px; text-align: center; background: rgba(56, 189, 248, 0.04); cursor: pointer; transition: all 0.2s;">
-            <div style="font-size: 2rem; margin-bottom: 6px;">🎬</div>
-            <div style="font-weight: 700; color: #f8fafc; font-size: 0.86rem; margin-bottom: 4px;">
+          <div id="viral-dropzone" style="border: 2px dashed rgba(56, 189, 248, 0.65); border-radius: 12px; padding: 26px 16px; text-align: center; background: rgba(56, 189, 248, 0.06); cursor: pointer; transition: all 0.2s; box-shadow: inset 0 0 20px rgba(56,189,248,0.06);">
+            <div style="font-size: 2.5rem; margin-bottom: 6px;">🎬</div>
+            <div style="font-weight: 800; color: #f8fafc; font-size: 0.95rem; margin-bottom: 4px;">
               Kéo thả tệp video vào đây hoặc <span style="color:#38bdf8; text-decoration:underline;">Click để chọn từ máy</span>
             </div>
-            <div style="font-size: 0.72rem; color: #94a3b8;">
-              Hỗ trợ MP4, MOV, WebM · Tối đa 200MB · Phát và soi khung hình tức thì
+            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 6px;">
+              Hỗ trợ MP4, MOV, WebM · Tối đa 200MB · AI soi Keyframe & Đo tỷ lệ khung tức thì
+            </div>
+            <div style="font-size: 0.72rem; color: #38bdf8; background: rgba(56,189,248,0.12); display: inline-block; padding: 3px 10px; border-radius: 20px;">
+              💡 Không có video trong máy? <a href="javascript:void(0)" id="viral-quick-switch-link" style="color:#ffd700; font-weight:700; text-decoration:underline;">Bấm đây để dán Link TikTok/Shorts</a>
             </div>
           </div>
 
@@ -3372,8 +3368,18 @@
           </div>
         </div>
 
-        <div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <!-- Section B: Direct Link URL Input (Hidden by default, shown when Link tab is selected) -->
+        <div id="viral-panel-link" style="display:none;">
+          <label style="font-weight: 700; color: #38bdf8; font-size: 0.82rem; display: block; margin-bottom: 6px;">
+            🔗 Link Video Đối Thủ (TikTok / Shorts / Reels / Douyin)
+          </label>
+          <input type="text" id="viral-video-url" class="text-input new-input-field" placeholder="https://www.tiktok.com/@user/video/123456789... hoặc https://youtube.com/shorts/..." style="width:100%; padding: 10px 14px; font-size: 0.84rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(56,189,248,0.4); border-radius: 8px; color: #fff;" />
+          <div style="margin-top: 6px; font-size: 0.72rem; color: #94a3b8;">
+            💡 Đã tải video về máy? <a href="javascript:void(0)" id="viral-quick-switch-upload" style="color:#38bdf8; font-weight:700; text-decoration:underline;">Bấm đây để tải file trực tiếp và soi khung hình</a>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label style="font-weight: 700; color: #a855f7; font-size: 0.82rem; margin: 0;">
               📝 2. Lời thoại / Nội dung tóm tắt video đối thủ (Tùy chọn)
             </label>
@@ -3401,7 +3407,7 @@
   <!-- Viral Video Remake Modal Controller Script -->
   <script>
     (function() {
-      let currentViralMode = 'link'; // 'link' | 'upload'
+      let currentViralMode = 'upload'; // 'link' | 'upload'
       let uploadedVideoData = null; // { name, size, duration, width, height, url }
 
       function initViralRemakeFeature() {
@@ -3497,29 +3503,47 @@
 
         function switchMode(mode) {
           currentViralMode = mode;
-          if (mode === 'link') {
-            tabLink.style.background = 'rgba(56,189,248,0.2)';
-            tabLink.style.color = '#38bdf8';
-            tabLink.style.fontWeight = '700';
-            tabUpload.style.background = 'transparent';
-            tabUpload.style.color = '#94a3b8';
-            tabUpload.style.fontWeight = '600';
+          if (mode === 'upload') {
+            if (tabUpload) {
+              tabUpload.style.background = 'linear-gradient(135deg, rgba(168,85,247,0.3), rgba(56,189,248,0.3))';
+              tabUpload.style.borderColor = '#38bdf8';
+              tabUpload.style.color = '#38bdf8';
+              tabUpload.style.fontWeight = '800';
+              tabUpload.style.boxShadow = '0 0 12px rgba(56,189,248,0.25)';
+            }
+            if (tabLink) {
+              tabLink.style.background = 'transparent';
+              tabLink.style.borderColor = 'transparent';
+              tabLink.style.color = '#94a3b8';
+              tabLink.style.fontWeight = '600';
+              tabLink.style.boxShadow = 'none';
+            }
+            if (panelUpload) panelUpload.style.display = 'block';
+            if (panelLink) panelLink.style.display = 'none';
+          } else {
+            if (tabLink) {
+              tabLink.style.background = 'linear-gradient(135deg, rgba(56,189,248,0.3), rgba(168,85,247,0.3))';
+              tabLink.style.borderColor = '#38bdf8';
+              tabLink.style.color = '#38bdf8';
+              tabLink.style.fontWeight = '800';
+              tabLink.style.boxShadow = '0 0 12px rgba(56,189,248,0.25)';
+            }
+            if (tabUpload) {
+              tabUpload.style.background = 'transparent';
+              tabUpload.style.borderColor = 'transparent';
+              tabUpload.style.color = '#94a3b8';
+              tabUpload.style.fontWeight = '600';
+              tabUpload.style.boxShadow = 'none';
+            }
             if (panelLink) panelLink.style.display = 'block';
             if (panelUpload) panelUpload.style.display = 'none';
-          } else {
-            tabUpload.style.background = 'rgba(56,189,248,0.2)';
-            tabUpload.style.color = '#38bdf8';
-            tabUpload.style.fontWeight = '700';
-            tabLink.style.background = 'transparent';
-            tabLink.style.color = '#94a3b8';
-            tabLink.style.fontWeight = '600';
-            if (panelLink) panelLink.style.display = 'none';
-            if (panelUpload) panelUpload.style.display = 'block';
           }
         }
 
         tabLink?.addEventListener('click', () => switchMode('link'));
         tabUpload?.addEventListener('click', () => switchMode('upload'));
+        document.getElementById('viral-quick-switch-link')?.addEventListener('click', (e) => { e.preventDefault(); switchMode('link'); });
+        document.getElementById('viral-quick-switch-upload')?.addEventListener('click', (e) => { e.preventDefault(); switchMode('upload'); });
 
         // Drag & Drop handlers
         if (dropzone) {
