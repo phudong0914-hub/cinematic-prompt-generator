@@ -3382,18 +3382,23 @@
             <span style="font-size:0.72rem; color:#c084fc; font-weight:600;">✨ Tự soi 4 Keyframe + Ánh sáng</span>
           </label>
           
-          <input type="file" id="viral-file-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display:none;" />
+          <input type="file" id="viral-file-input" accept="video/*,.mp4,.mov,.webm,.mkv" style="position:fixed; top:-9999px; left:-9999px; opacity:0; pointer-events:none;" />
           
           <!-- Dropzone Container -->
-          <div id="viral-dropzone" style="border: 2px dashed rgba(56, 189, 248, 0.65); border-radius: 12px; padding: 26px 16px; text-align: center; background: rgba(56, 189, 248, 0.06); cursor: pointer; transition: all 0.2s; box-shadow: inset 0 0 20px rgba(56,189,248,0.06);">
-            <div style="font-size: 2.5rem; margin-bottom: 6px;">🎬</div>
-            <div style="font-weight: 800; color: #f8fafc; font-size: 0.95rem; margin-bottom: 4px;">
-              Kéo thả tệp video vào đây hoặc <span style="color:#38bdf8; text-decoration:underline;">Click để chọn từ máy</span>
+          <div id="viral-dropzone" style="border: 2px dashed rgba(56, 189, 248, 0.65); border-radius: 12px; padding: 24px 16px; text-align: center; background: rgba(56, 189, 248, 0.06); cursor: pointer; transition: all 0.2s; box-shadow: inset 0 0 20px rgba(56,189,248,0.06);">
+            <div style="font-size: 2.4rem; margin-bottom: 4px;">🎬</div>
+            <div style="font-weight: 800; color: #f8fafc; font-size: 0.95rem; margin-bottom: 6px;">
+              Kéo thả tệp video vào đây hoặc bấm nút dưới:
             </div>
-            <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 6px;">
-              Hỗ trợ MP4, MOV, WebM · Tối đa 200MB · AI soi Keyframe & Đo tỷ lệ khung tức thì
+            <div>
+              <button type="button" id="viral-select-file-btn" style="background: linear-gradient(135deg, #0284c7, #38bdf8); border: none; color: #0f172a; font-weight: 800; padding: 10px 22px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 0 16px rgba(56,189,248,0.45); transition: all 0.2s;">
+                <span>📁 BẤM ĐÂY CHỌN TỆP VIDEO TỪ MÁY</span>
+              </button>
             </div>
-            <div style="font-size: 0.72rem; color: #38bdf8; background: rgba(56,189,248,0.12); display: inline-block; padding: 3px 10px; border-radius: 20px;">
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 10px; margin-bottom: 6px;">
+              Hỗ trợ MP4, MOV, WebM · Tối đa 200MB · AI soi Keyframe, Tỉ lệ khung, Ánh sáng
+            </div>
+            <div style="font-size: 0.72rem; color: #38bdf8; background: rgba(56,189,248,0.12); display: inline-block; padding: 3px 12px; border-radius: 20px;">
               💡 Không có video trong máy? <a href="javascript:void(0)" id="viral-quick-switch-link" style="color:#ffd700; font-weight:700; text-decoration:underline;">Bấm đây để dán Link TikTok/Shorts</a>
             </div>
           </div>
@@ -3698,10 +3703,25 @@
           probe.addEventListener('loadeddata', () => { probe.currentTime = points[0]; });
         }
 
-        function handleSelectedVideoFile(file) {
+                function handleSelectedVideoFile(file) {
+          if (!file) return;
           const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
           const blobUrl = URL.createObjectURL(file);
           
+          // Set uploadedVideoData IMMEDIATELY so it is never null
+          uploadedVideoData = {
+            name: file.name,
+            size: `${sizeMB} MB`,
+            duration: 'Đang đọc...',
+            resolution: 'Video Clip',
+            blobUrl: blobUrl
+          };
+
+          if (fileNameEl) fileNameEl.textContent = file.name;
+          if (fileSpecsEl) fileSpecsEl.textContent = `· ${sizeMB} MB`;
+          if (dropzone) dropzone.style.display = 'none';
+          if (previewContainer) previewContainer.style.display = 'block';
+
           if (videoPlayer) {
             videoPlayer.src = blobUrl;
             videoPlayer.onloadedmetadata = () => {
@@ -3711,22 +3731,18 @@
               const durFormatted = `${mins}:${secs}`;
               const resStr = `${videoPlayer.videoWidth}x${videoPlayer.videoHeight}`;
               
-              uploadedVideoData = {
-                name: file.name,
-                size: `${sizeMB} MB`,
-                duration: `${durFormatted} (${durSec}s)`,
-                resolution: resStr,
-                blobUrl: blobUrl
-              };
+              uploadedVideoData.duration = `${durFormatted} (${durSec}s)`;
+              uploadedVideoData.resolution = resStr;
 
-              if (fileNameEl) fileNameEl.textContent = file.name;
-              analyzeVideoVisuals(blobUrl, durSec, videoPlayer.videoWidth, videoPlayer.videoHeight);
               if (fileSpecsEl) fileSpecsEl.textContent = `· ${sizeMB} MB · ${durFormatted} · ${resStr}`;
+              analyzeVideoVisuals(blobUrl, durSec, videoPlayer.videoWidth, videoPlayer.videoHeight);
+            };
+
+            videoPlayer.onerror = () => {
+              console.warn('[ViralVideo] Video playback notice for this file');
+              if (fileSpecsEl) fileSpecsEl.textContent = `· ${sizeMB} MB · (Tệp sẵn sàng phân tích)`;
             };
           }
-
-          if (dropzone) dropzone.style.display = 'none';
-          if (previewContainer) previewContainer.style.display = 'block';
 
           // Auto-fill product field if empty based on file name
           const productInput = document.getElementById('viral-my-product');
