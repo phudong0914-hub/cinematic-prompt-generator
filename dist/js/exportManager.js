@@ -113,7 +113,7 @@ export function exportToPDF(currentData) {
   <div class="prompt-card">${notebooklmPrompt || '—'}</div>
 
   <div class="footer">
-    ${isEn ? 'Exported from Cine Prompt Pro v2.0 • Executive Director: Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemaprompt@gmail.com)' : 'Xuất từ Cine Prompt Pro v2.0 • Đạo Diễn Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemaprompt@gmail.com)'}
+    ${isEn ? 'Exported from Cine Prompt Pro v2.0 • Executive Director: Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemapromptpro@gmail.com)' : 'Xuất từ Cine Prompt Pro v2.0 • Đạo Diễn Trungvt (Hotline/Zalo: 0836.384.168 · Email: cinemapromptpro@gmail.com)'}
   </div>
 </body>
 </html>
@@ -144,7 +144,7 @@ export function exportToPackage(currentData) {
   const packageContent = 
 `================================================================================
 🎬 CINE PROMPT PRO v2.0 — 1-CLICK PRODUCTION PACKAGE FOR AI AGENT (KIM & HOLA)
-${isEn ? 'DIRECTOR & SCRIPT CONSULTANT: Trungvt (Hotline/Zalo: 0836.384.168)' : 'ĐẠO DIỄN & CỐ VẤN KỊCH BẢN: Trungvt (Hotline/Zalo: 0836.384.168 · cinemaprompt@gmail.com)'}
+${isEn ? 'DIRECTOR & SCRIPT CONSULTANT: Trungvt (Hotline/Zalo: 0836.384.168)' : 'ĐẠO DIỄN & CỐ VẤN KỊCH BẢN: Trungvt (Hotline/Zalo: 0836.384.168 · cinemapromptpro@gmail.com)'}
 ================================================================================
 ${isEn ? 'EXPORT DATE:' : 'NGÀY XUẤT:'} ${dateStr}
 ${isEn ? 'STYLE / TECHNIQUE:' : 'PHONG CÁCH / KỸ THUẬT:'} ${title || 'Default'}
@@ -225,7 +225,7 @@ ${s.cameraMotion}
   const packageContent = 
 `================================================================================
 🎬 CINE PROMPT PRO v2.0 — GOOGLE FLOW & SORA COMMERCIAL PRODUCTION PACKAGE
-ĐẠO DIỄN & CỐ VẤN TVC: Trungvt (Hotline/Zalo: 0836.384.168 · cinemaprompt@gmail.com)
+ĐẠO DIỄN & CỐ VẤN TVC: Trungvt (Hotline/Zalo: 0836.384.168 · cinemapromptpro@gmail.com)
 ================================================================================
 THỜI GIAN XUẤT   : ${dateStr}
 SẢN PHẨM / BRIEF : ${productName}
@@ -337,7 +337,7 @@ export async function exportOneTouchFlowCapCut(currentData = {}) {
   const flowUnifiedScript = 
 `================================================================================
 🎬 GOOGLE FLOW MASTER STITCHED SCRIPT — 1-CLICK UNIFIED VIDEO (12s | 24fps)
-Dự án: ${title} | Đạo diễn: Trungvt (0836.384.168 · trungvtco@gmail.com)
+Dự án: ${title} | Đạo diễn: Trungvt (0836.384.168 · cinemapromptpro@gmail.com)
 ================================================================================
 💡 HƯỚNG DẪN 1 BƯỚC: Dán toàn bộ khối lệnh bên dưới vào Google Flow (hoặc ô chat Gemini).
 Flow sẽ tự động dùng kỹ thuật Last-Frame Continuation để nối 4 cảnh thành 1 VIDEO DUY NHẤT!

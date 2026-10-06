@@ -420,7 +420,7 @@ export function initAuthUI() {
   // Sub-tabs Switching (Profile, Storage & CMS Admin)
   function switchAccountTab(tabName) {
     const user = authManager.currentUser;
-    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemaprompt@gmail.com' || user.email === 'trungvtco@gmail.com' || user.email === 'director@cineprompt.pro');
+    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemapromptpro@gmail.com' || user.email === 'cinemapromptpro@gmail.com' || user.email === 'cinemapromptpro@gmail.com');
 
     if (tabName === 'cms' && !isAdmin) {
       tabName = 'profile';
@@ -500,7 +500,7 @@ export function initAuthUI() {
     if (profEmailDisplay) profEmailDisplay.value = user.email || '';
 
     // Only Admin can see CMS tab button
-    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemaprompt@gmail.com' || user.email === 'trungvtco@gmail.com' || user.email === 'director@cineprompt.pro');
+    const isAdmin = user && user.role === 'Admin' && (user.email === 'cinemapromptpro@gmail.com' || user.email === 'cinemapromptpro@gmail.com' || user.email === 'cinemapromptpro@gmail.com');
     if (tabCmsBtn) {
       tabCmsBtn.style.display = isAdmin ? 'block' : 'none';
     }

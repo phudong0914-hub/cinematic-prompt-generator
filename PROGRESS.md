@@ -38,7 +38,7 @@
   - `npm run build` và `node .agents/hooks/pipeline-verify.mjs` vượt qua 100% (8/8 Red Team attack vectors bị chặn đứng).
 - [x] **Tích hợp điểm chạm liên hệ VIP Đạo Diễn Trungvt (`0836.384.168`)**:
   - **Header Brand Top & Identity Slate**: Badge hotline Zalo tinh tế, 1-chạm kết nối.
-  - **Hồ Sơ Cá Nhân (Profile Modal)**: VIP Card "Hợp tác sản xuất cùng Đạo Diễn Trungvt", hotline `0836.384.168`, email `cinemaprompt@gmail.com`.
+  - **Hồ Sơ Cá Nhân (Profile Modal)**: VIP Card "Hợp tác sản xuất cùng Đạo Diễn Trungvt", hotline `0836.384.168`, email `cinemapromptpro@gmail.com`.
   - **Chân dock điều khiển kết quả**: Banner cố vấn kịch bản điện ảnh & TVC độc quyền.
   - **Sơ đồ Archify (`workflow.html`, `system_architecture.html`) & CodeFlow (`codeflow.html`)**: Đưa hotline `0836.384.168` và nhãn Đạo Diễn Trungvt vào thanh điều hướng và node quy trình sản xuất.
   - **Chữ ký bản quyền xuất bản (`exportManager.js`)**: Đính kèm đầy đủ thông tin Đạo Diễn Trungvt trên file PDF Shotlist, gói Production Package TXT và kịch bản Google Flow TVC.

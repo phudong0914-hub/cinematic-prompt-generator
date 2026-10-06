@@ -74,7 +74,7 @@ replacement_dock_end = '''          </div>
               <span>💬</span><span>Zalo: 0836.384.168</span>
             </a>
             <span style="color: #71717a;">•</span>
-            <span style="color: #a1a1aa; font-family: monospace;">cinemaprompt@gmail.com</span>
+            <span style="color: #a1a1aa; font-family: monospace;">cinemapromptpro@gmail.com</span>
           </div>
         </div>
 
@@ -119,7 +119,7 @@ replacement_prof = '''            <div>
                 </div>
               </div>
               <div style="font-size: 0.72rem; color: #cbd5e1; line-height: 1.5; border-top: 1px dashed rgba(255,215,0,0.2); padding-top: 8px;">
-                📞 <strong>Hotline/Zalo:</strong> <span style="color: #ffd700; font-weight: 700;">0836.384.168</span> &nbsp;|&nbsp; ✉️ <strong>Email:</strong> <span style="color: #38bdf8;">cinemaprompt@gmail.com</span> &nbsp;|&nbsp; 🌐 <strong>Studio:</strong> Trungvt Studio Production
+                📞 <strong>Hotline/Zalo:</strong> <span style="color: #ffd700; font-weight: 700;">0836.384.168</span> &nbsp;|&nbsp; ✉️ <strong>Email:</strong> <span style="color: #38bdf8;">cinemapromptpro@gmail.com</span> &nbsp;|&nbsp; 🌐 <strong>Studio:</strong> Trungvt Studio Production
               </div>
             </div>
           </div>'''
