@@ -1,0 +1,37 @@
+{
+  "selectedBgm": {
+    "mood": "Trầm lắng, sâu sắc, chia sẻ kinh nghiệm",
+    "trackSuggestion": "Resonance of Thought (YouTube Audio Library - No Attribution)",
+    "tempoBpm": 75,
+    "duckingDb": -28,
+    "crescendoDb": -12
+  },
+  "totalDurationSec": 216,
+  "nodes": [
+    {
+      "timeSec": 0,
+      "volumeDb": -30,
+      "note": "Giữ âm lượng cực thấp để tiếng Swoosh ở giây 0 nổi bật nhất"
+    },
+    {
+      "timeSec": 3,
+      "volumeDb": -28,
+      "note": "Né giọng nói (-28dB)"
+    },
+    {
+      "timeSec": 214,
+      "volumeDb": -20,
+      "note": "Bắt đầu đoạn tối: Đẩy âm lượng nhạc kết"
+    },
+    {
+      "timeSec": 215,
+      "volumeDb": -12,
+      "note": "Đoạn tối trọn vẹn: Đạt đỉnh âm lượng Outro (-12dB)"
+    },
+    {
+      "timeSec": 216,
+      "volumeDb": -40,
+      "note": "Hết video: Fade out kết thúc hoàn hảo"
+    }
+  ]
+}

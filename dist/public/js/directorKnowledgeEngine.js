@@ -1285,6 +1285,13 @@ Skill này cung cấp toàn bộ tri thức quang học, góc máy, ánh sáng, 
 - [ ] Mỗi clip video 5-10 giây chỉ chứa tối đa 1 chuyển động camera chính và 1 hành động hạt nhân.
 - [ ] Nhân vật xuyên suốt các cảnh phải khóa các dấu ấn nhận diện: trang phục, nếp tóc, phụ kiện.
 
+## 4. Ngôn Từ Sức Mạnh & Video Hooks (Words That Sell Engine - Richard Bayan)
+- **Giữ chân 3 giây đầu (Hook Openers)**: Áp dụng câu hỏi khơi gợi ("Bạn có biết rằng...?", "Có phải đã đến lúc bạn...?", "Một sự thật lạnh lùng về...").
+- **Kích hoạt khẩn cấp & khan hiếm (Urgency & Scarcity)**: "Cơ hội cuối cùng!", "Ưu đãi độc quyền", "Chỉ trong thời gian giới hạn", "Nhanh tay hôm nay".
+- **Triệt tiêu rào cản tâm lý (Frictionless Execution)**: "Dễ như ăn bánh ngay cả khi bạn là người mới", "Không rắc rối, không đau đầu", "Tự động hóa trong nháy mắt".
+- **Khẳng định chuẩn mực chuyên gia (Authority Proof)**: "... Như một chuyên gia", "Đã chứng minh", "Đoạt giải thưởng", "Độc bản có một không hai".
+- **Kêu gọi hành động dứt khoát (Irresistible CTA)**: "Hãy nhận ngay hôm nay — Nó là của bạn miễn phí!", "Dùng thử không rủi ro".
+
 Được trích xuất từ hệ sinh thái Cine Prompt Pro Studio: https://cine-prompt-pro.vercel.app/
 `;
 }

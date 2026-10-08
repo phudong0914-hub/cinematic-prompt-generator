@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xmeml>
+<xmeml version="4">
+  <project>
+    <name>TVC_Fresh_Coffee_30s_Dao_Dien_Trungvt</name>
+    <children>
+      <sequence id="sequence-1">
+        <name>TVC_Fresh_Coffee_30s_Dao_Dien_Trungvt (9:16 Cinema)</name>
+        <duration>900</duration>
+        <rate>
+          <timebase>30</timebase>
+          <ntsc>FALSE</ntsc>
+        </rate>
+        <media>
+          <video>
+            <format>
+              <samplecharacteristics>
+                <width>1080</width>
+                <height>1920</height>
+                <pixelaspectratio>square</pixelaspectratio>
+              </samplecharacteristics>
+            </format>
+            <track>
+              <!-- Video Track 1: Master Footage -->
+              <clipitem id="clipitem-1">
+                <name>Raw_Footage_Master</name>
+                <duration>900</duration>
+                <start>0</start>
+                <end>900</end>
+              </clipitem>
+            </track>
+          </video>
+          <audio>
+            <track>
+              <!-- Audio Track 1: Voice Dialogue -->
+              <clipitem id="audio-voice">
+                <name>Voice_Dialogue</name>
+                <duration>900</duration>
+                <start>0</start>
+                <end>900</end>
+              </clipitem>
+            </track>
+          </audio>
+        </media>
+      </sequence>
+    </children>
+  </project>
+</xmeml>

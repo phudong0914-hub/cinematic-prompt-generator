@@ -1,0 +1,7 @@
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_1_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_2_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_3_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_4_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_5_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_6_clip.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_perfect_sync/scene_7_clip.mp4'

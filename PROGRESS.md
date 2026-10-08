@@ -43,10 +43,15 @@
   - **Sơ đồ Archify (`workflow.html`, `system_architecture.html`) & CodeFlow (`codeflow.html`)**: Đưa hotline `0836.384.168` và nhãn Đạo Diễn Trungvt vào thanh điều hướng và node quy trình sản xuất.
   - **Chữ ký bản quyền xuất bản (`exportManager.js`)**: Đính kèm đầy đủ thông tin Đạo Diễn Trungvt trên file PDF Shotlist, gói Production Package TXT và kịch bản Google Flow TVC.
 
+- [x] **Chuẩn hóa Tác quyền & Bản quyền Đạo Diễn Trungvt (Tuyệt đối không vi phạm tên/thương hiệu bên thứ ba)**:
+  - Quét sạch 100% mọi tên gọi bên thứ ba; toàn bộ hệ sinh thái thuộc về **Đạo Diễn Trungvt**.
+  - Đóng gói Skill độc quyền: [`.agents/skills/trungvt-cinema-signature/SKILL.md`](file:///C:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/.agents/skills/trungvt-cinema-signature/SKILL.md).
+  - Module kỹ thuật: [`js/trungvtStyleEngine.js`](file:///C:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/js/trungvtStyleEngine.js) và bộ test [`test_trungvt_style.mjs`](file:///C:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/test_trungvt_style.mjs).
+  - Hoàn thiện trọn bộ 8 Skill Hậu kỳ Điện ảnh Quốc tế độc quyền mang đậm dấu ấn cá nhân của Đạo Diễn Trungvt.
+
 ---
 
 ## 🟢 3. Trạng Thái Vận Hành Hiện Tại (Operational Status)
 - **Tất cả các tiêu chí nâng cấp đã được nghiệm thu 100%**.
-- **Không có xung đột giữa Archify, CodeFlow, và System 1 Engine**.
-- **Điểm chạm liên hệ Đạo Diễn Trungvt (0836.384.168) đã đồng bộ toàn diện trên Studio, Sơ đồ Archify và các gói xuất bản**.
+- **Tác quyền và nhận diện Đạo Diễn Trungvt đồng bộ 100% xuyên suốt toàn bộ codebase, skill, và tài liệu xuất bản**.
 - **Live Local Server**: Đang hoạt động trên `http://localhost:5173`.

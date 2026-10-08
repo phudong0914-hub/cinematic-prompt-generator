@@ -1,0 +1,23 @@
+[Script Info]
+Title: Fresh Coffee Master Karaoke (Signature Đạo Diễn Trungvt)
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,62,&H00FFFFFF&,&H00FF9100&,&H00000000&,&H90000000&,1,0,0,0,100,100,2,0,1,4,3,2,60,60,260,1
+Style: Accent,Arial,66,&H00FF9100&,&H00FFFFFF&,&H00000000&,&H90000000&,1,0,0,0,100,100,2,0,1,4,3,2,60,60,260,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0,0,0,,CÓ PHẢI BẠN ĐANG UỐNG \N CÀ PHÊ MẤT HẾT LINH HỒN?
+Dialogue: 0,0:00:04.00,0:00:09.39,Default,,0,0,0,,100% CẦU ĐẤT \N RANG MỘC THỦ CÔNG NGUYÊN BẢN
+Dialogue: 0,0:00:09.39,0:00:14.28,Default,,0,0,0,,CHẮT LỌC TỪNG GIỌT CREMA \N SÁNH ĐẬM TINH TẾ TỪNG GIÂY
+Dialogue: 0,0:00:14.28,0:00:18.59,Default,,0,0,0,,MỖI NGỤM FRESH COFFEE \N LÀ SỰ THỨC TỈNH GIÁC QUAN
+Dialogue: 0,0:00:18.59,0:00:24.97,Default,,0,0,0,,RANG MỚI TRONG NGÀY \N GIAO TẬN TAY KHI CÒN THƠM NÓNG
+Dialogue: 0,0:00:24.97,0:00:31.13,Default,,0,0,0,,FRESH COFFEE \N ĐÓ LÀ BẢN LĨNH CỦA BẠN
+Dialogue: 0,0:00:31.13,0:00:36.60,Default,,0,0,0,,TRẢI NGHIỆM NGAY TẠI \N FRESHCOFFEE.VN

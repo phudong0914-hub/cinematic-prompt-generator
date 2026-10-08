@@ -9,6 +9,8 @@ import generatePromptHandler from './api/generate-prompt.js';
 import glossarySearchHandler from './api/glossary-search.js';
 import optimizeModelHandler from './api/optimize-model.js';
 import scorePromptHandler from './api/score-prompt.js';
+import powerWordsHandler from './api/power-words.js';
+import cinemaStudioHandler from './api/cinema-studio.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -106,6 +108,12 @@ const server = http.createServer(async (req, res) => {
       }
       if (pathname === '/api/score-prompt') {
         return scorePromptHandler(req, mockRes);
+      }
+      if (pathname === '/api/power-words') {
+        return powerWordsHandler(req, mockRes);
+      }
+      if (pathname === '/api/cinema-studio') {
+        return cinemaStudioHandler(req, mockRes);
       }
 
       res.statusCode = 404;

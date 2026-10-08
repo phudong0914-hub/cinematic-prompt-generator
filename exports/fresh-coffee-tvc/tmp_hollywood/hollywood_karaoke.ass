@@ -1,0 +1,22 @@
+[Script Info]
+Title: Fresh Coffee Hollywood Karaoke (Signature Đạo Diễn Trungvt)
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: SignatureMain,Arial,64,&H00FFFFFF&,&H00FF9100&,&H00000000&,&HA0000000&,1,0,0,0,100,100,2,0,1,4.5,3.0,2,60,60,280,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:04.20,SignatureMain,,0,0,0,,{\k32}CÓ {\k32}PHẢI {\k32}BẠN {\k32}ĐANG {\k32}UỐNG \N {\k32}CÀ {\k32}PHÊ {\k32}MẤT {\k32}HẾT {\k32}LINH {\k32}HỒN?
+Dialogue: 0,0:00:04.40,0:00:09.89,SignatureMain,,0,0,0,,{\k55}100% {\k55}CẦU {\k55}ĐẤT \N {\k55}RANG {\k55}MỘC {\k55}THỦ {\k55}CÔNG {\k55}NGUYÊN {\k55}BẢN
+Dialogue: 0,0:00:10.09,0:00:15.08,SignatureMain,,0,0,0,,{\k40}CHẮT {\k40}LỌC {\k40}TỪNG {\k40}GIỌT {\k40}CREMA \N {\k40}SÁNH {\k40}ĐẬM {\k40}TINH {\k40}TẾ {\k40}TỪNG {\k40}GIÂY
+Dialogue: 0,0:00:15.28,0:00:19.69,SignatureMain,,0,0,0,,{\k39}MỖI {\k39}NGỤM {\k39}FRESH {\k39}COFFEE \N {\k39}LÀ {\k39}SỰ {\k39}THỨC {\k39}TỈNH {\k39}GIÁC {\k39}QUAN
+Dialogue: 0,0:00:19.89,0:00:26.37,SignatureMain,,0,0,0,,{\k45}BƯỚC {\k45}1: {\k45}RANG {\k45}MỚI {\k45}TRONG {\k45}NGÀY \N {\k45}BƯỚC {\k45}2: {\k45}GIAO {\k45}KHI {\k45}CÒN {\k45}THƠM {\k45}NÓNG
+Dialogue: 0,0:00:26.57,0:00:32.83,SignatureMain,,0,0,0,,{\k72}FRESH {\k72}COFFEE \N {\k72}ĐÓ {\k72}LÀ {\k72}BẢN {\k72}LĨNH {\k72}CỦA {\k72}BẠN
+Dialogue: 0,0:00:33.03,0:00:37.20,SignatureMain,,0,0,0,,{\k73}TRẢI {\k73}NGHIỆM {\k73}NGAY {\k73}TẠI \N {\k73}FRESHCOFFEE.VN

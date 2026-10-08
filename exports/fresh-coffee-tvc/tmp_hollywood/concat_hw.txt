@@ -1,0 +1,7 @@
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_1.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_2.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_3.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_4.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_5.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_6.mp4'
+file 'c:/Users/Trungvt/.gemini/antigravity-ide/scratch/cinematic-prompt-v2/exports/fresh-coffee-tvc/tmp_hollywood/hollywood_clip_7.mp4'
