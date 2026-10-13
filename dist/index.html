@@ -39,7 +39,9 @@
     #photo-restoration-modal-overlay.is-open,
     #photo-restoration-modal-overlay.active,
     #color-lab-modal-overlay.is-open,
-    #color-lab-modal-overlay.active {
+    #color-lab-modal-overlay.active,
+    #director-vault-modal-overlay.is-open,
+    #director-vault-modal-overlay.active {
       display: flex !important;
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -230,6 +232,30 @@
         document.body.style.overflow = '';
       }
     };
+    window.openDirectorVaultModal = function() {
+      var m = document.getElementById('director-vault-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+        if (typeof window.refreshDirectorVaultUI === 'function') window.refreshDirectorVaultUI();
+      }
+    };
+    window.closeDirectorVaultModal = function() {
+      var m = document.getElementById('director-vault-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
   </script>
 
 </head>
@@ -322,8 +348,11 @@
           </button>
         </div>
 
-        <!-- Tier 2: Knowledge & Skills (1x3 grid) -->
-        <div class="atb-grid atb-grid--3">
+        <!-- Tier 2: Knowledge & Skills (1x4 grid) -->
+        <div class="atb-grid atb-grid--4">
+          <button id="director-vault-btn" onclick="openDirectorVaultModal()" class="atb-btn atb-btn--gold" title="Thư Viện Của Tôi 🔒 — Kho Tài Sản Độc Bản Của Đạo Diễn">
+            <span class="atb-icon">🔒</span><span class="atb-label">Thư Viện Của Tôi</span>
+          </button>
           <button id="glossary-modal-btn" class="atb-btn atb-btn--cyan" title="Từ Điển Điện Ảnh Song Ngữ 720+">
             <span class="atb-icon">📚</span><span class="atb-label">Từ Điển (720+)</span>
           </button>
@@ -398,6 +427,9 @@
           </button>
           <button id="btn-open-color-lab" type="button" onclick="openColorLabModal()" style="background: linear-gradient(135deg, rgba(251,146,60,0.35), rgba(244,114,182,0.35)); border: 1.5px solid #f472b6; color: #fda4af; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(244,114,182,0.3);">
             <span>🎨 AI Color Lab: Tạo LUT Điện Ảnh (MỚI)</span>
+          </button>
+          <button id="btn-open-director-vault" type="button" onclick="openDirectorVaultModal()" style="background: linear-gradient(135deg, rgba(234,179,8,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
+            <span>🔒 Thư Viện Của Tôi (Ảnh, Video, Sticker, LUT, Audio)</span>
           </button>
         </div>
       </div>
@@ -5367,6 +5399,98 @@ ${activeSubLines[3]}
       document.addEventListener('DOMContentLoaded', initColorLab);
     } else {
       initColorLab();
+    }
+  </script>
+
+  <!-- ─── 🏛️ THƯ VIỆN CỦA TÔI — DIRECTOR'S PRIVATE ASSET VAULT MODAL ─── -->
+  <div id="director-vault-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(16px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-content" style="background:linear-gradient(135deg, #0d0f1a, #151827); border:1.5px solid rgba(255,215,0,0.4); border-radius:18px; width:100%; max-width:1050px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.9), 0 0 40px rgba(255,215,0,0.25); padding:26px; color:#f4f4f5; position:relative;">
+
+      <button id="director-vault-close-btn" class="modal-close" onclick="closeDirectorVaultModal()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all 0.2s;">✕</button>
+
+      <!-- Header (matching user's screenshot) -->
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px; border-bottom:1px solid rgba(255,215,0,0.25); padding-bottom:16px;">
+        <div style="font-size:2.2rem; background:linear-gradient(135deg, rgba(255,215,0,0.25), rgba(245,158,11,0.25)); border:1.5px solid #ffd700; width:58px; height:58px; border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 20px rgba(255,215,0,0.35);">🏛️</div>
+        <div style="flex:1;">
+          <div style="font-size:0.72rem; font-weight:800; color:#ffd700; letter-spacing:0.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px;">
+            <span>DIRECTOR PRIVATE ASSET VAULT</span>
+            <span style="background:rgba(255,215,0,0.2); color:#ffd700; padding:2px 8px; border-radius:10px; font-size:0.62rem; border:1px solid rgba(255,215,0,0.4);">CLIENT-SIDE ISOLATED 🔒</span>
+            <span style="background:rgba(16,185,129,0.2); color:#34d399; padding:2px 8px; border-radius:10px; font-size:0.62rem;">ZERO-LEAK PRIVACY</span>
+          </div>
+          <h2 style="margin:3px 0 0; color:#fff; font-size:1.5rem; font-weight:800; letter-spacing:-0.01em;">Thư viện của tôi</h2>
+          <p style="margin:5px 0 0; font-size:0.82rem; color:#94a3b8; line-height:1.4;">
+            Tệp bạn tải lên ở đây chỉ thuộc về tài khoản của bạn và dùng lại được cho mọi video, khác với kho dùng chung của hệ thống.
+          </p>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs (6 Pills from screenshot) -->
+      <div style="margin-bottom:14px;">
+        <div id="director-vault-tabs" style="display:flex; gap:8px; flex-wrap:wrap;">
+          <!-- Dynamically populated by DirectorVaultUI -->
+        </div>
+      </div>
+
+      <!-- Category Context Description -->
+      <div id="director-vault-cat-desc" style="background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.2); border-radius:8px; padding:8px 12px; margin-bottom:16px; font-size:0.75rem; color:#cbd5e1;">
+        <!-- Filled by UI -->
+      </div>
+
+      <!-- Upload Zone -->
+      <div id="director-vault-dropzone" style="border:2px dashed rgba(255,215,0,0.3); border-radius:12px; padding:16px; text-align:center; background:rgba(0,0,0,0.3); cursor:pointer; margin-bottom:20px; transition:all 0.2s;">
+        <div style="font-size:1.6rem; margin-bottom:6px;">📤</div>
+        <div style="font-weight:700; color:#ffd700; font-size:0.82rem;" id="director-vault-upload-hint">Kéo thả tệp hoặc bấm vào đây để tải lên kho riêng</div>
+        <div style="font-size:0.68rem; color:#64748b; margin-top:3px;">Dữ liệu lưu trữ độc lập trên trình duyệt của bạn (Không tải lên máy chủ công cộng)</div>
+        <button id="director-vault-upload-trigger-btn" type="button" style="margin-top:10px; background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-weight:800; padding:6px 16px; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+          + Tải Tệp Lên Kho Này
+        </button>
+        <input id="director-vault-file-input" type="file" style="display:none;" />
+      </div>
+
+      <!-- Assets Grid -->
+      <div style="margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="font-size:0.85rem; font-weight:800; color:#ffd700; text-transform:uppercase; letter-spacing:0.04em; margin:0;">
+            📂 Danh Sách Tài Sản Sẵn Dùng
+          </h3>
+          <span id="director-vault-stats-text" style="font-size:0.72rem; color:#94a3b8;">
+            8 tài sản trong kho riêng
+          </span>
+        </div>
+        <div id="director-vault-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:12px; min-height:160px;">
+          <!-- Dynamically populated cards -->
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:16px; flex-wrap:wrap; gap:10px;">
+        <div style="font-size:0.72rem; color:#64748b;">
+          🛡️ Bản quyền & Tài sản thuộc quyền sở hữu độc quyền của <strong>Đạo Diễn Trungvt</strong>.
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button id="director-vault-export-manifest-btn" type="button" style="background:rgba(255,215,0,0.15); border:1.5px solid #ffd700; color:#ffd700; font-weight:800; padding:8px 16px; border-radius:8px; font-size:0.78rem; cursor:pointer; display:flex; align-items:center; gap:6px;">
+            📥 Xuất Brand Kit JSON (OpenCreator & Pipeline)
+          </button>
+          <button type="button" onclick="closeDirectorVaultModal()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; font-weight:600; padding:8px 16px; border-radius:8px; font-size:0.78rem; cursor:pointer;">
+            Đóng
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🏛️ Director's Private Asset Vault Logic -->
+  <script type="module">
+    import { directorVaultUI } from '/js/directorVaultUI.js';
+    import { directorPrivateVault } from '/js/directorPrivateVault.js';
+    window.directorVaultUI = directorVaultUI;
+    window.directorPrivateVault = directorPrivateVault;
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => directorVaultUI.init());
+    } else {
+      directorVaultUI.init();
     }
   </script>
 
