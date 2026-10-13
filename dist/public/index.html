@@ -35,7 +35,9 @@
     #viral-analyzer-modal-overlay.is-open,
     #viral-analyzer-modal-overlay.active,
     #ad-architect-modal-overlay.is-open,
-    #ad-architect-modal-overlay.active {
+    #ad-architect-modal-overlay.active,
+    #photo-restoration-modal-overlay.is-open,
+    #photo-restoration-modal-overlay.active {
       display: flex !important;
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -155,6 +157,29 @@
         document.body.style.overflow = '';
       }
     };
+    window.openPhotoRestorationModal = function() {
+      var m = document.getElementById('photo-restoration-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    window.closePhotoRestorationModal = function() {
+      var m = document.getElementById('photo-restoration-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
   </script>
 
 </head>
@@ -252,10 +277,13 @@
           </button>
         </div>
 
-        <!-- Tier 2: Knowledge & Skills (1x2 grid) -->
-        <div class="atb-grid atb-grid--2">
+        <!-- Tier 2: Knowledge & Skills (1x3 grid) -->
+        <div class="atb-grid atb-grid--3">
           <button id="glossary-modal-btn" class="atb-btn atb-btn--cyan" title="Từ Điển Điện Ảnh Song Ngữ 720+">
             <span class="atb-icon">📚</span><span class="atb-label">Từ Điển (720+)</span>
+          </button>
+          <button id="photo-restore-nav-btn" onclick="openPhotoRestorationModal()" class="atb-btn atb-btn--emerald" title="Phục Chế & Làm Nét Ảnh Mờ 4K (Gemini & ChatGPT Restorer)">
+            <span class="atb-icon">💎</span><span class="atb-label">Phục Chế 4K</span>
           </button>
           <button id="skill-export-btn" class="atb-btn atb-btn--gold-glow" title="Xuất SKILL.md cho Claude/Cursor">
             <span class="atb-icon">📥</span><span class="atb-label">Xuất AI SKILL</span>
@@ -392,6 +420,13 @@
           <div style="font-size: 0.68rem; color: #71717a; margin-top: 4px;" data-i18n="ref-drop-sub">Định dạng: <strong>PNG, JPG, WEBP</strong> · Dung lượng tối đa: <strong>10MB</strong></div>
         </div>
 
+        <!-- Quick 1-Touch Photo Restoration Launch -->
+        <div style="margin-top: 8px;">
+          <button type="button" onclick="openPhotoRestorationModal()" style="background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.35); color: #34d399; font-size: 0.73rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.22)'; this.style.borderColor='#34d399';" onmouseout="this.style.background='rgba(16,185,129,0.12)'; this.style.borderColor='rgba(16,185,129,0.35)';">
+            <span style="font-size:0.9rem;">💎</span> <span>Ảnh Mờ Hoặc Cũ? Phục Chế & Làm Nét 4K (Prompt JSON) ➔</span>
+          </button>
+        </div>
+
         <!-- 2. Progress Indicator Bar (Thanh tiến độ tải lên) -->
         <div id="ref-image-progress-bar" style="display: none; margin-top: 10px; background: rgba(0,0,0,0.5); border-radius: 6px; padding: 8px 12px; border: 1px solid rgba(56,189,248,0.3);">
           <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #38bdf8; margin-bottom: 4px; font-weight: 600;">
@@ -421,6 +456,9 @@
               <button id="ref-image-analyze-btn" style="background: linear-gradient(135deg, #9333ea, #a855f7); border: none; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
                 <span data-i18n="ref-btn-analyze">✨ AI Trích Xuất DNA</span>
               </button>
+              <button id="ref-image-restore-action-btn" type="button" onclick="openPhotoRestorationModal()" style="background: linear-gradient(135deg, #059669, #10b981); border: none; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(16,185,129,0.35);">
+                <span>💎 Phục Chế 4K</span>
+              </button>
               <button id="ref-image-replace-btn" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;">
                 🔄 Đổi Ảnh
               </button>
@@ -430,6 +468,7 @@
             </div>
           </div>
         </div>
+
         </div>
       </details>
 
@@ -4410,5 +4449,328 @@ ${activeSubLines[3]}
     })();
   </script>
 
+  <!-- ─── 💎 AI PHOTO RESTORATION & 4K FACIAL LAB MODAL ─── -->
+  <div id="photo-restoration-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(14px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-content" style="background:linear-gradient(135deg, #0d161a, #0b1118); border:1px solid rgba(16,185,129,0.45); border-radius:18px; width:100%; max-width:920px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.9), 0 0 35px rgba(16,185,129,0.22); padding:26px; color:#f4f4f5; position:relative;">
+      
+      <button id="photo-restore-close-btn" class="modal-close" onclick="closePhotoRestorationModal()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all 0.2s;">✕</button>
+
+      <!-- Header -->
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px; border-bottom:1px solid rgba(16,185,129,0.25); padding-bottom:16px;">
+        <div style="font-size:2rem; background:rgba(16,185,129,0.15); border:1.5px solid #10b981; width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 15px rgba(16,185,129,0.3);">💎</div>
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; color:#34d399; letter-spacing:0.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px;">
+            <span>AI AGENT MASTER LAB</span>
+            <span style="background:rgba(16,185,129,0.2); color:#6ee7b7; padding:2px 8px; border-radius:10px; font-size:0.65rem;">GEMINI 2.0 & CHATGPT VISION READY</span>
+          </div>
+          <h2 style="margin:2px 0 0; color:#fff; font-size:1.35rem; font-weight:800; letter-spacing:-0.01em;">AI Photo Restoration & 4K Facial Enhancer Lab</h2>
+          <p style="margin:4px 0 0; font-size:0.8rem; color:#94a3b8;">Biến ảnh mờ nhòe, ảnh cũ trầy xước thành ảnh sắc nét 4K/8K bằng Prompt JSON phân tầng — Triệt tiêu 100% da nhựa/sáp, giữ nguyên nhận diện và vi vân da tự nhiên.</p>
+        </div>
+      </div>
+
+      <!-- 4 Presets Selector Grid -->
+      <div style="margin-bottom:18px;">
+        <label style="font-size:0.75rem; font-weight:800; color:#34d399; display:block; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">🎯 1. Chọn Mục Tiêu Phục Chế (1-Touch Presets):</label>
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px;" id="photo-restore-presets-grid">
+          
+          <button type="button" class="pr-preset-card is-active" data-preset="face_clarity" style="text-align:left; background:linear-gradient(135deg, rgba(16,185,129,0.25), rgba(5,150,105,0.15)); border:1.5px solid #10b981; border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s; box-shadow:0 0 12px rgba(16,185,129,0.25);">
+            <div style="font-size:1.1rem; margin-bottom:4px;">💎</div>
+            <div style="font-size:0.8rem; font-weight:800; color:#6ee7b7; margin-bottom:2px;">Làm Nét Chân Dung</div>
+            <div style="font-size:0.68rem; color:#cbd5e1; line-height:1.3;">Giữ lỗ chân lông & vi vân da, triệt tiêu da sáp/nhựa.</div>
+          </button>
+
+          <button type="button" class="pr-preset-card" data-preset="vintage_archive" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s;">
+            <div style="font-size:1.1rem; margin-bottom:4px;">📜</div>
+            <div style="font-size:0.8rem; font-weight:800; color:#ffd700; margin-bottom:2px;">Phục Chế Ảnh Cũ</div>
+            <div style="font-size:0.68rem; color:#94a3b8; line-height:1.3;">Vá rách, xước, nếp gấp, khôi phục màu sắc tài liệu.</div>
+          </button>
+
+          <button type="button" class="pr-preset-card" data-preset="cinema_anchor" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s;">
+            <div style="font-size:1.1rem; margin-bottom:4px;">🎬</div>
+            <div style="font-size:0.8rem; font-weight:800; color:#38bdf8; margin-bottom:2px;">Video Anchor AI</div>
+            <div style="font-size:0.68rem; color:#94a3b8; line-height:1.3;">Khử mờ ảnh ref cho Veo 3 / Sora 2 / Wan 2.5.</div>
+          </button>
+
+          <button type="button" class="pr-preset-card" data-preset="extreme_super_res" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s;">
+            <div style="font-size:1.1rem; margin-bottom:4px;">🔍</div>
+            <div style="font-size:0.8rem; font-weight:800; color:#c084fc; margin-bottom:2px;">Siêu Phóng Đại 8K</div>
+            <div style="font-size:0.68rem; color:#94a3b8; line-height:1.3;">ESRGAN 8x, tái tạo sợi tóc & chi tiết cận cảnh macro.</div>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Middle Grid: Parameters & 2-Step Workflow -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
+        
+        <!-- Left: Precision Toggles -->
+        <div style="background:rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px;">
+          <div style="font-size:0.75rem; font-weight:800; color:#ffd700; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+            <span>⚙️ THÔNG SỐ TINH CHỈNH ĐỘC QUYỀN:</span>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:#e2e8f0; cursor:pointer;">
+              <input type="checkbox" id="pr-chk-anti-plastic" checked style="accent-color:#10b981; width:15px; height:15px;" />
+              <span><strong>Triệt tiêu da sáp/nhựa:</strong> <code>avoid: ["plastic_look", "waxy_skin"]</code></span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:#e2e8f0; cursor:pointer;">
+              <input type="checkbox" id="pr-chk-pores" checked style="accent-color:#10b981; width:15px; height:15px;" />
+              <span><strong>Bảo toàn lỗ chân lông:</strong> <code>details: "visible_pores_and_micro_details"</code></span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:#e2e8f0; cursor:pointer;">
+              <input type="checkbox" id="pr-chk-repairs" checked style="accent-color:#10b981; width:15px; height:15px;" />
+              <span><strong>Vá rách & khử vết xước:</strong> <code>actions: ["fill_scratches", "fix_creases"]</code></span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:#e2e8f0; cursor:pointer;">
+              <input type="checkbox" id="pr-chk-geometry" checked style="accent-color:#10b981; width:15px; height:15px;" />
+              <span><strong>Bảo tồn tỉ lệ hình học:</strong> <code>preserve_original_geometry: true</code></span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.75rem; color:#e2e8f0; cursor:pointer;">
+              <input type="checkbox" id="pr-chk-upscale" checked style="accent-color:#10b981; width:15px; height:15px;" />
+              <span><strong>Phóng đại siêu phân giải:</strong> <code>upscale: factor 4 (ESRGAN)</code></span>
+            </label>
+          </div>
+
+          <div style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:10px;">
+            <label style="font-size:0.72rem; color:#94a3b8; display:block; margin-bottom:4px;">Ghi chú bổ sung cho AI (Tùy chọn):</label>
+            <input type="text" id="pr-custom-note" placeholder="VD: Giữ nguyên màu áo xanh, làm rõ huy hiệu trên ngực..." style="width:100%; padding:6px 10px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.12); border-radius:6px; color:#fff; font-size:0.76rem;" />
+          </div>
+        </div>
+
+        <!-- Right: 2-Step Execution Manual -->
+        <div style="background:rgba(16,185,129,0.06); border:1px solid rgba(16,185,129,0.25); border-radius:12px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="font-size:0.75rem; font-weight:800; color:#34d399; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              <span>🚀 QUY TRÌNH THỰC HIỆN 2 BƯỚC (CỰC KỲ ĐƠN GIẢN):</span>
+            </div>
+
+            <div style="font-size:0.76rem; color:#cbd5e1; line-height:1.55; display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <span style="background:#10b981; color:#000; font-weight:900; font-size:0.68rem; padding:1px 6px; border-radius:4px; flex-shrink:0;">BƯỚC 1</span>
+                <div>Bấm nút <strong>"💬 Mở ChatGPT"</strong> hoặc <strong>"⚡ Mở Gemini"</strong> bên dưới. App sẽ tự động sao chép prompt và mở tab ứng dụng mới.</div>
+              </div>
+
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <span style="background:#ffd700; color:#000; font-weight:900; font-size:0.68rem; padding:1px 6px; border-radius:4px; flex-shrink:0;">BƯỚC 2</span>
+                <div>Đính kèm ảnh mờ/hỏng cần phục chế lên và bấm <code>Ctrl + V</code> (Dán) đoạn prompt JSON này vào ➔ Nhấn Enter để AI tiến hành phục chế!</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.4); border-radius:8px; padding:8px 10px; margin-top:12px; border:1px dashed rgba(255,215,0,0.3); font-size:0.7rem; color:#ffd700;">
+            💡 <strong>Mẹo chuyên gia:</strong> Sau khi có ảnh nét từ ChatGPT/Gemini, hãy tải lại vào ô <em>"Ảnh Tham Chiếu"</em> của Cine Prompt Pro để làm Anchor render Video!
+          </div>
+        </div>
+
+      </div>
+
+      <!-- JSON Live Code Display Box -->
+      <div style="margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:0.75rem; font-weight:800; color:#34d399; display:flex; align-items:center; gap:6px;">
+            <span>{ } LIVE MACHINE-READABLE JSON PROMPT</span>
+            <span style="font-size:0.65rem; color:#94a3b8; font-weight:500;">(Tự động cập nhật theo cấu hình)</span>
+          </span>
+          <button id="pr-copy-json-inline-btn" type="button" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:3px 8px; border-radius:6px; font-size:0.7rem; cursor:pointer; font-weight:600;">
+            <span>📋 Sao Chép Nhanh</span>
+          </button>
+        </div>
+        <pre id="photo-restore-json-display" style="background:#070a12; border:1.5px solid rgba(16,185,129,0.35); border-radius:10px; padding:14px; font-family:'JetBrains Mono', monospace; font-size:0.74rem; color:#6ee7b7; max-height:220px; overflow-y:auto; line-height:1.45; margin:0; white-space:pre-wrap; word-break:break-word;"></pre>
+      </div>
+
+      <!-- Master Bottom Actions Bar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:16px;">
+        <div style="display:flex; gap:8px;">
+          <button id="pr-download-json-btn" type="button" class="copy-btn" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#e2e8f0; padding:8px 14px; border-radius:8px; font-size:0.78rem; font-weight:700; cursor:pointer;">
+            <span>💾 Tải File .json</span>
+          </button>
+          <button id="pr-load-studio-btn" type="button" class="copy-btn" style="background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.4); color:#38bdf8; padding:8px 14px; border-radius:8px; font-size:0.78rem; font-weight:800; cursor:pointer;">
+            <span>🎯 Nạp Vào Studio Kịch Bản</span>
+          </button>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <button id="pr-open-gpt-btn" type="button" style="background:linear-gradient(135deg, rgba(16,163,127,0.3), rgba(16,185,129,0.25)); border:1.5px solid #10a37f; color:#a7f3d0; padding:8px 16px; border-radius:8px; font-size:0.8rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(16,163,127,0.3); transition:all 0.2s;">
+            <span>💬 Mở ChatGPT (Copy & Sang Tab Mới)</span>
+          </button>
+          <button id="pr-open-gemini-btn" type="button" style="background:linear-gradient(135deg, rgba(59,130,246,0.3), rgba(147,51,234,0.25)); border:1.5px solid #3b82f6; color:#93c5fd; padding:8px 16px; border-radius:8px; font-size:0.8rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 12px rgba(59,130,246,0.3); transition:all 0.2s;">
+            <span>⚡ Mở Gemini (Copy & Sang Tab Mới)</span>
+          </button>
+          <button id="pr-copy-all-btn" type="button" style="background:linear-gradient(135deg, #10b981, #059669); border:none; color:#000; padding:8px 18px; border-radius:8px; font-size:0.82rem; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 0 18px rgba(16,185,129,0.45); transition:all 0.2s;">
+            <span>📋 SAO CHÉP PROMPT JSON</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Photo Restoration Lab Controller Logic -->
+  <script type="module">
+    import {
+      RESTORATION_PRESETS,
+      buildRestorationPayload,
+      formatRestorationJson,
+      generateChatGptGeminiPrompt
+    } from '/js/photoRestorationEngine.js';
+
+    let currentPreset = 'face_clarity';
+
+    function getRestorationState() {
+      const antiPlastic = document.getElementById('pr-chk-anti-plastic')?.checked ?? true;
+      const pores = document.getElementById('pr-chk-pores')?.checked ?? true;
+      const repairs = document.getElementById('pr-chk-repairs')?.checked ?? true;
+      const geometry = document.getElementById('pr-chk-geometry')?.checked ?? true;
+      const upscale = document.getElementById('pr-chk-upscale')?.checked ?? true;
+      const customNote = document.getElementById('pr-custom-note')?.value?.trim() || '';
+
+      const actions = [];
+      if (repairs) actions.push('fill_scratches', 'repair_tears', 'fix_creases', 'remove_dust_spots');
+
+      return {
+        preset: currentPreset,
+        damageActions: actions.length ? actions : ['fill_scratches'],
+        skinDetails: pores ? 'visible_pores_and_micro_details' : 'smooth_skin',
+        upscaleEnabled: upscale,
+        upscaleFactor: currentPreset === 'extreme_super_res' ? 8 : 4,
+        additionalInstructions: customNote || undefined
+      };
+    }
+
+    function updateJsonDisplay() {
+      const display = document.getElementById('photo-restore-json-display');
+      if (!display) return;
+      const state = getRestorationState();
+      const json = formatRestorationJson(state);
+      display.textContent = json;
+    }
+
+    async function copyToClipboard(text, successMsg = 'Đã sao chép prompt vào Clipboard!') {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (_) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      if (typeof window.showToast === 'function') {
+        window.showToast(successMsg, 'success', 3500);
+      }
+    }
+
+    function initPhotoRestorationLab() {
+      // 1. Preset cards switcher
+      const cards = document.querySelectorAll('#photo-restore-presets-grid .pr-preset-card');
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          cards.forEach(c => {
+            c.classList.remove('is-active');
+            c.style.background = 'rgba(0,0,0,0.4)';
+            c.style.borderColor = 'rgba(255,255,255,0.12)';
+            c.style.boxShadow = 'none';
+          });
+          card.classList.add('is-active');
+          card.style.background = 'linear-gradient(135deg, rgba(16,185,129,0.25), rgba(5,150,105,0.15))';
+          card.style.borderColor = '#10b981';
+          card.style.boxShadow = '0 0 12px rgba(16,185,129,0.25)';
+
+          currentPreset = card.dataset.preset || 'face_clarity';
+          updateJsonDisplay();
+        });
+      });
+
+      // 2. Checkboxes & Note inputs
+      ['pr-chk-anti-plastic', 'pr-chk-pores', 'pr-chk-repairs', 'pr-chk-geometry', 'pr-chk-upscale'].forEach(id => {
+        document.getElementById(id)?.addEventListener('change', updateJsonDisplay);
+      });
+      document.getElementById('pr-custom-note')?.addEventListener('input', updateJsonDisplay);
+
+      // 3. Copy buttons
+      const copyBtn = document.getElementById('pr-copy-all-btn');
+      const inlineCopy = document.getElementById('pr-copy-json-inline-btn');
+      const copyAction = () => {
+        const state = getRestorationState();
+        const fullPrompt = generateChatGptGeminiPrompt(state);
+        copyToClipboard(fullPrompt, '💎 Đã sao chép Prompt Phục Chế JSON! Hãy mở ChatGPT/Gemini, đính kèm ảnh và dán vào!');
+      };
+      copyBtn?.addEventListener('click', copyAction);
+      inlineCopy?.addEventListener('click', copyAction);
+
+      // 4. Open ChatGPT
+      document.getElementById('pr-open-gpt-btn')?.addEventListener('click', () => {
+        const state = getRestorationState();
+        const fullPrompt = generateChatGptGeminiPrompt(state);
+        copyToClipboard(fullPrompt, '🚀 Đã copy prompt! Đang mở ChatGPT, hãy đính kèm ảnh và nhấn Ctrl+V!');
+        setTimeout(() => window.open('https://chatgpt.com/', '_blank'), 400);
+      });
+
+      // 5. Open Gemini
+      document.getElementById('pr-open-gemini-btn')?.addEventListener('click', () => {
+        const state = getRestorationState();
+        const fullPrompt = generateChatGptGeminiPrompt(state);
+        copyToClipboard(fullPrompt, '🚀 Đã copy prompt! Đang mở Google Gemini, hãy đính kèm ảnh và nhấn Ctrl+V!');
+        setTimeout(() => window.open('https://gemini.google.com/', '_blank'), 400);
+      });
+
+      // 6. Download JSON
+      document.getElementById('pr-download-json-btn')?.addEventListener('click', () => {
+        const state = getRestorationState();
+        const json = formatRestorationJson(state);
+        const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `photo_restoration_${currentPreset}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        if (typeof window.showToast === 'function') {
+          window.showToast('💾 Đã tải file cấu hình phục chế .json về máy!', 'info');
+        }
+      });
+
+      // 7. Load into Studio Subject
+      document.getElementById('pr-load-studio-btn')?.addEventListener('click', () => {
+        const state = getRestorationState();
+        const fullPrompt = generateChatGptGeminiPrompt(state);
+        const subjectInput = document.getElementById('subject-input');
+        if (subjectInput) {
+          subjectInput.value = `[PHOTO RESTORATION & 4K FACIAL ENHANCEMENT]:\n${fullPrompt}`;
+          subjectInput.focus();
+          subjectInput.dispatchEvent(new Event('input', { bubbles: true }));
+          if (typeof autoResizeTextarea === 'function') autoResizeTextarea(subjectInput);
+        }
+        window.closePhotoRestorationModal();
+        if (typeof window.showToast === 'function') {
+          window.showToast('🎯 Đã nạp Prompt Phục Chế vào Studio Kịch Bản!', 'success');
+        }
+      });
+
+      // 8. Close on backdrop click
+      const modal = document.getElementById('photo-restoration-modal-overlay');
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) window.closePhotoRestorationModal();
+      });
+
+      // Initial render
+      updateJsonDisplay();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPhotoRestorationLab);
+    } else {
+      initPhotoRestorationLab();
+    }
+  </script>
+
 </body>
 </html>
+

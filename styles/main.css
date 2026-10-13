@@ -5425,6 +5425,7 @@ details.cinema-accordion--ref > summary {
   box-sizing: border-box;
 }
 .atb-grid--2 { grid-template-columns: 1fr 1fr; }
+.atb-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
 .atb-grid--4 { grid-template-columns: 1fr 1fr 1fr auto; gap: 5px; }
 
 /* Base button */
@@ -5502,6 +5503,14 @@ details.cinema-accordion--ref > summary {
   box-shadow: 0 0 8px rgba(255,215,0,0.18);
 }
 .atb-btn--gold-glow:hover { box-shadow: 0 0 20px rgba(255,215,0,0.42); }
+
+.atb-btn--emerald {
+  background: linear-gradient(135deg, rgba(5,150,105,0.22), rgba(16,185,129,0.18));
+  border-color: rgba(16,185,129,0.55);
+  color: #6ee7b7;
+  box-shadow: 0 0 8px rgba(16,185,129,0.18);
+}
+.atb-btn--emerald:hover { box-shadow: 0 0 18px rgba(16,185,129,0.42); }
 
 /* XS compact buttons (Tier 3) */
 .atb-btn--xs {
