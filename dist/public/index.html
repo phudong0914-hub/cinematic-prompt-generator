@@ -41,7 +41,9 @@
     #color-lab-modal-overlay.is-open,
     #color-lab-modal-overlay.active,
     #director-vault-modal-overlay.is-open,
-    #director-vault-modal-overlay.active {
+    #director-vault-modal-overlay.active,
+    #url-to-video-modal-overlay.is-open,
+    #url-to-video-modal-overlay.active {
       display: flex !important;
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -256,6 +258,29 @@
         document.body.style.overflow = '';
       }
     };
+    window.openUrlToVideoModal = function() {
+      var m = document.getElementById('url-to-video-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    window.closeUrlToVideoModal = function() {
+      var m = document.getElementById('url-to-video-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
   </script>
 
 </head>
@@ -348,8 +373,11 @@
           </button>
         </div>
 
-        <!-- Tier 2: Knowledge & Skills (1x4 grid) -->
-        <div class="atb-grid atb-grid--4">
+        <!-- Tier 2: Knowledge & Skills (1x5 grid) -->
+        <div class="atb-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); gap:6px;">
+          <button id="url-to-video-btn" onclick="openUrlToVideoModal()" class="atb-btn atb-btn--cyan" title="URL to Video Review Studio 🌐 — Biến Link Video / Repo GitHub thành Video Hoàn Chỉnh">
+            <span class="atb-icon">🌐</span><span class="atb-label">URL To Video</span>
+          </button>
           <button id="director-vault-btn" onclick="openDirectorVaultModal()" class="atb-btn atb-btn--gold" title="Thư Viện Của Tôi 🔒 — Kho Tài Sản Độc Bản Của Đạo Diễn">
             <span class="atb-icon">🔒</span><span class="atb-label">Thư Viện Của Tôi</span>
           </button>
@@ -430,6 +458,9 @@
           </button>
           <button id="btn-open-director-vault" type="button" onclick="openDirectorVaultModal()" style="background: linear-gradient(135deg, rgba(234,179,8,0.35), rgba(245,158,11,0.35)); border: 1.5px solid #ffd700; color: #ffd700; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(255,215,0,0.3);">
             <span>🔒 Thư Viện Của Tôi (Ảnh, Video, Sticker, LUT, Audio)</span>
+          </button>
+          <button id="btn-open-url-to-video" type="button" onclick="openUrlToVideoModal()" style="background: linear-gradient(135deg, rgba(56,189,248,0.35), rgba(99,102,241,0.35)); border: 1.5px solid #38bdf8; color: #38bdf8; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(56,189,248,0.3);">
+            <span>🌐 URL to Video: Tạo Video Review Từ Link Video / Repo GitHub (MỚI)</span>
           </button>
         </div>
       </div>
@@ -5480,17 +5511,207 @@ ${activeSubLines[3]}
     </div>
   </div>
 
+  <!-- 🌐 URL TO VIDEO REVIEW & INTRO STUDIO MODAL -->
+  <div id="url-to-video-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(16px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-container" style="background:linear-gradient(145deg, #0f172a, #0a0f1d); border:1.5px solid rgba(56,189,248,0.4); border-radius:18px; width:100%; max-width:960px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 0 50px rgba(56,189,248,0.25); position:relative; overflow:hidden;">
+      
+      <!-- Close Button -->
+      <button id="url-to-video-close-btn" class="modal-close" onclick="closeUrlToVideoModal()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all 0.2s;">✕</button>
+
+      <!-- Modal Header -->
+      <div style="padding:22px 28px 16px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; gap:14px;">
+        <div style="background:linear-gradient(135deg, #38bdf8, #6366f1); width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; box-shadow:0 0 16px rgba(56,189,248,0.4);">
+          🌐
+        </div>
+        <div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h2 style="font-size:1.25rem; font-weight:900; color:#38bdf8; margin:0; letter-spacing:0.5px;">URL TO VIDEO REVIEW STUDIO</h2>
+            <span style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:20px;">v3.0 PRO</span>
+          </div>
+          <p style="font-size:0.75rem; color:#94a3b8; margin:3px 0 0;">
+            Biến bất kỳ đường Link Video (YouTube, TikTok, Reels) hoặc Link Repo GitHub thành Video Review & Giới thiệu hoàn chỉnh.
+          </p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div style="display:flex; gap:8px; padding:10px 28px; background:rgba(0,0,0,0.25); border-bottom:1px solid rgba(255,255,255,0.06);">
+        <button class="url-review-tab-btn active" data-tab="input" style="background:none; border:none; border-bottom:2px solid #ffd700; color:#ffd700; font-weight:800; font-size:0.78rem; padding:8px 14px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <span>🌐 1. Nhập Link & Cấu Hình</span>
+        </button>
+        <button class="url-review-tab-btn" data-tab="storyboard" style="background:none; border:none; border-bottom:2px solid transparent; color:#94a3b8; font-weight:600; font-size:0.78rem; padding:8px 14px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <span>🎬 2. Kịch Bản & Phân Cảnh</span>
+        </button>
+        <button class="url-review-tab-btn" data-tab="voice" style="background:none; border:none; border-bottom:2px solid transparent; color:#94a3b8; font-weight:600; font-size:0.78rem; padding:8px 14px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <span>🎙️ 3. Giọng Đọc & Âm Thanh</span>
+        </button>
+        <button class="url-review-tab-btn" data-tab="export" style="background:none; border:none; border-bottom:2px solid transparent; color:#94a3b8; font-weight:600; font-size:0.78rem; padding:8px 14px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+          <span>📦 4. Xuất Bản & Dựng Phim</span>
+        </button>
+      </div>
+
+      <!-- Tab Content Body (Scrollable) -->
+      <div style="padding:20px 28px; overflow-y:auto; flex:1;">
+        
+        <!-- PANEL 1: INPUT & CONFIG -->
+        <div id="url-panel-input" class="url-review-panel" style="display:block;">
+          <div style="background:rgba(15,23,42,0.6); border:1px solid rgba(56,189,248,0.2); border-radius:12px; padding:18px; margin-bottom:18px;">
+            <label style="display:block; font-size:0.8rem; font-weight:800; color:#38bdf8; margin-bottom:8px;">
+              🔗 ĐƯỜNG LINK NGUỒN (VIDEO HOẶC REPO GITHUB):
+            </label>
+            <div style="display:flex; gap:10px;">
+              <input id="url-review-input" type="text" placeholder="Dán link GitHub (vd: https://github.com/owner/repo) hoặc link YouTube / TikTok..." style="flex:1; background:rgba(0,0,0,0.5); border:1px solid rgba(56,189,248,0.3); border-radius:8px; padding:12px 14px; color:#fff; font-size:0.85rem; outline:none;" />
+            </div>
+
+            <!-- Quick sample buttons -->
+            <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; align-items:center;">
+              <span style="font-size:0.7rem; color:#94a3b8;">Link mẫu:</span>
+              <button id="url-sample-repo-btn" type="button" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; font-size:0.7rem; padding:4px 10px; border-radius:6px; cursor:pointer;">
+                💻 GitHub Cinema Repo
+              </button>
+              <button id="url-sample-video-btn" type="button" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; font-size:0.7rem; padding:4px 10px; border-radius:6px; cursor:pointer;">
+                🎥 YouTube Luxury TVC
+              </button>
+              <button id="url-sample-tiktok-btn" type="button" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; font-size:0.7rem; padding:4px 10px; border-radius:6px; cursor:pointer;">
+                📱 TikTok Viral Hook
+              </button>
+            </div>
+          </div>
+
+          <!-- Configuration Grid -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div style="background:rgba(15,23,42,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px;">
+              <label style="display:block; font-size:0.78rem; font-weight:800; color:#ffd700; margin-bottom:8px;">
+                🎭 PHONG CÁCH REVIEW & DỰNG PHIM:
+              </label>
+              <select id="url-review-style-select" style="width:100%; background:rgba(0,0,0,0.5); border:1px solid rgba(255,215,0,0.3); border-radius:8px; padding:10px; color:#fff; font-size:0.8rem; outline:none;">
+                <option value="DIRECTOR_PREMIUM">🎬 Đạo Diễn Điện Ảnh (Luxury & Cinematic — Đạo Diễn Trungvt)</option>
+                <option value="TECH_EXPERT">💻 Chuyên Gia Công Nghệ (Sharp & Insightful — Benchmark, Code, Specs)</option>
+                <option value="VIRAL_CREATOR">🚀 Nhà Sáng Tạo Viral (Hooking, High Energy, TikTok/Shorts)</option>
+                <option value="TVC_COMMERCIAL">📢 TVC Quảng Cáo & Khẳng Định Vị Thế Thương Hiệu</option>
+              </select>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px;">
+              <label style="display:block; font-size:0.78rem; font-weight:800; color:#a78bfa; margin-bottom:8px;">
+                ⏱️ THỜI LƯỢNG MỤC TIÊU:
+              </label>
+              <select id="url-review-duration-select" style="width:100%; background:rgba(0,0,0,0.5); border:1px solid rgba(167,139,250,0.3); border-radius:8px; padding:10px; color:#fff; font-size:0.8rem; outline:none;">
+                <option value="15">⚡ 15 Giây — Siêu ngắn (TikTok, Reels, Shorts Punchy)</option>
+                <option value="30" selected>🌟 30 Giây — Chuẩn TVC Vàng (Cân bằng Hook, Giá trị & CTA)</option>
+                <option value="60">📖 60 Giây — Phân tích Chuyên sâu (Full In-depth Review)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Status Box -->
+          <div id="url-review-status-box" style="display:none; padding:12px; border-radius:8px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1); margin-bottom:16px;"></div>
+
+          <!-- Big Action Button -->
+          <button id="url-review-generate-btn" type="button" style="width:100%; background:linear-gradient(135deg, #38bdf8, #6366f1); border:none; color:#ffffff; font-weight:900; font-size:0.95rem; padding:14px; border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 0 20px rgba(56,189,248,0.35); transition:all 0.2s;">
+            ⚡ BÓC TÁCH & SINH VIDEO REVIEW NGAY
+          </button>
+        </div>
+
+        <!-- PANEL 2: STORYBOARD & SCENES -->
+        <div id="url-panel-storyboard" class="url-review-panel" style="display:none;">
+          <div id="url-storyboard-scenes-container">
+            <div style="text-align:center; padding:40px 20px; color:#94a3b8; font-size:0.85rem;">
+              Chưa có kịch bản. Vui lòng nhập link và bấm "Bóc Tách & Sinh Video Review" ở Tab 1.
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 3: VOICE & AUDIO -->
+        <div id="url-panel-voice" class="url-review-panel" style="display:none;">
+          <div id="url-voice-audio-container">
+            <div style="text-align:center; padding:40px 20px; color:#94a3b8; font-size:0.85rem;">
+              Chưa có thông số âm thanh.
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 4: EXPORT & RENDER -->
+        <div id="url-panel-export" class="url-review-panel" style="display:none;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
+            
+            <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,215,0,0.25); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+              <div style="font-size:0.9rem; font-weight:800; color:#ffd700;">🎞️ CapCut Draft Timeline</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">Đồng bộ chuẩn f2us vi giây, triệt tiêu 100% lỗi SegmentOverlap, import vào CapCut mở ngay.</div>
+              <button id="url-export-capcut-btn" style="margin-top:auto; background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-weight:800; font-size:0.78rem; padding:10px; border-radius:8px; cursor:pointer;">
+                📥 Tải CapCut Timeline (.JSON)
+              </button>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(56,189,248,0.25); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+              <div style="font-size:0.9rem; font-weight:800; color:#38bdf8;">🌐 Phụ Đề Song Ngữ (.SRT)</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">Phụ đề 2 tầng Việt trên, Anh dưới chuẩn quốc tế, gắn font Sigmar in hoa highlight từ khóa.</div>
+              <button id="url-export-srt-btn" style="margin-top:auto; background:linear-gradient(135deg, #38bdf8, #0284c7); border:none; color:#ffffff; font-weight:800; font-size:0.78rem; padding:10px; border-radius:8px; cursor:pointer;">
+                📥 Tải Phụ Đề Song Ngữ (.SRT)
+              </button>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(167,139,250,0.25); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+              <div style="font-size:0.9rem; font-weight:800; color:#a78bfa;">📜 Master Storyboard (.MD)</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">Toàn bộ bảng phân cảnh đạo diễn, góc máy, ánh sáng, SFX và prompt hình ảnh Veo 3 / Wan 2.5.</div>
+              <button id="url-export-md-btn" style="margin-top:auto; background:linear-gradient(135deg, #a78bfa, #7c3aed); border:none; color:#ffffff; font-weight:800; font-size:0.78rem; padding:10px; border-radius:8px; cursor:pointer;">
+                📥 Tải Bản Kịch Bản Đạo Diễn (.MD)
+              </button>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(16,185,129,0.25); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+              <div style="font-size:0.9rem; font-weight:800; color:#10b981;">🤖 OpenCreator / KrillinAI Manifest</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">File cấu hình 5 tầng tự động hóa cho OpenCreator CLI render trực tiếp video MP4.</div>
+              <button id="url-export-manifest-btn" style="margin-top:auto; background:linear-gradient(135deg, #10b981, #059669); border:none; color:#ffffff; font-weight:800; font-size:0.78rem; padding:10px; border-radius:8px; cursor:pointer;">
+                📥 Tải OpenCreator Manifest (.JSON)
+              </button>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.8); border:1.5px solid #ffd700; border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px; grid-column:1 / -1;">
+              <div style="font-size:0.9rem; font-weight:800; color:#ffd700; display:flex; align-items:center; gap:8px;">
+                <span>🔒</span> Lưu Kịch Bản Vào Thư Viện Của Tôi (Director Private Vault)
+              </div>
+              <div style="font-size:0.75rem; color:#94a3b8;">Đưa toàn bộ kịch bản, timeline và prompts vào két sắt cá nhân độc bản của bạn để sử dụng lại bất cứ lúc nào.</div>
+              <button id="url-save-vault-btn" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-weight:900; font-size:0.85rem; padding:12px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                🔒 LƯU TRỰC TIẾP VÀO THƯ VIỆN CỦA TÔI
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding:14px 28px; border-top:1px solid rgba(255,255,255,0.08); background:rgba(0,0,0,0.3); display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.72rem; color:#94a3b8;">
+          Cine Prompt Pro v2.5 / v3.0 · Powered by Đạo Diễn Trungvt Studio Engine
+        </span>
+        <button onclick="closeUrlToVideoModal()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#cbd5e1; font-weight:700; padding:6px 16px; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+          Đóng
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- 🏛️ Director's Private Asset Vault Logic -->
   <script type="module">
     import { directorVaultUI } from '/js/directorVaultUI.js';
     import { directorPrivateVault } from '/js/directorPrivateVault.js';
+    import { urlToVideoReviewUI } from '/js/urlToVideoReviewUI.js';
     window.directorVaultUI = directorVaultUI;
     window.directorPrivateVault = directorPrivateVault;
+    window.urlToVideoReviewUI = urlToVideoReviewUI;
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => directorVaultUI.init());
+      document.addEventListener('DOMContentLoaded', () => {
+        directorVaultUI.init();
+        urlToVideoReviewUI.init();
+      });
     } else {
       directorVaultUI.init();
+      urlToVideoReviewUI.init();
     }
   </script>
 

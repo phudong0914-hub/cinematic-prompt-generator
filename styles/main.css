@@ -5935,3 +5935,42 @@ img { display: block; max-width: 100%; }
   color: #fff;
   border-color: #ef4444;
 }
+
+/* ═══════════════════════════════════════════════════════
+   🌐 URL TO VIDEO REVIEW & INTRO STUDIO STYLES
+   ═══════════════════════════════════════════════════════ */
+#url-to-video-modal-overlay {
+  animation: urlFadeIn 0.25s ease-out;
+}
+
+@keyframes urlFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.url-review-tab-btn {
+  transition: all 0.2s ease;
+}
+
+.url-review-tab-btn:hover:not([disabled]) {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.08) !important;
+  border-radius: 6px;
+}
+
+.url-review-tab-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+}
+
+.review-scene-card:hover {
+  border-color: rgba(255, 215, 0, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.copy-scene-prompt-btn:hover {
+  text-decoration: underline;
+  color: #fff !important;
+}
+
