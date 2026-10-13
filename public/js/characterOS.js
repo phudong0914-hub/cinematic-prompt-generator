@@ -12,6 +12,7 @@
 
 import { soundFX } from './soundFX.js';
 import { showToast } from './toast.js';
+import { qwenOmniVoiceEngine } from './qwenOmniVoiceEngine.js';
 
 class CharacterProductionOS {
   constructor() {
@@ -22,6 +23,7 @@ class CharacterProductionOS {
   }
 
   loadFromStorage() {
+    if (typeof localStorage === 'undefined') return;
     try {
       const saved = localStorage.getItem('cinematique_char_os_v4');
       if (saved) {
@@ -37,6 +39,7 @@ class CharacterProductionOS {
   }
 
   saveToStorage() {
+    if (typeof localStorage === 'undefined') return;
     try {
       const obj = {
         characters: Object.fromEntries(this.characters),
@@ -71,6 +74,12 @@ class CharacterProductionOS {
       // Identity Anchors
       primaryAnchors: charData.primaryAnchors || ['Facial structure', 'Eye shape', 'Hairline'],
       
+      // Voice DNA Matrix (Qwen-Omni Voice Library)
+      voiceDNA: charData.voiceDNA || qwenOmniVoiceEngine.buildCharacterVoiceDNA(
+        charData.voiceId || 'qwen-baritone-luxury',
+        { emotion: charData.emotion || 'authoritative', wpm: charData.wpm || 120 }
+      ),
+
       updatedAt: new Date().toISOString()
     };
 
@@ -96,6 +105,10 @@ class CharacterProductionOS {
           wardrobeCanon: 'Distressed high-collar black techwear silk áo dài with glowing circuitry embroidery and waterproof cyber-boots',
           distinctiveFeatures: 'Authentic skin texture, raindrops glistening on cheeks, intense focused gaze',
           primaryAnchors: ['Oval facial structure', 'Almond eyes', 'Electric-blue hair streak', 'Techwear Áo Dài'],
+          voiceDNA: qwenOmniVoiceEngine.buildCharacterVoiceDNA('qwen-warm-narrator', {
+            emotion: 'whispering',
+            wpm: 125
+          }),
           updatedAt: new Date().toISOString()
         };
         this.characters.set(mai.id, mai);

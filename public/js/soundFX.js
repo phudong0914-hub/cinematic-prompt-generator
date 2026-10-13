@@ -7,7 +7,7 @@
 class SoundFXEngine {
   constructor() {
     this.ctx = null;
-    this.enabled = localStorage.getItem('cinematique_sfx') !== 'false'; // Enabled by default
+    this.enabled = typeof localStorage !== 'undefined' ? (localStorage.getItem('cinematique_sfx') !== 'false') : true;
   }
 
   init() {

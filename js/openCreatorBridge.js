@@ -11,6 +11,8 @@
  * 4. Competitor Video Ingestion Helper (yt-dlp & Whisper CLI extraction)
  */
 
+import { qwenOmniVoiceEngine } from './qwenOmniVoiceEngine.js';
+
 export const OPENCREATOR_SKILLS = {
   pipeline: 'krillinai-pipeline',
   subtitle: 'krillinai-subtitle',
@@ -84,8 +86,12 @@ export function buildOpenCreatorManifest(data = {}) {
     prompt: s.prompt || s.videoPrompt || 'Cinematic masterpiece 24fps',
     voiceoverVI: s.voiceoverVI || s.voiceover || `Phân cảnh ${idx + 1}`,
     voiceoverEN: s.voiceoverEN || `Scene ${idx + 1} voiceover narrative`,
-    tts: { emotion: s.emotion || 'confident', pacingWpm: s.wpm || 135 }
-  })) : defaultScenes;
+    tts: { emotion: s.emotion || 'confident', pacingWpm: s.wpm || 135 },
+    qwenOmniAudio: qwenOmniVoiceEngine.buildOmniSceneAudioPayload(s)
+  })) : defaultScenes.map(s => ({
+    ...s,
+    qwenOmniAudio: qwenOmniVoiceEngine.buildOmniSceneAudioPayload(s)
+  }));
 
   const manifest = {
     $schema: 'https://opencreator.krillinai.com/schemas/pipeline-v2.json',
@@ -118,8 +124,9 @@ export function buildOpenCreatorManifest(data = {}) {
           stage_id: 'stage_03_smart_dubbing',
           skill: OPENCREATOR_SKILLS.tts,
           enabled: true,
-          voice_engine: 'OpenCreator Smart Dubbing (Edge TTS / Whisper Context)',
-          voice_profile: 'Director Deep Cinematic Baritone',
+          voice_engine: 'Qwen-Omni Voice Library & Multimodal Actor Dubbing',
+          voice_library_source: 'https://omni.qwen.ai/voice-library',
+          voice_profile: 'Baritone Luxury / Tina Warm Narrator / Zero-Shot Clone',
           ducking_background_music_db: -18,
           languages: ['vi-VN', 'en-US']
         },
