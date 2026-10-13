@@ -1,0 +1,23 @@
+{
+  "project": "MIDNIGHT_OUD_TVC_30S",
+  "base_music_track": {
+    "filename": "cinematic_dark_amber_pulse.mp3",
+    "source": "YouTube Audio Library (Royalty-Free)",
+    "default_duck_level_db": -24.0,
+    "idle_level_db": -16.0
+  },
+  "voice_dialogue_track": {
+    "target_level_db": 0.0,
+    "compressor_ratio": "3.5:1",
+    "clarity_boost_hz": 3200
+  },
+  "cues": [
+    { "time_ms": 0, "event": "HOOK_START", "music_db": -24.0, "dialogue_db": 0.0 },
+    { "time_ms": 3000, "event": "BROLL_1_START", "music_db": -22.0, "dialogue_db": 0.0 },
+    { "time_ms": 7000, "event": "BROLL_2_START", "music_db": -24.0, "dialogue_db": 0.0 },
+    { "time_ms": 13000, "event": "LISTICLE_CARDS", "music_db": -24.0, "dialogue_db": 0.0 },
+    { "time_ms": 20000, "event": "MASTER_QUOTE", "music_db": -20.0, "dialogue_db": 0.0 },
+    { "time_ms": 26000, "event": "CTA_SPEECH_CUT", "music_db": -20.0, "dialogue_db": 0.0 },
+    { "time_ms": 28000, "event": "FADE_TO_BLACK", "music_db": -12.0, "dialogue_db": -99.0, "note": "Outro music swells cleanly to -12dB in black hold" }
+  ]
+}

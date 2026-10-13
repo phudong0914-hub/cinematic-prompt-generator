@@ -1,0 +1,133 @@
+{
+  "manifest_version": "2.1.0",
+  "project_id": "midnight-oud-tvc-30s",
+  "title": "MIDNIGHT OUD — DẠ NGUYỆT TRẦM HƯƠNG (TVC 30S)",
+  "director": "Đạo Diễn Trungvt (trungvt)",
+  "contact": {
+    "phone": "0836.384.168",
+    "email": "cinemapromptpro@gmail.com"
+  },
+  "color_profile": {
+    "lut_file": "MIDNIGHT_OUD_TEAL_AMBER.cube",
+    "color_space": "Rec.709 / ACEScc",
+    "style": "Cyberpunk Teal & Amber Noir"
+  },
+  "tts_engine": {
+    "voice_id": "vi-VN-Nam-Deep-Cinema",
+    "speed": 0.98,
+    "pitch": -2,
+    "emotion": "mysterious_confident_luxurious"
+  },
+  "scenes": [
+    {
+      "scene_id": 1,
+      "name": "Hook 3s — Amber Droplet Fall",
+      "timestamp_start_us": 0,
+      "timestamp_end_us": 3000000,
+      "camera_motion": "WHIP_ZOOM_PUNCH (100% -> 130% -> 100%)",
+      "visual_prompt_en": "Cinematic extreme macro close-up of amber oud perfume droplet suspended in mid-air falling onto black rose petal with delicate swirling incense smoke, Rembrandt lighting, warm amber rim light with subtle cyan neon edge, 8k photorealistic --ar 9:16 --v 8.0",
+      "visual_prompt_vi": "Đặc tả siêu cận cảnh giọt tinh dầu trầm hương hổ phách lơ lửng rơi trên cánh hoa hồng đen phủ khói thơm huyền ảo, ánh sáng Chiaroscuro ấm áp, viền sáng cyan neon tinh tế.",
+      "dialogue_vi": "CÓ PHẢI BẠN ĐANG TÌM MÙI HƯƠNG CỦA QUYỀN LỰC...?",
+      "dialogue_en": "Are you seeking the signature scent of pure prestige...?",
+      "typography": {
+        "font": "Sigmar",
+        "case": "UPPERCASE",
+        "active_color": "#0091ff",
+        "base_color": "#ffffff"
+      },
+      "sfx": "swoosh_heavy_impact_0s, droplet_chime_0.8s"
+    },
+    {
+      "scene_id": 2,
+      "name": "B-roll 1 — Bespoke Man in the Shadows",
+      "timestamp_start_us": 3000000,
+      "timestamp_end_us": 7000000,
+      "camera_motion": "PARALLAX_25D (Speed ramp beat)",
+      "visual_prompt_en": "Cinematic close-up portrait of handsome confident Asian man in bespoke black velvet tuxedo, captivating intense gaze, chiaroscuro lighting with deep shadows, warm amber edge light, cyan atmospheric haze, high-fashion luxury commercial --ar 9:16 --v 8.0",
+      "visual_prompt_vi": "Chân dung điện ảnh cận cảnh người đàn ông lịch lãm trong âu phục nhung đen, ánh mắt sắc bén lôi cuốn, ánh sáng chiaroscuro tương phản sâu, sương khói cyan mờ ảo.",
+      "dialogue_vi": "Không cần ồn ào... nhưng khiến cả khán phòng phải ngoái nhìn.",
+      "dialogue_en": "Silent confidence that commands the entire room.",
+      "typography": {
+        "font": "Sigmar",
+        "case": "UPPERCASE",
+        "active_color": "#0091ff",
+        "base_color": "#ffffff"
+      },
+      "sfx": "velvet_rustle_soft, atmospheric_drone_low"
+    },
+    {
+      "scene_id": 3,
+      "name": "B-roll 2 — Smoky Obsidian Bottle Reveal",
+      "timestamp_start_us": 7000000,
+      "timestamp_end_us": 13000000,
+      "camera_motion": "SLOW_ORBIT_PUSH (Crema/Liquid reflection)",
+      "visual_prompt_en": "Slow panning macro shot of obsidian glass perfume bottle with engraved gold metallic crest, standing in dark pool of water reflecting warm amber backlights, curls of aromatic oud smoke rising --ar 9:16 --v 8.0",
+      "visual_prompt_vi": "Cú lia máy chậm cận cảnh thân chai nước hoa pha lê đen tuyền khắc biểu tượng hoàng gia mạ vàng, phản chiếu trong vũng nước tối dưới ánh đèn hổ phách, làn khói trầm hương uốn lượn.",
+      "dialogue_vi": "Đậm đà nguyên bản... chắt lọc từ những thân trầm trăm năm.",
+      "dialogue_en": "Pure raw essence... distilled from century-old agarwood.",
+      "emphasis_text": [
+        "TRẦM HƯƠNG NGUYÊN BẢN",
+        "ĐỈNH CAO THẦN THÁI"
+      ],
+      "sfx": "water_ripple_subtle, amber_sparkle_fx"
+    },
+    {
+      "scene_id": 4,
+      "name": "Listicle Cards — 3 Fragrance Strata",
+      "timestamp_start_us": 13000000,
+      "timestamp_end_us": 20000000,
+      "camera_motion": "KINETIC_SPRING_FLIP (-7.5 deg 3D)",
+      "layout": "Camera anchor left 40%, 3 cards column right 60%",
+      "cards": [
+        {
+          "step": 1,
+          "title": "NỐT ĐẦU: CAM BERGAMOT & TIÊU HỒNG",
+          "time_offset_s": 0.3,
+          "sfx": "paper_flip_1"
+        },
+        {
+          "step": 2,
+          "title": "NỐT GIỮA: HOA HỒNG & GỖ TRẦM ĐÊM",
+          "time_offset_s": 2.2,
+          "sfx": "paper_flip_2"
+        },
+        {
+          "step": 3,
+          "title": "NỐT CUỐI: HỔ PHÁCH & XẠ HƯƠNG ĐEN",
+          "time_offset_s": 4.1,
+          "sfx": "paper_flip_3"
+        }
+      ],
+      "dialogue_vi": "Ba tầng hương biến chuyển kỳ ảo từ mở đầu rực rỡ đến hậu vị trầm ấm bất tận.",
+      "dialogue_en": "Three olfactory strata shifting from radiant spark to deep eternal warmth."
+    },
+    {
+      "scene_id": 5,
+      "name": "Hero Shot & Master Quote",
+      "timestamp_start_us": 20000000,
+      "timestamp_end_us": 26000000,
+      "camera_motion": "ISOMETRIC_DRIFT (rotateX 25deg, float 18px)",
+      "visual_prompt_en": "Ultra-luxury hero commercial shot of MIDNIGHT OUD perfume bottle on black polished marble pedestal with delicate incense smoke, warm golden backlight, cyan studio accent, 8k advertising cinema grade --ar 9:16 --v 8.0",
+      "visual_prompt_vi": "Cảnh quay Hero đỉnh cao của chai Midnight Oud trên bệ đá cẩm thạch đen bóng bốc khói trầm huyền ảo, đèn nền hoàng kim rực rỡ, điểm xuyết ánh cyan điện ảnh.",
+      "master_quote": [
+        "MÙI HƯƠNG KHÔNG CẦN LÊN TIẾNG",
+        "NÓ ĐỊNH NGHĨA VỊ THẾ CỦA BẠN"
+      ],
+      "sfx": "flash_zoom_whoosh, majestic_chime"
+    },
+    {
+      "scene_id": 6,
+      "name": "CTA & Seamless Infinity Outro Loop",
+      "timestamp_start_us": 26000000,
+      "timestamp_end_us": 30000000,
+      "camera_motion": "FADE_TO_BLACK & OUTRO HOLD (Hold dark 2.0s)",
+      "visual_prompt_vi": "Hạ sáng Fade to black dứt khoát ➔ Màn hình giữ tối 2.0s ➔ Logo & Hotline 0836.384.168 phát sáng viền vàng neon.",
+      "dialogue_vi": "Khám phá ngay tại link đầu trang... nếu bạn thực sự...",
+      "loop_bridge": "CÓ PHẢI BẠN ĐANG TÌM...",
+      "audio_ducking": {
+        "duck_start_us": 27500000,
+        "outro_music_volume_db": -12.0
+      }
+    }
+  ]
+}

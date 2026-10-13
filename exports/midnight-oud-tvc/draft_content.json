@@ -1,0 +1,185 @@
+{
+  "version": 2,
+  "project_name": "TVC_Midnight_Oud_30s_Dao_Dien_Trungvt",
+  "canvas_config": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "9:16",
+    "fps": 30
+  },
+  "duration": 30000000,
+  "color_lut": {
+    "file": "MIDNIGHT_OUD_TEAL_AMBER.cube",
+    "intensity": 0.95
+  },
+  "tracks": [
+    {
+      "id": "track_video_main",
+      "type": "video",
+      "name": "Video Thô (Chính) - 2.5D Motion Anchor",
+      "segments": [
+        {
+          "id": "seg_main_speaker",
+          "start": 0,
+          "duration": 30000000,
+          "motionRecipe": "rec_match_cut_anchor",
+          "keyframes": [
+            { "time": 0, "scale": 1.0, "note": "Hook Start: 100%" },
+            { "time": 200000, "scale": 1.3, "note": "0.2s: Zoom 130% (Whip Punch)" },
+            { "time": 2800000, "scale": 1.3, "note": "2.8s: Giữ 130%" },
+            { "time": 3000000, "scale": 1.0, "note": "3.0s: Trở về 100%" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "track_broll_overlay",
+      "type": "video",
+      "name": "Cảnh B-roll Phủ (<=3s) - Parallax 2.5D",
+      "segments": [
+        {
+          "id": "seg_broll_1",
+          "start": 3200000,
+          "duration": 3600000,
+          "transitionIn": "Fade 0.12s",
+          "transitionOut": "Fade 0.12s",
+          "content": "CHÂN DUNG ÂU PHỤC NHUNG ĐEN BÍ ẨN",
+          "motionRecipeId": "rec_parallax_depth_push",
+          "motionRecipeName": "2.5D Parallax Depth Push-In"
+        },
+        {
+          "id": "seg_broll_2",
+          "start": 7400000,
+          "duration": 4800000,
+          "transitionIn": "Fade 0.12s",
+          "transitionOut": "Fade 0.12s",
+          "content": "CHAI PHA LÊ ĐEN KHẮC KIM HOÀNG GIA",
+          "motionRecipeId": "rec_isometric_evidence_drift",
+          "motionRecipeName": "Isometric Evidence & Mockup Drift"
+        }
+      ]
+    },
+    {
+      "id": "track_subtitles_kinetic",
+      "type": "text",
+      "name": "Phụ Đề Sigmar Xanh #0091ff (Karaoke Sync)",
+      "segments": [
+        {
+          "id": "seg_sub_1",
+          "start": 0,
+          "duration": 3000000,
+          "text": "CÓ PHẢI BẠN ĐANG TÌM MÙI HƯƠNG CỦA QUYỀN LỰC...?",
+          "font": "Sigmar",
+          "fontSize": 42,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        },
+        {
+          "id": "seg_sub_2",
+          "start": 3000000,
+          "duration": 4000000,
+          "text": "KHÔNG CẦN ỒN ÀO NHƯNG KHIẾN CẢ PHÒNG PHẢI NGOÁI NHÌN",
+          "font": "Sigmar",
+          "fontSize": 38,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        },
+        {
+          "id": "seg_sub_3",
+          "start": 7000000,
+          "duration": 6000000,
+          "text": "ĐẬM ĐÀ NGUYÊN BẢN CHẮT LỌC TỪ THÂN TRẦM TRĂM NĂM",
+          "font": "Sigmar",
+          "fontSize": 38,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        },
+        {
+          "id": "seg_sub_4",
+          "start": 13000000,
+          "duration": 7000000,
+          "text": "BA TẦNG HƯƠNG BIẾN CHUYỂN KỲ ẢO BẤT TẬN",
+          "font": "Sigmar",
+          "fontSize": 38,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        },
+        {
+          "id": "seg_sub_5",
+          "start": 20000000,
+          "duration": 6000000,
+          "text": "MÙI HƯƠNG ĐỊNH NGHĨA VỊ THẾ CỦA BẠN",
+          "font": "Sigmar",
+          "fontSize": 42,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        },
+        {
+          "id": "seg_sub_6",
+          "start": 26000000,
+          "duration": 2000000,
+          "text": "SỞ HỮU NGAY TẠI LINK ĐẦU TRANG...",
+          "font": "Sigmar",
+          "fontSize": 36,
+          "style": "UPPERCASE",
+          "color": "#ffffff",
+          "activeColor": "#0091ff",
+          "layout": { "alignment": "center", "y": 0.78 }
+        }
+      ]
+    },
+    {
+      "id": "track_listicle_cards",
+      "type": "overlay",
+      "name": "Thẻ Liệt Kê Nốt Hương (Listicle Cards)",
+      "segments": [
+        {
+          "id": "card_step_1",
+          "start": 13300000,
+          "duration": 6700000,
+          "title": "NỐT ĐẦU: CAM BERGAMOT & TIÊU HỒNG",
+          "recipe": "KINETIC_SPRING_FLIP",
+          "sfx": "paper_flip_1"
+        },
+        {
+          "id": "card_step_2",
+          "start": 15200000,
+          "duration": 4800000,
+          "title": "NỐT GIỮA: HOA HỒNG & GỖ TRẦM ĐÊM",
+          "recipe": "KINETIC_SPRING_FLIP",
+          "sfx": "paper_flip_2"
+        },
+        {
+          "id": "card_step_3",
+          "start": 17100000,
+          "duration": 2900000,
+          "title": "NỐT CUỐI: HỔ PHÁCH & XẠ HƯƠNG ĐEN",
+          "recipe": "KINETIC_SPRING_FLIP",
+          "sfx": "paper_flip_3"
+        }
+      ]
+    },
+    {
+      "id": "track_audio_sfx",
+      "type": "audio",
+      "name": "Hiệu Ứng Âm Thanh SFX (YouTube Audio Library)",
+      "segments": [
+        { "id": "sfx_hook_swoosh", "start": 0, "duration": 400000, "file": "swoosh_heavy_impact.mp3", "volume": 1.0 },
+        { "id": "sfx_paper_flip_1", "start": 13300000, "duration": 250000, "file": "paper_flip_light.mp3", "volume": 0.7 },
+        { "id": "sfx_paper_flip_2", "start": 15200000, "duration": 250000, "file": "paper_flip_light.mp3", "volume": 0.7 },
+        { "id": "sfx_paper_flip_3", "start": 17100000, "duration": 250000, "file": "paper_flip_light.mp3", "volume": 0.7 },
+        { "id": "sfx_outro_rise", "start": 27500000, "duration": 2500000, "file": "outro_swell_cinematic.mp3", "volume": 1.0, "gainDb": -12.0 }
+      ]
+    }
+  ]
+}

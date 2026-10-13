@@ -1,0 +1,21 @@
+[Script Info]
+Title: Midnight Oud TVC 30s Karaoke Master
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: TrungvtCinemaSigmar,Sigmar,58,&H00FFFFFF,&H00FF9100,&H00000000,&H80000000,-1,0,0,0,100,100,2,0,1,3.5,2.0,2,60,60,280,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:03.00,TrungvtCinemaSigmar,,0,0,0,,{\k20}CÓ {\k25}PHẢI {\k30}BẠN {\k30}ĐANG {\k35}TÌM {\k40}MÙI {\k45}HƯƠNG {\k35}CỦA {\k40}QUYỀN {\k40}LỰC...?
+Dialogue: 0,0:00:03.00,0:00:07.00,TrungvtCinemaSigmar,,0,0,0,,{\k30}KHÔNG {\k35}CẦN {\k40}ỒN {\k40}ÀO... {\k45}NHƯNG {\k45}KHIẾN {\k35}CẢ {\k45}PHÒNG {\k40}PHẢI {\k45}NGOÁI {\k40}NHÌN.
+Dialogue: 0,0:00:07.00,0:00:13.00,TrungvtCinemaSigmar,,0,0,0,,{\k35}ĐẬM {\k35}ĐÀ {\k45}NGUYÊN {\k45}BẢN... {\k45}CHẮT {\k40}LỌC {\k35}TỪ {\k45}THÂN {\k50}TRẦM {\k50}TRĂM {\k50}NĂM.
+Dialogue: 0,0:00:13.00,0:00:20.00,TrungvtCinemaSigmar,,0,0,0,,{\k40}BA {\k40}TẦNG {\k40}HƯƠNG {\k45}BIẾN {\k45}CHUYỂN {\k45}KỲ {\k40}ẢO {\k40}BẤT {\k50}TẬN.
+Dialogue: 0,0:00:20.00,0:00:26.00,TrungvtCinemaSigmar,,0,0,0,,{\k40}MÙI {\k40}HƯƠNG {\k45}ĐỊNH {\k45}NGHĨA {\k50}VỊ {\k50}THẾ {\k50}CỦA {\k50}BẠN.
+Dialogue: 0,0:00:26.00,0:00:28.00,TrungvtCinemaSigmar,,0,0,0,,{\k30}SỞ {\k30}HỮU {\k35}NGAY {\k35}TẠI {\k35}LINK {\k40}ĐẦU {\k40}TRANG...

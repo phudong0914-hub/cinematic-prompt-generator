@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xmeml>
+<xmeml version="5">
+  <sequence id="sequence-midnight-oud-tvc-30s">
+    <name>TVC_Midnight_Oud_30s_Trungvt_Master</name>
+    <duration>900</duration>
+    <rate>
+      <timebase>30</timebase>
+      <ntsc>FALSE</ntsc>
+    </rate>
+    <media>
+      <video>
+        <format>
+          <samplecharacteristics>
+            <width>1080</width>
+            <height>1920</height>
+            <pixelaspectratio>square</pixelaspectratio>
+          </samplecharacteristics>
+        </format>
+        <track>
+          <clipitem id="clip-hook-macro">
+            <name>Keyframe_Macro_Drop</name>
+            <duration>90</duration>
+            <start>0</start>
+            <end>90</end>
+          </clipitem>
+          <clipitem id="clip-actor-portrait">
+            <name>Keyframe_Actor_Portrait</name>
+            <duration>120</duration>
+            <start>90</start>
+            <end>210</end>
+          </clipitem>
+          <clipitem id="clip-bottle-hero">
+            <name>Keyframe_Bottle_Hero</name>
+            <duration>690</duration>
+            <start>210</start>
+            <end>900</end>
+          </clipitem>
+        </track>
+      </video>
+      <audio>
+        <track>
+          <clipitem id="clip-audio-dialogue">
+            <name>Dialogue_Master_Deep_Cinema</name>
+            <duration>840</duration>
+            <start>0</start>
+            <end>840</end>
+          </clipitem>
+        </track>
+      </audio>
+    </media>
+  </sequence>
+</xmeml>
