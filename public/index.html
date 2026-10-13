@@ -37,11 +37,38 @@
     #ad-architect-modal-overlay.is-open,
     #ad-architect-modal-overlay.active,
     #photo-restoration-modal-overlay.is-open,
-    #photo-restoration-modal-overlay.active {
+    #photo-restoration-modal-overlay.active,
+    #color-lab-modal-overlay.is-open,
+    #color-lab-modal-overlay.active {
       display: flex !important;
       opacity: 1 !important;
       pointer-events: auto !important;
       visibility: visible !important;
+    }
+
+    /* Voice Director Panel Animations */
+    @keyframes voicePulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+      70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    @keyframes voiceWave {
+      0% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+      100% { transform: scaleY(0.3); }
+    }
+    .voice-director-active .voice-wave-bar {
+      animation: voiceWave 0.5s ease-in-out infinite;
+    }
+    .voice-director-active .voice-wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .voice-director-active .voice-wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .voice-director-active .voice-wave-bar:nth-child(4) { animation-delay: 0.15s; }
+    .voice-director-active .voice-wave-bar:nth-child(5) { animation-delay: 0.25s; }
+    .vd-tag { display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; font-size:0.68rem; font-weight:700; transition:all 0.3s; }
+    .vd-tag--active { animation: tagPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes tagPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     /* Direct layout overrides for Pipeline Accordion to prevent step 6 text clipping */
@@ -171,6 +198,29 @@
     };
     window.closePhotoRestorationModal = function() {
       var m = document.getElementById('photo-restoration-modal-overlay');
+      if (m) {
+        m.classList.remove('is-open', 'active');
+        m.style.setProperty('display', 'none', 'important');
+        m.style.setProperty('opacity', '0', 'important');
+        m.style.setProperty('visibility', 'hidden', 'important');
+        m.style.setProperty('pointer-events', 'none', 'important');
+        document.body.style.overflow = '';
+      }
+    };
+    window.openColorLabModal = function() {
+      var m = document.getElementById('color-lab-modal-overlay');
+      if (m) {
+        m.classList.add('is-open', 'active');
+        m.style.setProperty('display', 'flex', 'important');
+        m.style.setProperty('opacity', '1', 'important');
+        m.style.setProperty('visibility', 'visible', 'important');
+        m.style.setProperty('pointer-events', 'auto', 'important');
+        m.style.setProperty('z-index', '99999', 'important');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+    window.closeColorLabModal = function() {
+      var m = document.getElementById('color-lab-modal-overlay');
       if (m) {
         m.classList.remove('is-open', 'active');
         m.style.setProperty('display', 'none', 'important');
@@ -350,6 +400,9 @@
           </button>
           <button id="viral-remake-btn" type="button" onclick="openViralModal()" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(56,189,248,0.35)); border: 1.5px solid #a855f7; color: #ffffff; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(168,85,247,0.3);">
             <span>📤 Tải Lên Video & Bóc Tách Đối Thủ (Upload / Link)</span>
+          </button>
+          <button id="btn-open-color-lab" type="button" onclick="openColorLabModal()" style="background: linear-gradient(135deg, rgba(251,146,60,0.35), rgba(244,114,182,0.35)); border: 1.5px solid #f472b6; color: #fda4af; font-weight: 800; padding: 7px 12px; border-radius: 8px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 0 12px rgba(244,114,182,0.3);">
+            <span>🎨 AI Color Lab: Tạo LUT Điện Ảnh (MỚI)</span>
           </button>
         </div>
       </div>
@@ -4842,6 +4895,483 @@ ${activeSubLines[3]}
       document.addEventListener('DOMContentLoaded', initPhotoRestorationLab);
     } else {
       initPhotoRestorationLab();
+    }
+  </script>
+
+  <!-- ─── 🎙️ VOICE DIRECTOR ADVANCED PANEL ─── -->
+  <script type="module">
+    import { voiceDirector } from '/js/voiceDirectorEngine.js';
+    window.voiceDirector = voiceDirector;
+
+    function initVoiceDirector() {
+      const voiceBtn = document.getElementById('subject-voice-btn');
+      const subjectInput = document.getElementById('subject-input');
+      if (!voiceBtn || !subjectInput) return;
+
+      // Create Voice Director Panel (hidden by default)
+      const panel = document.createElement('div');
+      panel.id = 'voice-director-panel';
+      panel.style.cssText = 'display:none; margin-top:8px; background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.9)); border:1.5px solid rgba(239,68,68,0.4); border-radius:12px; padding:12px; backdrop-filter:blur(12px); transition:all 0.3s;';
+      panel.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div id="vd-wave" style="display:flex; align-items:center; gap:2px; height:16px;">
+              <div class="voice-wave-bar" style="width:3px; height:100%; background:#ef4444; border-radius:2px;"></div>
+              <div class="voice-wave-bar" style="width:3px; height:60%; background:#ef4444; border-radius:2px;"></div>
+              <div class="voice-wave-bar" style="width:3px; height:80%; background:#ef4444; border-radius:2px;"></div>
+              <div class="voice-wave-bar" style="width:3px; height:40%; background:#ef4444; border-radius:2px;"></div>
+              <div class="voice-wave-bar" style="width:3px; height:90%; background:#ef4444; border-radius:2px;"></div>
+            </div>
+            <span style="font-size:0.75rem; font-weight:800; color:#f87171; text-transform:uppercase; letter-spacing:0.05em;">🎙️ Voice Director AI</span>
+            <span id="vd-lang-badge" style="font-size:0.6rem; padding:1px 6px; border-radius:4px; background:rgba(56,189,248,0.2); color:#7dd3fc;">VI</span>
+            <span id="vd-confidence" style="font-size:0.6rem; color:#64748b;"></span>
+          </div>
+          <button id="vd-stop-btn" type="button" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#f87171; font-size:0.68rem; padding:3px 10px; border-radius:6px; cursor:pointer; font-weight:700;">■ Dừng</button>
+        </div>
+        <div id="vd-live-transcript" style="font-size:0.78rem; color:#e2e8f0; padding:8px; background:rgba(0,0,0,0.3); border-radius:8px; min-height:32px; border:1px solid rgba(255,255,255,0.08); margin-bottom:8px; font-style:italic;">Đang lắng nghe...</div>
+        <div id="vd-detected-tags" style="display:flex; flex-wrap:wrap; gap:4px; min-height:24px;"></div>
+      `;
+
+      // Insert panel after the subject input wrapper
+      const controlGroup = subjectInput.closest('.control-group');
+      if (controlGroup) {
+        const buttonsDiv = controlGroup.querySelector('div[style*="margin-top: 8px"]');
+        if (buttonsDiv) {
+          controlGroup.insertBefore(panel, buttonsDiv);
+        } else {
+          controlGroup.appendChild(panel);
+        }
+      }
+
+      // Override voice button to use Voice Director
+      voiceBtn.removeAttribute('onclick');
+      const newVoiceBtn = voiceBtn.cloneNode(true);
+      voiceBtn.parentNode.replaceChild(newVoiceBtn, voiceBtn);
+
+      newVoiceBtn.addEventListener('click', () => {
+        if (!voiceDirector.supported) {
+          window.showToast && window.showToast('Trình duyệt không hỗ trợ Voice Director. Hãy dùng Chrome hoặc Edge.', 'warning', 4000);
+          return;
+        }
+        voiceDirector.toggle();
+      });
+
+      // Voice Director Events
+      voiceDirector.on('start', () => {
+        panel.style.display = 'block';
+        panel.classList.add('voice-director-active');
+        newVoiceBtn.style.background = 'rgba(239,68,68,0.25)';
+        newVoiceBtn.style.borderColor = '#f87171';
+        newVoiceBtn.style.color = '#f87171';
+        newVoiceBtn.style.boxShadow = '0 0 14px rgba(239,68,68,0.5)';
+        newVoiceBtn.style.animation = 'voicePulse 1.5s infinite';
+        newVoiceBtn.querySelector('#voice-icon').textContent = '🔴';
+        newVoiceBtn.querySelector('#voice-label').textContent = 'Đang nghe...';
+      });
+
+      voiceDirector.on('result', (data) => {
+        // Update transcript display
+        const transcriptEl = document.getElementById('vd-live-transcript');
+        if (transcriptEl) {
+          transcriptEl.textContent = data.full || 'Đang lắng nghe...';
+          transcriptEl.style.fontStyle = data.interim ? 'italic' : 'normal';
+        }
+
+        // Update subject input
+        subjectInput.value = data.parsed.subject || data.full;
+        subjectInput.dispatchEvent(new Event('input', { bubbles: true }));
+        if (typeof autoResizeTextarea === 'function') autoResizeTextarea(subjectInput);
+
+        // Update confidence
+        const confEl = document.getElementById('vd-confidence');
+        if (confEl && data.confidence) {
+          confEl.textContent = `${Math.round(data.confidence * 100)}%`;
+        }
+
+        // Render detected cinema tags
+        const tagsEl = document.getElementById('vd-detected-tags');
+        if (tagsEl) {
+          const attrs = data.parsed.attributes || {};
+          const tagColors = {
+            shotSize: { bg: 'rgba(59,130,246,0.2)', border: '#3b82f6', color: '#93c5fd', icon: '📐' },
+            cameraAngle: { bg: 'rgba(168,85,247,0.2)', border: '#a855f7', color: '#c4b5fd', icon: '📷' },
+            cameraMotion: { bg: 'rgba(16,185,129,0.2)', border: '#10b981', color: '#6ee7b7', icon: '🎥' },
+            mood: { bg: 'rgba(245,158,11,0.2)', border: '#f59e0b', color: '#fcd34d', icon: '🎭' },
+            lighting: { bg: 'rgba(251,146,60,0.2)', border: '#fb923c', color: '#fdba74', icon: '💡' },
+            filmStyle: { bg: 'rgba(244,114,182,0.2)', border: '#f472b6', color: '#f9a8d4', icon: '🎬' }
+          };
+
+          let html = '';
+          for (const [cat, attr] of Object.entries(attrs)) {
+            const c = tagColors[cat] || { bg: 'rgba(148,163,184,0.2)', border: '#94a3b8', color: '#cbd5e1', icon: '🏷️' };
+            html += `<span class="vd-tag vd-tag--active" style="background:${c.bg}; border:1px solid ${c.border}; color:${c.color};">${c.icon} ${attr.label}: ${attr.matchedKeyword}</span>`;
+          }
+          tagsEl.innerHTML = html;
+        }
+      });
+
+      voiceDirector.on('end', () => {
+        panel.classList.remove('voice-director-active');
+        newVoiceBtn.style.background = 'rgba(56,189,248,0.15)';
+        newVoiceBtn.style.borderColor = 'rgba(56,189,248,0.35)';
+        newVoiceBtn.style.color = '#38bdf8';
+        newVoiceBtn.style.boxShadow = 'none';
+        newVoiceBtn.style.animation = 'none';
+        newVoiceBtn.querySelector('#voice-icon').textContent = '🎙️';
+        newVoiceBtn.querySelector('#voice-label').textContent = 'Nói';
+
+        // Keep panel visible for 3s then fade
+        setTimeout(() => {
+          if (!voiceDirector.isListening) {
+            panel.style.borderColor = 'rgba(16,185,129,0.4)';
+          }
+        }, 500);
+      });
+
+      voiceDirector.on('error', (err) => {
+        if (err === 'not-allowed') {
+          window.showToast && window.showToast('⚠️ Bạn chưa cấp quyền Microphone cho trình duyệt.', 'warning', 4000);
+        }
+      });
+
+      // Stop button
+      document.getElementById('vd-stop-btn')?.addEventListener('click', () => {
+        voiceDirector.stop();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initVoiceDirector);
+    } else {
+      initVoiceDirector();
+    }
+  </script>
+
+  <!-- ─── 🎨 AI CINEMATIC COLOR LAB MODAL ─── -->
+  <div id="color-lab-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); backdrop-filter:blur(16px); z-index:99999; align-items:center; justify-content:center; padding:20px;">
+    <div class="modal-content" style="background:linear-gradient(135deg, #0d0f1a, #151827); border:1px solid rgba(244,114,182,0.4); border-radius:18px; width:100%; max-width:1000px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 64px rgba(0,0,0,0.9), 0 0 40px rgba(244,114,182,0.2); padding:28px; color:#f4f4f5; position:relative;">
+
+      <button id="color-lab-close-btn" class="modal-close" onclick="closeColorLabModal()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; width:34px; height:34px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all 0.2s;">✕</button>
+
+      <!-- Header -->
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px; border-bottom:1px solid rgba(244,114,182,0.25); padding-bottom:16px;">
+        <div style="font-size:2.2rem; background:linear-gradient(135deg, rgba(251,146,60,0.2), rgba(244,114,182,0.2)); border:1.5px solid #f472b6; width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 20px rgba(244,114,182,0.3);">🎨</div>
+        <div>
+          <div style="font-size:0.72rem; font-weight:800; color:#f472b6; letter-spacing:0.08em; text-transform:uppercase; display:flex; align-items:center; gap:8px;">
+            <span>AI CINEMATIC COLOR LAB</span>
+            <span style="background:rgba(244,114,182,0.2); color:#fda4af; padding:2px 8px; border-radius:10px; font-size:0.62rem;">WebGL GPU-ACCELERATED</span>
+            <span style="background:rgba(251,146,60,0.2); color:#fdba74; padding:2px 8px; border-radius:10px; font-size:0.62rem;">MỚI v3.0</span>
+          </div>
+          <h2 style="margin:2px 0 0; color:#fff; font-size:1.4rem; font-weight:800; letter-spacing:-0.01em;">Phòng Màu Điện Ảnh AI — Text-to-LUT Engine</h2>
+          <p style="margin:4px 0 0; font-size:0.78rem; color:#94a3b8;">Gõ mô tả tông màu → AI sinh 3D LUT 33×33×33 → Preview WebGL real-time → Export .cube cho Premiere / DaVinci Resolve / CapCut.</p>
+        </div>
+      </div>
+
+      <!-- Method 1: Film Stock Presets -->
+      <div style="margin-bottom:20px;">
+        <label style="font-size:0.75rem; font-weight:800; color:#f472b6; display:block; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">🎞️ 1. Chọn Film Stock (1-Touch):</label>
+        <div id="color-lab-presets" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px;"></div>
+      </div>
+
+      <!-- Method 2: Prompt Input -->
+      <div style="margin-bottom:20px;">
+        <label style="font-size:0.75rem; font-weight:800; color:#fb923c; display:block; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">✍️ 2. Hoặc Mô Tả Tông Màu Bạn Muốn:</label>
+        <div style="display:flex; gap:8px;">
+          <input id="color-lab-prompt" type="text" placeholder="VD: Neo-noir tối lạnh, bóng teal, highlight vàng amber ấm..." style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); color:#f1f5f9; padding:10px 14px; border-radius:8px; font-size:0.82rem; outline:none;" />
+          <button id="color-lab-generate-btn" type="button" style="background:linear-gradient(135deg, #fb923c, #f472b6); border:none; color:#fff; font-weight:800; padding:10px 20px; border-radius:8px; font-size:0.82rem; cursor:pointer; white-space:nowrap;">⚡ Tạo LUT</button>
+        </div>
+      </div>
+
+      <!-- Preview Area -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+        <div>
+          <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; display:block; margin-bottom:6px;">📸 ẢNH GỐC (Kéo thả hoặc click):</label>
+          <div id="color-lab-dropzone" style="border:2px dashed rgba(244,114,182,0.3); border-radius:12px; min-height:200px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; background:rgba(0,0,0,0.3); position:relative; overflow:hidden;">
+            <div id="color-lab-drop-text" style="text-align:center; color:#64748b; padding:20px;">
+              <div style="font-size:2rem; margin-bottom:8px;">🖼️</div>
+              <div style="font-size:0.78rem;">Kéo thả ảnh vào đây hoặc click để chọn</div>
+              <div style="font-size:0.68rem; color:#475569; margin-top:4px;">JPEG, PNG, WebP</div>
+            </div>
+            <img id="color-lab-original-img" style="display:none; width:100%; height:100%; object-fit:contain; position:absolute; inset:0;" />
+            <input id="color-lab-file-input" type="file" accept="image/*" style="display:none;" />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:700; color:#f472b6; display:block; margin-bottom:6px;">🎨 PREVIEW SAU KHI GRADE:</label>
+          <div style="border:2px solid rgba(244,114,182,0.3); border-radius:12px; min-height:200px; background:rgba(0,0,0,0.3); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+            <canvas id="color-lab-canvas" style="max-width:100%; max-height:100%; display:none;"></canvas>
+            <div id="color-lab-no-preview" style="text-align:center; color:#475569; padding:20px;">
+              <div style="font-size:2rem; margin-bottom:8px;">🎬</div>
+              <div style="font-size:0.78rem;">Chọn Film Stock + Tải ảnh để xem preview</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Palette Visualization -->
+      <div id="color-lab-palette-section" style="display:none; margin-bottom:18px;">
+        <label style="font-size:0.7rem; font-weight:700; color:#94a3b8; display:block; margin-bottom:6px;">🌈 Palette Màu (Shadow → Midtone → Highlight):</label>
+        <div id="color-lab-palette" style="height:32px; border-radius:8px; border:1px solid rgba(255,255,255,0.1);"></div>
+        <div style="display:flex; justify-content:space-between; margin-top:4px;">
+          <span style="font-size:0.62rem; color:#475569;">Shadows</span>
+          <span style="font-size:0.62rem; color:#475569;">Midtones</span>
+          <span style="font-size:0.62rem; color:#475569;">Highlights</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div style="display:flex; gap:16px; margin-bottom:18px; align-items:center; flex-wrap:wrap;">
+        <div style="flex:1; min-width:120px;">
+          <label style="font-size:0.65rem; color:#94a3b8; display:block; margin-bottom:4px;">Intensity</label>
+          <input id="color-lab-intensity" type="range" min="0" max="100" value="100" style="width:100%; accent-color:#f472b6;" />
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <label style="font-size:0.65rem; color:#94a3b8; display:block; margin-bottom:4px;">Vignette</label>
+          <input id="color-lab-vignette" type="range" min="0" max="100" value="30" style="width:100%; accent-color:#fb923c;" />
+        </div>
+        <div style="flex:1; min-width:120px;">
+          <label style="font-size:0.65rem; color:#94a3b8; display:block; margin-bottom:4px;">Film Grain</label>
+          <input id="color-lab-grain" type="range" min="0" max="100" value="15" style="width:100%; accent-color:#fbbf24;" />
+        </div>
+      </div>
+
+      <!-- Active Preset Info -->
+      <div id="color-lab-info" style="display:none; background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.25); border-radius:10px; padding:12px 16px; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span id="cl-info-icon" style="font-size:1.3rem;">🎞️</span>
+          <div>
+            <div id="cl-info-name" style="font-size:0.85rem; font-weight:800; color:#fda4af;"></div>
+            <div id="cl-info-desc" style="font-size:0.72rem; color:#94a3b8;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="color-lab-export-cube" type="button" style="flex:1; background:linear-gradient(135deg, rgba(244,114,182,0.3), rgba(251,146,60,0.3)); border:1.5px solid #f472b6; color:#fda4af; font-weight:800; padding:10px 14px; border-radius:8px; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+          📥 Tải File .cube (Premiere / Resolve)
+        </button>
+        <button id="color-lab-export-png" type="button" style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); color:#cbd5e1; font-weight:700; padding:10px 14px; border-radius:8px; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          📸 Tải Ảnh Preview
+        </button>
+        <button id="color-lab-load-studio" type="button" style="background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.35); color:#ffd700; font-weight:700; padding:10px 14px; border-radius:8px; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          🎯 Nạp Vào Studio Prompt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Color Lab Logic -->
+  <script type="module">
+    import { colorLab } from '/js/cinematicColorLab.js';
+    window.colorLab = colorLab;
+
+    function initColorLab() {
+      const presetsGrid = document.getElementById('color-lab-presets');
+      const promptInput = document.getElementById('color-lab-prompt');
+      const generateBtn = document.getElementById('color-lab-generate-btn');
+      const dropzone = document.getElementById('color-lab-dropzone');
+      const fileInput = document.getElementById('color-lab-file-input');
+      const originalImg = document.getElementById('color-lab-original-img');
+      const canvas = document.getElementById('color-lab-canvas');
+      const noPreview = document.getElementById('color-lab-no-preview');
+      const paletteSection = document.getElementById('color-lab-palette-section');
+      const paletteEl = document.getElementById('color-lab-palette');
+      const infoPanel = document.getElementById('color-lab-info');
+      const intensitySlider = document.getElementById('color-lab-intensity');
+      const vignetteSlider = document.getElementById('color-lab-vignette');
+      const grainSlider = document.getElementById('color-lab-grain');
+
+      let webglReady = false;
+      let imageLoaded = false;
+      let activePresetKey = null;
+
+      // 1. Render presets grid
+      const presets = colorLab.getPresets();
+      let presetsHTML = '';
+      for (const [key, preset] of Object.entries(presets)) {
+        const gradient = colorLab.renderPaletteCSS(preset);
+        presetsHTML += `
+          <button type="button" class="cl-preset-card" data-preset="${key}" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px 10px; color:#fff; cursor:pointer; transition:all 0.2s;">
+            <div style="font-size:1rem; margin-bottom:3px;">${preset.icon}</div>
+            <div style="font-size:0.72rem; font-weight:800; color:${preset.color}; margin-bottom:2px; line-height:1.2;">${preset.name}</div>
+            <div style="height:6px; border-radius:3px; margin-top:4px; background:${gradient};"></div>
+          </button>
+        `;
+      }
+      if (presetsGrid) presetsGrid.innerHTML = presetsHTML;
+
+      // 2. Preset selection
+      presetsGrid?.addEventListener('click', (e) => {
+        const card = e.target.closest('.cl-preset-card');
+        if (!card) return;
+        const key = card.dataset.preset;
+        activePresetKey = key;
+
+        // Update active state
+        presetsGrid.querySelectorAll('.cl-preset-card').forEach(c => {
+          c.style.borderColor = 'rgba(255,255,255,0.1)';
+          c.style.boxShadow = 'none';
+        });
+        card.style.borderColor = presets[key].color;
+        card.style.boxShadow = `0 0 15px ${presets[key].color}40`;
+
+        const result = colorLab.generateFromStock(key);
+        if (result) {
+          updatePresetInfo(result.preset);
+          updatePalette(result.preset);
+          renderPreview();
+        }
+      });
+
+      // 3. Prompt-based generation
+      generateBtn?.addEventListener('click', () => {
+        const text = promptInput?.value?.trim();
+        if (!text) {
+          window.showToast && window.showToast('Hãy nhập mô tả tông màu mong muốn!', 'warning');
+          return;
+        }
+        activePresetKey = null;
+        presetsGrid.querySelectorAll('.cl-preset-card').forEach(c => {
+          c.style.borderColor = 'rgba(255,255,255,0.1)';
+          c.style.boxShadow = 'none';
+        });
+
+        const result = colorLab.generateFromPrompt(text);
+        if (result) {
+          updatePresetInfo(result.preset);
+          updatePalette(result.preset);
+          renderPreview();
+          window.showToast && window.showToast('🎨 Đã tạo LUT từ prompt AI!', 'success');
+        }
+      });
+
+      promptInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') generateBtn?.click();
+      });
+
+      // 4. Image upload (drag & drop + click)
+      dropzone?.addEventListener('click', () => fileInput?.click());
+      dropzone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = '#f472b6';
+        dropzone.style.background = 'rgba(244,114,182,0.08)';
+      });
+      dropzone?.addEventListener('dragleave', () => {
+        dropzone.style.borderColor = 'rgba(244,114,182,0.3)';
+        dropzone.style.background = 'rgba(0,0,0,0.3)';
+      });
+      dropzone?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = 'rgba(244,114,182,0.3)';
+        dropzone.style.background = 'rgba(0,0,0,0.3)';
+        const file = e.dataTransfer?.files?.[0];
+        if (file && file.type.startsWith('image/')) handleImageFile(file);
+      });
+      fileInput?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) handleImageFile(file);
+      });
+
+      function handleImageFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            originalImg.src = img.src;
+            originalImg.style.display = 'block';
+            document.getElementById('color-lab-drop-text').style.display = 'none';
+            imageLoaded = true;
+
+            // Init WebGL canvas if not done
+            if (!webglReady && canvas) {
+              webglReady = colorLab.initCanvas(canvas);
+            }
+            if (webglReady) {
+              colorLab.loadImage(img);
+            }
+            renderPreview();
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // 5. Sliders
+      intensitySlider?.addEventListener('input', () => {
+        colorLab.intensity = parseInt(intensitySlider.value) / 100;
+        renderPreview();
+      });
+      vignetteSlider?.addEventListener('input', () => {
+        colorLab.vignette = parseInt(vignetteSlider.value) / 100;
+        renderPreview();
+      });
+      grainSlider?.addEventListener('input', () => {
+        colorLab.grain = parseInt(grainSlider.value) / 100 * 0.08;
+        renderPreview();
+      });
+
+      // 6. Render preview
+      function renderPreview() {
+        if (webglReady && imageLoaded && colorLab.currentLUT) {
+          canvas.style.display = 'block';
+          noPreview.style.display = 'none';
+          colorLab.render();
+        }
+      }
+
+      // 7. Update info panel
+      function updatePresetInfo(preset) {
+        if (!infoPanel) return;
+        infoPanel.style.display = 'block';
+        document.getElementById('cl-info-icon').textContent = preset.icon || '🎨';
+        document.getElementById('cl-info-name').textContent = preset.name;
+        document.getElementById('cl-info-desc').textContent = preset.description;
+      }
+
+      // 8. Update palette
+      function updatePalette(preset) {
+        if (!paletteSection || !paletteEl) return;
+        paletteSection.style.display = 'block';
+        paletteEl.style.background = colorLab.renderPaletteCSS(preset);
+      }
+
+      // 9. Export buttons
+      document.getElementById('color-lab-export-cube')?.addEventListener('click', () => {
+        colorLab.exportCube();
+      });
+      document.getElementById('color-lab-export-png')?.addEventListener('click', () => {
+        colorLab.exportPreviewImage();
+      });
+      document.getElementById('color-lab-load-studio')?.addEventListener('click', () => {
+        const preset = colorLab.currentPreset;
+        if (!preset) {
+          window.showToast && window.showToast('Chưa có LUT nào. Hãy chọn Film Stock hoặc nhập Prompt trước.', 'warning');
+          return;
+        }
+        const subjectInput = document.getElementById('subject-input');
+        if (subjectInput) {
+          const colorDesc = `[COLOR GRADE: ${preset.name}] Tông màu: ${preset.description}. Saturation: ${preset.saturation}, Contrast: ${preset.contrast}, Temperature: ${preset.temperature}K`;
+          const currentVal = subjectInput.value.trim();
+          subjectInput.value = currentVal ? `${currentVal}\n${colorDesc}` : colorDesc;
+          subjectInput.dispatchEvent(new Event('input', { bubbles: true }));
+          if (typeof autoResizeTextarea === 'function') autoResizeTextarea(subjectInput);
+        }
+        window.closeColorLabModal();
+        window.showToast && window.showToast('🎨 Đã nạp Color Grade vào Studio Prompt!', 'success');
+      });
+
+      // 10. Close on backdrop
+      const modal = document.getElementById('color-lab-modal-overlay');
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) window.closeColorLabModal();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initColorLab);
+    } else {
+      initColorLab();
     }
   </script>
 
