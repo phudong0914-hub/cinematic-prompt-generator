@@ -81,6 +81,7 @@ import { applySmartMerge } from './smartMergeEngine.js';
 import { AI_MODELS, reorderPromptByModel } from './modelOptimizer.js';
 import { multishotEngine } from './multishotEngine.js';
 import { byokStudio } from './byokStudio.js';
+import { geminiArgonUI } from './geminiArgonUI.js';
 
 /* ── State ────────────────────────────────────────────────── */
 
@@ -3021,6 +3022,35 @@ async function init() {
         updatePipelineStep(3, 'Step 3/4: Video Motion Copy Ready');
       });
 
+    // ── OCTOBER 2026 ENGINE COPY LISTENERS ──
+    document.getElementById('copy-btn-seedance')?.addEventListener('click', () => {
+      copyPanel('result-text-seedance', 'copy-btn-seedance');
+      updatePipelineStep(3, 'Step 3/4: Seedance 2.5 Multi-Shot Ready');
+    });
+
+    document.getElementById('copy-btn-kling')?.addEventListener('click', () => {
+      copyPanel('result-text-kling', 'copy-btn-kling');
+      updatePipelineStep(3, 'Step 3/4: Kling 4.0 6-Shot Ready');
+    });
+
+    document.getElementById('copy-btn-runway')?.addEventListener('click', () => {
+      copyPanel('result-text-runway', 'copy-btn-runway');
+      updatePipelineStep(3, 'Step 3/4: Runway Gen-4.5 Motion Ready');
+    });
+
+    // ── GEMINI 4 ARGON DIRECTORS SUITE TRIGGERS ──
+    document.getElementById('argon-sketch-btn')?.addEventListener('click', () => {
+      geminiArgonUI.openSketchModal();
+    });
+
+    document.getElementById('argon-continuity-btn')?.addEventListener('click', () => {
+      geminiArgonUI.openContinuityModal();
+    });
+
+    document.getElementById('argon-autocompile-btn')?.addEventListener('click', () => {
+      geminiArgonUI.openAutoCompilerModal();
+    });
+
     document
       .getElementById('copy-btn-notebooklm')
       ?.addEventListener('click', () => {
@@ -3864,6 +3894,9 @@ function initCinePromptSuite() {
       }
     });
   } catch (_) {}
+
+  // ── GEMINI 4 ARGON DIRECTOR SUITE INIT ──
+  geminiArgonUI.init();
 
   // ── PERF BOOST: init all modern UX techniques after app is ready ──
   initPerfBoost();

@@ -14,6 +14,7 @@ import { applySmartMerge, mergeCameraAndColorScience, mergeShotAndMovement } fro
 import { AI_MODELS, reorderPromptByModel, compileProsePrompt } from './modelOptimizer.js';
 import { multishotEngine } from './multishotEngine.js';
 import { byokStudio } from './byokStudio.js';
+import { compileAllEngines, cleanTagSoup } from './promptCompiler2026.js';
 
 // Lazy-import perf utils to avoid circular deps (app.js exports these after init)
 let _withViewTransition = null;
@@ -799,10 +800,9 @@ export function displayDualResult(basePrompt, title, options = {}) {
   if (cleanChar) {
     imageText += `, character visual anchor: ${cleanChar}`;
   }
-  // Sanitize obsolete keywords and apply v8.2 flags
-  imageText = sanitizeCinematicPrompt(imageText);
-  const isMjHd = window.mjHdMode === true;
-  imageText += ', 65mm IMAX format, fine grain resolution, highly detailed cinematic still ' + aspectRatioFlag + ' --v 8.2 --style raw --stylize 250' + (isMjHd ? ' --hd' : '');
+  // Sanitize obsolete keywords, purge tag-soup, and apply Midjourney v8.1 Native 2K HD flags
+  imageText = cleanTagSoup(sanitizeCinematicPrompt(imageText));
+  imageText += ' ' + aspectRatioFlag + ' --v 8.1 --style raw --s 150';
 
   if (negativePrompt.trim()) {
     imageText += ' --no ' + negativePrompt.trim();
@@ -952,6 +952,26 @@ Production Specs: --model wan2.5-t2v --resolution 1080p --ar ${aspectRatioFlag.r
   if (transVideoEl) {
     transVideoEl.textContent = '';
     transVideoEl.style.display = 'none';
+  }
+
+  // ── 4.1. Auto-compile for Seedance 2.5, Kling 4.0, and Runway Gen-4.5 ──────
+  const compiledEngines = compileAllEngines({
+    subject: cleanImageBase || basePrompt,
+    character: cleanChar || '',
+    ar: aspectLabel,
+    motion: motionTags.join(', '),
+    lighting: studioLighting ? studioLighting.name : ''
+  });
+
+  const resSeedance = document.getElementById('result-text-seedance');
+  if (resSeedance) resSeedance.textContent = compiledEngines.seedance;
+
+  const resKling = document.getElementById('result-text-kling');
+  if (resKling) resKling.textContent = compiledEngines.kling;
+
+  const resRunway = document.getElementById('result-text-runway');
+  if (resRunway) {
+    resRunway.textContent = `${compiledEngines.runwayT2V}\n\n[RUNWAY GEN-4.5 IMAGE-TO-VIDEO MODE (CHỈ XUẤT CHUYỂN ĐỘNG VẬT LÝ)]:\n${compiledEngines.runwayI2V}`;
   }
 
   // ── 5. Run Optical & Physics Linter Scanner ─────────────────

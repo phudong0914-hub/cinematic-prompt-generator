@@ -41,13 +41,13 @@ console.log('- Confidence:', veoRoute.confidence);
 console.log('- Probs:', veoRoute.probabilities);
 console.assert(veoRoute.targetModel === 'veo', 'Should route typography & spatial layers to Veo');
 
-// Test 5: Model Routing - Kinetic Action -> Sora
-const soraPrompt = 'High-speed cyberpunk motorcycle chase at 120fps through neon rainy alleys, Russian Arm pursuit crane moving rapidly, kinetic whip pan transition at 4.0s, Hans Zimmer foley sync';
-const soraRoute = routePromptToOptimalModel(soraPrompt);
+// Test 5: Model Routing - Kinetic Action -> Seedance 2.5 (Thế chỗ Sora đã đóng cửa)
+const seedancePrompt = 'High-speed cyberpunk motorcycle chase at 120fps through neon rainy alleys, Russian Arm pursuit crane moving rapidly, kinetic whip pan transition at 4.0s, multi-shot cut to 24s timeline, Hans Zimmer foley sync';
+const seedanceRoute = routePromptToOptimalModel(seedancePrompt);
 console.log('\nTest C (High-speed Chase):');
-console.log('- Target Model:', soraRoute.targetModel, `(${soraRoute.modelDisplayName})`);
-console.log('- Confidence:', soraRoute.confidence);
-console.log('- Probs:', soraRoute.probabilities);
-console.assert(soraRoute.targetModel === 'sora', 'Should route kinetic motorcycle chase to Sora');
+console.log('- Target Model:', seedanceRoute.targetModel, `(${seedanceRoute.modelDisplayName})`);
+console.log('- Confidence:', seedanceRoute.confidence);
+console.log('- Probs:', seedanceRoute.probabilities);
+console.assert(seedanceRoute.targetModel === 'seedance', 'Should route kinetic motorcycle chase to Seedance 2.5');
 
 console.log('\n✅ ALL 5 SYSTEM 1 JEV ATOMIC ENGINE TESTS PASSED PERFECTLY!');

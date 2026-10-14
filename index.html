@@ -306,7 +306,7 @@
               <span class="brand-prompt">PROMPT</span>
               <span class="brand-pro">PRO</span>
             </h1>
-            <p class="brand-subtitle" style="font-size: 0.68rem; margin: 0; color: #a1a1aa; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px;"><span style="text-transform: uppercase;">Studio Engine v2.0</span><span style="color: rgba(255,215,0,0.4);">•</span><span style="color: #ffd700; font-weight: 700;">by Đạo Diễn Trungvt</span></p>
+            <p class="brand-subtitle" style="font-size: 0.68rem; margin: 0; color: #a1a1aa; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px;"><span style="text-transform: uppercase;">Studio Engine v5.0</span><span style="color: rgba(255,215,0,0.4);">•</span><span style="color: #ffd700; font-weight: 700;">by Đạo Diễn Trungvt</span></p>
           </div>
         </div>
 
@@ -760,11 +760,11 @@
             </div>
           </div>
           <div class="step-arrow">›</div>
-          <div class="pipeline-step" id="p-step-3" title="Tạo video chuyển động (Runway Gen-3 / Kling / Sora)">
+          <div class="pipeline-step" id="p-step-3" title="Tạo video chuyển động (Seedance 2.5 / Kling 4.0 / Runway Gen-4.5 / Wan 3.0)">
             <div class="step-num">3</div>
             <div class="step-info">
               <span class="step-name" data-i18n="p-step-3-name">Tạo Chuyển Động</span>
-              <span class="step-tool">Runway / Kling / Sora</span>
+              <span class="step-tool">Seedance 2.5 / Kling 4.0 / Runway</span>
             </div>
           </div>
           <div class="step-arrow">›</div>
@@ -1089,7 +1089,7 @@
             <div id="scb-pane-motion" class="scb-tab-pane" style="display: none; background: rgba(255,255,255,0.02); border: 1px solid rgba(168,85,247,0.18); border-radius: 10px; padding: 10px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <span data-i18n="scb-motion-title" style="font-weight: 800; color: #c084fc; font-size: 0.76rem; letter-spacing: 0.04em;">🔄 3. CHUYỂN ĐỘNG CAMERA AI (AI MOTIONS) · AICameraMovements.com</span>
-                <span data-i18n="scb-motion-sub" style="font-size: 0.65rem; color: #a1a1aa;">Điều hướng chuyển động ống kính cho Veo 2 / Sora / Kling</span>
+                <span data-i18n="scb-motion-sub" style="font-size: 0.65rem; color: #a1a1aa;">Điều hướng chuyển động ống kính cho Veo 3.1 / Gemini Omni Flash 1.1 / Kling 4.0</span>
               </div>
               <div id="scb-motion-pills" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px;">
                 <button class="scb-pill active" data-motion="" style="background: linear-gradient(135deg, rgba(147,51,234,0.3), rgba(168,85,247,0.15)); border: 1px solid #c084fc; color: #c084fc; padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">Mặc định</button>
@@ -1453,7 +1453,7 @@
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa quét</span>
               </div>
               <div class="pipeline-step" data-step="model" style="display:flex; justify-content:space-between; align-items:center; padding:4px 8px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:24px;">
-                <span style="color:#94A3B8;">5. 🤖 Chọn Model AI đích (Veo/Sora/Wan)</span>
+                <span style="color:#94A3B8;">5. 🤖 Chọn Model AI đích (Seedance/Kling/Veo/Wan)</span>
                 <span class="pipeline-step-status" style="color:#64748B; font-weight:700;">○ Chưa xuất</span>
               </div>
               <div class="pipeline-step" data-step="audio" style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; border-radius:5px; background:rgba(255,255,255,0.025); min-height:28px; margin-bottom:0;">
@@ -1499,22 +1499,31 @@
         <span id="prompt-title-dock" class="dock-prompt-name"></span>
       </div>
 
-      <!-- Center: Spacious 7-Model Tabs -->
+      <!-- Center: Spacious 10-Model Tabs (T10/2026 Standard) -->
       <div class="dock-tabs-group multi-model-tabs-container">
-        <button id="tab-btn-mj" class="model-tab-btn active" data-tab="image">
-          🎨 Midjourney v8.2
+        <button id="tab-btn-mj" class="model-tab-btn active" data-tab="image" title="Midjourney v8.1 Native 2K HD">
+          🎨 Midjourney v8.1 (2K)
         </button>
-        <button id="tab-btn-imagen" class="model-tab-btn" data-tab="imagen" title="Tạo ảnh tĩnh Google Gemini 3.1 Flash Image (Nano Banana) chuẩn Google Flow & Google Pics">
-          ⚡ Gemini Image (Flow)
+        <button id="tab-btn-seedance" class="model-tab-btn" data-tab="seedance" title="ByteDance Seedance 2.5: 30s Multi-Shot Native 1080p 10-bit">
+          🌊 Seedance 2.5 (30s)
         </button>
-        <button id="tab-btn-gpt" class="model-tab-btn" data-tab="imagegpt" title="OpenAI ChatGPT Images 2.5 (Sunburst / Flare) - Bảo toàn nhân vật & chỉnh sửa đa bước">
+        <button id="tab-btn-kling" class="model-tab-btn" data-tab="kling" title="Kling 4.0 / 3.0 Turbo: 6 Shots / 10 Keyframes">
+          ⚡ Kling 4.0
+        </button>
+        <button id="tab-btn-video" class="model-tab-btn" data-tab="video" title="Google DeepMind Veo 3.1 & Gemini Omni Flash 1.1">
+          🎬 Veo 3.1 / Omni
+        </button>
+        <button id="tab-btn-runway" class="model-tab-btn" data-tab="runway" title="Runway Gen-4.5: Sequenced Cause & Effect Motion">
+          🎞️ Runway Gen-4.5
+        </button>
+        <button id="tab-btn-wan" class="model-tab-btn" data-tab="wan" title="Alibaba Wan 3.0 AI Video Engine">
+          ⚡ Wan 3.0
+        </button>
+        <button id="tab-btn-imagen" class="model-tab-btn" data-tab="imagen" title="Google Gemini 3.1 Flash Image (Nano Banana)">
+          ⚡ Gemini Image
+        </button>
+        <button id="tab-btn-gpt" class="model-tab-btn" data-tab="imagegpt" title="OpenAI ChatGPT Images 2.5">
           💬 Images 2.5
-        </button>
-        <button id="tab-btn-wan" class="model-tab-btn" data-tab="wan" title="Alibaba Wan 2.5 AI Video Engine">
-          ⚡ Wan 2.5
-        </button>
-        <button id="tab-btn-video" class="model-tab-btn" data-tab="video" title="Sora 2 & Veo 3.1 Script">
-          🎬 Sora/Veo 2026
         </button>
         <button id="tab-btn-nlm" class="model-tab-btn" data-tab="notebooklm" title="NotebookLM Directives">
           📓 NotebookLM
@@ -1524,8 +1533,17 @@
         </button>
       </div>
 
-      <!-- Right: Window / Dock Controls & JSON Toggle (Hollywood Gold Style) -->
+      <!-- Right: Window / Dock Controls & Gemini 4 Argon Tools -->
       <div class="dock-header-right" style="display:flex; align-items:center; gap:8px;">
+        <button id="argon-sketch-btn" type="button" class="dock-tool-btn" style="background:rgba(255,215,0,0.12); border:1px solid #ffd700; color:#ffd700; font-weight:800; padding:4px 10px; border-radius:6px; cursor:pointer;" title="Vẽ sơ đồ góc máy & tự động sinh tọa độ vật lý 3D">
+          <span>📐 Sketch-to-Shot</span>
+        </button>
+        <button id="argon-continuity-btn" type="button" class="dock-tool-btn" style="background:rgba(16,185,129,0.12); border:1px solid #10b981; color:#34d399; font-weight:800; padding:4px 10px; border-radius:6px; cursor:pointer;" title="Giám sát raccord ánh sáng & bóng đổ giữa các phân cảnh">
+          <span>🛡️ Raccord Inspector</span>
+        </button>
+        <button id="argon-autocompile-btn" type="button" class="dock-tool-btn" style="background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-weight:900; padding:5px 12px; border-radius:6px; cursor:pointer; box-shadow:0 0 10px rgba(255,215,0,0.35);" title="Biên dịch 1 cú nhấp chuột ra trọn bộ 5 Engine T10/2026">
+          <span>⚡ Auto-Compile (5 Engines)</span>
+        </button>
         <div class="output-format-toggle" title="Chuyển đổi kiểu hiển thị Kịch Bản Điện Ảnh hoặc Cấu Trúc JSON" style="display:inline-flex; align-items:center; background:rgba(0,0,0,0.5); border:1px solid rgba(255,215,0,0.35); padding:2px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.4);">
           <button id="format-toggle-prose" class="format-toggle-btn is-active" type="button" style="background:linear-gradient(135deg, rgba(201,162,39,0.35), rgba(255,215,0,0.25)); border:1px solid #ffd700; color:#ffd700; padding:4px 9px; border-radius:6px; font-size:0.72rem; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 0 8px rgba(255,215,0,0.3); transition:all 0.2s;">🎬 Kịch Bản</button>
           <button id="format-toggle-json" class="format-toggle-btn" type="button" style="background:transparent; border:1px solid transparent; color:#a1a1aa; padding:4px 9px; border-radius:6px; font-size:0.72rem; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all 0.2s;">{ } JSON</button>
@@ -1763,11 +1781,11 @@
           </div>
         </div>
 
-        <!-- Tab 4 Panel: Video Prompt -->
+        <!-- Tab 4 Panel: Veo 3.1 & Gemini Omni Flash 1.1 Video Prompt -->
         <div id="panel-tab-video" class="result-panel result-panel--video" style="display:none;">
           <div class="result-panel-header">
             <div class="panel-header-left">
-              <span class="panel-label" data-i18n="vid-prompt">🎥 SORA 2 & VEO 3.1 SCRIPT</span>
+              <span class="panel-label" data-i18n="vid-prompt">🎥 VEO 3.1 & GEMINI OMNI FLASH 1.1 SCRIPT</span>
               <span id="count-badge-video" class="dock-badge-counter">0 từ · 0 ký tự</span>
               <!-- FPS Selector Bar -->
               <div class="fps-selector-bar">
@@ -1786,6 +1804,71 @@
           </div>
           <p id="result-text-video" class="result-text result-placeholder" data-i18n="placeholder-res">Chọn một thẻ hoặc nhấn Director's Cut để tạo.</p>
           <p id="result-translation-video" class="result-text result-translation" style="display:none;"></p>
+        </div>
+
+        <!-- Tab: Seedance 2.5 Panel (ByteDance 30s Multi-Shot) -->
+        <div id="panel-tab-seedance" class="result-panel result-panel--seedance" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label" style="color:#38bdf8; font-weight:800;">🌊 SEEDANCE 2.5 · 30s MULTI-SHOT & MATRIX REFS</span>
+              <span id="count-badge-seedance" class="dock-badge-counter">1080p 10-bit</span>
+              <span class="token-counter">Vietnamese Lip-Sync Ready</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="copy-btn-seedance" class="copy-btn btn-primary"><span>📋 Sao chép Seedance Prompt</span></button>
+            </div>
+          </div>
+          <p id="result-text-seedance" class="result-text" style="white-space:pre-wrap; font-family:'JetBrains Mono', monospace; font-size:0.78rem; line-height:1.55; color:#bae6fd;">[FORMAT: 1080p 10-bit | DURATION: 24s | AR: 21:9]
+[REFERENCES]
+- @Img_1: Nam chính (khuôn mặt góc cạnh, áo măng tô đen ướt mưa)
+- @Img_2: Ly cà phê sữa đá Sài Gòn đặt trên mặt bàn gỗ cũ
+- @Audio_1: Tiếng mưa đêm Sài Gòn và nhạc Jazz saxophone trầm buồn
+
+[MULTI-SHOT TIMELINE]
+- [00:00 - 00:07 | SHOT 1: Extreme Wide Shot, High Angle, Slow Crane Down]: Khung cảnh góc phố Sài Gòn về đêm dưới cơn mưa tầm tã, ánh đèn neon vàng hắt xuống mặt đường ướt bóng loáng. @Img_1 bước chậm vào quán cà phê vỉa hè. Sound: @Audio_1 nổi lên rõ dần, tiếng bước chân đạp nước.
+- [00:07 - 00:15 | SHOT 2: Medium Close-up, Over-the-Shoulder, Dolly In]: Cắt cảnh vào trong quán. @Img_1 ngồi xuống, đặt nhẹ tay cạnh @Img_2. Hơi lạnh từ ly cà phê bốc lên.
+- [00:15 - 00:24 | SHOT 3: Extreme Close-up, Eye-level, Shallow DOF 85mm]: Máy lấy nét vào đôi mắt của @Img_1 rồi trượt nét (Rack Focus) sang giọt cà phê đậm đặc chảy xuống lớp sữa đặc.
+- [DIALOGUE - Vietnamese (00:17 - 00:22)]: @Img_1 nói giọng trầm khàn, chậm rãi: "Hai mươi năm rồi, hương vị này vẫn chẳng hề thay đổi." (Lip-sync chuẩn khẩu hình tiếng Việt).</p>
+        </div>
+
+        <!-- Tab: Kling 4.0 / 3.0 Turbo Panel -->
+        <div id="panel-tab-kling" class="result-panel result-panel--kling" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label" style="color:#ffd700; font-weight:800;">⚡ KLING 4.0 / 3.0 TURBO · 6 SHOTS & 10 KEYFRAMES</span>
+              <span class="dock-badge-counter">Native 4K Continuity</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="copy-btn-kling" class="copy-btn btn-primary"><span>📋 Sao chép Kling Prompt</span></button>
+            </div>
+          </div>
+          <p id="result-text-kling" class="result-text" style="white-space:pre-wrap; font-family:'JetBrains Mono', monospace; font-size:0.78rem; line-height:1.55; color:#fef08a;">[MASTER CONTINUITY LOCK]: Anamorphic 35mm lens, Teal and Orange cinematic grading, volumetric rainy night lighting, film grain.
+[SHOT 1 (0s-3s)]: Wide establishing shot, camera tracks forward behind [Character_A] walking through a neon-lit alley.
+[SHOT 2 (3s-7s) - CUT TO]: Reverse angle Medium Shot, [Character_A] stops abruptly, rain dripping from umbrella brim, looking left off-screen with tense expression.
+[SHOT 3 (7s-12s) - CUT TO]: Dutch angle Close-up on [Character_A]'s hand gripping a vintage silver lighter, flicking it open. The flame illuminates his wet face in warm orange contrast.
+[KEYFRAME PINNING (10-KF MATRIX)]:
+• KF1 (0.0s): Character enters alley
+• KF5 (4.0s): Raindrop splash on umbrella
+• KF10 (8.0s): Lighter flame ignition
+[NATIVE AUDIO]: Heavy rain downpour, distant thunder rumble at 4s, sharp metallic click of the lighter at 8s.</p>
+        </div>
+
+        <!-- Tab: Runway Gen-4.5 Panel -->
+        <div id="panel-tab-runway" class="result-panel result-panel--runway" style="display:none;">
+          <div class="result-panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label" style="color:#ec4899; font-weight:800;">🎞️ RUNWAY GEN-4.5 · SEQUENCED CAUSE & EFFECT</span>
+              <span class="dock-badge-counter">21:9 Widescreen</span>
+            </div>
+            <div class="panel-header-actions">
+              <button id="copy-btn-runway" class="copy-btn btn-primary"><span>📋 Sao chép Runway Prompt</span></button>
+            </div>
+          </div>
+          <p id="result-text-runway" class="result-text" style="white-space:pre-wrap; font-family:'JetBrains Mono', monospace; font-size:0.78rem; line-height:1.55; color:#fbcfe8;">Part 1 (Scene & Lighting): Widescreen 21:9. A luxury glass perfume bottle rests on a black basalt rock amidst dark ocean waves under dramatic overcast twilight.
+Part 2 (Sequenced Motion): First, a heavy ocean wave crashes violently against the black rock, sending water droplets splashing in slow motion with realistic weight and fluid dynamics. Next, the water cascades down the glass bottle's surface while the camera performs a slow dolly-in paired with a subtle focus pull from the splashing water to the gold embossed logo.
+
+[RUNWAY GEN-4.5 IMAGE-TO-VIDEO MODE (CHỈ XUẤT CHUYỂN ĐỘNG VẬT LÝ)]:
+The camera slowly orbits right while a gust of wind blows the woman's silk scarf upward; she turns her head toward the lens, blinks naturally, and a subtle smile forms on her lips.</p>
         </div>
 
         <!-- Tab 5 Panel: NotebookLM Directives -->
@@ -1883,7 +1966,7 @@
             <code id="modal-prompt-template" class="param-code" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:8px 10px; color:#38bdf8; font-family:monospace; font-size:0.78rem; display:block; word-break:break-word; line-height:1.4;"></code>
           </div>
           <div class="param-row" style="display:flex; flex-direction:column; gap:4px;">
-            <span class="param-label" style="color:#a1a1aa; font-size:0.75rem; font-weight:600;">Runway / Sora Prompt:</span>
+            <span class="param-label" style="color:#a1a1aa; font-size:0.75rem; font-weight:600;">Seedance 2.5 / Kling 4.0 / Runway:</span>
             <code id="modal-video-template" class="param-code" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:8px 10px; color:#ffd700; font-family:monospace; font-size:0.78rem; display:block; word-break:break-word; line-height:1.4;"></code>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
@@ -2255,7 +2338,7 @@
                 </div>
                 <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px 10px;">
                   <div style="color: #a855f7; font-size: 0.68rem; font-weight: 700; margin-bottom: 2px;">3.2 VIDEO AI MOTION</div>
-                  <div style="color: #a1a1aa; font-size: 0.78rem;">Runway · Kling · Sora · Veo 3</div>
+                  <div style="color: #a1a1aa; font-size: 0.78rem;">Seedance 2.5 · Kling 4.0 · Veo 3.1 · Runway Gen-4.5</div>
                 </div>
                 <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px 10px;">
                   <div style="color: #a855f7; font-size: 0.68rem; font-weight: 700; margin-bottom: 2px;">3.3 NOTEBOOKLM SCRIPT</div>
@@ -2533,7 +2616,7 @@
           
           <!-- Banner Header -->
           <div style="background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(0,0,0,0.3)); border: 1px solid rgba(16,185,129,0.25); border-radius: 16px; padding: 22px; margin-bottom: 20px;">
-            <div style="color: #10b981; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">🔊 AUDIO & SFX PROMPT PACK CHO VEO / OMNI / SORA</div>
+            <div style="color: #10b981; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">🔊 AUDIO & SFX PROMPT PACK CHO VEO 3.1 / OMNI / SEEDANCE</div>
             <h3 style="color: #f4f4f5; font-size: 1.1rem; font-weight: 700; margin: 0 0 8px;">Nghệ Thuật Biến Video AI Từ "Có Hình" Thành "Có Cảm Giác"</h3>
             <p style="color: #a1a1aa; font-size: 0.82rem; line-height: 1.6; margin: 0;">
               Âm thanh chiếm <strong style="color: #6ee7b7;">50% cảm xúc</strong> của một video quảng cáo, Reels hay phim ngắn. Dùng trực tiếp cho model có native audio hoặc làm bản <em>Sound Design Brief</em> chuyên nghiệp cho hậu kỳ CapCut, Premiere, ElevenLabs, Suno.
@@ -2604,7 +2687,7 @@
             <div style="color: #ffd700; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">🎬 AI FILM DIRECTOR PLAYBOOK · 2026 EDITION</div>
             <h3 style="color: #f4f4f5; font-size: 1.15rem; font-weight: 700; margin: 0 0 8px;">7 Trụ Cột Biến Bạn Thành "Đạo Diễn AI Film Thực Thụ"</h3>
             <p style="color: #a1a1aa; font-size: 0.82rem; line-height: 1.6; margin: 0;">
-              Mọi AI Video Model (Veo 3.1, Sora 2, Kling 2.5, Runway Gen-4, Wan 2.2) đều được train trên hàng triệu giờ phim Hollywood. Chúng không phải là nhà văn, chúng là <strong style="color:#ffd700;">DP & Tổ sản xuất</strong>. Hãy giao tiếp với chúng bằng ngôn ngữ điện ảnh chuẩn xác.
+              Mọi AI Video Model (Veo 3.1, Seedance 2.5, Kling 4.0, Runway Gen-4.5, Wan 3.0) đều được train trên hàng triệu giờ phim Hollywood. Chúng không phải là nhà văn, chúng là <strong style="color:#ffd700;">DP & Tổ sản xuất</strong>. Hãy giao tiếp với chúng bằng ngôn ngữ điện ảnh chuẩn xác.
             </p>
           </div>
 
@@ -4009,7 +4092,7 @@
 
             const input = document.getElementById('subject-input');
             if (input) {
-              input.value = `[VIRAL REMAKE MODE]:\n${videoSourceInfo}${window.__viralVisual ? '\n- Phân tích thị giác thực tế từ keyframe (CLONE PHONG CÁCH NÀY): ' + window.__viralVisual.text + ' → dùng --ar ' + window.__viralVisual.ar : ''}\n- Lời thoại / Điểm nhấn Video Đối Thủ:\n<competitor_transcript>\n${script || 'Video review triệu view sản phẩm cùng ngành'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}${charPromptLine}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Bóc tách 3s Viral Hook và Công thức tâm lý chuyển đổi người xem của video đối thủ này.\n2. Giữ nguyên công thức thành công nhưng SÁNG TẠO 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video Google Veo 3 / Sora 2 4K, Prompt Ảnh Bìa Midjourney V8 và Lời thoại Thuyết minh Tiếng Việt đồng bộ CapCut.`;
+              input.value = `[VIRAL REMAKE MODE]:\n${videoSourceInfo}${window.__viralVisual ? '\n- Phân tích thị giác thực tế từ keyframe (CLONE PHONG CÁCH NÀY): ' + window.__viralVisual.text + ' → dùng --ar ' + window.__viralVisual.ar : ''}\n- Lời thoại / Điểm nhấn Video Đối Thủ:\n<competitor_transcript>\n${script || 'Video review triệu view sản phẩm cùng ngành'}\n</competitor_transcript>\n- Sản Phẩm MỚI Của Tôi: ${myProduct}${charPromptLine}\n\nAI ĐẠO DIỄN HÃY PHÂN TÍCH:\n1. Bóc tách 3s Viral Hook và Công thức tâm lý chuyển đổi người xem của video đối thủ này.\n2. Giữ nguyên công thức thành công nhưng SÁNG TẠO 100% KỊCH BẢN MỚI cho sản phẩm ${myProduct}!\n3. Xuất trọn bộ Prompt Video ByteDance Seedance 2.5 / Kling 4.0 / Veo 3.1 4K, Prompt Ảnh Bìa Midjourney V8.1 và Lời thoại Thuyết minh Tiếng Việt đồng bộ CapCut.`;
               input.focus();
               input.dispatchEvent(new Event('input', { bubbles: true }));
               
@@ -4053,7 +4136,7 @@
       </div>
 
       <p style="font-size:0.8rem; color:#a1a1aa; margin-bottom:18px; line-height:1.5;">
-        Biến ý tưởng sản phẩm & mục tiêu tiếp thị thành chuỗi phân cảnh video điện ảnh phân khúc chuyên nghiệp (Hook 0-3s, Problem 3-6s, Solution 6-10s, CTA 10-15s) tối ưu cho <b>Wan 2.5, Sora 2, DeepMind Veo 3.1, Runway Gen-3</b>.
+        Biến ý tưởng sản phẩm & mục tiêu tiếp thị thành chuỗi phân cảnh video điện ảnh phân khúc chuyên nghiệp (Hook 0-3s, Problem 3-6s, Solution 6-10s, CTA 10-15s) tối ưu cho <b>ByteDance Seedance 2.5, Kling 4.0, DeepMind Veo 3.1, Runway Gen-4.5, Wan 3.0</b>.
       </p>
 
       <!-- Input Form Grid -->
@@ -4673,7 +4756,7 @@ ${activeSubLines[3]}
           <button type="button" class="pr-preset-card" data-preset="cinema_anchor" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s;">
             <div style="font-size:1.1rem; margin-bottom:4px;">🎬</div>
             <div style="font-size:0.8rem; font-weight:800; color:#38bdf8; margin-bottom:2px;">Video Anchor AI</div>
-            <div style="font-size:0.68rem; color:#94a3b8; line-height:1.3;">Khử mờ ảnh ref cho Veo 3 / Sora 2 / Wan 2.5.</div>
+            <div style="font-size:0.68rem; color:#94a3b8; line-height:1.3;">Khử mờ ảnh ref cho Seedance 2.5 / Veo 3.1 / Kling 4.0 / Wan 3.0.</div>
           </button>
 
           <button type="button" class="pr-preset-card" data-preset="extreme_super_res" style="text-align:left; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:10px 12px; color:#fff; cursor:pointer; transition:all 0.2s;">
@@ -5700,18 +5783,30 @@ ${activeSubLines[3]}
     import { directorVaultUI } from '/js/directorVaultUI.js';
     import { directorPrivateVault } from '/js/directorPrivateVault.js';
     import { urlToVideoReviewUI } from '/js/urlToVideoReviewUI.js';
+    import { geminiArgonUI } from '/js/geminiArgonUI.js';
+    import { cinemaWorkstationUI } from '/js/cinemaWorkstationUI.js';
+    import { v5StudioUI } from '/js/v5StudioUI.js';
     window.directorVaultUI = directorVaultUI;
     window.directorPrivateVault = directorPrivateVault;
     window.urlToVideoReviewUI = urlToVideoReviewUI;
+    window.geminiArgonUI = geminiArgonUI;
+    window.cinemaWorkstationUI = cinemaWorkstationUI;
+    window.v5StudioUI = v5StudioUI;
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
         directorVaultUI.init();
         urlToVideoReviewUI.init();
+        geminiArgonUI.init();
+        cinemaWorkstationUI.init();
+        v5StudioUI.init();
       });
     } else {
       directorVaultUI.init();
       urlToVideoReviewUI.init();
+      geminiArgonUI.init();
+        cinemaWorkstationUI.init();
+        v5StudioUI.init();
     }
   </script>
 

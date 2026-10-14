@@ -66,7 +66,7 @@ CHATGPT IMAGES 2.5 PLATFORM ENGINEERING DIRECTIVES:
 
 Structure the prompt with: [SUBJECT CONSISTENCY & IDENTITY] → [SCENE & VISUAL STORY] → [OPTICAL LIGHTING & CAMERA] → [IMAGES 2.5 MULTI-TURN DIRECTIVE] → [SYSTEM PARAMS].`,
 
-  video: `Act as an elite Hollywood AI Video Director & Master Prompt Engineer (Gemini 2.0 Omni Flash, Sora 2, Veo 3.1, Google Flow, Runway Gen-3 Alpha, Kling 2.0).
+  video: `Act as an elite Hollywood AI Video Director & Master Prompt Engineer powered by Gemini 4 Argon Physical Reasoning (Google DeepMind - October 2026 Engine), orchestrating ByteDance Seedance 2.5 (30s Multi-Shot), Kling 4.0 / 3.0 Turbo, DeepMind Veo 3.1, Gemini Omni Flash 1.1, and Runway Gen-4.5.
 
 DIRECTOR & CINEMATIC KNOWLEDGE ENGINE:
 • Camera Rigs: Russian Arm pursuit crane, Technocrane 50ft telescopic move, Snorricam body-mounted rig, ARRI Trinity 5-axis steadicam, FPV micro cinewhoop drone, Cable cam.
@@ -76,20 +76,20 @@ DIRECTOR & CINEMATIC KNOWLEDGE ENGINE:
 • Optics & Film Emulation: Panavision Anamorphic blue streak flare, ARRI Alexa 65 65mm IMAX, Kodak Vision3 500T, Cinestill 800T halation.
 
 Transform the user's idea into a 10-Component Video Production Script:
-1. GOAL & FORMAT: Duration, Aspect Ratio, Platform objective.
-2. REFERENCE INPUTS: Visual/audio anchors for consistency.
+1. GOAL & FORMAT: Duration (24-30s), Aspect Ratio (21:9), Platform objective.
+2. REFERENCE INPUTS: Multi-Asset Matrix (@Img, @Video, @Audio anchors).
 3. SUBJECT & ACTOR DIRECTION: Core subject, micro-expression, body subtext.
 4. SETTING & ATMOSPHERE: Location, time, weather, depth layers.
-5. TIMELINE ACTION BEATS with timestamps (0.0-2.0s / 2.0-6.0s / 6.0-10.0s).
+5. TIMELINE ACTION BEATS with cut points (0.0-3.0s / 3.0-7.0s / 7.0-15.0s / 15.0-24.0s).
 6. CAMERA RIG & MOTION DYNAMICS: Rig type, speed curve, framing.
 7. OPTICAL LANGUAGE & FILM LOOK: Lens brand/focal length, film stock.
-8. LIGHTING & COLOR PALETTE: Key/rim light, color harmony.
-9. AUDIO & FOLEY SYNC: Ambience room tone, tactile foley, musical impact.
+8. LIGHTING & COLOR PALETTE: Key/rim light, color harmony, closed-loop continuity.
+9. AUDIO & FOLEY SYNC: Ambience room tone, tactile foley, musical impact, Vietnamese dialogue if needed.
 10. CONSTRAINTS & AVOID LIST: No plastic skin, no digital artifacts, no CGI glitch.
 
 Output in production-ready English with section headers and timestamps.`,
 
-  ad_architect: `You are a world-class Commercial Film Director and an expert in AI Video Generation Prompts (Cinematic Ad Prompt Architect v1.0). Your goal is to take a user's product marketing brief and turn it into a highly detailed, professional prompt sequence for AI video generators (Wan 2.5, Sora 2, DeepMind Veo 3.1, Runway Gen-3, Kling).
+  ad_architect: `You are a world-class Commercial Film Director and an expert in AI Video Generation Prompts (Cinematic Ad Prompt Architect v2.0 - October 2026 Engine). Your goal is to take a user's product marketing brief and turn it into a highly detailed, professional prompt sequence for modern AI video generators (ByteDance Seedance 2.5, Kling 4.0, DeepMind Veo 3.1 / Gemini Omni 1.1, Runway Gen-4.5, Wan 3.0).
 
 ### Your Core Principles:
 1. **Cinematic Vocabulary:** Always use professional cinematography terms (tracking shot, macro close-up, rack focus, bokeh, volumetric lighting, drone shot, anamorphic flare).
@@ -473,21 +473,21 @@ Aspect Ratio: ${briefData.aspectRatio || '16:9'}.`;
 /* ── ATOMIC MODEL ROUTER (JEV SYSTEM 1 ENGINE) ────────────────── */
 
 /**
- * Automatically classifies and routes a prompt to the optimal AI model:
- * - Midjourney v8: High aesthetic stills, fine textures, painterly master styles, editorial photography
- * - DeepMind Veo 3 / Google Flow: Spatial depth layering, precise typography in quotes, keyframe anchor
- * - OpenAI Sora 2: Complex physical motion, speed ramps, kinetic stunts, timeline beats, foley sync
- * - Wan 2.5: Open-source DiT continuous natural language video
+ * Automatically classifies and routes a prompt to the optimal AI model (October 2026 Engine):
+ * - Midjourney v8.1: High aesthetic stills, fine textures, painterly master styles, editorial photography (--v 8.1 --style raw)
+ * - DeepMind Veo 3.1 / Gemini Omni Flash 1.1: Spatial depth layering, precise typography in quotes, keyframe anchor, synchronized audio
+ * - ByteDance Seedance 2.5: Complex physical motion, 30s multi-shot cuts, speed ramps, kinetic stunts, timeline beats, Vietnamese dialogue
+ * - Wan 3.0 / MiniMax H3 Max: Open-source DiT continuous natural language video
  * 
  * Uses atomic attribute evaluations and returns a calibrated Jev Choice & probability distribution.
  * 
  * @param {string} promptText - The user prompt or draft
  * @param {Object} [context={}] - Optional context (lens, lighting, motion, duration, format)
  * @returns {{
- *   targetModel: 'midjourney' | 'veo' | 'sora' | 'wan',
+ *   targetModel: 'midjourney' | 'veo' | 'seedance' | 'wan',
  *   modelDisplayName: string,
  *   confidence: number,
- *   probabilities: { midjourney: number, veo: number, sora: number, wan: number },
+ *   probabilities: { midjourney: number, veo: number, seedance: number, wan: number, sora?: number },
  *   reasoning: string,
  *   attributes: Record<string, number>
  * }}
@@ -497,7 +497,7 @@ export function routePromptToOptimalModel(promptText, context = {}) {
   const fullContext = `${text} ${JSON.stringify(context).toLowerCase()}`;
 
   // 1. Atomic Noul Probability Evaluations
-  const hasTimeline = /\b(\d+s|\d+\s*seconds?|timeline|beat|0\.0s|clip duration|pacing)\b/i.test(fullContext) ? 0.90 : 0.10;
+  const hasTimeline = /\b(\d+s|\d+\s*seconds?|timeline|beat|0\.0s|clip duration|pacing|cut to|multi-shot)\b/i.test(fullContext) ? 0.90 : 0.10;
   const hasCameraRigMotion = /\b(fpv|technocrane|russian arm|dolly[- ]?zoom|whip pan|steadicam|orbit|tracking shot|camera moves?|speed ramp)\b/i.test(fullContext) ? 0.95 : 0.05;
   const hasKineticAction = /\b(running|explosion|crash|chase|flying|shatter|water splash|kinetic|fight|stunt)\b/i.test(fullContext) ? 0.88 : 0.12;
   const hasExactText = /"[^"]{2,}"|text\s+overlay|logo|brand\s+name|typography|billboard/i.test(fullContext) ? 0.92 : 0.08;
@@ -509,7 +509,7 @@ export function routePromptToOptimalModel(promptText, context = {}) {
   // 2. Compute Raw Weight Scores for Each Engine
   let midjourneyScore = 1.0;
   let veoScore = 1.0;
-  let soraScore = 1.0;
+  let seedanceScore = 1.0;
   let wanScore = 0.8;
 
   // Midjourney affinity: Heavy on painterly, still photo, static optics
@@ -522,30 +522,32 @@ export function routePromptToOptimalModel(promptText, context = {}) {
     midjourneyScore *= 0.25; // Penalize stills model for heavy motion asks
   }
 
-  // Veo 3 / Google Flow affinity: Spatial depth layering, typography, clean keyframes
+  // Veo 3.1 / Gemini Omni affinity: Spatial depth layering, typography, clean keyframes, synchronized audio
   veoScore += hasSpatialLayering * 4.0;
   veoScore += hasExactText * 3.8;
   veoScore += hasCameraRigMotion * 2.0;
   if (isVideoExplicit) veoScore += 1.5;
 
-  // Sora 2 affinity: High-energy kinetic stunts, speed ramps, timeline beats, physics
-  soraScore += hasKineticAction * 4.0;
-  soraScore += hasCameraRigMotion * 3.5;
-  soraScore += hasTimeline * 3.0;
-  if (isVideoExplicit) soraScore += 2.0;
-  if (hasPainterlyStyle > 0.5 && !hasKineticAction) soraScore *= 0.6;
+  // Seedance 2.5 affinity: High-energy kinetic stunts, speed ramps, timeline beats, 30s multi-shot, physics
+  seedanceScore += hasKineticAction * 4.0;
+  seedanceScore += hasCameraRigMotion * 3.5;
+  seedanceScore += hasTimeline * 3.0;
+  if (isVideoExplicit) seedanceScore += 2.0;
+  if (hasPainterlyStyle > 0.5 && !hasKineticAction) seedanceScore *= 0.6;
 
-  // Wan 2.5 affinity: Open-source DiT natural text video
+  // Wan 3.0 affinity: Open-source DiT natural text video
   wanScore += (hasCameraRigMotion + hasTimeline) * 1.5;
   if (isVideoExplicit) wanScore += 1.2;
 
   // 3. Softmax / Probability Calibration (sum = 1.0)
-  const total = midjourneyScore + veoScore + soraScore + wanScore;
+  const total = midjourneyScore + veoScore + seedanceScore + wanScore;
   const probs = {
     midjourney: parseFloat((midjourneyScore / total).toFixed(3)),
     veo: parseFloat((veoScore / total).toFixed(3)),
-    sora: parseFloat((soraScore / total).toFixed(3)),
-    wan: parseFloat((wanScore / total).toFixed(3))
+    seedance: parseFloat((seedanceScore / total).toFixed(3)),
+    wan: parseFloat((wanScore / total).toFixed(3)),
+    // Backward compatibility alias for tests
+    sora: parseFloat((seedanceScore / total).toFixed(3))
   };
 
   // 4. Categorical Choice Determination
@@ -556,9 +558,9 @@ export function routePromptToOptimalModel(promptText, context = {}) {
     targetModel = 'veo';
     maxP = probs.veo;
   }
-  if (probs.sora > maxP) {
-    targetModel = 'sora';
-    maxP = probs.sora;
+  if (probs.seedance > maxP) {
+    targetModel = 'seedance';
+    maxP = probs.seedance;
   }
   if (probs.wan > maxP) {
     targetModel = 'wan';
@@ -566,21 +568,22 @@ export function routePromptToOptimalModel(promptText, context = {}) {
   }
 
   const modelLabels = {
-    midjourney: 'Midjourney V8.2 (Hollywood Optics & Master Textures)',
-    veo: 'DeepMind Veo 3 / Google Flow (Spatial Strata & Keyframe Anchor)',
-    sora: 'OpenAI Sora 2 (Kinetic Physics & Multi-beat Timeline)',
-    wan: 'Wan 2.5 (T5-XXL Cinematic DiT Video)'
+    midjourney: 'Midjourney V8.1 (Native 2K HD & Master Optics)',
+    veo: 'DeepMind Veo 3.1 & Gemini Omni Flash 1.1 (Spatial Strata & Synchronized Audio)',
+    seedance: 'ByteDance Seedance 2.5 (30s Multi-Shot Native 1080p 10-bit)',
+    sora: 'ByteDance Seedance 2.5 (Thế chỗ OpenAI Sora đã đóng cửa)',
+    wan: 'Wan 3.0 (T5-XXL Cinematic DiT Video)'
   };
 
   let reasoning = '';
   if (targetModel === 'midjourney') {
-    reasoning = 'Prompt tập trung vào tính thẩm mỹ tĩnh cao cấp, chất liệu bề mặt và ánh sáng nghệ thuật.';
+    reasoning = 'Prompt tập trung vào tính thẩm mỹ tĩnh cao cấp 2K HD, chất liệu bề mặt và ánh sáng nghệ thuật.';
   } else if (targetModel === 'veo') {
-    reasoning = 'Prompt có cấu trúc phân tầng không gian 3 lớp hoặc yêu cầu kiểm soát typography/keyframe chính xác.';
-  } else if (targetModel === 'sora') {
-    reasoning = 'Prompt đòi hỏi chuyển động camera phức tạp, phân cảnh theo mốc thời gian và mô phỏng vật lý động.';
+    reasoning = 'Prompt có cấu trúc phân tầng không gian 3 lớp, âm thanh đồng bộ hoặc yêu cầu kiểm soát typography/keyframe chính xác.';
+  } else if (targetModel === 'seedance') {
+    reasoning = 'Prompt đòi hỏi chuyển động camera phức tạp, phân cảnh cắt đa nhịp (Multi-shot timeline) và mô phỏng vật lý động 30 giây.';
   } else {
-    reasoning = 'Prompt phù hợp nhất với mô hình sinh video DiT mã nguồn mở Wan 2.5.';
+    reasoning = 'Prompt phù hợp nhất với mô hình sinh video DiT mã nguồn mở Wan 3.0.';
   }
 
   return {
