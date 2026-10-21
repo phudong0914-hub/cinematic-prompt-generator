@@ -11,6 +11,10 @@ import optimizeModelHandler from './api/optimize-model.js';
 import scorePromptHandler from './api/score-prompt.js';
 import powerWordsHandler from './api/power-words.js';
 import cinemaStudioHandler from './api/cinema-studio.js';
+import criticRulesHandler from './api/critic-rules.js';
+import safeZoneHandler from './api/safe-zone.js';
+import roughCutHandler from './api/rough-cut.js';
+import directorColorsHandler from './api/director-colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -114,6 +118,18 @@ const server = http.createServer(async (req, res) => {
       }
       if (pathname === '/api/cinema-studio') {
         return cinemaStudioHandler(req, mockRes);
+      }
+      if (pathname === '/api/critic-rules') {
+        return criticRulesHandler(req, mockRes);
+      }
+      if (pathname === '/api/safe-zone-audit' || pathname === '/api/safe-zone') {
+        return safeZoneHandler(req, mockRes);
+      }
+      if (pathname === '/api/rough-cut') {
+        return roughCutHandler(req, mockRes);
+      }
+      if (pathname === '/api/director-colors') {
+        return directorColorsHandler(req, mockRes);
       }
 
       res.statusCode = 404;

@@ -20,7 +20,7 @@ import {
   generateReviewProductionPackage
 } from './urlToVideoReview.js';
 
-import { directorVault } from './directorPrivateVault.js';
+import { directorPrivateVault } from './directorPrivateVault.js';
 
 class UrlToVideoReviewUI {
   constructor() {
@@ -438,7 +438,7 @@ class UrlToVideoReviewUI {
         }
       };
 
-      directorVault.addAsset(asset);
+      directorPrivateVault.addAsset(asset);
       this.showToast('Đã lưu Kịch bản & Timeline vào Thư Viện Của Tôi (Director Vault) 🔒!', 'success');
     } catch (e) {
       console.error(e);

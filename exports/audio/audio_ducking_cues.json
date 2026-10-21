@@ -1,0 +1,10 @@
+[
+  {
+    "cueIndex": 1,
+    "speechStartSec": 0.5,
+    "speechEndSec": 3.5,
+    "duckStartSec": 0.25,
+    "duckEndSec": 3.75,
+    "attenuationDb": -18
+  }
+]

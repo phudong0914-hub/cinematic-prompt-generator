@@ -1,0 +1,91 @@
+{
+  "version": "2.0.0",
+  "system": "Anti-AI-Slop Director Color Vault",
+  "antiSlopNotice": "Strictly rejects generic purple/magenta neon gradients. All palettes calibrated for somatosensory depth and 80/20 emotional hierarchy.",
+  "palettes": [
+    {
+      "id": "moody_mocha_gold",
+      "name": "Moody Mocha & Royal Amber",
+      "description": "Tông cà phê sẫm sang trọng với điểm nhấn lá vàng gold, kích hoạt sự ấm áp và uy quyền tĩnh lặng.",
+      "hexCodes": {
+        "primary": "#1A1412",
+        "secondary": "#2D221E",
+        "accent": "#D4AF37",
+        "text": "#F5EFEB",
+        "muted": "#8A7970"
+      },
+      "lightingKeywords": "diffused warm amber rim light, deep espresso shadows, soft 3200K tungsten bounce",
+      "filmStockLUT": "Kodak Vision3 500T 5219 / Arri Alexa Warm Mocha"
+    },
+    {
+      "id": "teal_orange_filmic",
+      "name": "Hollywood Teal & Orange Depth",
+      "description": "Chuẩn mực tương phản điện ảnh bom tấn: Da diễn viên màu cam ấm nổi bật trên nền xanh ngọc biển sâu.",
+      "hexCodes": {
+        "primary": "#0B1D28",
+        "secondary": "#13303D",
+        "accent": "#FF8A3D",
+        "text": "#FFFFFF",
+        "muted": "#4E7B8C"
+      },
+      "lightingKeywords": "rich cyanish-teal ambient shadows, saturated 5600K daylight key with warm amber kicker",
+      "filmStockLUT": "Fuji Eterna 250D / Dehancer Film Print"
+    },
+    {
+      "id": "midnight_oud_noir",
+      "name": "Midnight Oud Oriental Amber",
+      "description": "Tông đen bóng đêm huyền bí kết hợp ánh hổ phách trầm hương xa xỉ, dùng cho TVC nước hoa và đồ hiệu.",
+      "hexCodes": {
+        "primary": "#0A0B0E",
+        "secondary": "#161820",
+        "accent": "#E69A44",
+        "text": "#FAF8F5",
+        "muted": "#756B60"
+      },
+      "lightingKeywords": "raking 15-degree low key amber beam, deep velvety shadows, specular gold glints",
+      "filmStockLUT": "CineStill 800T Halation / Black Pro-Mist 1/4"
+    },
+    {
+      "id": "nordic_minimalist_frost",
+      "name": "Nordic Frost & Steel Gray",
+      "description": "Phong cách Bắc Âu tối giản, trong trẻo, mang lại cảm giác công nghệ cao, y tế, hoặc thời trang clean.",
+      "hexCodes": {
+        "primary": "#0F141C",
+        "secondary": "#1E2633",
+        "accent": "#4D96FF",
+        "text": "#F0F4F8",
+        "muted": "#8292A6"
+      },
+      "lightingKeywords": "overcast scandinavian diffused softbox, clean sterile rim light, subtle silver highlights",
+      "filmStockLUT": "Agfa Vista 100 Clean / Hasselblad Natural Color"
+    },
+    {
+      "id": "analog_kodak_warmth",
+      "name": "Analog Kodak 35mm Vintage Warmth",
+      "description": "Màu phim nhựa cổ điển với hạt film grain hữu cơ, vàng ấm hoài niệm và tông đỏ terracotta tự nhiên.",
+      "hexCodes": {
+        "primary": "#1C1713",
+        "secondary": "#30261E",
+        "accent": "#E05A47",
+        "text": "#FFFDF9",
+        "muted": "#A18976"
+      },
+      "lightingKeywords": "golden hour natural sun flare, organic 35mm grain, warm highlight roll-off",
+      "filmStockLUT": "Kodak Portra 400 / Real 35mm Grain Overlay"
+    },
+    {
+      "id": "luxury_champagne_emerald",
+      "name": "Imperial Emerald & Champagne Velvet",
+      "description": "Xanh ngọc bích hoàng gia kết hợp sắc rượu sâm panh, chuyên dụng cho bất động sản và đồng hồ cao cấp.",
+      "hexCodes": {
+        "primary": "#081412",
+        "secondary": "#112622",
+        "accent": "#E8D5B5",
+        "text": "#FAF6EE",
+        "muted": "#56756C"
+      },
+      "lightingKeywords": "gentle directional specular reflection, satin emerald gradient, champagne soft key",
+      "filmStockLUT": "Cooke Anamorphic / Panavision Primo Warmth"
+    }
+  ]
+}

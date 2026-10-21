@@ -7,6 +7,10 @@
     "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    },
+    "free-claude-gateway": {
+      "command": "python",
+      "args": ["scripts/fcc_mcp_server.py"]
     }
   }
 }

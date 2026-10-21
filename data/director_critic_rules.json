@@ -1,0 +1,189 @@
+{
+  "version": "2.0.0",
+  "engine": "Critic-to-Rule Adaptive Vault",
+  "updatedAt": "2026-10-21T04:17:05.762Z",
+  "rules": [
+    {
+      "id": "CRIT-001",
+      "category": "face_protection",
+      "severity": "CRITICAL",
+      "rawFeedback": "Chữ to quá che cả mắt người nói",
+      "negativeConstraint": "text overlapping speaker face bounding box (0.35 <= X <= 0.65, 0.15 <= Y <= 0.65)",
+      "enforcedFix": "Shift typography to Outer-Left (X <= 0.32) or Outer-Right (X >= 0.68) third",
+      "triggers": [
+        "che mat",
+        "che mat nguoi noi",
+        "che khuon mat",
+        "mat bi che",
+        "text over face",
+        "overlap face"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-002",
+      "category": "anti_ai_slop",
+      "severity": "HIGH",
+      "rawFeedback": "Màu tím neon rẻ tiền nhìn là biết AI làm",
+      "negativeConstraint": "purple-magenta neon gradient, dark moody purple glow, generic AI cyberpunk slop",
+      "enforcedFix": "Apply Moody Mocha, Warm Amber, or 35mm Analog Film color grading palette",
+      "triggers": [
+        "tim neon",
+        "gradient tim",
+        "ai slop",
+        "mau re tien",
+        "nhin la biet ai lam",
+        "purple neon",
+        "neon gradient",
+        "purple gradient"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-003",
+      "category": "safe_zone_app",
+      "severity": "CRITICAL",
+      "rawFeedback": "Chữ nằm sát mép phải bị nút like và comment TikTok che mất",
+      "negativeConstraint": "elements placed outside 9:16 safe action box (X > 0.82 when Y > 0.40, or Y > 0.74)",
+      "enforcedFix": "Clamp graphic and text coordinates to Safe Action Box: X in [0.05..0.80], Y in [0.12..0.72]",
+      "triggers": [
+        "nut like che",
+        "nut comment che",
+        "nut bam che",
+        "khung tiktok",
+        "khung reels",
+        "khung shorts",
+        "vung nut bam"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-004",
+      "category": "rough_cut",
+      "severity": "HIGH",
+      "rawFeedback": "Nói vấp 2-3 lần mà video vẫn để nguyên",
+      "negativeConstraint": "retaining stumble takes or repeated sentences prior to final confident articulation",
+      "enforcedFix": "Execute last_take_rule: auto-prune preceding attempts and anchor to the final take",
+      "triggers": [
+        "noi vap",
+        "lap lai",
+        "noi 2 lan",
+        "noi 3 lan",
+        "giu lan cuoi",
+        "stumble",
+        "repeat sentence"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-005",
+      "category": "audio_sync",
+      "severity": "HIGH",
+      "rawFeedback": "Chữ xuất hiện trễ cả giây so với giọng đọc",
+      "negativeConstraint": "audio-visual synchronization skew exceeding +-100ms",
+      "enforcedFix": "Align keyframe appearance at exact word timestamp with -50ms anticipation lead",
+      "triggers": [
+        "tre chu",
+        "lech tieng",
+        "chu cham",
+        "chu nhanh",
+        "khong khop loi",
+        "sync lag"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-006",
+      "category": "video_ingest",
+      "severity": "CRITICAL",
+      "rawFeedback": "Render bị đen màn hình suốt video quay từ iPhone",
+      "negativeConstraint": "feeding raw 10-bit HEVC or Dolby Vision profiles into rendering pipeline",
+      "enforcedFix": "Auto-transcode via ffmpeg to standardized H.264 yuv420p 8-bit CFR with regular keyframes",
+      "triggers": [
+        "den man hinh",
+        "dung hinh",
+        "iphone video",
+        "hevc 10bit",
+        "black screen",
+        "render crash"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-007",
+      "category": "text_legibility",
+      "severity": "MEDIUM",
+      "rawFeedback": "Chữ to nhưng mờ nhòe không đọc được trên nền sáng",
+      "negativeConstraint": "insufficient contrast ratio (< 4.5:1) between text fill and background video luminance",
+      "enforcedFix": "Add 50% dark blurred pill badge or multi-stage 3px drop-shadow (#000000, 60% alpha)",
+      "triggers": [
+        "chu mo",
+        "chu nhoe",
+        "khong doc duoc",
+        "nen sang",
+        "kho nhin",
+        "low contrast"
+      ],
+      "isActive": true
+    },
+    {
+      "id": "CRIT-008",
+      "category": "general_aesthetic",
+      "severity": "MEDIUM",
+      "rawFeedback": "Font chữ này mảnh quá không đọc được trên điện thoại",
+      "negativeConstraint": "Do not repeat: Font chữ này mảnh quá không đọc được trên điện thoại",
+      "enforcedFix": "Refine optical composition according to director taste",
+      "triggers": [
+        "font",
+        "chữ",
+        "này",
+        "mảnh",
+        "quá"
+      ],
+      "isActive": true,
+      "createdAt": "2026-10-21T03:26:50.308Z"
+    },
+    {
+      "id": "CRIT-009",
+      "category": "text_legibility",
+      "severity": "MEDIUM",
+      "rawFeedback": "Font chữ này mảnh quá không đọc được trên điện thoại",
+      "negativeConstraint": "Low contrast ratio or optical blur on typography",
+      "enforcedFix": "Apply solid pill badge background or multi-layer dark drop shadow",
+      "triggers": [
+        "chu mo",
+        "low contrast",
+        "unreadable",
+        "font manh",
+        "font",
+        "chữ",
+        "này",
+        "mảnh",
+        "quá"
+      ],
+      "isActive": true,
+      "createdAt": "2026-10-21T03:29:04.162Z"
+    },
+    {
+      "id": "CRIT-010",
+      "category": "text_legibility",
+      "severity": "MEDIUM",
+      "rawFeedback": "Font chữ này mảnh quá không đọc được trên điện thoại",
+      "negativeConstraint": "Low contrast ratio or optical blur on typography",
+      "enforcedFix": "Apply solid pill badge background or multi-layer dark drop shadow",
+      "triggers": [
+        "chu mo",
+        "low contrast",
+        "unreadable",
+        "font manh",
+        "font",
+        "chữ",
+        "này",
+        "mảnh",
+        "quá"
+      ],
+      "isActive": true,
+      "createdAt": "2026-10-21T04:17:05.759Z"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[Script Info]
+Title: Cine Prompt Pro Promo Master
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: HookCaption,Sigmar,50,&H00FFFFFF,&H0010B981,&H00000000,&H90000000,1,0,0,0,100,100,0,0,1,4.0,2.5,2,40,40,260,1
+Style: SubtitleKaraoke,Sigmar,44,&H0000FFFF,&H0010B981,&H00000000,&H80000000,1,0,0,0,100,100,0,0,1,3.5,2.0,2,40,40,160,1
+Style: BadgeURL,Sigmar,46,&H0000E6FF,&H0010B981,&H00000000,&HA0000000,1,0,0,0,100,100,0,0,1,3.5,2.0,8,40,40,180,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 1,0:00:00.00,0:00:07.79,HookCaption,,0,0,0,,DỪNG VIẾT PROMPT MÒ MẪM! • HÃY LÀM CHỦ ĐIỆN ẢNH
+Dialogue: 0,0:00:00.15,0:00:07.12,SubtitleKaraoke,,0,0,0,,{\k34}Dừng {\k34}ngay {\k34}việc {\k34}mò {\k34}mẫm {\k34}viết {\k34}prompt {\k34}AI {\k34}như {\k34}đánh {\k34}xổ {\k34}số! {\k34}Bạn {\k34}đang {\k34}lãng {\k34}phí {\k34}hàng {\k34}giờ {\k34}vô {\k34}ích.
+Dialogue: 1,0:00:07.39,0:00:16.89,HookCaption,,0,0,0,,ĐẠO DIỄN TRUNGVT • CHUẨN HÓA CINE PROMPT PRO
+Dialogue: 0,0:00:07.54,0:00:16.27,SubtitleKaraoke,,0,0,0,,{\k39}Khám {\k39}phá {\k39}Cine {\k39}Prompt {\k39}Pro {\k39}v2.0 {\k39}— {\k39}Hệ {\k39}điều {\k39}hành {\k39}Đạo {\k39}diễn {\k39}Số {\k39}đầu {\k39}tiên {\k39}được {\k39}chuẩn {\k39}hóa {\k39}bởi {\k39}Đạo {\k39}Diễn {\k39}Trungvt.
+Dialogue: 1,0:00:16.50,0:00:27.69,HookCaption,,0,0,0,,OPTICAL LINTER • ĐỊNH TUYẾN VEO 3, MIDJOURNEY, SEEDANCE
+Dialogue: 0,0:00:16.64,0:00:27.02,SubtitleKaraoke,,0,0,0,,{\k43}Tự {\k43}động {\k43}tính {\k43}toán {\k43}khẩu {\k43}độ, {\k43}tiêu {\k43}cự {\k43}ống {\k43}kính {\k43}anamorphic {\k43}và {\k43}định {\k43}tuyến {\k43}chuẩn {\k43}xác {\k43}sang {\k43}Veo {\k43}3, {\k43}Midjourney {\k43}v8 {\k43}và {\k43}Seedance {\k43}2.5.
+Dialogue: 1,0:00:27.30,0:00:38.00,HookCaption,,0,0,0,,157 CÔNG THỨC CHUYỂN ĐỘNG • XUẤT TIMELINE 1 CHẠM
+Dialogue: 0,0:00:27.44,0:00:37.39,SubtitleKaraoke,,0,0,0,,{\k45}Kho {\k45}157 {\k45}công {\k45}thức {\k45}chuyển {\k45}động {\k45}độc {\k45}quyền, {\k45}tự {\k45}động {\k45}xuất {\k45}timeline {\k45}CapCut {\k45}Draft {\k45}vi {\k45}giây {\k45}triệt {\k45}tiêu {\k45}100% {\k45}lỗi {\k45}chồng {\k45}track.
+Dialogue: 1,0:00:37.60,0:00:45.50,HookCaption,,0,0,0,,TRUY CẬP NGAY • CINE-PROMPT-PRO.VERCEL.APP
+Dialogue: 0,0:00:37.75,0:00:44.86,SubtitleKaraoke,,0,0,0,,{\k44}Truy {\k44}cập {\k44}ngay {\k44}cine-prompt-pro.vercel.app {\k44}để {\k44}biến {\k44}mọi {\k44}ý {\k44}tưởng {\k44}thành {\k44}siêu {\k44}phẩm {\k44}điện {\k44}ảnh {\k44}triệu {\k44}view!
+Dialogue: 2,0:00:37.60,0:00:45.50,BadgeURL,,0,0,0,,🌐 CINE-PROMPT-PRO.VERCEL.APP

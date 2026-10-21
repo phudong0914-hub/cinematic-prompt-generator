@@ -126,6 +126,41 @@ export const ATOMIC_OPTICAL_CRITERIA = [
     },
     message: '🛡️ Phát hiện mã độc Prompt Injection: Cố tình thao túng chỉ thị hệ thống.',
     fix: 'Loại bỏ ngay các chỉ thị can thiệp hệ thống và chỉ tập trung vào mô tả quang học / bối cảnh điện ảnh.'
+  },
+  {
+    id: 'anti_ai_slop_gradient',
+    dimension: 'anti_generic_ai_aesthetic',
+    severity: 'HIGH',
+    evaluator: (text) => {
+      const hasPurpleNeon = /\b(purple neon|magenta neon|vivid purple glow|neon purple gradient|generic cyberpunk purple|purple-magenta)\b/i.test(text);
+      const isDeliberateSciFi = /\b(blade runner 2049|neon noir tokyo|deliberate retro synthwave)\b/i.test(text);
+      if (hasPurpleNeon && !isDeliberateSciFi) return 0.94;
+      return 0.0;
+    },
+    message: 'Thẩm mỹ AI Slop (Luật Đạo diễn Minh Đỗ): Gradient tím neon generic khiến video trông rẻ tiền và lộ rõ dấu vết AI.',
+    fix: 'Chuyển sang bảng màu Moody Mocha & Gold, Teal & Orange filmic, hoặc Warm Amber 35mm analog.'
+  },
+  {
+    id: 'face_occlusion_invariance',
+    dimension: 'facial_invariance',
+    severity: 'CRITICAL',
+    evaluator: (text) => {
+      if (/\b(text over face|graphic covering face|badge across face|subtitle covering mouth|obscuring speaker face)\b/i.test(text)) return 0.98;
+      return 0.0;
+    },
+    message: 'Vi phạm Bất biến Khuôn mặt: Đồ họa hoặc văn bản che khuất khuôn mặt diễn viên / người nói.',
+    fix: 'Dạt đồ họa sang Cột 1/3 bên trái (X <= 0.32) hoặc Cột 1/3 bên phải (X >= 0.68) theo quy tắc 1/3 (Rule of Thirds).'
+  },
+  {
+    id: 'tiktok_safe_zone_clash',
+    dimension: 'platform_safe_zone',
+    severity: 'HIGH',
+    evaluator: (text) => {
+      if (/\b(bottom right text|right edge badge|top-most sticker|placed under tiktok buttons|obscured by reels ui)\b/i.test(text)) return 0.91;
+      return 0.0;
+    },
+    message: 'Xung đột Vùng an toàn 9:16: Bố cục sát mép phải hoặc đáy bị nút like/share/comment của TikTok/Reels đè lên.',
+    fix: 'Giới hạn tọa độ trong Safe Action Box: X in [0.05..0.80], Y in [0.12..0.72].'
   }
 ];
 
@@ -165,6 +200,7 @@ export class OpticalLinter {
 
       if (noulProbability >= 0.5) {
         const payload = {
+          id: criterion.id,
           type: criterion.id.toUpperCase(),
           severity: criterion.severity,
           noul: noulProbability,
@@ -232,6 +268,16 @@ export class OpticalLinter {
 
     // Auto-fix 3: Sanitize prompt injection attempts
     harmonized = harmonized.replace(/ignore\s+(?:all\s+)?(?:previous|prior)\s+instructions?/gi, 'follow cinematic screenplay directive');
+
+    // Auto-fix 4: Replace generic AI purple slop with authentic cinematic grade
+    if (/\b(purple neon gradient|generic cyberpunk purple|vivid purple glow)\b/i.test(harmonized)) {
+      harmonized = harmonized.replace(/\b(purple neon gradient|generic cyberpunk purple|vivid purple glow)\b/gi, 'rich warm amber and subtle filmic golden undertones');
+    }
+
+    // Auto-fix 5: Auto-correct text over face
+    if (/\btext over face\b/i.test(harmonized)) {
+      harmonized = harmonized.replace(/\btext over face\b/gi, 'typography anchored to lower-left third breathing room');
+    }
 
     return harmonized;
   }

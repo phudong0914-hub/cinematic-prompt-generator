@@ -1,0 +1,18 @@
+[Script Info]
+Title: Vox Repo Review Pro
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: VoxTitle,Arial,52,&H0000FFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,3,10,0,2,40,40,280,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:08.16,VoxTitle,,0,0,0,,{\fad(200,200)}DỪNG CẮT GHÉP THỦ CÔNG! • REPO TỰ ĐỘNG HÓA 100%
+Dialogue: 0,0:00:08.55,0:00:17.33,VoxTitle,,0,0,0,,{\fad(200,200)}4 BƯỚC KHÉP KÍN: KỊCH BẢN ➔ COLLAGE ➔ DIỄN HOẠT ➔ XUẤT MP4
+Dialogue: 0,0:00:17.73,0:00:27.36,VoxTitle,,0,0,0,,{\fad(200,200)}TÍCH HỢP AGENT SKILL TRÊN CLAUDE CODE & CURSOR
+Dialogue: 0,0:00:27.76,0:00:35.85,VoxTitle,,0,0,0,,{\fad(200,200)}100% OPEN SOURCE TRÊN GITHUB • THẢ STAR & LƯU LẠI NGAY!
