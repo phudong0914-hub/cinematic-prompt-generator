@@ -146,6 +146,12 @@ class UrlToVideoReviewUI {
     const durationSelect = document.getElementById('url-review-duration-select');
     const duration = durationSelect ? parseInt(durationSelect.value, 10) : 30;
 
+    const voiceEngineSelect = document.getElementById('url-review-voice-engine');
+    const voiceEngine = voiceEngineSelect ? voiceEngineSelect.value : 'VIENEU_48K';
+
+    const enableDeadAir = document.getElementById('url-enable-dead-air')?.checked !== false;
+    const enableDeclicker = document.getElementById('url-enable-declicker')?.checked !== false;
+
     const generateBtn = document.getElementById('url-review-generate-btn');
     const statusBox = document.getElementById('url-review-status-box');
 
@@ -159,7 +165,7 @@ class UrlToVideoReviewUI {
       statusBox.innerHTML = `
         <div style="display:flex; align-items:center; gap:10px; color:#ffd700; font-size:0.85rem; font-weight:700;">
           <span style="animation:spin 1s linear infinite; display:inline-block;">⚡</span>
-          <span>Đang quét dữ liệu nguồn và thiết lập kịch bản 4 phân cảnh điện ảnh...</span>
+          <span>Đang quét dữ liệu nguồn, áp dụng VieNeu-TTS 48kHz & 30ms De-Clicker...</span>
         </div>
       `;
     }
@@ -315,18 +321,20 @@ class UrlToVideoReviewUI {
     container.innerHTML = `
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <!-- Cột thông số giọng đọc -->
-        <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,215,0,0.2); border-radius:12px; padding:16px;">
-          <h4 style="color:#ffd700; font-size:0.9rem; font-weight:800; margin-top:0; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-            <span>🎙️</span> Qwen-Omni Voice Profile
+        <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(16,185,129,0.3); border-radius:12px; padding:16px;">
+          <h4 style="color:#10b981; font-size:0.9rem; font-weight:800; margin-top:0; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+            <span>🎙️</span> VieNeu-TTS & Video-Use Studio Engine
           </h4>
           <div style="display:flex; flex-direction:column; gap:8px; font-size:0.78rem; color:#cbd5e1;">
-            <div><strong>Giọng đọc:</strong> <span style="color:#38bdf8;">${style.voiceId} (${style.name})</span></div>
-            <div><strong>Nhịp độ thuyết minh:</strong> <span style="color:#ffd700;">${style.wpm} WPM (Words Per Minute)</span></div>
+            <div><strong>Động cơ TTS:</strong> <span style="color:#10b981; font-weight:700;">VieNeu-TTS 48kHz (Bilingual Code-Switching)</span></div>
+            <div><strong>Khử nổ âm thanh:</strong> <span style="color:#38bdf8; font-weight:700;">30ms Micro-Fade De-Clicker (ACTIVE)</span></div>
+            <div><strong>Nhịp độ thuyết minh:</strong> <span style="color:#ffd700;">${style.wpm} WPM · 400ms Anti-Overlap Gap</span></div>
             <div><strong>Nhạc nền (BGM):</strong> <span>${style.bgmType}</span></div>
-            <div><strong>Audio Ducking:</strong> <span style="color:#10b981;">-18 dB (Tự động hạ nhạc khi nói)</span></div>
+            <div><strong>Audio Ducking:</strong> <span style="color:#10b981;">-24 dB (Tự động né âm khi có thoại)</span></div>
+            <div><strong>Phụ đề Sigmar:</strong> <span style="color:#a78bfa;">Karaoke in hoa highlight xanh ngọc #10B981</span></div>
           </div>
-          <button id="url-test-tts-btn" style="margin-top:16px; background:linear-gradient(135deg, #ffd700, #f59e0b); border:none; color:#0f172a; font-weight:800; font-size:0.75rem; padding:8px 16px; border-radius:8px; cursor:pointer; width:100%;">
-            🔊 Nghe Thử Câu Mở Màn (Scene 1)
+          <button id="url-test-tts-btn" style="margin-top:16px; background:linear-gradient(135deg, #10b981, #059669); border:none; color:#ffffff; font-weight:800; font-size:0.75rem; padding:10px 16px; border-radius:8px; cursor:pointer; width:100%;">
+            🔊 Nghe Thử Câu Mở Màn (Scene 1 — Chuẩn Phòng Thu)
           </button>
         </div>
 
