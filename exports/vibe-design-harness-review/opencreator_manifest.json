@@ -1,0 +1,66 @@
+{
+  "manifest_version": "2.1.0",
+  "project_id": "vibe-design-harness-review-28s",
+  "title": "AGS VIBE DESIGN HARNESS — REVIEW CÔNG NGHỆ CHUẨN ĐẠO DIỄN",
+  "repo_url": "https://github.com/teddiesloco/vibe-design-harness",
+  "director": "Đạo Diễn Trungvt (trungvt)",
+  "aspect_ratio": "9:16",
+  "resolution": "1080x1920",
+  "duration_sec": 28.0,
+  "fps": 30,
+  "audio_profile": {
+    "loudness_target": "-14 LUFS",
+    "ducking_voice_gain": "-18dB",
+    "bgm_style": "Cyber Synth Ambient with 38Hz Sub-bass"
+  },
+  "scenes": [
+    {
+      "scene_id": 1,
+      "name": "The Viral Hook — UI Anti-Slop Linter",
+      "timecode": "00:00 - 00:05",
+      "timestamp_start_us": 0,
+      "timestamp_end_us": 5000000,
+      "camera_motion": "WHIP_ZOOM_PUNCH (100% -> 116%)",
+      "dialogue_vi": "Bạn mệt mỏi vì giao diện AI toàn lỗi slop và font tiếng Việt vỡ hạt? Đừng bỏ qua repo này!",
+      "dialogue_en": "Tired of AI-slop UI glitches and broken Vietnamese typography? Do not miss this repo!",
+      "active_keyword": "AI TOÀN LỖI SLOP",
+      "sfx": "laser_whoosh_sweep"
+    },
+    {
+      "scene_id": 2,
+      "name": "Core Breakdown — 5-Engine Studio Compiler",
+      "timecode": "00:05 - 00:13",
+      "timestamp_start_us": 5000000,
+      "timestamp_end_us": 13000000,
+      "camera_motion": "PARALLAX_25D (Kinetic Drift +20px)",
+      "dialogue_vi": "Vibe Design Harness: Bộ linter UI siêu tốc dưới một mili-giây, cùng compiler tích hợp 5 engine AI thị giác hàng đầu.",
+      "dialogue_en": "Vibe Design Harness: Sub-millisecond deterministic UI linter with a 5-platform AI studio prompt compiler.",
+      "active_keyword": "LINTER UI SIÊU TỐC <1MS",
+      "sfx": "tech_card_snap"
+    },
+    {
+      "scene_id": 3,
+      "name": "Deep Verdict — CapCut Vietnamese Typography",
+      "timecode": "00:13 - 00:21",
+      "timestamp_start_us": 13000000,
+      "timestamp_end_us": 21000000,
+      "camera_motion": "MACRO_FOCUS_GLIDE (-15px pan)",
+      "dialogue_vi": "Đặc biệt: Động cơ CapCut Typography chuẩn hóa 134 ký tự tiếng Việt có dấu, xuất SVG trong suốt không lỗi dấu.",
+      "dialogue_en": "Featuring CapCut Vietnamese Typography Engine verifying 134 stacked diacritics, transparent SVG export.",
+      "active_keyword": "134 KÝ TỰ TIẾNG VIỆT",
+      "sfx": "precision_bell_chime"
+    },
+    {
+      "scene_id": 4,
+      "name": "Infinity Loop CTA — Star Repo GitHub",
+      "timecode": "00:21 - 00:28",
+      "timestamp_start_us": 21000000,
+      "timestamp_end_us": 28000000,
+      "camera_motion": "SUBTLE_CENTER_ZOOM (Fade to black at -1.5s)",
+      "dialogue_vi": "Khám phá ngay tại GitHub teddiesloco. Star repo hôm nay để nâng tầm sản phẩm của bạn. Và...",
+      "dialogue_en": "Explore now on GitHub teddiesloco. Star the repository today to elevate your stack. And...",
+      "active_keyword": "STAR REPO HÔM NAY",
+      "sfx": "star_chime_drop"
+    }
+  ]
+}

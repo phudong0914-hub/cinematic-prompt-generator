@@ -6,3 +6,5 @@ artifacts/
 scratch/
 tools/
 .env
+**/tmp_render/
+**/tmp_*/

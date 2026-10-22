@@ -221,3 +221,101 @@ export function formatTimelineMarkdown(result) {
 
   return md;
 }
+
+/**
+ * cueCheckTimeline — Kiểm định chất lượng Timeline theo chuẩn Single-Source-of-Truth
+ * Phát hiện:
+ * 1. Visual Layer Collision: 2 yếu tố thị giác (B-roll, Thẻ ý, Chữ nhấn) đè lên nhau
+ * 2. Readability Overload: Tốc độ đọc chữ > 18 ký tự/giây
+ * 3. Pacing Anomalies: Cảnh quá ngắn (<0.6s) hoặc đứng hình quá lâu (>4.5s)
+ */
+export function cueCheckTimeline(timeline = [], options = {}) {
+  const { maxCharsPerSec = 18.0, minCutDuration = 0.6, maxStaticDuration = 4.5 } = options;
+  const issues = [];
+  const warnings = [];
+
+  const sorted = [...timeline].sort((a, b) => (a.startSec || 0) - (b.startSec || 0));
+
+  for (let i = 0; i < sorted.length; i++) {
+    const item = sorted[i];
+    const duration = (item.endSec || 0) - (item.startSec || 0);
+
+    // 1. Kiểm tra thời lượng cảnh
+    if (duration > 0 && duration < minCutDuration && item.type !== 'chuyển cảnh') {
+      warnings.push({
+        id: 'FAST_PACING_FLASH',
+        timeRange: item.timeRange,
+        message: `Phân cảnh [${item.type}] quá ngắn (${duration.toFixed(2)}s < ${minCutDuration}s), dễ gây chớp giật võng mạc.`
+      });
+    }
+
+    if (duration > maxStaticDuration) {
+      warnings.push({
+        id: 'STATIC_PACING_DRAG',
+        timeRange: item.timeRange,
+        message: `Phân cảnh [${item.type}] kéo dài ${duration.toFixed(2)}s (> ${maxStaticDuration}s), cần bổ sung chuyển động máy hoặc B-roll.`
+      });
+    }
+
+    // 2. Kiểm tra tốc độ đọc (Readability rate)
+    if (item.content && duration > 0 && (item.type === 'chữ nhấn' || item.type === 'thẻ liệt kê' || item.type === 'hook')) {
+      const charCount = item.content.replace(/\s+/g, '').length;
+      const rate = charCount / duration;
+      if (rate > maxCharsPerSec) {
+        issues.push({
+          id: 'READCHECK_OVERLOAD',
+          timeRange: item.timeRange,
+          severity: 'HIGH',
+          message: `Tốc độ đọc quá nhanh: ${rate.toFixed(1)} ký tự/giây (> ${maxCharsPerSec} kt/s). Khán giả không kịp đọc chữ.`
+        });
+      }
+    }
+
+    // 3. Kiểm tra va chạm đa tầng thị giác (Anti-Overlap)
+    for (let j = i + 1; j < sorted.length; j++) {
+      const next = sorted[j];
+      if (next.startSec >= item.endSec) break;
+
+      const isVisualOverlap = ['hook', 'B-roll', 'thẻ liệt kê', 'chữ nhấn'].includes(item.type) &&
+                              ['hook', 'B-roll', 'thẻ liệt kê', 'chữ nhấn'].includes(next.type);
+
+      if (isVisualOverlap && isOverlapping(item.startSec, item.endSec, next.startSec, next.endSec)) {
+        issues.push({
+          id: 'VISUAL_LAYER_COLLISION',
+          timeRange: `${formatTimeSec(Math.max(item.startSec, next.startSec))} - ${formatTimeSec(Math.min(item.endSec, next.endSec))}`,
+          severity: 'CRITICAL',
+          message: `Xung đột hiển thị đồng thời: [${item.type}: "${item.content}"] và [${next.type}: "${next.content}"].`
+        });
+      }
+    }
+  }
+
+  const score = Math.max(0, 100 - (issues.length * 20 + warnings.length * 5));
+  return {
+    valid: issues.length === 0,
+    score,
+    issues,
+    warnings,
+    summary: issues.length === 0
+      ? `✅ Timeline đạt chuẩn kỹ thuật (Score: ${score}/100, 0 lỗi va chạm).`
+      : `⚠️ Phát hiện ${issues.length} lỗi va chạm timeline và ${warnings.length} cảnh báo nhịp điệu (Score: ${score}/100).`
+  };
+}
+
+/**
+ * Xuất Master Timeline JSON driving all post-production layers
+ */
+export function buildMasterTimeline(postTimelineResult) {
+  const cueCheck = cueCheckTimeline(postTimelineResult.timeline);
+  return {
+    version: "2.0.0",
+    engine: "CinePrompt Single-Source-of-Truth Timeline",
+    targetAudience: postTimelineResult.targetAudience,
+    transitionStyle: postTimelineResult.transitionStyle,
+    rules: postTimelineResult.rules,
+    qaValidation: cueCheck,
+    timeline: postTimelineResult.timeline,
+    uncertainPoints: postTimelineResult.uncertainPoints,
+    exportedAt: new Date().toISOString()
+  };
+}
