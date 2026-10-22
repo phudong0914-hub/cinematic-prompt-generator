@@ -137,6 +137,7 @@ export function getAIConfig() {
     provider: 'gemini',
     apiKeys: {},
     modelNames: {},
+    customUrls: {},
     rotateEnabled: false,
     lastRotationIndex: 0,
     targetTool: 'midjourney'

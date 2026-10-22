@@ -3021,13 +3021,26 @@ The camera slowly orbits right while a gust of wind blows the woman's silk scarf
             </div>
             <select id="ai-provider" class="select-input new-input-field" style="padding: 10px 12px; font-weight: 600;">
               <option value="gemini">🌟 Google Gemini (Miễn phí 15 RPM / 1500 RPD - Khuyên dùng)</option>
+              <option value="nvidia">🟢 NVIDIA NIM (Llama 3.3 70B / Nemotron / DeepSeek-R1 - 1000 Credits)</option>
               <option value="groq">⚡ Groq AI (Llama 3.3 70B - Tốc độ cực nhanh 300 TPS)</option>
-              <option value="openai">🤖 OpenAI (GPT-4o / GPT-4o-mini)</option>
+              <option value="anthropic">🟣 Anthropic Claude (Claude 3.7 Sonnet / 3.5 Sonnet / Haiku)</option>
+              <option value="openai">🤖 OpenAI (GPT-4o / GPT-4o-mini / o3-mini)</option>
               <option value="deepseek">🚀 DeepSeek AI (DeepSeek-V3 / DeepSeek-R1)</option>
-              <option value="openrouter">🔮 OpenRouter AI (Nạp 1 Key dùng 100+ AI Models)</option>
+              <option value="openrouter">🔮 OpenRouter AI (Nạp 1 Key dùng 200+ AI Models)</option>
               <option value="agentrouter">🛡️ AgentRouter Pro (Máy chủ Độc bản Studio)</option>
+              <option value="free-claude-code">🔌 Free Claude Code Gateway (127.0.0.1:8082)</option>
               <option value="ollama">💻 Ollama Local AI (Chạy Offline trên máy tính cá nhân)</option>
+              <option value="custom">🌐 Custom OpenAI-Compatible (Tùy biến Base URL & Model)</option>
             </select>
+          </div>
+
+          <!-- Custom Base URL Row (Cho Custom Provider hoặc override) -->
+          <div id="ai-custom-url-row" style="display: none; margin-bottom: 12px;">
+            <label class="control-label ai-modal-sublabel">Custom Base URL (OpenAI-compatible Endpoint)</label>
+            <input type="text" id="ai-custom-url" class="text-input new-input-field" placeholder="https://api.siliconflow.cn/v1/chat/completions" style="padding: 8px 10px; font-size: 0.82rem;" />
+            <p class="ai-modal-hint" style="margin-top: 4px;">
+              <span>💡 Dành cho vLLM, LM Studio, SiliconFlow, Cerebras, Sambanova, Cloudflare Workers AI...</span>
+            </p>
           </div>
 
           <!-- 2. Multi-Key Pool Textarea -->

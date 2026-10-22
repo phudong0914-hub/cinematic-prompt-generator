@@ -899,9 +899,12 @@ function saveCurrentProviderState() {
   
   const keyVal = document.getElementById('ai-api-key')?.value.trim() || '';
   const modelVal = document.getElementById('ai-model-name')?.value.trim() || '';
+  const customUrlVal = document.getElementById('ai-custom-url')?.value.trim() || '';
   
+  if (!tempAIConfig.customUrls) tempAIConfig.customUrls = {};
   tempAIConfig.apiKeys[p] = keyVal;
   tempAIConfig.modelNames[p] = modelVal;
+  tempAIConfig.customUrls[p] = customUrlVal;
 }
 
 function updateKeyCountBadge() {
@@ -935,11 +938,16 @@ function renderProviderBadges() {
 
   const providers = [
     { id: 'gemini', name: 'Gemini' },
+    { id: 'nvidia', name: 'NVIDIA' },
+    { id: 'groq', name: 'Groq' },
+    { id: 'anthropic', name: 'Claude' },
     { id: 'openai', name: 'OpenAI' },
     { id: 'deepseek', name: 'DeepSeek' },
     { id: 'openrouter', name: 'OpenRouter' },
     { id: 'agentrouter', name: 'AgentRouter' },
-    { id: 'ollama', name: 'Ollama (Local)' }
+    { id: 'free-claude-code', name: 'FCC (8082)' },
+    { id: 'ollama', name: 'Ollama' },
+    { id: 'custom', name: 'Custom' }
   ];
 
   const activeP = document.getElementById('ai-provider')?.value || 'gemini';
@@ -1000,10 +1008,41 @@ function updateProviderInputs() {
   
   const defaultModels = {
      gemini: 'gemini-1.5-flash',
+     nvidia: 'meta/llama-3.3-70b-instruct',
+     groq: 'llama-3.3-70b-versatile',
+     anthropic: 'claude-3-7-sonnet-20250219',
      openai: 'gpt-4o-mini',
+     deepseek: 'deepseek-chat',
+     openrouter: 'meta-llama/llama-3.3-70b-instruct:free',
      agentrouter: 'gpt-4o-mini',
-     ollama: 'llama3'
+     'free-claude-code': 'auto-detect',
+     ollama: 'llama3',
+     custom: 'default'
   };
+  const keyPlaceholders = {
+     gemini: 'AIzaSy... (Lấy tại aistudio.google.com - Miễn phí)',
+     nvidia: 'nvapi-... (Lấy tại build.nvidia.com - 1000 credits miễn phí)',
+     groq: 'gsk_... (Lấy tại console.groq.com - Miễn phí 300 TPS)',
+     anthropic: 'sk-ant-... (Lấy tại console.anthropic.com)',
+     openai: 'sk-proj-... (Lấy tại platform.openai.com)',
+     deepseek: 'sk-... (Lấy tại platform.deepseek.com)',
+     openrouter: 'sk-or-... (Lấy tại openrouter.ai)',
+     agentrouter: 'Key máy chủ AgentRouter Studio',
+     'free-claude-code': 'Không cần Key (Chạy ngầm ở localhost:8082)',
+     ollama: 'Không cần Key (Chạy ngầm ở localhost:11434)',
+     custom: 'API Key nếu server yêu cầu (Bearer token)'
+  };
+  if (keyInput) {
+    keyInput.placeholder = keyPlaceholders[p] || 'Nhập API Key vào đây...';
+  }
+  const customUrlRow = document.getElementById('ai-custom-url-row');
+  if (customUrlRow) {
+    customUrlRow.style.display = (p === 'custom') ? 'block' : 'none';
+  }
+  const customUrlInput = document.getElementById('ai-custom-url');
+  if (customUrlInput) {
+    customUrlInput.value = (tempAIConfig.customUrls || {})[p] || '';
+  }
   const modelInput = document.getElementById('ai-model-name');
   if (modelInput) {
     modelInput.value = tempAIConfig.modelNames[p] || defaultModels[p] || '';
@@ -1062,7 +1101,8 @@ function openAISettings() {
       testBtn.disabled = true;
 
       try {
-        await testSingleKey(p, keyVal, modelVal);
+        const customUrlVal = document.getElementById('ai-custom-url')?.value.trim() || '';
+        await testSingleKey(p, keyVal, modelVal, customUrlVal);
         testBtn.innerHTML = '✅ Kết Nối Thành Công!';
         if (testStatusBadge) {
           testStatusBadge.innerHTML = '🟢 Key Pool Hoạt Động Cực Tốt!';
