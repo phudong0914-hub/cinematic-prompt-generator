@@ -1,105 +1,81 @@
 {
-  "draft_id": "vibe-design-harness-review-capcut-draft",
-  "draft_name": "Vibe_Design_Harness_Tech_Review_28s",
+  "platform": "CapCut PC / Mobile",
+  "precision": "f2us (micro-second zero-collision)",
+  "project_name": "Vibe Design Harness Tech Review (Master)",
   "canvas_config": {
     "width": 1080,
     "height": 1920,
-    "ratio": "original",
-    "fps": 30
+    "ratio": "9:16"
   },
-  "duration_us": 28000000,
-  "materials": {
-    "videos": [
-      {
-        "id": "mat_s1",
-        "path": "exports/vibe-design-harness-review/scene1_hook_linter.jpg",
-        "duration_us": 5000000,
-        "type": "photo"
-      },
-      {
-        "id": "mat_s2",
-        "path": "exports/vibe-design-harness-review/scene2_compiler_cards.jpg",
-        "duration_us": 8000000,
-        "type": "photo"
-      },
-      {
-        "id": "mat_s3",
-        "path": "exports/vibe-design-harness-review/scene3_vn_typography.jpg",
-        "duration_us": 8000000,
-        "type": "photo"
-      },
-      {
-        "id": "mat_s4",
-        "path": "exports/vibe-design-harness-review/scene4_endcard_cta.jpg",
-        "duration_us": 7000000,
-        "type": "photo"
-      }
-    ],
-    "audios": [
-      {
-        "id": "mat_audio_master",
-        "path": "exports/vibe-design-harness-review/tmp_render/master_audio_track_28s.wav",
-        "duration_us": 28000000,
-        "type": "music"
-      }
-    ],
-    "texts": [
-      {
-        "id": "txt_1",
-        "content": "AI TOÀN LỖI SLOP?",
-        "font_name": "Sigmar",
-        "color": "#00ffff"
-      },
-      {
-        "id": "txt_2",
-        "content": "LINTER UI SIÊU TỐC <1MS",
-        "font_name": "Sigmar",
-        "color": "#ff9100"
-      },
-      {
-        "id": "txt_3",
-        "content": "134 KÝ TỰ TIẾNG VIỆT",
-        "font_name": "Sigmar",
-        "color": "#00ffff"
-      },
-      {
-        "id": "txt_4",
-        "content": "STAR REPO HÔM NAY!",
-        "font_name": "Sigmar",
-        "color": "#ff9100"
-      }
-    ]
+  "typography": {
+    "font": "Sigmar",
+    "color": "#10B981",
+    "case": "UPPERCASE"
   },
   "tracks": [
     {
-      "id": "track_video_main",
       "type": "video",
       "segments": [
         {
-          "material_id": "mat_s1",
-          "target_timerange": { "duration": 5000000, "start": 0 }
+          "id": "seg_v_1",
+          "target_timerange": {
+            "start": 400000,
+            "duration": 8703106
+          }
         },
         {
-          "material_id": "mat_s2",
-          "target_timerange": { "duration": 8000000, "start": 5000000 }
+          "id": "seg_v_2",
+          "target_timerange": {
+            "start": 8803106,
+            "duration": 11514965
+          }
         },
         {
-          "material_id": "mat_s3",
-          "target_timerange": { "duration": 8000000, "start": 13000000 }
+          "id": "seg_v_3",
+          "target_timerange": {
+            "start": 20018072,
+            "duration": 10463174
+          }
         },
         {
-          "material_id": "mat_s4",
-          "target_timerange": { "duration": 7000000, "start": 21000000 }
+          "id": "seg_v_4",
+          "target_timerange": {
+            "start": 30181247,
+            "duration": 9019909
+          }
         }
       ]
     },
     {
-      "id": "track_audio_main",
       "type": "audio",
       "segments": [
         {
-          "material_id": "mat_audio_master",
-          "target_timerange": { "duration": 28000000, "start": 0 }
+          "id": "seg_a_1",
+          "target_timerange": {
+            "start": 400000,
+            "duration": 8003106
+          }
+        },
+        {
+          "id": "seg_a_2",
+          "target_timerange": {
+            "start": 8803106,
+            "duration": 10814965
+          }
+        },
+        {
+          "id": "seg_a_3",
+          "target_timerange": {
+            "start": 20018072,
+            "duration": 9763174
+          }
+        },
+        {
+          "id": "seg_a_4",
+          "target_timerange": {
+            "start": 30181247,
+            "duration": 8319909
+          }
         }
       ]
     }
